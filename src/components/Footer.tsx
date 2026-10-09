@@ -5,6 +5,7 @@ import { TecnorosLogo } from './TecnorosLogo';
 const NAV_LINKS = [
   { id: 'demos', label: 'Demos' },
   { id: 'servicios', label: 'Servicios' },
+  { id: 'productos', label: 'Productos' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'como-trabajamos', label: 'Cómo Trabajamos' },
   { id: 'facturacion', label: 'Presupuestos' },
