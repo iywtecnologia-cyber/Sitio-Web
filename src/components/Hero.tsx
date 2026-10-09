@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, MousePointerClick, Clock, ShieldCheck, MessageCircle } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, MessageCircle } from 'lucide-react';
 
 const BENEFITS = [
   { icon: Clock, text: 'Menos tareas a mano' },
@@ -32,23 +32,23 @@ export const Hero: React.FC = () => {
 
           <p className="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl leading-relaxed">
             Automatizamos las tareas que te roban horas, protegemos tu información y creamos el software que tu negocio necesita.{' '}
-            <strong className="text-white font-semibold">Probalo acá mismo, antes de decidir.</strong>
+            <strong className="text-white font-semibold">Contanos tu problema y te mostramos cómo lo resolveríamos.</strong>
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <button
-              onClick={() => scrollTo('demos')}
+              onClick={() => scrollTo('contacto')}
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm sm:text-base font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 rounded-xl shadow-lg shadow-cyan-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group"
             >
-              <MousePointerClick className="w-4 h-4" />
-              <span>Probá una demo gratis</span>
+              <span>Pedí tu diagnóstico sin costo</span>
+              <ArrowRight className="w-4 h-4 text-slate-950 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
-              onClick={() => scrollTo('contacto')}
+              onClick={() => scrollTo('proyectos')}
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm sm:text-base font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 hover:bg-slate-800 rounded-xl transition-all duration-200 cursor-pointer group"
             >
-              <span>Pedí tu diagnóstico sin costo</span>
+              <span>Ver nuestros proyectos</span>
               <ArrowRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

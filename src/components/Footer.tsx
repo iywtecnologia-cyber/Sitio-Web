@@ -3,7 +3,6 @@ import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 
 const NAV_LINKS = [
-  { id: 'demos', label: 'Demos' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'productos', label: 'Productos' },
   { id: 'proyectos', label: 'Proyectos' },
