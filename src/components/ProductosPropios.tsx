@@ -1,14 +1,14 @@
 import React from 'react';
-import { Boxes, FlaskConical, Workflow, BellRing } from 'lucide-react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
 // se actualizan acá (título, descripción y etiqueta).
 const PRODUCTOS = [
   {
-    icon: Boxes,
-    title: 'Software propio',
-    text: 'Una herramienta pensada desde cero para resolver un problema que vemos en muchos negocios todos los días.',
+    icon: ShieldCheck,
+    title: 'Software propio de ciberseguridad',
+    text: 'Una herramienta pensada para que los negocios protejan su información y detecten riesgos antes de que se conviertan en un problema.',
   },
   {
     icon: Workflow,
