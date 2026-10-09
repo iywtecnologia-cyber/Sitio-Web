@@ -6,6 +6,7 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { DemoSection } from './components/demos/DemoSection';
 import { ServicesSection } from './components/ServicesSection';
 import { AboutSection } from './components/AboutSection';
 import { StackSection } from './components/StackSection';
@@ -23,12 +24,13 @@ export default function App() {
       
       <main className="flex-1">
         <Hero />
+        <DemoSection />
         <ServicesSection />
+        <PortfolioSection />
+        <HowWeWorkSection />
+        <BillingModule />
         <AboutSection />
         <StackSection />
-        <PortfolioSection />
-        <BillingModule />
-        <HowWeWorkSection />
         <ContactSection />
       </main>
 

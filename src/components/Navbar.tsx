@@ -37,12 +37,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
   }, []);
 
   const navLinks = [
+    { label: 'Demos', href: '#demos', id: 'demos' },
     { label: 'Servicios', href: '#servicios', id: 'servicios' },
-    { label: 'Sobre Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
-    { label: 'Nuestro Stack', href: '#stack', id: 'stack' },
     { label: 'Proyectos', href: '#proyectos', id: 'proyectos' },
-    { label: 'Presupuestos', href: '#facturacion', id: 'facturacion' },
     { label: 'Cómo Trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
+    { label: 'Presupuestos', href: '#facturacion', id: 'facturacion' },
+    { label: 'Sobre Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

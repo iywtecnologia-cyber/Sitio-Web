@@ -28,12 +28,12 @@ const SERVICES: ServiceItem[] = [
     icon: Workflow,
     badge: 'Automatizaciones',
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
-    title: 'Automatización de Procesos & Bots',
-    description: 'Eliminamos tareas repetitivas conectando tus canales de venta, sistemas internos y bases de datos para ahorrar horas de trabajo diario.',
+    title: 'Automatización y bots de WhatsApp',
+    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tu WhatsApp, tus planillas y tus sistemas para que trabajen juntos y vos ganes horas cada día.',
     bullets: [
-      'Bots de WhatsApp Business inteligentes y sincronizados',
-      'Integración de pedidos, facturación y stock automático',
-      'Webhooks y flujos automáticos sin intervención manual'
+      'Tu WhatsApp responde las consultas de siempre, a toda hora',
+      'Los pedidos se cargan solos en tu planilla o sistema',
+      'Recordatorios automáticos de turnos, pagos y vencimientos'
     ]
   },
   {
@@ -41,12 +41,12 @@ const SERVICES: ServiceItem[] = [
     icon: ShieldCheck,
     badge: 'Ciberseguridad',
     badgeColor: 'border-rose-500/40 text-rose-300 bg-rose-950/30',
-    title: 'Seguridad Informática & Hardening',
-    description: 'Garantizamos la seguridad de todo lo que desarrollamos. Blindamos tus aplicaciones y servidores contra accesos no autorizados y filtraciones.',
+    title: 'Seguridad para tu información',
+    description: 'Protegemos los datos de tu negocio y de tus clientes. Todo lo que desarrollamos sale revisado y pensado para que nadie entre donde no debe.',
     bullets: [
-      'Auditorías de código y mitigación de fallas OWASP Top 10',
-      'Políticas estrictas de acceso por roles (RBAC) y cifrado',
-      'Protección de datos sensibles y cumplimiento de normativas'
+      'Revisamos tus sistemas y te decimos qué riesgos tienen',
+      'Cada persona accede solo a lo que necesita',
+      'Los datos de tus clientes, protegidos y cifrados'
     ]
   },
   {
@@ -54,25 +54,25 @@ const SERVICES: ServiceItem[] = [
     icon: Code2,
     badge: 'Desarrollo a Medida',
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
-    title: 'Desarrollo de Software & Plataformas Web',
-    description: 'Diseñamos sistemas web a medida rápidos y modernos, construidos desde la raíz pensando en las necesidades específicas de tu empresa.',
+    title: 'Sistemas a medida para tu negocio',
+    description: 'Si las planillas y las agendas en papel ya no te alcanzan, armamos el sistema justo para cómo trabajás vos.',
     bullets: [
-      'Paneles de administración y dashboards de control en tiempo real',
-      'Arquitecturas modulares sin dependencias innecesarias',
-      'Despliegues en la nube con alta disponibilidad y escalabilidad'
+      'Turnos, ventas, stock, clientes y caja en un solo lugar',
+      'Un panel para ver cómo va tu negocio, al momento',
+      'Lo usás desde la compu o el celular, estés donde estés'
     ]
   },
   {
     id: 'analisis-qa',
     icon: Target,
-    badge: 'Análisis & QA',
+    badge: 'Análisis & Calidad',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
-    title: 'Análisis Funcional & Testing de Calidad',
-    description: 'Sabemos llegar al núcleo de cada problema. Relevamos tus procesos para construir exactamente la solución requerida, verificada antes de salir a producción.',
+    title: 'Entendemos tu problema antes de programar',
+    description: 'Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
     bullets: [
-      'Levantamiento y modelado exhaustivo de reglas de negocio',
-      'Testing funcional y pruebas automatizadas punta a punta (E2E)',
-      'Acompañamiento técnico directo con los fundadores'
+      'Te mostramos un prototipo antes de empezar',
+      'Probamos todo antes de que lo uses',
+      'Hablás directo con los fundadores, sin intermediarios'
     ]
   }
 ];
@@ -95,16 +95,16 @@ export const ServicesSection: React.FC = () => {
         <div className="max-w-3xl mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
             <Layers className="w-3.5 h-3.5" />
-            <span>Nuestros Servicios Especializados</span>
+            <span>Servicios</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Soluciones digitales a medida{' '}
+            Qué podemos hacer{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
-              llegando al núcleo del problema
+              por tu negocio
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, combinando desarrollo funcional preciso, automatización y seguridad garantizada.
+            Nos tomamos el tiempo de entender cómo trabajás y armamos la solución justa para vos: ni más, ni menos.
           </p>
         </div>
 
@@ -170,7 +170,7 @@ export const ServicesSection: React.FC = () => {
               ¿Tenés un cuello de botella o proyecto en mente?
             </h4>
             <p className="text-sm text-slate-300">
-              Coordinemos una reunión de diagnóstico sin costo para evaluar tu caso y diseñar la arquitectura exacta.
+              Coordinemos una charla de diagnóstico sin costo: nos contás tu caso y te decimos cómo lo resolveríamos.
             </p>
           </div>
           <button
