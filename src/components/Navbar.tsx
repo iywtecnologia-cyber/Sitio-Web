@@ -63,14 +63,14 @@ export const Navbar: React.FC<NavbarProps> = () => {
       }`}
     >
       <div className="w-full px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 sm:h-[84px] gap-4">
+        <div className="flex items-center justify-between h-20 sm:h-[84px] gap-2 sm:gap-4">
           
           {/* Brand Lockup: Logo + tecnoros.ar + Tagline (pushed to the left) */}
           <div className="flex items-center shrink-0">
             <a
               href="#inicio"
               onClick={(e) => handleLinkClick(e, '#inicio')}
-              className="flex items-center gap-3 sm:gap-4 group py-1"
+              className="flex items-center gap-2.5 sm:gap-4 group py-1"
             >
               <div className="relative group-hover:scale-105 transition-transform duration-200 shrink-0">
                 <TecnorosLogo className="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
@@ -82,8 +82,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
                 <span className="hidden sm:inline-block text-[13px] sm:text-[14px] font-mono text-slate-200 tracking-wide mt-1.5 leading-none whitespace-nowrap">
                   Automatización <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Software
                 </span>
-                <span className="inline-block sm:hidden text-[10px] font-mono text-cyan-400 tracking-wide mt-1 leading-none">
-                  Automatización & Software
+                <span className="inline-block sm:hidden text-[8.5px] min-[385px]:text-[9.5px] min-[420px]:text-[10px] font-mono text-cyan-400 mt-1 leading-tight min-[350px]:leading-none max-w-[170px] min-[350px]:max-w-none min-[350px]:whitespace-nowrap">
+                  Automatización & Seguridad & Software a medida
                 </span>
               </div>
             </a>
