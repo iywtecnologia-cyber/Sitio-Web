@@ -1,0 +1,6 @@
+{
+  "name": "TecnoRosario.AR — Soluciones Digitales",
+  "description": "Startup de soluciones digitales, software a medida, portafolio interactivo con simuladores en vivo y sistema de facturación integrado en Rosario, Santa Fe.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
