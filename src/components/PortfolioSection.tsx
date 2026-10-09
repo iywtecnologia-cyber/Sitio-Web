@@ -121,7 +121,7 @@ export const PortfolioSection: React.FC = () => {
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Casos reales donde reemplazamos tareas manuales, agendas desordenadas y planillas sueltas por sistemas web intuitivos, rápidos y testeados a fondo.
+            Sistemas que desarrollamos para reemplazar tareas manuales, agendas desordenadas y planillas sueltas por sistemas web intuitivos, rápidos y testeados a fondo.
           </p>
         </div>
 

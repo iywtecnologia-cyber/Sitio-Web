@@ -30,7 +30,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos dos rosarinos <strong className="text-white font-semibold">Manuel Angiulli</strong> <span className="text-cyan-300 font-mono text-sm">(Tecnico Superior en Seguridad Informatica y QA)</span> y <strong className="text-white font-semibold">María Sofía Genta</strong> <span className="text-cyan-300 font-mono text-sm">(Tecnica Superior en Analisis Funcional de Sistemas Informaticos y QA)</span> que nos conocimos en septiembre de 2026 siendo voluntarios en los Juegos Suramericanos 2026 en la ciudad de Rosario y ahi decidimos asociarnos para emprender juntos.
+            Somos dos rosarinos <strong className="text-white font-semibold">Manuel Angiulli</strong> <span className="text-cyan-300 font-mono text-sm">(Técnico Superior en Seguridad Informática y QA)</span> y <strong className="text-white font-semibold">María Sofía Genta</strong> <span className="text-cyan-300 font-mono text-sm">(Técnica Superior en Análisis Funcional de Sistemas Informáticos y QA)</span> que nos conocimos en septiembre de 2026 siendo voluntarios en los Juegos Suramericanos 2026 en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos.
           </p>
         </div>
 

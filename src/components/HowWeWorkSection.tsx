@@ -8,7 +8,6 @@ import {
   TrendingUp, 
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
   Workflow,
   Briefcase,
   Laptop
@@ -272,11 +271,7 @@ export const HowWeWorkSection: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-cyan-400 text-[11px] font-medium shrink-0">
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                    Etapa garantizada
-                  </span>
+                <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-end gap-3 text-xs font-mono text-slate-400">
                   <span className="text-slate-500 font-mono text-[11px] shrink-0">
                     Fase {step.number}/06
                   </span>
