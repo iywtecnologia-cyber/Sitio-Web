@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
                 tecnoros<span className="text-[#00D2F3]">.ar</span>
               </span>
               <span className="text-[12px] sm:text-[13px] font-mono text-slate-300 mt-1 leading-none">
-                Automatizacion <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Software
+                Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Software
               </span>
             </div>
           </div>
@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
               className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-300 transition-colors py-1"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
-              <span>Linkedin Manuel Angiulli</span>
+              <span>LinkedIn Manuel Angiulli</span>
             </a>
             <span className="text-slate-700">|</span>
             <a
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
               className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-300 transition-colors py-1"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
-              <span>Linkedin M. Sofía Genta</span>
+              <span>LinkedIn M. Sofía Genta</span>
             </a>
           </div>
         </div>

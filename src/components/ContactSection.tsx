@@ -13,7 +13,7 @@ import {
   Linkedin
 } from 'lucide-react';
 
-const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solucion";
+const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
 const CONTACT_EMAIL = "tecnorosar@gmail.com";
 const WHATSAPP_NUMBERS = [
   "5493413130336",
@@ -231,7 +231,7 @@ export const ContactSection: React.FC = () => {
               title="Perfil de LinkedIn de Manuel Angiulli"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>Linkedin Manuel Angiulli</span>
+              <span>LinkedIn Manuel Angiulli</span>
             </a>
 
             {/* Entrada LinkedIn M. Sofía Genta */}
@@ -243,7 +243,7 @@ export const ContactSection: React.FC = () => {
               title="Perfil de LinkedIn de M. Sofía Genta"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>Linkedin M. Sofía Genta</span>
+              <span>LinkedIn M. Sofía Genta</span>
             </a>
           </div>
         </div>

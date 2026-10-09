@@ -6,8 +6,7 @@ import {
   Database, 
   Code2, 
   CheckCircle2, 
-  Terminal, 
-  Sparkles
+  Terminal
 } from 'lucide-react';
 
 interface TechItem {
@@ -35,9 +34,9 @@ const TECH_STACK: TechItem[] = [
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
   },
   {
-    name: 'Vite & Next.js',
+    name: 'Vite',
     category: 'frontend',
-    description: 'Empaquetado instantáneo, renderizado híbrido y optimización de carga para máxima velocidad de respuesta.',
+    description: 'Empaquetado instantáneo, optimización de carga para máxima velocidad de respuesta.',
     badge: 'Build Tooling',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
   },
@@ -183,17 +182,6 @@ export const StackSection: React.FC = () => {
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                   {tech.description}
                 </p>
-              </div>
-
-              <div className="mt-5 pt-3.5 border-t border-slate-800/60 flex items-center justify-between text-xs font-mono">
-                <span className="flex items-center gap-1.5 text-cyan-400 text-[11px] font-medium tracking-tight">
-                  <Sparkles className="w-3 h-3 text-cyan-400 shrink-0" />
-                  Tecnología probada
-                </span>
-                <span className="text-[10px] text-emerald-400/90 font-mono flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  Estable
-                </span>
               </div>
             </div>
           ))}

@@ -80,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                   tecnoros<span className="text-[#00D2F3]">.ar</span>
                 </span>
                 <span className="hidden sm:inline-block text-[13px] sm:text-[14px] font-mono text-slate-200 tracking-wide mt-1.5 leading-none whitespace-nowrap">
-                  Automatizacion <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Software
+                  Automatización <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Software
                 </span>
                 <span className="inline-block sm:hidden text-[10px] font-mono text-cyan-400 tracking-wide mt-1 leading-none">
                   Automatización & Software
