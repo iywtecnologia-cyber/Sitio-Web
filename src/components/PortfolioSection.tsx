@@ -126,7 +126,7 @@ export const PortfolioSection: React.FC = () => {
         </div>
 
         {/* Selector de Proyectos (Pestañas horizontales limpias, sin nombres de clientes) */}
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-4 mb-8 no-scrollbar">
+        <div className="flex flex-wrap items-center gap-2.5 mb-8" role="group" aria-label="Elegí un proyecto">
           {PROJECTS_DATA.map((p) => {
             const Icon = p.icon;
             const isSelected = p.id === selectedProjectId;
@@ -134,13 +134,14 @@ export const PortfolioSection: React.FC = () => {
               <button
                 key={p.id}
                 onClick={() => setSelectedProjectId(p.id)}
-                className={`inline-flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                aria-pressed={isSelected}
+                className={`inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
                   isSelected
-                    ? 'bg-cyan-500/15 border border-cyan-500/50 text-cyan-300 shadow-lg shadow-cyan-500/10 scale-[1.02]'
-                    : 'bg-slate-900/70 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-900'
+                    ? 'bg-cyan-500/15 border-cyan-500/60 text-cyan-200'
+                    : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:text-white hover:border-slate-600'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isSelected ? 'text-cyan-400' : 'text-slate-500'}`} />
+                <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
                 <span>{p.category}</span>
               </button>
             );
