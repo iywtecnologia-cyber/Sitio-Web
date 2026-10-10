@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Calendar, 
   Wallet, 
@@ -26,7 +26,7 @@ interface ProjectCase {
   resultado: string;
 }
 
-const PROJECTS_DATA: ProjectCase[] = [
+export const PROJECTS_DATA: ProjectCase[] = [
   {
     id: 'estetica-laser',
     category: 'Gestión de Turnos',
@@ -91,6 +91,16 @@ const PROJECTS_DATA: ProjectCase[] = [
 
 export const PortfolioSection: React.FC = () => {
   const [selectedProjectId, setSelectedProjectId] = useState<string>(PROJECTS_DATA[0].id);
+
+  // El menú de arriba puede elegir un proyecto directamente.
+  useEffect(() => {
+    const onSeleccionar = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (PROJECTS_DATA.some((p) => p.id === id)) setSelectedProjectId(id);
+    };
+    window.addEventListener('seleccionar-proyecto', onSeleccionar);
+    return () => window.removeEventListener('seleccionar-proyecto', onSeleccionar);
+  }, []);
 
   const activeProject = PROJECTS_DATA.find(p => p.id === selectedProjectId) || PROJECTS_DATA[0];
   const ActiveIcon = activeProject.icon;
