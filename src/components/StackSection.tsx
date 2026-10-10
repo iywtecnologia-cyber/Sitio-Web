@@ -43,6 +43,13 @@ const TECH_STACK: TechItem[] = [
 
   // Backend & Automatizaciones
   {
+    name: 'n8n',
+    category: 'backend',
+    description: 'Flujos de automatización que conectan planillas, sistemas, mails y WhatsApp para que las tareas repetitivas se hagan solas.',
+    badge: 'Automatizaciones',
+    badgeColor: 'border-orange-500/40 text-orange-300 bg-orange-950/30',
+  },
+  {
     name: 'WhatsApp Business API & Webhooks',
     category: 'backend',
     description: 'Bots conversacionales inteligentes para pedidos, presupuestos, soporte y alertas automáticas en tiempo real.',
