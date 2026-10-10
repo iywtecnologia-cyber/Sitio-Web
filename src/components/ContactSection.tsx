@@ -95,7 +95,7 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contacto" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
+    <section id="contacto" className="scroll-mt-12 sm:scroll-mt-16 py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -121,6 +121,36 @@ export const ContactSection: React.FC = () => {
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
             Escribinos directamente para contarnos qué situación querés resolver. Te orientamos sin costo en el diseño y arquitectura de la solución adecuada.
           </p>
+
+          {/* Accesos rápidos: las 3 opciones de contacto a la vista apenas se llega a la sección */}
+          <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3 max-w-xl">
+            <button
+              type="button"
+              onClick={handleOpenDirectWhatsApp}
+              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/40 hover:bg-emerald-500/20 text-emerald-300 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
+            >
+              <MessageCircle className="w-5 h-5 sm:w-4 sm:h-4" />
+              <span>WhatsApp</span>
+            </button>
+            <a
+              href={mailtoUrl}
+              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-cyan-500/10 border border-cyan-500/40 hover:bg-cyan-500/20 text-cyan-300 font-semibold text-xs sm:text-sm transition-colors"
+            >
+              <Mail className="w-5 h-5 sm:w-4 sm:h-4" />
+              <span>E-mail</span>
+            </a>
+            <a
+              href="#consulta-directa"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('consulta-directa')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-violet-500/10 border border-violet-500/40 hover:bg-violet-500/20 text-violet-300 font-semibold text-xs sm:text-sm transition-colors"
+            >
+              <Send className="w-5 h-5 sm:w-4 sm:h-4" />
+              <span>Consulta directa</span>
+            </a>
+          </div>
         </div>
 
         {/* Botones de Acción Inmediata (WhatsApp & E-mail) */}
@@ -262,7 +292,7 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Formulario integrado en pantalla para redactar y enviar */}
-        <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 shadow-2xl">
+        <div id="consulta-directa" className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 shadow-2xl scroll-mt-24 sm:scroll-mt-28">
           <div className="max-w-2xl mb-6">
             <h3 className="text-xl font-bold text-white mb-1">
               Dejanos tu consulta directa
