@@ -83,7 +83,7 @@ const CartelProximamente: React.FC = () => {
       onClick={otraVez}
       onMouseEnter={otraVez}
       aria-label="Próximamente. Estamos en fase de creación"
-      className="group mt-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
+      className="group mb-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
         aria-hidden="true"
@@ -136,6 +136,8 @@ export const ProductosPropios: React.FC = () => (
         </p>
       </div>
 
+      <CartelProximamente />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {PRODUCTOS.map(({ id, icon: Icon, title }) => (
           <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
@@ -147,7 +149,6 @@ export const ProductosPropios: React.FC = () => (
         ))}
       </div>
 
-      <CartelProximamente />
 
       <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <a
