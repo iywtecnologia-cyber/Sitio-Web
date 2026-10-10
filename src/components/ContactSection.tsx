@@ -3,12 +3,9 @@ import {
   Mail, 
   MessageCircle, 
   Send, 
-  CheckCircle2, 
   Copy, 
   Check, 
-  ArrowRight, 
   Sparkles,
-  PhoneCall,
   CornerRightDown,
   Linkedin
 } from 'lucide-react';
@@ -35,9 +32,9 @@ export const ContactSection: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
 
-  const encodedWhatsAppMessage = encodeURIComponent(formData.mensaje.trim() || DEFAULT_MESSAGE);
+  const encodedWhatsAppMessage = encodeURIComponent(DEFAULT_MESSAGE);
   const encodedEmailSubject = encodeURIComponent("Consulta sobre solución digital - tecnoros.ar");
-  const encodedEmailBody = encodeURIComponent(formData.mensaje.trim() || DEFAULT_MESSAGE);
+  const encodedEmailBody = encodeURIComponent(DEFAULT_MESSAGE);
 
   // Link directo para abrir cliente de correo (Gmail, Outlook, etc.)
   const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodedEmailSubject}&body=${encodedEmailBody}`;
@@ -121,133 +118,57 @@ export const ContactSection: React.FC = () => {
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
             Escribinos directamente para contarnos qué situación querés resolver. Te orientamos sin costo en el diseño y arquitectura de la solución adecuada.
           </p>
-
-          {/* Accesos rápidos: las 3 opciones de contacto a la vista apenas se llega a la sección */}
-          <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3 max-w-xl">
-            <button
-              type="button"
-              onClick={handleOpenDirectWhatsApp}
-              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/40 hover:bg-emerald-500/20 text-emerald-300 font-semibold text-xs sm:text-sm transition-colors cursor-pointer"
-            >
-              <MessageCircle className="w-5 h-5 sm:w-4 sm:h-4" />
-              <span>WhatsApp</span>
-            </button>
-            <a
-              href={mailtoUrl}
-              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-cyan-500/10 border border-cyan-500/40 hover:bg-cyan-500/20 text-cyan-300 font-semibold text-xs sm:text-sm transition-colors"
-            >
-              <Mail className="w-5 h-5 sm:w-4 sm:h-4" />
-              <span>E-mail</span>
-            </a>
-            <a
-              href="#consulta-directa"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('consulta-directa')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="inline-flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-3 rounded-xl bg-violet-500/10 border border-violet-500/40 hover:bg-violet-500/20 text-violet-300 font-semibold text-xs sm:text-sm transition-colors"
-            >
-              <Send className="w-5 h-5 sm:w-4 sm:h-4" />
-              <span>Consulta directa</span>
-            </a>
-          </div>
         </div>
 
-        {/* Botones de Acción Inmediata (WhatsApp & E-mail) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 items-stretch">
-          
-          {/* Botón WhatsApp */}
-          <div className="p-7 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 to-emerald-950/20 border border-slate-800 hover:border-emerald-500/40 transition-all duration-300 group flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between gap-4 mb-5 h-12">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform shrink-0">
-                  <MessageCircle className="w-6 h-6" />
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-emerald-400">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Chat directo</span>
-                </div>
-              </div>
+        {/* Mensaje listo para enviar + elegir canal */}
+        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-cyan-950/20 border border-slate-800">
+          <span className="text-[11px] font-mono uppercase text-cyan-400 tracking-wider block mb-3">
+            Tu mensaje, listo para enviar
+          </span>
+          <blockquote className="p-5 sm:p-6 rounded-xl bg-slate-950/80 border border-slate-800/80 text-base sm:text-xl text-white leading-relaxed">
+            "{DEFAULT_MESSAGE}"
+          </blockquote>
 
-              <span className="text-[11px] font-mono uppercase text-emerald-400 tracking-wider block">
-                Atención Inmediata
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1 mb-3">
-                Hablar por WhatsApp
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed mb-4 sm:min-h-[44px]">
-                Iniciá una conversación al instante con el mensaje listo para enviarnos tu consulta sobre tu negocio.
-              </p>
-
-              {/* Vista previa del mensaje */}
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-xs font-mono text-emerald-300/90 mb-6 italic text-center flex items-center justify-center min-h-[68px]">
-                "{DEFAULT_MESSAGE}..."
-              </div>
-            </div>
-
+          <p className="mt-6 mb-3 text-sm text-slate-300">Elegí cómo querés enviarlo:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={handleOpenDirectWhatsApp}
-              className="w-full inline-flex items-center justify-center gap-1 px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all group cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
             >
-              <MessageCircle className="w-4 h-4 fill-slate-950 mr-1" />
-              <span>Abrir chat de WhatsApp</span>
-              <ArrowRight className="w-4 h-4 translate-y-[2px] -ml-0.5 group-hover:translate-x-1 transition-transform" />
+              <MessageCircle className="w-4 h-4 fill-slate-950" />
+              <span>Por WhatsApp</span>
             </button>
-          </div>
-
-          {/* Botón E-mail */}
-          <div className="p-7 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/20 border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 group flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between gap-4 mb-5 h-12">
-                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform shrink-0">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <button
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 text-xs font-mono text-slate-300 transition-colors cursor-pointer"
-                  title="Copiar email"
-                >
-                  {copiedEmail ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Copiado</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{CONTACT_EMAIL}</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              <span className="text-[11px] font-mono uppercase text-cyan-400 tracking-wider block">
-                Propuestas & Consultas
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mt-1 mb-3">
-                Hablar por E-mail
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed mb-4 sm:min-h-[44px]">
-                Redactá tu mensaje o abrí tu aplicación de correo predeterminada con la consulta pre-cargada.
-              </p>
-
-              {/* Vista previa del mensaje */}
-              <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 text-xs font-mono text-cyan-300/90 mb-6 italic text-center flex items-center justify-center min-h-[68px]">
-                "{DEFAULT_MESSAGE}..."
-              </div>
-            </div>
-
             <a
               href={mailtoUrl}
-              className="w-full inline-flex items-center justify-center gap-1 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all group"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
-              <Mail className="w-4 h-4 mr-1" />
-              <span>Enviar consulta por E-mail</span>
-              <ArrowRight className="w-4 h-4 translate-y-[2px] -ml-0.5 group-hover:translate-x-1 transition-transform" />
+              <Mail className="w-4 h-4" />
+              <span>Por E-mail</span>
             </a>
           </div>
 
+          <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-slate-400">
+            <span>También podés escribirnos a</span>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
+              title="Copiar email"
+            >
+              {copiedEmail ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Copiado</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{CONTACT_EMAIL}</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Sección de Conexión en LinkedIn */}
@@ -344,6 +265,8 @@ export const ContactSection: React.FC = () => {
                 </label>
               </div>
               <textarea
+                id="contacto-mensaje"
+                name="mensaje"
                 rows={4}
                 value={formData.mensaje}
                 onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
