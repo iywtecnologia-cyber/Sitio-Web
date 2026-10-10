@@ -4,12 +4,14 @@ import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
 // se actualizan acá.
-const PRODUCTOS = [
+export const PRODUCTOS = [
   {
+    id: 'software-ciberseguridad',
     icon: ShieldCheck,
     title: 'Software propio de ciberseguridad',
   },
   {
+    id: 'plataforma-automatizacion',
     icon: Workflow,
     title: 'Plataforma integral de automatización',
   },
@@ -37,8 +39,8 @@ export const ProductosPropios: React.FC = () => (
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ icon: Icon, title }) => (
-          <div key={title} className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
+        {PRODUCTOS.map(({ id, icon: Icon, title }) => (
+          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
             <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
               <Icon className="w-6 h-6" />
             </div>

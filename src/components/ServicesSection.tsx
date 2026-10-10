@@ -23,7 +23,7 @@ interface ServiceItem {
   bullets: string[];
 }
 
-const SERVICES: ServiceItem[] = [
+export const SERVICES: ServiceItem[] = [
   {
     id: 'automatizacion',
     icon: Workflow,
@@ -131,7 +131,8 @@ export const ServicesSection: React.FC = () => {
             return (
               <div
                 key={service.id}
-                className={`p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden ${isLastOdd ? 'md:col-span-2' : ''}`}
+                id={`servicio-${service.id}`}
+                className={`p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden scroll-mt-28 ${isLastOdd ? 'md:col-span-2' : ''}`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-5">
