@@ -3,17 +3,15 @@ import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
-// se actualizan acá (título, descripción y etiqueta).
+// se actualizan acá (título y etiqueta).
 const PRODUCTOS = [
   {
     icon: ShieldCheck,
     title: 'Software propio de ciberseguridad',
-    text: 'Una herramienta pensada para que los negocios protejan su información y detecten riesgos antes de que se conviertan en un problema.',
   },
   {
     icon: Workflow,
     title: 'Plataforma integral de automatización',
-    text: 'Una solución que une software y automatización para que las distintas partes de tu negocio trabajen conectadas, sin pasar datos a mano.',
   },
 ];
 
@@ -39,7 +37,7 @@ export const ProductosPropios: React.FC = () => (
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ icon: Icon, title, text }) => (
+        {PRODUCTOS.map(({ icon: Icon, title }) => (
           <div key={title} className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-3">
               <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
@@ -50,7 +48,6 @@ export const ProductosPropios: React.FC = () => (
               </span>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">{text}</p>
           </div>
         ))}
       </div>

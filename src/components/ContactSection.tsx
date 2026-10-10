@@ -55,11 +55,23 @@ export const ContactSection: React.FC = () => {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
+  // El navegador a veces autocompleta el campo de nombre con el e-mail.
+  // Si pasa, lo usamos como e-mail y no lo mostramos como nombre del negocio.
+  const camposLimpios = () => {
+    const nombre = formData.nombre.trim();
+    const email = formData.email.trim();
+    if (nombre.includes('@')) {
+      return { nombre: '', email: email || nombre };
+    }
+    return { nombre, email };
+  };
+
   const handleSendFormWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
     const targetNumber = getRandomWhatsAppNumber();
-    const nameStr = formData.nombre.trim() ? `• *Nombre o Negocio:* ${formData.nombre.trim()}\n` : '';
-    const emailStr = formData.email.trim() ? `• *Email de contacto:* ${formData.email.trim()}\n` : '';
+    const { nombre, email } = camposLimpios();
+    const nameStr = nombre ? `• *Nombre o Negocio:* ${nombre}\n` : '';
+    const emailStr = email ? `• *Email de contacto:* ${email}\n` : '';
     const msgStr = formData.mensaje.trim() || DEFAULT_MESSAGE;
     
     const formattedText = `Hola equipo de tecnoros.ar,\n\n${nameStr}${emailStr}• *Problema a resolver:* ${msgStr}`;
@@ -69,8 +81,9 @@ export const ContactSection: React.FC = () => {
 
   const handleSendFormEmail = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-    const senderName = formData.nombre.trim() || 'Negocio';
-    const senderEmail = formData.email.trim() || 'No especificado';
+    const { nombre, email } = camposLimpios();
+    const senderName = nombre || 'Negocio';
+    const senderEmail = email || 'No especificado';
     const messageText = formData.mensaje.trim() || DEFAULT_MESSAGE;
 
     const subject = `Consulta de ${senderName} - tecnoros.ar`;
@@ -262,11 +275,14 @@ export const ContactSection: React.FC = () => {
           <form onSubmit={handleSendFormEmail} className="space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-2">
+                <label htmlFor="contacto-nombre" className="block text-xs font-mono text-slate-300 mb-2">
                   Tu Nombre o Negocio
                 </label>
                 <input
+                  id="contacto-nombre"
+                  name="nombre"
                   type="text"
+                  autoComplete="organization"
                   placeholder="Ej. Distribuidora Santa Fe / Carlos"
                   value={formData.nombre}
                   onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
@@ -275,11 +291,14 @@ export const ContactSection: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-2">
+                <label htmlFor="contacto-email" className="block text-xs font-mono text-slate-300 mb-2">
                   Tu E-mail de Contacto
                 </label>
                 <input
+                  id="contacto-email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="nombre@negocio.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
