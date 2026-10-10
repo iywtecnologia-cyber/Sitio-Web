@@ -27,14 +27,14 @@ export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
-    mensaje: DEFAULT_MESSAGE,
+    mensaje: '',
   });
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
 
-  const encodedWhatsAppMessage = encodeURIComponent(formData.mensaje.trim() || DEFAULT_MESSAGE);
+  const encodedWhatsAppMessage = encodeURIComponent(DEFAULT_MESSAGE);
   const encodedEmailSubject = encodeURIComponent("Consulta sobre solución digital - tecnoros.ar");
-  const encodedEmailBody = encodeURIComponent(formData.mensaje.trim() || DEFAULT_MESSAGE);
+  const encodedEmailBody = encodeURIComponent(DEFAULT_MESSAGE);
 
   // Link directo para abrir cliente de correo (Gmail, Outlook, etc.)
   const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodedEmailSubject}&body=${encodedEmailBody}`;
@@ -44,15 +44,6 @@ export const ContactSection: React.FC = () => {
     const targetNumber = getRandomWhatsAppNumber();
     const waUrl = `https://wa.me/${targetNumber}?text=${encodedWhatsAppMessage}`;
     window.open(waUrl, '_blank');
-  };
-
-  const mensajeActual = formData.mensaje.trim() || DEFAULT_MESSAGE;
-
-  // Lleva al formulario con el mensaje ya escrito, para completarlo o editarlo.
-  const irAConsultaDirecta = () => {
-    if (!formData.mensaje.trim()) setFormData({ ...formData, mensaje: DEFAULT_MESSAGE });
-    document.getElementById('consulta-directa')?.scrollIntoView({ behavior: 'smooth' });
-    setTimeout(() => document.getElementById('contacto-mensaje')?.focus({ preventScroll: true }), 600);
   };
 
   const handleCopyEmail = () => {
@@ -135,11 +126,11 @@ export const ContactSection: React.FC = () => {
             Tu mensaje, listo para enviar
           </span>
           <blockquote className="p-5 sm:p-6 rounded-xl bg-slate-950/80 border border-slate-800/80 text-base sm:text-xl text-white leading-relaxed">
-            "{mensajeActual}"
+            "{DEFAULT_MESSAGE}"
           </blockquote>
 
           <p className="mt-6 mb-3 text-sm text-slate-300">Elegí cómo querés enviarlo:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
               onClick={handleOpenDirectWhatsApp}
@@ -155,14 +146,6 @@ export const ContactSection: React.FC = () => {
               <Mail className="w-4 h-4" />
               <span>Por E-mail</span>
             </a>
-            <button
-              type="button"
-              onClick={irAConsultaDirecta}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl border border-violet-500/50 bg-violet-500/10 hover:bg-violet-500/20 text-violet-200 font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-            >
-              <Send className="w-4 h-4" />
-              <span>Consulta directa</span>
-            </button>
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-slate-400">
