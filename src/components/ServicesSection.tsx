@@ -55,7 +55,7 @@ const SERVICES: ServiceItem[] = [
     icon: ShieldCheck,
     badge: 'Ciberseguridad',
     badgeColor: 'border-rose-500/40 text-rose-300 bg-rose-950/30',
-    title: 'Seguridad para tu información',
+    title: 'Ciberseguridad para tu negocio',
     description: 'Protegemos los datos de tu negocio y de tus clientes. Todo lo que desarrollamos sale revisado y pensado para que nadie entre donde no debe.',
     bullets: [
       'Revisamos tus sistemas y te decimos qué riesgos tienen',
