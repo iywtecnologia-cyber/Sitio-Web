@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
@@ -53,67 +53,55 @@ const useDecodificar = (disparo: number) => {
   return texto;
 };
 
-// Cartel interactivo: se decodifica al aparecer en pantalla y cada vez que lo tocás o pasás el mouse.
-const CartelProximamente: React.FC = () => {
+// Cinta "PRÓXIMAMENTE" que cruza por encima de las tarjetas, como cinta de obra.
+// Se mueve sola; al pasar el mouse se frena y la palabra se decodifica; al tocarla también.
+const CintaProximamente: React.FC = () => {
   const [disparo, setDisparo] = useState(0);
-  const ref = useRef<HTMLButtonElement>(null);
   const texto = useDecodificar(disparo);
   const otraVez = () => setDisparo((n) => n + 1);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const obs = new IntersectionObserver(
-      ([entrada]) => {
-        if (entrada.isIntersecting) {
-          otraVez();
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.6 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  const items = Array.from({ length: 8 });
 
   return (
     <button
-      ref={ref}
       type="button"
       onClick={otraVez}
       onMouseEnter={otraVez}
-      aria-label="Próximamente. Estamos en fase de creación"
-      className="group mt-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
+      aria-label="Próximamente"
+      className="group absolute z-20 -left-[5%] -right-[5%] bottom-6 sm:bottom-8 -rotate-3 overflow-hidden border-y-2 border-slate-950 bg-gradient-to-r from-cyan-400 via-cyan-300 to-violet-400 py-2.5 sm:py-3 shadow-xl shadow-black/40 cursor-pointer"
     >
-      <span
-        aria-hidden="true"
-        className="absolute inset-0 opacity-30 pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-      <span aria-hidden="true" className="relative inline-flex items-center gap-2 text-[11px] font-mono tracking-widest text-violet-300">
-        <span className="relative flex w-2 h-2">
-          <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
-          <span className="relative inline-flex w-2 h-2 rounded-full bg-violet-400" />
-        </span>
-        EN EL LABORATORIO
+      <span aria-hidden="true" className="flex w-max animate-[cinta_22s_linear_infinite] group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+        {[0, 1].map((mitad) => (
+          <span key={mitad} className="flex shrink-0">
+            {items.map((_, i) => (
+              <span key={i} className="flex items-center gap-4 px-4 font-mono text-base sm:text-xl font-black tracking-[0.25em] text-slate-950 whitespace-nowrap">
+                {texto}
+                <span className="text-slate-950/60">✦</span>
+              </span>
+            ))}
+          </span>
+        ))}
       </span>
-      <span aria-hidden="true" className="relative block mt-3 font-mono text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.18em] sm:tracking-[0.25em] text-white group-hover:text-cyan-200 transition-colors">
-        {texto}
-      </span>
-      <span aria-hidden="true" className="relative block mt-4 text-base sm:text-lg text-slate-300">
-        Estamos en fase de creación<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
-      </span>
-      <span aria-hidden="true" className="relative block mx-auto mt-5 h-1.5 w-48 sm:w-64 rounded-full bg-slate-800 overflow-hidden">
-        <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
-      </span>
-      <style>{'@keyframes creando{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}'}</style>
+      <style>{'@keyframes cinta{from{transform:translateX(0)}to{transform:translateX(-50%)}}'}</style>
     </button>
   );
 };
+
+// Línea de estado debajo de las tarjetas.
+const EnCreacion: React.FC = () => (
+  <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+    <span className="inline-flex items-center gap-2 text-sm sm:text-base font-mono text-slate-200">
+      <span className="relative flex w-2.5 h-2.5">
+        <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
+        <span className="relative inline-flex w-2.5 h-2.5 rounded-full bg-violet-400" />
+      </span>
+      Estamos en fase de creación<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
+    </span>
+    <span aria-hidden="true" className="block h-1.5 w-48 sm:w-64 rounded-full bg-slate-800 overflow-hidden">
+      <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
+    </span>
+    <style>{'@keyframes creando{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}'}</style>
+  </div>
+);
 
 export const ProductosPropios: React.FC = () => (
   <section id="productos" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
@@ -136,18 +124,19 @@ export const ProductosPropios: React.FC = () => (
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ id, icon: Icon, title }) => (
-          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+        {PRODUCTOS.map(({ id, icon: Icon, title }, i) => (
+          <div key={id} id={`producto-${id}`} className={`scroll-mt-28 p-6 sm:p-8 md:pb-28 ${i === PRODUCTOS.length - 1 ? 'pb-24' : ''} rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4`}>
             <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
               <Icon className="w-6 h-6" />
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
           </div>
         ))}
+        <CintaProximamente />
       </div>
 
-      <CartelProximamente />
+      <EnCreacion />
 
       <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <a
