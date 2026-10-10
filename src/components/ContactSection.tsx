@@ -27,30 +27,15 @@ export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
-    mensaje: '',
+    mensaje: DEFAULT_MESSAGE,
   });
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [sentSuccess, setSentSuccess] = useState(false);
 
-  const encodedWhatsAppMessage = encodeURIComponent(DEFAULT_MESSAGE);
-  const encodedEmailSubject = encodeURIComponent("Consulta sobre solución digital - tecnoros.ar");
-  const encodedEmailBody = encodeURIComponent(DEFAULT_MESSAGE);
-
   // El e-mail se redacta en Gmail web, en una pestaña nueva del mismo navegador
-  // (mailto: abre el programa de correo del sistema, que puede ser otro navegador o app).
+  // que está usando la persona (mailto: abriría el programa de correo del sistema).
   const gmailUrl = (subject: string, body: string) =>
     `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  const EMAIL_SUBJECT = 'Consulta sobre solución digital - tecnoros.ar';
-
-  // Alternativa para quien usa otro correo: abre la app de correo del sistema.
-  const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodedEmailSubject}&body=${encodedEmailBody}`;
-
-  const handleOpenDirectWhatsApp = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const targetNumber = getRandomWhatsAppNumber();
-    const waUrl = `https://wa.me/${targetNumber}?text=${encodedWhatsAppMessage}`;
-    window.open(waUrl, '_blank');
-  };
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(CONTACT_EMAIL);
@@ -85,12 +70,12 @@ export const ContactSection: React.FC = () => {
   const handleSendFormEmail = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
     const { nombre, email } = camposLimpios();
-    const senderName = nombre || 'Negocio';
-    const senderEmail = email || 'No especificado';
     const messageText = formData.mensaje.trim() || DEFAULT_MESSAGE;
 
-    const subject = `Consulta de ${senderName} - tecnoros.ar`;
-    const bodyText = `Hola equipo de tecnoros.ar,\n\nNombre / Empresa: ${senderName}\nEmail de contacto: ${senderEmail}\n\nProblema a resolver:\n${messageText}`;
+    // Solo se incluyen los datos que la persona completó.
+    const subject = nombre ? `Consulta de ${nombre} - tecnoros.ar` : 'Consulta desde la web - tecnoros.ar';
+    const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `Email de contacto: ${email}`].filter(Boolean).join('\n');
+    const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
     window.open(gmailUrl(subject, bodyText), '_blank', 'noopener');
     setSentSuccess(true);
@@ -126,104 +111,6 @@ export const ContactSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Mensaje listo para enviar + elegir canal */}
-        <div className="mb-12 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-cyan-950/20 border border-slate-800">
-          <span className="text-[11px] font-mono uppercase text-cyan-400 tracking-wider block mb-3">
-            Tu mensaje, listo para enviar
-          </span>
-          <blockquote className="p-5 sm:p-6 rounded-xl bg-slate-950/80 border border-slate-800/80 text-base sm:text-xl text-white leading-relaxed">
-            "{DEFAULT_MESSAGE}"
-          </blockquote>
-
-          <p className="mt-6 mb-3 text-sm text-slate-300">Elegí cómo querés enviarlo:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={handleOpenDirectWhatsApp}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4 fill-slate-950" />
-              <span>Por WhatsApp</span>
-            </button>
-            <a
-              href={gmailUrl(EMAIL_SUBJECT, DEFAULT_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
-            >
-              <Mail className="w-4 h-4" />
-              <span>Por E-mail</span>
-            </a>
-          </div>
-
-          <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <a href={mailtoUrl} className="underline underline-offset-2 hover:text-slate-200 transition-colors">
-              ¿Usás otro correo? Abrilo con tu app
-            </a>
-            <span className="text-slate-600">·</span>
-            <span>o escribinos a</span>
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
-              title="Copiar email"
-            >
-              {copiedEmail ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Copiado</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5 text-slate-400" />
-                  <span>{CONTACT_EMAIL}</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Sección de Conexión en LinkedIn */}
-        <div className="mb-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h4 className="text-base font-bold text-white flex items-center gap-2">
-              <span>Perfiles en LinkedIn</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                Fundadores
-              </span>
-            </h4>
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Si querés conocer más de nosotros
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-            {/* Entrada LinkedIn Manuel Angiulli */}
-            <a
-              href="https://www.linkedin.com/in/manuel-angiulli/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de Manuel Angiulli"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>LinkedIn Manuel Angiulli</span>
-            </a>
-
-            {/* Entrada LinkedIn M. Sofía Genta */}
-            <a
-              href="https://www.linkedin.com/in/mariiasof%C3%ADagenta/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de M. Sofía Genta"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>LinkedIn M. Sofía Genta</span>
-            </a>
-          </div>
-        </div>
-
         {/* Formulario integrado en pantalla para redactar y enviar */}
         <div id="consulta-directa" className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 shadow-2xl scroll-mt-24 sm:scroll-mt-28">
           <div className="max-w-2xl mb-6">
@@ -231,7 +118,7 @@ export const ContactSection: React.FC = () => {
               Dejanos tu consulta directa
             </h3>
             <p className="text-xs sm:text-sm text-slate-400">
-              Podés completar los campos a continuación o ajustar el mensaje antes de enviarlo.
+              Te dejamos un mensaje de ejemplo: cambialo por lo que necesites y elegí cómo enviarlo.
             </p>
           </div>
 
@@ -312,13 +199,76 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
+            <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
+              <span>O escribinos a</span>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
+                title="Copiar email"
+              >
+                {copiedEmail ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Copiado</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-slate-400" />
+                    <span>{CONTACT_EMAIL}</span>
+                  </>
+                )}
+              </button>
+            </div>
+
             {sentSuccess && (
               <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
-                <span>¡Se abrió tu gestor de correo con el mensaje listo para enviar a {CONTACT_EMAIL}!</span>
+                <span>¡Se abrió Gmail en una pestaña nueva con tu mensaje listo para enviar a {CONTACT_EMAIL}!</span>
               </div>
             )}
           </form>
+        </div>
+
+        {/* Sección de Conexión en LinkedIn */}
+        <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h4 className="text-base font-bold text-white flex items-center gap-2">
+              <span>Perfiles en LinkedIn</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                Fundadores
+              </span>
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+              Si querés conocer más de nosotros
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
+            {/* Entrada LinkedIn Manuel Angiulli */}
+            <a
+              href="https://www.linkedin.com/in/manuel-angiulli/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
+              title="Perfil de LinkedIn de Manuel Angiulli"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
+              <span>LinkedIn Manuel Angiulli</span>
+            </a>
+
+            {/* Entrada LinkedIn M. Sofía Genta */}
+            <a
+              href="https://www.linkedin.com/in/mariiasof%C3%ADagenta/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
+              title="Perfil de LinkedIn de M. Sofía Genta"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
+              <span>LinkedIn M. Sofía Genta</span>
+            </a>
+          </div>
         </div>
 
       </div>
