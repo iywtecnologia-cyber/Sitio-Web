@@ -66,7 +66,7 @@ const TECH_STACK: TechItem[] = [
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
   },
 
-  // Seguridad & QA
+  // Ciberseguridad & QA
   {
     name: 'Auditorías de Ciberseguridad & Hardening',
     category: 'qa-security',
@@ -88,7 +88,7 @@ const CATEGORIES = [
   { id: 'frontend', label: 'Frontend', icon: Code2 },
   { id: 'backend', label: 'Automatizaciones', icon: Terminal },
   { id: 'data-cloud', label: 'Bases de Datos & Cloud', icon: Database },
-  { id: 'qa-security', label: 'Seguridad & QA', icon: ShieldCheck },
+  { id: 'qa-security', label: 'Ciberseguridad & QA', icon: ShieldCheck },
 ] as const;
 
 export const StackSection: React.FC = () => {
@@ -120,7 +120,7 @@ export const StackSection: React.FC = () => {
               </span>
             </h2>
             <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-              Herramientas probadas en producción que garantizan velocidad de carga, escalabilidad y seguridad informática.
+              Herramientas probadas en producción que garantizan velocidad de carga, escalabilidad y ciberseguridad.
             </p>
           </div>
 

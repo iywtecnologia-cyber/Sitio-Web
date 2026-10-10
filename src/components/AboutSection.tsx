@@ -67,12 +67,12 @@ export const AboutSection: React.FC = () => {
                 ¿Qué nos diferencia?
               </h3>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Sabemos llegar al núcleo de cada problema. Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, y garantizamos la seguridad de todo lo que desarrollamos.
+                Sabemos llegar al núcleo de cada problema. Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, y aplicamos ciberseguridad en todo lo que desarrollamos.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-violet-400/80">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Análisis Funcional & Seguridad Garantizada</span>
+              <span>Análisis Funcional & Ciberseguridad</span>
             </div>
           </div>
         </div>

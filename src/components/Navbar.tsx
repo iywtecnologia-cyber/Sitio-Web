@@ -83,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
                   Automatización <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/70 font-sans mx-0.5">|</span> Software
                 </span>
                 <span className="inline-block sm:hidden text-[8.5px] min-[385px]:text-[9.5px] min-[420px]:text-[10px] font-mono text-cyan-400 mt-1 leading-tight min-[350px]:leading-none max-w-[170px] min-[350px]:max-w-none min-[350px]:whitespace-nowrap">
-                  Automatización & Seguridad & Software a medida
+                  Automatización <span className="text-cyan-500/70 font-sans">|</span> Ciberseguridad <span className="text-cyan-500/70 font-sans">|</span> Software
                 </span>
               </div>
             </a>
