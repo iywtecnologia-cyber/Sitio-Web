@@ -9,7 +9,8 @@ import {
   Target, 
   Cpu, 
   Lock, 
-  Layers 
+  Layers,
+  MessageCircle
 } from 'lucide-react';
 
 interface ServiceItem {
@@ -28,12 +29,25 @@ const SERVICES: ServiceItem[] = [
     icon: Workflow,
     badge: 'Automatizaciones',
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
-    title: 'Automatización y bots de WhatsApp',
-    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tu WhatsApp, tus planillas y tus sistemas para que trabajen juntos y vos ganes horas cada día.',
+    title: 'Automatizaciones para tu negocio',
+    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tus planillas, sistemas y procesos para que trabajen juntos y vos ganes horas cada día.',
     bullets: [
-      'Tu WhatsApp responde las consultas de siempre, a toda hora',
-      'Los pedidos se cargan solos en tu planilla o sistema',
-      'Recordatorios automáticos de turnos, pagos y vencimientos'
+      'Los datos se cargan solos en tu planilla o sistema',
+      'Recordatorios automáticos de turnos, pagos y vencimientos',
+      'Reportes que se arman solos, sin hacerlos a mano'
+    ]
+  },
+  {
+    id: 'bots-whatsapp',
+    icon: MessageCircle,
+    badge: 'Bots de WhatsApp',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    title: 'Bots de WhatsApp',
+    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
+    bullets: [
+      'Responde las consultas frecuentes al instante',
+      'Toma pedidos y turnos por WhatsApp',
+      'Te deriva el chat cuando hace falta una persona'
     ]
   },
   {
@@ -57,7 +71,7 @@ const SERVICES: ServiceItem[] = [
     title: 'Sistemas a medida para tu negocio',
     description: 'Si las planillas y las agendas en papel ya no te alcanzan, armamos el sistema justo para cómo trabajás vos.',
     bullets: [
-      'Turnos, ventas, stock, clientes y caja en un solo lugar',
+      'Un sistema distinto para cada rubro: turnos, ventas, stock o lo que necesites',
       'Un panel para ver cómo va tu negocio, al momento',
       'Lo usás desde la compu o el celular, estés donde estés'
     ]
@@ -108,14 +122,16 @@ export const ServicesSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Grilla de 4 Servicios Principales */}
+        {/* Grilla de Servicios Principales */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {SERVICES.map((service) => {
+          {SERVICES.map((service, index) => {
             const Icon = service.icon;
+            // Con una cantidad impar de servicios, el último ocupa todo el ancho.
+            const isLastOdd = SERVICES.length % 2 === 1 && index === SERVICES.length - 1;
             return (
               <div
                 key={service.id}
-                className="p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden"
+                className={`p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden ${isLastOdd ? 'md:col-span-2' : ''}`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-5">
