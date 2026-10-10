@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing, Lock, Sparkles, RotateCcw, MessageCircle } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
-// se actualizan acá. La "pista" es lo único que se adelanta.
+// se actualizan acá.
 export const PRODUCTOS = [
   {
     id: 'software-ciberseguridad',
     icon: ShieldCheck,
     title: 'Software propio de ciberseguridad',
-    pista: 'Va a cuidar tu negocio incluso mientras dormís.',
-    mensaje: 'Hola tecnoros.ar, quiero enterarme cuando lancen su software propio de ciberseguridad',
   },
   {
     id: 'plataforma-automatizacion',
     icon: Workflow,
     title: 'Plataforma integral de automatización',
-    pista: 'Todo tu negocio conectado, sin pasar datos a mano.',
-    mensaje: 'Hola tecnoros.ar, quiero enterarme cuando lancen su plataforma integral de automatización',
   },
 ];
 
@@ -25,18 +21,19 @@ const PALABRA = 'PRÓXIMAMENTE';
 const SIGNOS = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789#%&*';
 
 // Efecto "decodificando": las letras se mezclan y se van acomodando hasta formar la palabra.
-const useDecodificar = (activo: boolean) => {
+// Se dispara cada vez que cambia `disparo`.
+const useDecodificar = (disparo: number) => {
   const [texto, setTexto] = useState(PALABRA);
 
   useEffect(() => {
-    if (!activo) return;
+    if (disparo === 0) return;
     const reducir = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     if (reducir) {
       setTexto(PALABRA);
       return;
     }
     let paso = 0;
-    const total = 18;
+    const total = 22;
     const id = window.setInterval(() => {
       paso += 1;
       const fijas = Math.floor((paso / total) * PALABRA.length);
@@ -51,95 +48,70 @@ const useDecodificar = (activo: boolean) => {
       }
     }, 45);
     return () => window.clearInterval(id);
-  }, [activo]);
+  }, [disparo]);
 
   return texto;
 };
 
-const cara: React.CSSProperties = {
-  gridArea: '1 / 1',
-  backfaceVisibility: 'hidden',
-  WebkitBackfaceVisibility: 'hidden',
-};
+// Cartel interactivo: se decodifica al aparecer en pantalla y cada vez que lo tocás o pasás el mouse.
+const CartelProximamente: React.FC = () => {
+  const [disparo, setDisparo] = useState(0);
+  const ref = useRef<HTMLButtonElement>(null);
+  const texto = useDecodificar(disparo);
+  const otraVez = () => setDisparo((n) => n + 1);
 
-const TarjetaProximamente: React.FC<(typeof PRODUCTOS)[number]> = ({ id, icon: Icon, title, pista, mensaje }) => {
-  const [girada, setGirada] = useState(false);
-  const texto = useDecodificar(girada);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const obs = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) {
+          otraVez();
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.6 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <div id={`producto-${id}`} className="scroll-mt-28 rounded-2xl" style={{ perspective: '1200px' }}>
-      <div
-        className="grid transition-transform duration-700 ease-out motion-reduce:transition-none"
-        style={{ transformStyle: 'preserve-3d', transform: girada ? 'rotateY(180deg)' : 'none' }}
-      >
-        {/* Frente */}
-        <div
-          style={cara}
-          aria-hidden={girada}
-          className="relative overflow-hidden p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-5"
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
-              <Icon className="w-6 h-6" />
-            </div>
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/40 bg-violet-950/40 text-[11px] font-mono font-semibold tracking-widest text-violet-200">
-              <span className="relative flex w-2 h-2">
-                <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
-                <span className="relative inline-flex w-2 h-2 rounded-full bg-violet-400" />
-              </span>
-              PRÓXIMAMENTE
-            </span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
-          <button
-            type="button"
-            onClick={() => setGirada(true)}
-            tabIndex={girada ? -1 : 0}
-            className="self-start inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-200 text-sm font-semibold transition-colors cursor-pointer group"
-          >
-            <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-            Descubrí una pista
-          </button>
-        </div>
-
-        {/* Dorso */}
-        <div
-          style={{ ...cara, transform: 'rotateY(180deg)' }}
-          aria-hidden={!girada}
-          className="relative overflow-hidden p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-violet-950/60 via-slate-950 to-cyan-950/40 border border-violet-500/40 flex flex-col gap-4"
-        >
-          <div className="flex items-center gap-2 text-violet-300">
-            <Lock className="w-4 h-4" />
-            <span className="text-xs font-mono tracking-widest">ACCESO ANTICIPADO</span>
-          </div>
-          <p className="font-mono text-2xl sm:text-3xl font-bold tracking-[0.2em] text-white" aria-label="Próximamente">
-            {texto}
-          </p>
-          <p className="text-base sm:text-lg text-slate-200 leading-relaxed">{pista}</p>
-          <div className="flex flex-wrap items-center gap-3 mt-1">
-            <a
-              href={whatsappLink(mensaje)}
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={girada ? 0 : -1}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 text-sm font-bold transition-all"
-            >
-              <MessageCircle className="w-4 h-4" />
-              Avisame cuando salga
-            </a>
-            <button
-              type="button"
-              onClick={() => setGirada(false)}
-              tabIndex={girada ? 0 : -1}
-              className="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Volver
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <button
+      ref={ref}
+      type="button"
+      onClick={otraVez}
+      onMouseEnter={otraVez}
+      aria-label="Próximamente. Estamos en fase de creación"
+      className="group mt-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
+    >
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 opacity-30 pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+      <span aria-hidden="true" className="relative inline-flex items-center gap-2 text-[11px] font-mono tracking-widest text-violet-300">
+        <span className="relative flex w-2 h-2">
+          <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
+          <span className="relative inline-flex w-2 h-2 rounded-full bg-violet-400" />
+        </span>
+        EN EL LABORATORIO
+      </span>
+      <span aria-hidden="true" className="relative block mt-3 font-mono text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.18em] sm:tracking-[0.25em] text-white group-hover:text-cyan-200 transition-colors">
+        {texto}
+      </span>
+      <span aria-hidden="true" className="relative block mt-4 text-base sm:text-lg text-slate-300">
+        Estamos en fase de creación<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
+      </span>
+      <span aria-hidden="true" className="relative block mx-auto mt-5 h-1.5 w-48 sm:w-64 rounded-full bg-slate-800 overflow-hidden">
+        <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
+      </span>
+      <style>{'@keyframes creando{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}'}</style>
+    </button>
   );
 };
 
@@ -165,10 +137,17 @@ export const ProductosPropios: React.FC = () => (
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map((p) => (
-          <TarjetaProximamente key={p.id} {...p} />
+        {PRODUCTOS.map(({ id, icon: Icon, title }) => (
+          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
+            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
+              <Icon className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
+          </div>
         ))}
       </div>
+
+      <CartelProximamente />
 
       <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <a
