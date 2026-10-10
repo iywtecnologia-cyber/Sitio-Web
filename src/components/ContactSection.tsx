@@ -36,7 +36,13 @@ export const ContactSection: React.FC = () => {
   const encodedEmailSubject = encodeURIComponent("Consulta sobre solución digital - tecnoros.ar");
   const encodedEmailBody = encodeURIComponent(DEFAULT_MESSAGE);
 
-  // Link directo para abrir cliente de correo (Gmail, Outlook, etc.)
+  // El e-mail se redacta en Gmail web, en una pestaña nueva del mismo navegador
+  // (mailto: abre el programa de correo del sistema, que puede ser otro navegador o app).
+  const gmailUrl = (subject: string, body: string) =>
+    `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const EMAIL_SUBJECT = 'Consulta sobre solución digital - tecnoros.ar';
+
+  // Alternativa para quien usa otro correo: abre la app de correo del sistema.
   const mailtoUrl = `mailto:${CONTACT_EMAIL}?subject=${encodedEmailSubject}&body=${encodedEmailBody}`;
 
   const handleOpenDirectWhatsApp = (e: React.MouseEvent) => {
@@ -85,8 +91,8 @@ export const ContactSection: React.FC = () => {
 
     const subject = `Consulta de ${senderName} - tecnoros.ar`;
     const bodyText = `Hola equipo de tecnoros.ar,\n\nNombre / Empresa: ${senderName}\nEmail de contacto: ${senderEmail}\n\nProblema a resolver:\n${messageText}`;
-    
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+    window.open(gmailUrl(subject, bodyText), '_blank', 'noopener');
     setSentSuccess(true);
     setTimeout(() => setSentSuccess(false), 5000);
   };
@@ -140,7 +146,9 @@ export const ContactSection: React.FC = () => {
               <span>Por WhatsApp</span>
             </button>
             <a
-              href={mailtoUrl}
+              href={gmailUrl(EMAIL_SUBJECT, DEFAULT_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Mail className="w-4 h-4" />
@@ -149,7 +157,11 @@ export const ContactSection: React.FC = () => {
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-slate-400">
-            <span>También podés escribirnos a</span>
+            <a href={mailtoUrl} className="underline underline-offset-2 hover:text-slate-200 transition-colors">
+              ¿Usás otro correo? Abrilo con tu app
+            </a>
+            <span className="text-slate-600">·</span>
+            <span>o escribinos a</span>
             <button
               type="button"
               onClick={handleCopyEmail}
@@ -292,7 +304,7 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleSendFormEmail}
                   className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Abre tu correo con tu nombre, email y consulta pre-cargados"
+                  title="Abre Gmail en una pestaña nueva con tu nombre, email y consulta pre-cargados"
                 >
                   <Send className="w-4 h-4 fill-slate-950" />
                   <span>Enviar por E-mail</span>
