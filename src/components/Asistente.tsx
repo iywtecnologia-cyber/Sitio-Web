@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { X, Send, MessageCircle, ArrowRight } from 'lucide-react';
+import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
-import { whatsappLink } from '../data/contact';
+import { Marcianito } from './Marcianito';
+import { whatsappLink, gmailLink } from '../data/contact';
 
 // Asistente guiado de tecnoros.ar: responde con textos preparados (sin IA ni servicios externos),
 // no guarda nada y deriva a WhatsApp con el mensaje armado según el tema.
@@ -83,14 +84,14 @@ const TEMAS: Tema[] = [
     id: 'persona',
     boton: 'Hablar con una persona',
     palabras: ['persona', 'humano', 'hablar', 'contacto', 'telefono', 'llamar', 'mail', 'email', 'correo'],
-    respuesta: '¡Claro! Escribinos por WhatsApp y te responde una persona del equipo. Tu consulta no molesta 😉',
+    respuesta: '¡Claro! Escribinos por WhatsApp o por e-mail y te responde una persona del equipo. Tu consulta no molesta 😉',
     seccion: 'contacto',
     whatsapp: 'Hola tecnoros.ar, quiero hacerles una consulta.',
   },
 ];
 
 const SALUDO =
-  '¡Hola! 👋 Soy el asistente de tecnoros.ar. Contame qué necesitás o elegí una opción:';
+  '¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. Contame qué necesitás o elegí una opción:';
 
 interface Mensaje {
   id: number;
@@ -121,6 +122,15 @@ let siguienteId = 1;
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
+  // El marcianito aparece saludando unos segundos después de entrar, hasta que se abre el chat o se cierra.
+  const [teaser, setTeaser] = useState(false);
+  useEffect(() => {
+    const id = window.setTimeout(() => setTeaser(true), 2500);
+    return () => window.clearTimeout(id);
+  }, []);
+  useEffect(() => {
+    if (abierto) setTeaser(false);
+  }, [abierto]);
   const [texto, setTexto] = useState('');
   const [mensajes, setMensajes] = useState<Mensaje[]>([
     { id: siguienteId++, de: 'bot', texto: SALUDO, opciones: true },
@@ -149,7 +159,7 @@ export const Asistente: React.FC = () => {
       : {
           id: siguienteId++,
           de: 'bot',
-          texto: 'No estoy seguro de haberte entendido 🙂. Elegí una opción o escribinos por WhatsApp y te responde una persona.',
+          texto: 'No estoy seguro de haberte entendido 🙂. Elegí una opción o escribinos por WhatsApp o e-mail y te responde una persona.',
           tema: TEMAS.find((t) => t.id === 'persona'),
           opciones: true,
         };
@@ -181,9 +191,9 @@ export const Asistente: React.FC = () => {
           className="fixed z-50 bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px] max-h-[min(600px,calc(100vh-8rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden"
         >
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
-            <TecnorosContactIcon className="w-9 h-9 shrink-0" />
+            <Marcianito className="w-11 h-11 shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white">Asistente de tecnoros.ar</div>
+              <div className="text-sm font-bold text-white">Marcio · Mascota de tecnoros.ar</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 Respuestas al instante
@@ -221,7 +231,16 @@ export const Asistente: React.FC = () => {
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition-colors"
                     >
                       <MessageCircle className="w-3.5 h-3.5" />
-                      Consultar por WhatsApp
+                      WhatsApp
+                    </a>
+                    <a
+                      href={gmailLink('Consulta desde la web - tecnoros.ar', m.tema.whatsapp)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      E-mail
                     </a>
                     {m.tema.seccion && m.tema.id !== 'persona' && (
                       <button
@@ -286,6 +305,28 @@ export const Asistente: React.FC = () => {
             </button>
           </form>
           <div className="px-4 pb-2.5 text-[11px] text-slate-500">Asistente automático · no guardamos tus mensajes</div>
+        </div>
+      )}
+
+      {teaser && !abierto && (
+        <div className="fixed z-50 bottom-24 sm:bottom-28 right-4 sm:right-6 flex items-end gap-1 animate-[marci-entra_0.5s_ease-out] motion-reduce:animate-none">
+          <style>{'@keyframes marci-entra{from{opacity:0;transform:translateY(16px) scale(.9)}to{opacity:1;transform:none}}'}</style>
+          <div className="relative mb-12 max-w-[200px] rounded-2xl rounded-br-md bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold">
+            <button
+              type="button"
+              onClick={() => setTeaser(false)}
+              aria-label="Cerrar saludo"
+              className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-slate-800 text-slate-200 border border-slate-600 flex items-center justify-center hover:bg-slate-700 cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+            <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
+              ¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. ¿Te ayudo?
+            </button>
+          </div>
+          <button type="button" onClick={() => setAbierto(true)} aria-label="Abrir asistente" className="cursor-pointer">
+            <Marcianito className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]" />
+          </button>
         </div>
       )}
 
