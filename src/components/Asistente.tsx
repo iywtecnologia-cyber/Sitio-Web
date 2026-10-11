@@ -193,14 +193,40 @@ export const Asistente: React.FC = () => {
 
   return (
     <>
+      <style>{`
+            @keyframes marcio-giro { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            @keyframes marcio-voltereta { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-40px) rotate(-180deg); } 100% { transform: translateY(0) rotate(-360deg); } }
+            @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
+            @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
+            @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
+            @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+      `}</style>
       {abierto && (
         <div
           role="dialog"
           aria-label="Asistente de tecnoros.ar"
-          className="fixed z-50 bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px] max-h-[min(600px,calc(100vh-8rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden"
+          className="fixed z-50 bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
         >
+          {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
+          <button
+            type="button"
+            onClick={hacerTruco}
+            aria-label="Marcio, la mascota de tecnoros.ar. Tocalo para que haga un truco"
+            className="absolute z-10 -top-[5.5rem] left-1 sm:top-4 sm:-left-24 cursor-pointer select-none motion-safe:animate-[marcio-sale_0.9s_ease-out]"
+          >
+            <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
+              <span
+                key={truco.n}
+                className="block motion-reduce:!animate-none"
+                style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
+              >
+                <Marcianito className="w-20 h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+              </span>
+            </span>
+          </button>
+          <div className="relative max-h-[min(600px,calc(100vh-14rem))] sm:max-h-[min(600px,calc(100vh-8rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
-            <Marcianito className="w-11 h-12 shrink-0" saludando={false} />
+            <TecnorosContactIcon className="w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
               <div className="text-sm font-bold text-white">Marcio · Mascota de tecnoros.ar</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
@@ -314,6 +340,7 @@ export const Asistente: React.FC = () => {
             </button>
           </form>
           <div className="px-4 pb-2.5 text-[11px] text-slate-500">Asistente automático · no guardamos tus mensajes</div>
+          </div>
         </div>
       )}
 
@@ -324,13 +351,6 @@ export const Asistente: React.FC = () => {
           }`}
           aria-hidden={!marcioVisible}
         >
-          <style>{`
-            @keyframes marcio-giro { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-            @keyframes marcio-voltereta { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-40px) rotate(-180deg); } 100% { transform: translateY(0) rotate(-360deg); } }
-            @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
-            @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
-            @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
-          `}</style>
           <div className="relative mb-16 max-w-[180px] rounded-2xl rounded-br-md bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold">
             <button
               type="button"
