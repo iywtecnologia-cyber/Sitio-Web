@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
-import { Marcianito } from './Marcianito';
+import { LogoInteractivo } from './LogoInteractivo';
 import { whatsappLink, gmailLink } from '../data/contact';
 
 // Asistente guiado de tecnoros.ar: responde con textos preparados (sin IA ni servicios externos),
@@ -124,7 +124,7 @@ let siguienteId = 1;
 // Si se mueve menos de 6px cuenta como clic.
 const useArrastre = (alTocar: () => void) => {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
-  // Mientras lo tenés apretado, Marcio se "levanta" para que se note que lo agarraste.
+  // Mientras lo tenés apretado, el logo se "levanta" para que se note que lo agarraste.
   const [agarrado, setAgarrado] = useState(false);
   const ref = useRef<HTMLElement | null>(null);
   const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
@@ -180,7 +180,7 @@ const useArrastre = (alTocar: () => void) => {
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
-  // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
+  // El logo asoma desde el costado de la pantalla unos segundos después de entrar.
   const [marcioVisible, setMarcioVisible] = useState(false);
   const [marcioOculto, setMarcioOculto] = useState(false);
   const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
@@ -190,7 +190,7 @@ export const Asistente: React.FC = () => {
     return () => window.clearTimeout(id);
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
-  const FRASES = ['¡Wiii! 🚀', '¡Gravedad cero! 🌌', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆'];
+  const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆'];
   const hacerTruco = () => {
     setTruco((t) => ({ nombre: TRUCOS[t.n % TRUCOS.length], n: t.n + 1 }));
     setFrase((f) => {
@@ -198,7 +198,7 @@ export const Asistente: React.FC = () => {
       return otras[Math.floor(Math.random() * otras.length)];
     });
   };
-  // Marcio se puede arrastrar (mouse o dedo), tanto el del costado como el que sale del chat.
+  // El logo se puede arrastrar (mouse o dedo), tanto el del costado como el que sale del chat.
   const lateral = useArrastre(hacerTruco);
   const delChat = useArrastre(hacerTruco);
   const pos = lateral.pos;
@@ -277,7 +277,7 @@ export const Asistente: React.FC = () => {
           aria-label="Asistente de tecnoros.ar"
           className="fixed z-[70] bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
         >
-          {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
+          {/* El logo sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
           <button
             type="button"
             ref={(el) => {
@@ -304,7 +304,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-20 h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <LogoInteractivo activo={delChat.agarrado} destello={truco.n} className="w-20 h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
             </span>
           </button>
@@ -475,7 +475,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <LogoInteractivo activo={lateral.agarrado} destello={truco.n} className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
             </span>
           </button>
