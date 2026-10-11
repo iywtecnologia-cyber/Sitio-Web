@@ -285,7 +285,7 @@ export const Asistente: React.FC = () => {
             }}
             {...delChat.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.5rem] left-1 sm:top-4 sm:-left-24 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
+            className={`${delChat.pos ? 'fixed' : 'absolute -top-[7rem] left-1 sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
             {delChat.agarrado && (
