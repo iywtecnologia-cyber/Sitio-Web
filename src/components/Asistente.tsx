@@ -124,6 +124,8 @@ let siguienteId = 1;
 // Si se mueve menos de 6px cuenta como clic.
 const useArrastre = (alTocar: () => void) => {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  // Mientras lo tenés apretado, Marcio se "levanta" para que se note que lo agarraste.
+  const [agarrado, setAgarrado] = useState(false);
   const ref = useRef<HTMLElement | null>(null);
   const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
   const limitar = (x: number, y: number) => {
@@ -147,6 +149,7 @@ const useArrastre = (alTocar: () => void) => {
       if (!r) return;
       arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
       e.currentTarget.setPointerCapture(e.pointerId);
+      setAgarrado(true);
     },
     onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
       const a = arrastre.current;
@@ -158,10 +161,12 @@ const useArrastre = (alTocar: () => void) => {
     onPointerUp: () => {
       const a = arrastre.current;
       arrastre.current = null;
+      setAgarrado(false);
       if (a && !a.movio) alTocar();
     },
     onPointerCancel: () => {
       arrastre.current = null;
+      setAgarrado(false);
     },
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -170,7 +175,7 @@ const useArrastre = (alTocar: () => void) => {
       }
     },
   };
-  return { pos, setPos, ref, handlers };
+  return { pos, setPos, ref, handlers, agarrado };
 };
 
 export const Asistente: React.FC = () => {
@@ -282,7 +287,9 @@ export const Asistente: React.FC = () => {
             className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.5rem] left-1 sm:top-4 sm:-left-24 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
-            <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
+            <span
+              className={`block transition-transform duration-200 ease-out ${delChat.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
+            >
               <span
                 key={truco.n}
                 className="block motion-reduce:!animate-none"
@@ -433,7 +440,7 @@ export const Asistente: React.FC = () => {
               <X className="w-3.5 h-3.5" />
             </button>
             <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
-              {frase}
+              {lateral.agarrado ? '¡Wiii, me llevás! 🚀' : frase}
               <span className="block mt-1 text-xs font-bold text-cyan-700">Abrir chat →</span>
             </button>
           </div>
@@ -443,7 +450,9 @@ export const Asistente: React.FC = () => {
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
             className={`${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
-            <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
+            <span
+              className={`block transition-transform duration-200 ease-out ${lateral.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
+            >
               <span
                 key={truco.n}
                 className="block motion-reduce:!animate-none"
