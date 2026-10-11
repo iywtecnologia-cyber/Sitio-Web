@@ -58,7 +58,8 @@ export interface Abono {
   id: string;
   nombre: string;
   detalle: string;
-  mensual: number;
+  // null = se ofrece pero el precio todavía no se publica ("A consultar").
+  mensual: number | null;
 }
 
 export const ABONOS: Abono[] = [
@@ -66,7 +67,7 @@ export const ABONOS: Abono[] = [
     id: 'tero',
     nombre: 'TERO Security',
     detalle: 'nuestro software de ciberseguridad: revisa y vigila tu negocio, con avisos e informes',
-    mensual: 150_000,
+    mensual: null,
   },
   {
     id: 'soporte',

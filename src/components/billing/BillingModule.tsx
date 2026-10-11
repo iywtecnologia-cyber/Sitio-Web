@@ -9,7 +9,8 @@ export const BillingModule: React.FC = () => {
   const [elegidos, setElegidos] = useState<string[]>([]);
   const [abonosElegidos, setAbonosElegidos] = useState<string[]>([]);
   const abonos = ABONOS.filter((a) => abonosElegidos.includes(a.id));
-  const mensualTotal = abonos.reduce((t, a) => t + a.mensual, 0);
+  const mensualTotal = abonos.reduce((t, a) => t + (a.mensual ?? 0), 0);
+  const precioAbono = (a: { mensual: number | null }) => (a.mensual === null ? 'a consultar' : `desde ${pesos(a.mensual)}/mes`);
   const soporte = abonos.length > 0;
   const alternarAbono = (id: string) =>
     setAbonosElegidos((e) => (e.includes(id) ? e.filter((x) => x !== id) : [...e, id]));
@@ -26,7 +27,7 @@ export const BillingModule: React.FC = () => {
   const mensaje = [
     'Hola tecnoros.ar, usé el presupuestador de la web y me interesa:',
     ...seleccion.map((p) => `- ${p.servicio} (${pesos(p.min)} a ${pesos(p.max)})`),
-    ...abonos.map((a) => `- ${a.nombre} (desde ${pesos(a.mensual)} por mes)`),
+    ...abonos.map((a) => `- ${a.nombre} (abono mensual, ${a.mensual === null ? 'precio a consultar' : `desde ${pesos(a.mensual)} por mes`})`),
     `Estimado: ${pesos(total.min)} a ${pesos(total.max)}.`,
     'Quiero pedir el diagnóstico gratuito y un presupuesto cerrado.',
   ].join('\n');
@@ -111,7 +112,7 @@ export const BillingModule: React.FC = () => {
                   <span className="flex-1 min-w-0 text-sm text-slate-300">
                     <b className="text-white">{a.nombre}</b> · {a.detalle}
                   </span>
-                  <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">desde {pesos(a.mensual)}/mes</span>
+                  <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">{a.mensual === null ? 'Abono mensual · a consultar' : `desde ${pesos(a.mensual)}/mes`}</span>
                 </button>
               );
             })}
@@ -137,7 +138,7 @@ export const BillingModule: React.FC = () => {
                   {abonos.map((a) => (
                     <li key={a.id} className="flex justify-between gap-3">
                       <span>{a.nombre}</span>
-                      <span className="text-slate-400 whitespace-nowrap">{pesos(a.mensual)}/mes</span>
+                      <span className="text-slate-400 whitespace-nowrap">{precioAbono(a)}</span>
                     </li>
                   ))}
                 </ul>
@@ -149,7 +150,7 @@ export const BillingModule: React.FC = () => {
                       <span className="text-slate-400 text-lg font-semibold"> a </span>
                       {pesos(total.max)}
                     </div>
-                    {soporte && <div className="mt-1 text-sm text-violet-300">+ desde {pesos(mensualTotal)} por mes</div>}
+                    {mensualTotal > 0 && <div className="mt-1 text-sm text-violet-300">+ desde {pesos(mensualTotal)} por mes</div>}
                   </div>
                 )}
               </>
