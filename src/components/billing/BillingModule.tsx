@@ -178,7 +178,7 @@ export const BillingModule: React.FC = () => {
             </div>
 
             <p className="mt-4 text-[11px] leading-relaxed text-slate-500">
-              Precios de referencia en pesos, calculados según el dólar oficial; pueden variar. Los costos de terceros (WhatsApp Business API, inteligencia artificial, hosting) se cobran aparte según el uso. El diagnóstico es gratis.
+              Precios de referencia en pesos. Los valores están calculados según el dólar oficial al mes de octubre y pueden variar. Los costos de terceros (WhatsApp Business API, inteligencia artificial, hosting) se cobran aparte según el uso. El diagnóstico es gratis.
             </p>
           </div>
         </div>
