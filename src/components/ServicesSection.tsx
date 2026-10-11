@@ -11,7 +11,8 @@ import {
   Lock, 
   Layers,
   MessageCircle,
-  Bot
+  Bot,
+  Globe
 } from 'lucide-react';
 
 interface ServiceItem {
@@ -88,6 +89,19 @@ export const SERVICES: ServiceItem[] = [
       'Responde al instante las preguntas frecuentes',
       'Guía a tus clientes a lo que buscan',
       'Te deriva la consulta por WhatsApp cuando hace falta'
+    ]
+  },
+  {
+    id: 'paginas-web',
+    icon: Globe,
+    badge: 'Páginas web',
+    badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
+    title: 'Páginas web que trabajan por vos',
+    description: 'Creamos la página de tu negocio y la hacemos trabajar: formularios que cargan los datos solos, avisos automáticos y un asistente que atiende a tus clientes.',
+    bullets: [
+      'Se ve bien en la compu y en el celular',
+      'Formularios y consultas conectados a tu WhatsApp, mail o planilla',
+      'Con asistente y automatizaciones incluidas si las necesitás'
     ]
   },
   {

@@ -137,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
       })),
     },
     { label: 'Cómo Trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
-    { label: 'Presupuestos', href: '#facturacion', id: 'facturacion' },
+    { label: 'Presupuestador', href: '#facturacion', id: 'facturacion' },
     { label: 'Sobre Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
   ];
 
