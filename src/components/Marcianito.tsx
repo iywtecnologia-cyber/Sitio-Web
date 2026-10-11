@@ -1,9 +1,9 @@
 import React from 'react';
 
-// Mascota de tecnoros.ar: un marcianito que saluda. Dibujo propio en SVG.
+// Marcio, la mascota de tecnoros.ar: un marcianito que saluda. Dibujo propio en SVG.
 // `saludando` mueve el brazo; respeta "reducir movimiento" del sistema.
 export const Marcianito: React.FC<{ className?: string; saludando?: boolean }> = ({ className, saludando = true }) => (
-  <svg viewBox="0 0 120 120" className={className} role="img" aria-label="Marcianito de tecnoros.ar saludando">
+  <svg viewBox="0 0 120 120" className={className} role="img" aria-label="Marcio, la mascota de tecnoros.ar, saludando">
     <style>{`
       @keyframes marci-saludo { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-28deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(-24deg); } 80% { transform: rotate(6deg); } }
       @keyframes marci-flota { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }

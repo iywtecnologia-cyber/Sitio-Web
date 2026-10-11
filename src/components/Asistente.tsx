@@ -91,7 +91,7 @@ const TEMAS: Tema[] = [
 ];
 
 const SALUDO =
-  '¡Hola! 👋 Soy Marcio, el asistente de tecnoros.ar. Contame qué necesitás o elegí una opción:';
+  '¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. Contame qué necesitás o elegí una opción:';
 
 interface Mensaje {
   id: number;
@@ -193,7 +193,7 @@ export const Asistente: React.FC = () => {
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <Marcianito className="w-11 h-11 shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white">Marcio · Asistente de tecnoros.ar</div>
+              <div className="text-sm font-bold text-white">Marcio · Mascota de tecnoros.ar</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 Respuestas al instante
@@ -321,7 +321,7 @@ export const Asistente: React.FC = () => {
               <X className="w-3.5 h-3.5" />
             </button>
             <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
-              ¡Hola! 👋 Soy Marcio. ¿Te ayudo con algo?
+              ¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. ¿Te ayudo?
             </button>
           </div>
           <button type="button" onClick={() => setAbierto(true)} aria-label="Abrir asistente" className="cursor-pointer">
