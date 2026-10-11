@@ -56,19 +56,28 @@ const TEMAS: Tema[] = [
   {
     id: 'asistentes',
     boton: 'Asistente para tu web',
-    palabras: ['asistente', 'chat', 'web', 'pagina', 'sitio', 'chatbot', 'ia', 'inteligencia'],
+    palabras: ['asistente', 'chat', 'chatbot', 'ia', 'inteligencia'],
     respuesta:
       '¡Como yo! 😄 Sumamos un asistente a la web o al sistema que ya tenés, para responder a tus clientes a toda hora sin cambiar nada de lo que usás.',
     seccion: 'servicio-asistentes',
     whatsapp: 'Hola tecnoros.ar, quiero un asistente para mi web o sistema.',
   },
   {
+    id: 'paginas-web',
+    boton: 'Páginas web',
+    palabras: ['pagina', 'web', 'sitio', 'landing', 'tienda', 'dominio'],
+    respuesta:
+      'Creamos la página de tu negocio y la hacemos trabajar: formularios que cargan los datos solos, avisos automáticos y un asistente para tus clientes. Se ve bien en compu y celular.',
+    seccion: 'servicio-paginas-web',
+    whatsapp: 'Hola tecnoros.ar, quiero una página web para mi negocio.',
+  },
+  {
     id: 'precio',
     boton: '¿Cuánto cuesta?',
     palabras: ['precio', 'cuesta', 'cuanto', 'costo', 'presupuesto', 'valor', 'cobran', 'sale', 'gratis', 'diagnostico'],
     respuesta:
-      'Cada solución es a medida, así que no tenemos un precio fijo. El diagnóstico es 100% gratuito: nos contás tu caso y te pasamos un presupuesto sin compromiso.',
-    seccion: 'contacto',
+      'Depende de lo que necesites. En la sección Presupuestador podés marcar los servicios y ver un rango estimado. El diagnóstico es 100% gratuito y después te pasamos un presupuesto cerrado.',
+    seccion: 'facturacion',
     whatsapp: 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.',
   },
   {
