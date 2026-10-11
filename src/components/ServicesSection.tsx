@@ -10,7 +10,8 @@ import {
   Cpu, 
   Lock, 
   Layers,
-  MessageCircle
+  MessageCircle,
+  Bot
 } from 'lucide-react';
 
 interface ServiceItem {
@@ -74,6 +75,19 @@ export const SERVICES: ServiceItem[] = [
       'Un sistema distinto para cada rubro: turnos, ventas, stock o lo que necesites',
       'Un panel para ver cómo va tu negocio, al momento',
       'Lo usás desde la compu o el celular, estés donde estés'
+    ]
+  },
+  {
+    id: 'asistentes',
+    icon: Bot,
+    badge: 'Asistentes',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+    title: 'Asistentes para tu web o sistema',
+    description: 'Sumamos un asistente a la web o al sistema que ya tenés: responde las preguntas de tus clientes, los guía y toma consultas a toda hora, sin cambiar nada de lo que ya usás.',
+    bullets: [
+      'Responde al instante las preguntas frecuentes',
+      'Guía a tus clientes a lo que buscan',
+      'Te deriva la consulta por WhatsApp cuando hace falta'
     ]
   },
   {
