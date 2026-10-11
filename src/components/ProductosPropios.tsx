@@ -11,9 +11,9 @@ export const PRODUCTOS = [
     title: 'TERO Security',
   },
   {
-    id: 'plataforma-automatizacion',
+    id: 'calandria-automatizacion',
     icon: Workflow,
-    title: 'Plataforma integral de automatización',
+    title: 'Calandria Automatización',
   },
 ];
 
