@@ -285,7 +285,7 @@ export const Asistente: React.FC = () => {
             }}
             {...delChat.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.5rem] left-1 sm:top-4 sm:-left-24 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
+            className={`${delChat.pos ? 'fixed' : 'absolute -top-[7rem] left-1 sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
             {delChat.agarrado && (
@@ -304,7 +304,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-20 h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <Marcianito className="w-24 h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
             </span>
           </button>
@@ -475,7 +475,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <Marcianito className="w-24 h-28 sm:w-28 sm:h-32 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
             </span>
           </button>
