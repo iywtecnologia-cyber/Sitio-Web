@@ -122,15 +122,24 @@ let siguienteId = 1;
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
-  // El marcianito aparece saludando unos segundos después de entrar, hasta que se abre el chat o se cierra.
-  const [teaser, setTeaser] = useState(false);
+  // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
+  const [marcioVisible, setMarcioVisible] = useState(false);
+  const [marcioOculto, setMarcioOculto] = useState(false);
+  const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
+  const [frase, setFrase] = useState('¡Hola, terrícola! 👋 ¿Te ayudo?');
   useEffect(() => {
-    const id = window.setTimeout(() => setTeaser(true), 2500);
+    const id = window.setTimeout(() => setMarcioVisible(true), 2500);
     return () => window.clearTimeout(id);
   }, []);
-  useEffect(() => {
-    if (abierto) setTeaser(false);
-  }, [abierto]);
+  const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
+  const FRASES = ['¡Wiii! 🚀', '¡Gravedad cero! 🌌', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Soy Marcio, la mascota de tecnoros.ar 👽'];
+  const hacerTruco = () => {
+    setTruco((t) => ({ nombre: TRUCOS[t.n % TRUCOS.length], n: t.n + 1 }));
+    setFrase((f) => {
+      const otras = FRASES.filter((x) => x !== f);
+      return otras[Math.floor(Math.random() * otras.length)];
+    });
+  };
   const [texto, setTexto] = useState('');
   const [mensajes, setMensajes] = useState<Mensaje[]>([
     { id: siguienteId++, de: 'bot', texto: SALUDO, opciones: true },
@@ -191,7 +200,7 @@ export const Asistente: React.FC = () => {
           className="fixed z-50 bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px] max-h-[min(600px,calc(100vh-8rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden"
         >
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
-            <Marcianito className="w-11 h-11 shrink-0" />
+            <Marcianito className="w-11 h-12 shrink-0" saludando={false} />
             <div className="flex-1 min-w-0">
               <div className="text-sm font-bold text-white">Marcio · Mascota de tecnoros.ar</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
@@ -308,24 +317,49 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {teaser && !abierto && (
-        <div className="fixed z-50 bottom-24 sm:bottom-28 right-4 sm:right-6 flex items-end gap-1 animate-[marci-entra_0.5s_ease-out] motion-reduce:animate-none">
-          <style>{'@keyframes marci-entra{from{opacity:0;transform:translateY(16px) scale(.9)}to{opacity:1;transform:none}}'}</style>
-          <div className="relative mb-12 max-w-[200px] rounded-2xl rounded-br-md bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold">
+      {!abierto && !marcioOculto && (
+        <div
+          className={`fixed z-40 right-0 bottom-36 sm:bottom-44 flex items-end gap-2 transition-transform duration-700 ease-out motion-reduce:transition-none ${
+            marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'
+          }`}
+          aria-hidden={!marcioVisible}
+        >
+          <style>{`
+            @keyframes marcio-giro { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+            @keyframes marcio-voltereta { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-40px) rotate(-180deg); } 100% { transform: translateY(0) rotate(-360deg); } }
+            @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
+            @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
+            @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+          `}</style>
+          <div className="relative mb-16 max-w-[180px] rounded-2xl rounded-br-md bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold">
             <button
               type="button"
-              onClick={() => setTeaser(false)}
-              aria-label="Cerrar saludo"
+              onClick={() => setMarcioOculto(true)}
+              aria-label="Ocultar a Marcio"
               className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-slate-800 text-slate-200 border border-slate-600 flex items-center justify-center hover:bg-slate-700 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
             <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
-              ¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. ¿Te ayudo?
+              {frase}
+              <span className="block mt-1 text-xs font-bold text-cyan-700">Abrir chat →</span>
             </button>
           </div>
-          <button type="button" onClick={() => setAbierto(true)} aria-label="Abrir asistente" className="cursor-pointer">
-            <Marcianito className="w-20 h-20 sm:w-24 sm:h-24 drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]" />
+          <button
+            type="button"
+            onClick={hacerTruco}
+            aria-label="Marcio, la mascota de tecnoros.ar. Tocalo para que haga un truco"
+            className="pr-2 sm:pr-4 cursor-pointer select-none"
+          >
+            <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
+              <span
+                key={truco.n}
+                className="block motion-reduce:!animate-none"
+                style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
+              >
+                <Marcianito className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+              </span>
+            </span>
           </button>
         </div>
       )}
