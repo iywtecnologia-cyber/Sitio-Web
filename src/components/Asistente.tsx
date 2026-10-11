@@ -91,7 +91,7 @@ const TEMAS: Tema[] = [
 ];
 
 const SALUDO =
-  '¡Hola! 👋 Soy Marcio, la mascota de tecnoros.ar. Contame qué necesitás o elegí una opción:';
+  '¡Hola! 👋 Soy el asistente de tecnoros.ar. Contame qué necesitás o elegí una opción:';
 
 interface Mensaje {
   id: number;
@@ -126,13 +126,13 @@ export const Asistente: React.FC = () => {
   const [marcioVisible, setMarcioVisible] = useState(false);
   const [marcioOculto, setMarcioOculto] = useState(false);
   const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
-  const [frase, setFrase] = useState('¡Hola, terrícola! 👋 ¿Te ayudo?');
+  const [frase, setFrase] = useState('¡Hola! 👋 ¿Te ayudo? Podés arrastrarme');
   useEffect(() => {
     const id = window.setTimeout(() => setMarcioVisible(true), 2500);
     return () => window.clearTimeout(id);
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
-  const FRASES = ['¡Wiii! 🚀', '¡Gravedad cero! 🌌', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Soy Marcio, la mascota de tecnoros.ar 👽'];
+  const FRASES = ['¡Wiii! 🚀', '¡Gravedad cero! 🌌', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆'];
   const hacerTruco = () => {
     setTruco((t) => ({ nombre: TRUCOS[t.n % TRUCOS.length], n: t.n + 1 }));
     setFrase((f) => {
@@ -140,6 +140,45 @@ export const Asistente: React.FC = () => {
       return otras[Math.floor(Math.random() * otras.length)];
     });
   };
+  // Se puede arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
+  // Si se mueve menos de 6px cuenta como clic (hace un truco).
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const contRef = useRef<HTMLDivElement>(null);
+  const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
+  const limitar = (x: number, y: number) => {
+    const el = contRef.current;
+    const w = el?.offsetWidth ?? 120;
+    const h = el?.offsetHeight ?? 120;
+    return {
+      x: Math.min(Math.max(x, 4), window.innerWidth - w - 4),
+      y: Math.min(Math.max(y, 72), window.innerHeight - h - 4),
+    };
+  };
+  const alApretar = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const r = contRef.current?.getBoundingClientRect();
+    if (!r) return;
+    arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const alMover = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const a = arrastre.current;
+    if (!a) return;
+    if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
+    a.movio = true;
+    setPos(limitar(e.clientX - a.dx, e.clientY - a.dy));
+  };
+  const alSoltar = () => {
+    const a = arrastre.current;
+    arrastre.current = null;
+    if (a && !a.movio) hacerTruco();
+  };
+  useEffect(() => {
+    const ajustar = () => setPos((p) => (p ? limitar(p.x, p.y) : p));
+    window.addEventListener('resize', ajustar);
+    return () => window.removeEventListener('resize', ajustar);
+  }, []);
+  // El globo va del lado donde hay más lugar.
+  const globoALaDerecha = pos !== null && pos.x < window.innerWidth / 2;
   const [texto, setTexto] = useState('');
   const [mensajes, setMensajes] = useState<Mensaje[]>([
     { id: siguienteId++, de: 'bot', texto: SALUDO, opciones: true },
@@ -211,7 +250,7 @@ export const Asistente: React.FC = () => {
           <button
             type="button"
             onClick={hacerTruco}
-            aria-label="Marcio, la mascota de tecnoros.ar. Tocalo para que haga un truco"
+            aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco"
             className="absolute z-10 -top-[5.5rem] left-1 sm:top-4 sm:-left-24 cursor-pointer select-none motion-safe:animate-[marcio-sale_0.9s_ease-out]"
           >
             <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
@@ -228,7 +267,7 @@ export const Asistente: React.FC = () => {
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <TecnorosContactIcon className="w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white">Marcio · Mascota de tecnoros.ar</div>
+              <div className="text-sm font-bold text-white">Asistente</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 Respuestas al instante
@@ -346,16 +385,18 @@ export const Asistente: React.FC = () => {
 
       {!abierto && !marcioOculto && (
         <div
-          className={`fixed z-40 right-0 bottom-36 sm:bottom-44 flex items-end gap-2 transition-transform duration-700 ease-out motion-reduce:transition-none ${
-            marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'
+          ref={contRef}
+          className={`fixed z-40 flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
+            pos ? '' : `right-0 bottom-36 sm:bottom-44 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
+          style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className="relative mb-16 max-w-[180px] rounded-2xl rounded-br-md bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold">
+          <div className={`relative mb-16 max-w-[180px] rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
-              aria-label="Ocultar a Marcio"
+              aria-label="Ocultar asistente"
               className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-slate-800 text-slate-200 border border-slate-600 flex items-center justify-center hover:bg-slate-700 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
@@ -367,9 +408,18 @@ export const Asistente: React.FC = () => {
           </div>
           <button
             type="button"
-            onClick={hacerTruco}
-            aria-label="Marcio, la mascota de tecnoros.ar. Tocalo para que haga un truco"
-            className="pr-2 sm:pr-4 cursor-pointer select-none"
+            onPointerDown={alApretar}
+            onPointerMove={alMover}
+            onPointerUp={alSoltar}
+            onPointerCancel={() => (arrastre.current = null)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                hacerTruco();
+              }
+            }}
+            aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
+            className={`${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
             <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
               <span
