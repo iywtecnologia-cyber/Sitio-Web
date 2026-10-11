@@ -60,6 +60,8 @@ export interface Abono {
   detalle: string;
   // null = se ofrece pero el precio todavía no se publica ("A consultar").
   mensual: number | null;
+  // true = se muestra como "Próximamente" y no se puede elegir.
+  proximamente?: boolean;
 }
 
 export const ABONOS: Abono[] = [
@@ -68,6 +70,7 @@ export const ABONOS: Abono[] = [
     nombre: 'TERO Security',
     detalle: 'nuestro software de ciberseguridad: revisa y vigila tu negocio, con avisos e informes',
     mensual: null,
+    proximamente: true,
   },
   {
     id: 'soporte',

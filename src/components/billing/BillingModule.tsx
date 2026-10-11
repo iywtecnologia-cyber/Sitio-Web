@@ -95,11 +95,12 @@ export const BillingModule: React.FC = () => {
                 <button
                   key={a.id}
                   type="button"
-                  onClick={() => alternarAbono(a.id)}
+                  onClick={() => !a.proximamente && alternarAbono(a.id)}
+                  disabled={a.proximamente}
                   aria-pressed={activo}
                   className={`sm:col-span-2 text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-wrap items-center gap-x-3 gap-y-1 ${
                     activo ? 'bg-violet-950/40 border-violet-400/70' : 'bg-slate-900/50 border-slate-800 border-dashed hover:border-slate-600'
-                  }`}
+                  } ${a.proximamente ? 'opacity-70 cursor-default' : ''}`}
                 >
                   <span
                     className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center ${
@@ -112,7 +113,7 @@ export const BillingModule: React.FC = () => {
                   <span className="flex-1 min-w-0 text-sm text-slate-300">
                     <b className="text-white">{a.nombre}</b> · {a.detalle}
                   </span>
-                  <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">{a.mensual === null ? 'Abono mensual · a consultar' : `desde ${pesos(a.mensual)}/mes`}</span>
+                  <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">{a.proximamente ? 'Próximamente' : a.mensual === null ? 'Abono mensual · a consultar' : `desde ${pesos(a.mensual)}/mes`}</span>
                 </button>
               );
             })}
