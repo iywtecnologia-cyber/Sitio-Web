@@ -53,7 +53,28 @@ export const PRECIOS: Precio[] = [
   },
 ];
 
-export const SOPORTE_MENSUAL = 150_000;
+// Abonos mensuales (se suman aparte del pago único).
+export interface Abono {
+  id: string;
+  nombre: string;
+  detalle: string;
+  mensual: number;
+}
+
+export const ABONOS: Abono[] = [
+  {
+    id: 'tero',
+    nombre: 'TERO Security',
+    detalle: 'nuestro software de ciberseguridad: revisa y vigila tu negocio, con avisos e informes',
+    mensual: 150_000,
+  },
+  {
+    id: 'soporte',
+    nombre: 'Soporte y mantenimiento mensual',
+    detalle: 'ajustes, monitoreo y soporte de lo que armamos',
+    mensual: 150_000,
+  },
+];
 
 export const pesos = (n: number): string =>
   '$' + n.toLocaleString('es-AR', { maximumFractionDigits: 0 });

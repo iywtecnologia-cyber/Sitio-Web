@@ -1,13 +1,18 @@
 import React, { useMemo, useState } from 'react';
-import { Calculator, Check, Mail, MessageCircle, Sparkles, Wrench } from 'lucide-react';
-import { PRECIOS, SOPORTE_MENSUAL, pesos } from '../../data/precios';
+import { Calculator, Check, Mail, MessageCircle, ShieldCheck, Sparkles, Wrench } from 'lucide-react';
+import { PRECIOS, ABONOS, pesos } from '../../data/precios';
 import { whatsappLink, gmailLink } from '../../data/contact';
 
 // Presupuestador: el visitante marca los servicios que le interesan y ve un rango estimado.
 // Después puede mandar la selección por WhatsApp o e-mail para pedir el presupuesto cerrado.
 export const BillingModule: React.FC = () => {
   const [elegidos, setElegidos] = useState<string[]>([]);
-  const [soporte, setSoporte] = useState(false);
+  const [abonosElegidos, setAbonosElegidos] = useState<string[]>([]);
+  const abonos = ABONOS.filter((a) => abonosElegidos.includes(a.id));
+  const mensualTotal = abonos.reduce((t, a) => t + a.mensual, 0);
+  const soporte = abonos.length > 0;
+  const alternarAbono = (id: string) =>
+    setAbonosElegidos((e) => (e.includes(id) ? e.filter((x) => x !== id) : [...e, id]));
 
   const alternar = (id: string) =>
     setElegidos((e) => (e.includes(id) ? e.filter((x) => x !== id) : [...e, id]));
@@ -21,7 +26,7 @@ export const BillingModule: React.FC = () => {
   const mensaje = [
     'Hola tecnoros.ar, usé el presupuestador de la web y me interesa:',
     ...seleccion.map((p) => `- ${p.servicio} (${pesos(p.min)} a ${pesos(p.max)})`),
-    ...(soporte ? [`- Soporte y mantenimiento mensual (desde ${pesos(SOPORTE_MENSUAL)} por mes)`] : []),
+    ...abonos.map((a) => `- ${a.nombre} (desde ${pesos(a.mensual)} por mes)`),
     `Estimado: ${pesos(total.min)} a ${pesos(total.max)}.`,
     'Quiero pedir el diagnóstico gratuito y un presupuesto cerrado.',
   ].join('\n');
@@ -82,27 +87,34 @@ export const BillingModule: React.FC = () => {
                 </button>
               );
             })}
-            <button
-              type="button"
-              onClick={() => setSoporte((s) => !s)}
-              aria-pressed={soporte}
-              className={`sm:col-span-2 text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-wrap items-center gap-x-3 gap-y-1 ${
-                soporte ? 'bg-violet-950/40 border-violet-400/70' : 'bg-slate-900/50 border-slate-800 border-dashed hover:border-slate-600'
-              }`}
-            >
-              <span
-                className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center ${
-                  soporte ? 'bg-violet-400 border-violet-400 text-slate-950' : 'border-slate-500'
-                }`}
-              >
-                {soporte && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
-              </span>
-              <Wrench className="hidden sm:block w-4 h-4 text-violet-300 shrink-0" />
-              <span className="flex-1 min-w-0 text-sm text-slate-300">
-                <b className="text-white">Soporte y mantenimiento mensual</b> · ajustes, monitoreo y soporte de lo que armamos
-              </span>
-              <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">desde {pesos(SOPORTE_MENSUAL)}/mes</span>
-            </button>
+            {ABONOS.map((a) => {
+              const activo = abonosElegidos.includes(a.id);
+              const Icono = a.id === 'tero' ? ShieldCheck : Wrench;
+              return (
+                <button
+                  key={a.id}
+                  type="button"
+                  onClick={() => alternarAbono(a.id)}
+                  aria-pressed={activo}
+                  className={`sm:col-span-2 text-left p-4 rounded-2xl border transition-all cursor-pointer flex flex-wrap items-center gap-x-3 gap-y-1 ${
+                    activo ? 'bg-violet-950/40 border-violet-400/70' : 'bg-slate-900/50 border-slate-800 border-dashed hover:border-slate-600'
+                  }`}
+                >
+                  <span
+                    className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center ${
+                      activo ? 'bg-violet-400 border-violet-400 text-slate-950' : 'border-slate-500'
+                    }`}
+                  >
+                    {activo && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
+                  </span>
+                  <Icono className="hidden sm:block w-4 h-4 text-violet-300 shrink-0" />
+                  <span className="flex-1 min-w-0 text-sm text-slate-300">
+                    <b className="text-white">{a.nombre}</b> · {a.detalle}
+                  </span>
+                  <span className="basis-full sm:basis-auto pl-8 sm:pl-0 text-sm font-semibold text-violet-300 whitespace-nowrap">desde {pesos(a.mensual)}/mes</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Resumen */}
@@ -122,12 +134,12 @@ export const BillingModule: React.FC = () => {
                       <span className="text-slate-400 whitespace-nowrap">desde {pesos(p.min)}</span>
                     </li>
                   ))}
-                  {soporte && (
-                    <li className="flex justify-between gap-3">
-                      <span>Soporte mensual</span>
-                      <span className="text-slate-400 whitespace-nowrap">{pesos(SOPORTE_MENSUAL)}/mes</span>
+                  {abonos.map((a) => (
+                    <li key={a.id} className="flex justify-between gap-3">
+                      <span>{a.nombre}</span>
+                      <span className="text-slate-400 whitespace-nowrap">{pesos(a.mensual)}/mes</span>
                     </li>
-                  )}
+                  ))}
                 </ul>
                 {seleccion.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-slate-700/70">
@@ -137,7 +149,7 @@ export const BillingModule: React.FC = () => {
                       <span className="text-slate-400 text-lg font-semibold"> a </span>
                       {pesos(total.max)}
                     </div>
-                    {soporte && <div className="mt-1 text-sm text-violet-300">+ desde {pesos(SOPORTE_MENSUAL)} por mes</div>}
+                    {soporte && <div className="mt-1 text-sm text-violet-300">+ desde {pesos(mensualTotal)} por mes</div>}
                   </div>
                 )}
               </>
