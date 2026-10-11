@@ -134,7 +134,7 @@ const useArrastre = (alTocar: () => void) => {
     const h = el?.offsetHeight ?? 120;
     return {
       x: Math.min(Math.max(x, 4), window.innerWidth - w - 4),
-      y: Math.min(Math.max(y, 72), window.innerHeight - h - 4),
+      y: Math.min(Math.max(y, 48), window.innerHeight - h - 4),
     };
   };
   useEffect(() => {
@@ -268,13 +268,14 @@ export const Asistente: React.FC = () => {
             @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
             @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
             @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
+            @keyframes marcio-globo { from { transform: translate(-50%, 8px) scale(.6); opacity: 0; } to { transform: translate(-50%, 0) scale(1); opacity: 1; } }
             @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
       `}</style>
       {abierto && (
         <div
           role="dialog"
           aria-label="Asistente de tecnoros.ar"
-          className="fixed z-50 bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
+          className="fixed z-[70] bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
         >
           {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
           <button
@@ -287,6 +288,14 @@ export const Asistente: React.FC = () => {
             className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.5rem] left-1 sm:top-4 sm:-left-24 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
+            {delChat.agarrado && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-white text-slate-900 px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+              >
+                ¡Wiii, me llevás! 🚀
+              </span>
+            )}
             <span
               className={`block transition-transform duration-200 ease-out ${delChat.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
             >
@@ -424,13 +433,13 @@ export const Asistente: React.FC = () => {
           ref={(el) => {
             contRef.current = el;
           }}
-          className={`fixed z-40 flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
+          className={`fixed z-[70] flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             pos ? '' : `right-0 bottom-36 sm:bottom-44 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`relative mb-16 max-w-[180px] rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`relative mb-16 max-w-[180px] transition-opacity ${lateral.agarrado ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
@@ -440,7 +449,7 @@ export const Asistente: React.FC = () => {
               <X className="w-3.5 h-3.5" />
             </button>
             <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
-              {lateral.agarrado ? '¡Wiii, me llevás! 🚀' : frase}
+              {frase}
               <span className="block mt-1 text-xs font-bold text-cyan-700">Abrir chat →</span>
             </button>
           </div>
@@ -448,8 +457,16 @@ export const Asistente: React.FC = () => {
             type="button"
             {...lateral.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
+            className={`relative ${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
+            {lateral.agarrado && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-white text-slate-900 px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+              >
+                ¡Wiii, me llevás! 🚀
+              </span>
+            )}
             <span
               className={`block transition-transform duration-200 ease-out ${lateral.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
             >
