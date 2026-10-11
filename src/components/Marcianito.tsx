@@ -3,7 +3,7 @@ import React from 'react';
 // Marcio, la mascota de tecnoros.ar: mitad marciano, mitad astronauta. Dibujo propio en SVG.
 // `saludando` mueve el brazo; las animaciones se apagan con "reducir movimiento".
 export const Marcianito: React.FC<{ className?: string; saludando?: boolean }> = ({ className, saludando = true }) => (
-  <svg viewBox="0 0 120 140" className={className} role="img" aria-label="Marcio, la mascota de tecnoros.ar">
+  <svg viewBox="0 0 120 140" className={className} role="img" aria-label="Asistente de tecnoros.ar">
     <style>{`
       @keyframes marci-saludo { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-30deg); } 40% { transform: rotate(6deg); } 60% { transform: rotate(-26deg); } 80% { transform: rotate(4deg); } }
       @keyframes marci-parpadeo { 0%,92%,100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
