@@ -120,6 +120,59 @@ const buscarTema = (texto: string): Tema | undefined => {
 
 let siguienteId = 1;
 
+// Arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
+// Si se mueve menos de 6px cuenta como clic.
+const useArrastre = (alTocar: () => void) => {
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const ref = useRef<HTMLElement | null>(null);
+  const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
+  const limitar = (x: number, y: number) => {
+    const el = ref.current;
+    const w = el?.offsetWidth ?? 120;
+    const h = el?.offsetHeight ?? 120;
+    return {
+      x: Math.min(Math.max(x, 4), window.innerWidth - w - 4),
+      y: Math.min(Math.max(y, 72), window.innerHeight - h - 4),
+    };
+  };
+  useEffect(() => {
+    const ajustar = () => setPos((p) => (p ? limitar(p.x, p.y) : p));
+    window.addEventListener('resize', ajustar);
+    return () => window.removeEventListener('resize', ajustar);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const handlers = {
+    onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
+      const r = ref.current?.getBoundingClientRect();
+      if (!r) return;
+      arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
+      e.currentTarget.setPointerCapture(e.pointerId);
+    },
+    onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
+      const a = arrastre.current;
+      if (!a) return;
+      if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
+      a.movio = true;
+      setPos(limitar(e.clientX - a.dx, e.clientY - a.dy));
+    },
+    onPointerUp: () => {
+      const a = arrastre.current;
+      arrastre.current = null;
+      if (a && !a.movio) alTocar();
+    },
+    onPointerCancel: () => {
+      arrastre.current = null;
+    },
+    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        alTocar();
+      }
+    },
+  };
+  return { pos, setPos, ref, handlers };
+};
+
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
   // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
@@ -140,43 +193,15 @@ export const Asistente: React.FC = () => {
       return otras[Math.floor(Math.random() * otras.length)];
     });
   };
-  // Se puede arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
-  // Si se mueve menos de 6px cuenta como clic (hace un truco).
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
-  const contRef = useRef<HTMLDivElement>(null);
-  const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
-  const limitar = (x: number, y: number) => {
-    const el = contRef.current;
-    const w = el?.offsetWidth ?? 120;
-    const h = el?.offsetHeight ?? 120;
-    return {
-      x: Math.min(Math.max(x, 4), window.innerWidth - w - 4),
-      y: Math.min(Math.max(y, 72), window.innerHeight - h - 4),
-    };
-  };
-  const alApretar = (e: React.PointerEvent<HTMLButtonElement>) => {
-    const r = contRef.current?.getBoundingClientRect();
-    if (!r) return;
-    arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  };
-  const alMover = (e: React.PointerEvent<HTMLButtonElement>) => {
-    const a = arrastre.current;
-    if (!a) return;
-    if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
-    a.movio = true;
-    setPos(limitar(e.clientX - a.dx, e.clientY - a.dy));
-  };
-  const alSoltar = () => {
-    const a = arrastre.current;
-    arrastre.current = null;
-    if (a && !a.movio) hacerTruco();
-  };
+  // Marcio se puede arrastrar (mouse o dedo), tanto el del costado como el que sale del chat.
+  const lateral = useArrastre(hacerTruco);
+  const delChat = useArrastre(hacerTruco);
+  const pos = lateral.pos;
+  const contRef = lateral.ref;
   useEffect(() => {
-    const ajustar = () => setPos((p) => (p ? limitar(p.x, p.y) : p));
-    window.addEventListener('resize', ajustar);
-    return () => window.removeEventListener('resize', ajustar);
-  }, []);
+    if (!abierto) delChat.setPos(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [abierto]);
   // El globo va del lado donde hay más lugar.
   const globoALaDerecha = pos !== null && pos.x < window.innerWidth / 2;
   const [texto, setTexto] = useState('');
@@ -249,9 +274,13 @@ export const Asistente: React.FC = () => {
           {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
           <button
             type="button"
-            onClick={hacerTruco}
-            aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco"
-            className="absolute z-10 -top-[5.5rem] left-1 sm:top-4 sm:-left-24 cursor-pointer select-none motion-safe:animate-[marcio-sale_0.9s_ease-out]"
+            ref={(el) => {
+              delChat.ref.current = el;
+            }}
+            {...delChat.handlers}
+            aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
+            className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.5rem] left-1 sm:top-4 sm:-left-24 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
+            style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
             <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
               <span
@@ -385,7 +414,9 @@ export const Asistente: React.FC = () => {
 
       {!abierto && !marcioOculto && (
         <div
-          ref={contRef}
+          ref={(el) => {
+            contRef.current = el;
+          }}
           className={`fixed z-40 flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             pos ? '' : `right-0 bottom-36 sm:bottom-44 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
@@ -408,16 +439,7 @@ export const Asistente: React.FC = () => {
           </div>
           <button
             type="button"
-            onPointerDown={alApretar}
-            onPointerMove={alMover}
-            onPointerUp={alSoltar}
-            onPointerCancel={() => (arrastre.current = null)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                hacerTruco();
-              }
-            }}
+            {...lateral.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
             className={`${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
