@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing, FileDown, MessageCircle, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
@@ -115,78 +115,6 @@ const CartelProximamente: React.FC = () => {
   );
 };
 
-// TERO Security: producto ya disponible, con video demo y documentación funcional descargable.
-// El video usa datos de demostración ficticios.
-const TERO_PUNTOS = [
-  'Encuentra las fallas de tus equipos y te dice cómo corregirlas',
-  'Detecta ataques en tiempo real y responde solo',
-  'Vigila tu nube, tu código y lo que expones en internet',
-  'Reportes ejecutivos y guía en español',
-];
-
-const TeroSecurity: React.FC = () => (
-  <div
-    id="producto-software-ciberseguridad"
-    className="scroll-mt-28 mb-10 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/30 border border-cyan-500/30 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-8 items-center"
-  >
-    <div>
-      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-        Disponible · abono mensual
-      </span>
-      <h3 className="mt-4 flex items-center gap-3 text-3xl sm:text-4xl font-extrabold text-white">
-        <ShieldCheck className="w-9 h-9 text-cyan-400 shrink-0" />
-        TERO Security
-      </h3>
-      <p className="mt-3 text-base sm:text-lg text-slate-300 leading-relaxed">
-        Nuestra plataforma de ciberseguridad para empresas: vigila tu negocio todos los días, detecta y responde, nunca ataca.
-      </p>
-      <ul className="mt-5 space-y-2.5">
-        {TERO_PUNTOS.map((t) => (
-          <li key={t} className="flex items-start gap-2.5 text-sm sm:text-base text-slate-300">
-            <CheckCircle2 className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
-            <span>{t}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-6 flex flex-col sm:flex-row gap-3">
-        <a
-          href="/tero/TERO-Security-analisis-funcional.pdf"
-          download
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
-        >
-          <FileDown className="w-4 h-4" />
-          Documentación funcional (PDF)
-        </a>
-        <a
-          href={whatsappLink('Hola tecnoros.ar, quiero una demo de TERO Security')}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400/60 text-slate-200 font-semibold text-sm transition-colors"
-        >
-          <MessageCircle className="w-4 h-4" />
-          Pedir una demo
-        </a>
-      </div>
-      <p className="mt-3 text-xs text-slate-500">Abono mensual a consultar.</p>
-    </div>
-    <div>
-      <video
-        className="w-full rounded-xl border border-slate-700 shadow-2xl shadow-black/50 bg-black"
-        controls
-        preload="metadata"
-        playsInline
-        poster="/tero/tero-security-poster.jpg"
-      >
-        <source src="/tero/tero-security-demo.mp4" type="video/mp4" />
-        <source src="/tero/tero-security-demo.webm" type="video/webm" />
-        Tu navegador no puede reproducir el video.
-      </video>
-      <p className="mt-2 text-xs text-slate-500 text-center">Recorrido por la plataforma con datos de demostración ficticios.</p>
-    </div>
-  </div>
-);
-
 export const ProductosPropios: React.FC = () => (
   <section id="productos" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
     <div className="absolute -top-10 left-1/3 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
@@ -204,16 +132,14 @@ export const ProductosPropios: React.FC = () => (
           </span>
         </h2>
         <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-          Además de desarrollar a medida, creamos soluciones propias. TERO Security ya está disponible; las demás están en el laboratorio y podés anotarte para conocerlas antes que nadie.
+          Además de desarrollar a medida, estamos construyendo soluciones propias. Todavía están en proceso, pero podés anotarte para conocerlas antes que nadie.
         </p>
       </div>
 
-      <TeroSecurity />
-
       <CartelProximamente />
 
-      <div className="grid grid-cols-1 gap-6">
-        {PRODUCTOS.filter((p) => p.id !== 'software-ciberseguridad').map(({ id, icon: Icon, title }) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {PRODUCTOS.map(({ id, icon: Icon, title }) => (
           <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
             <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
               <Icon className="w-6 h-6" />
