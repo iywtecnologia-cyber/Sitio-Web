@@ -30,19 +30,6 @@ export const Marcianito: React.FC<{ className?: string; saludando?: boolean }> =
       {/* traje */}
       <rect x="34" y="78" width="52" height="40" rx="14" fill="#F8FAFC" />
       <rect x="34" y="108" width="52" height="5" fill="#CBD5E1" />
-      {/* escudo de tecnoros.ar en el pecho, con los nodos que se prenden */}
-      <g transform="translate(47.5 82) scale(0.25)">
-        <path d="M 50 6 L 89 19 C 89 62 80 92 50 110 C 20 92 11 62 11 19 Z" fill="#0B1220" stroke="#00D2F3" strokeWidth="8" strokeLinejoin="round" />
-        <g stroke="#FFFFFF" strokeWidth="7.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="31" y1="38" x2="69" y2="38" />
-          <line x1="50" y1="38" x2="50" y2="78" />
-          <path d="M 50 56 L 61 56 L 69 64" />
-        </g>
-        <circle cx="31" cy="38" r="7" fill="#00D2F3" className="marci-nodo" />
-        <circle cx="69" cy="38" r="7" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.3s' }} />
-        <circle cx="69" cy="64" r="6.5" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.6s' }} />
-        <circle cx="50" cy="78" r="7" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.9s' }} />
-      </g>
       {/* antenas que salen del casco */}
       <g className="marci-antena">
         <path d="M48 26 L40 6" stroke="#34D399" strokeWidth="3.5" strokeLinecap="round" />
@@ -65,6 +52,19 @@ export const Marcianito: React.FC<{ className?: string; saludando?: boolean }> =
       <circle cx="60" cy="50" r="33" fill="rgba(103,232,249,0.16)" stroke="#E2E8F0" strokeWidth="5" />
       <path d="M38 34 Q46 22 60 21" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" fill="none" opacity="0.8" />
       <rect x="40" y="78" width="40" height="7" rx="3.5" fill="#22D3EE" />
+      {/* escudo de tecnoros.ar en el pecho, bien grande para que se reconozca la marca, con los nodos que se prenden */}
+      <g transform="translate(42 75) scale(0.36)">
+        <path d="M 50 6 L 89 19 C 89 62 80 92 50 110 C 20 92 11 62 11 19 Z" fill="#0B1220" stroke="#00D2F3" strokeWidth="7" strokeLinejoin="round" />
+        <g stroke="#FFFFFF" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="31" y1="38" x2="69" y2="38" />
+          <line x1="50" y1="38" x2="50" y2="78" />
+          <path d="M 50 56 L 61 56 L 69 64" />
+        </g>
+        <circle cx="31" cy="38" r="7" fill="#00D2F3" className="marci-nodo" />
+        <circle cx="69" cy="38" r="7" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.3s' }} />
+        <circle cx="69" cy="64" r="6.5" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.6s' }} />
+        <circle cx="50" cy="78" r="7" fill="#00D2F3" className="marci-nodo" style={{ animationDelay: '.9s' }} />
+      </g>
       {/* brazo que saluda */}
       <g className="marci-brazo">
         <path d="M86 88 Q98 80 100 66" stroke="#E2E8F0" strokeWidth="10" strokeLinecap="round" fill="none" />
