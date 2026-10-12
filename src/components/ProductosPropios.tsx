@@ -166,7 +166,7 @@ export const ProductosPropios: React.FC = () => (
           <h3 className="text-xl sm:text-2xl font-bold text-white">Mirá a Calandria trabajando</h3>
         </div>
         <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-3xl mb-6">
-          Calandria propone las tareas que se repiten y vos las aprobás con un botón. Todo queda en un registro sellado, sin datos de tus clientes, y se ve cuánto tiempo te ahorró. Además trae un asistente que te dice cómo vas y te explica cómo hacer cada cosa.
+          Todo el sistema en una C: Calandria te muestra las tareas que se repiten y vos las aprobás con un toque. Compartís o imprimís el resumen del día, todo queda en un registro sellado sin datos de tus clientes y se ve cuánto tiempo te ahorró. Para lo demás, el sistema completo y un asistente están a un toque.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {VIDEOS_CALANDRIA.map((v) => (
