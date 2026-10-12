@@ -166,7 +166,7 @@ export const ProductosPropios: React.FC = () => (
           <h3 className="text-xl sm:text-2xl font-bold text-white">Mirá a Golondrina trabajando</h3>
         </div>
         <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-3xl mb-6">
-          Todo el sistema en una G: Golondrina te muestra las tareas que se repiten y vos las aprobás con un toque. Compartís o imprimís el resumen del día, todo queda en un registro sellado sin datos de tus clientes y se ve cuánto tiempo te ahorró. Para lo demás, el sistema completo y un asistente están a un toque.
+          Todo el sistema en una G: Golondrina te muestra las tareas que se repiten y vos las aprobás con un toque. Compartís o imprimís el resumen del día, queda un historial de todo lo que hizo, que nadie puede cambiar y sin datos de tus clientes y se ve cuánto tiempo te ahorró. Para lo demás, el sistema completo y un asistente están a un toque.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {VIDEOS_GOLONDRINA.map((v) => (

@@ -54,7 +54,7 @@ export const PRECIOS: Precio[] = [
   {
     id: 'golondrina-modulo',
     servicio: 'Golondrina como módulo',
-    incluye: 'Sumamos Golondrina a un sistema que ya tenés: la G, propuestas con un botón, registro sellado y asistente',
+    incluye: 'Sumamos Golondrina a un sistema que ya tenés: la G, propuestas con un botón, historial de todo lo que hizo y asistente',
     min: 350_000,
     max: 600_000,
   },
@@ -89,7 +89,7 @@ export const ABONOS: Abono[] = [
   {
     id: 'golondrina-modulo',
     nombre: 'Golondrina (módulo)',
-    detalle: 'registro sellado, ajustes de las propuestas y soporte',
+    detalle: 'historial de lo que hizo, ajustes de las propuestas y soporte',
     mensual: 30_000,
   },
   {
