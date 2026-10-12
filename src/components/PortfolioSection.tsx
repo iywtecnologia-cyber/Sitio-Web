@@ -255,7 +255,7 @@ export const PortfolioSection: React.FC = () => {
                 Tu navegador no puede reproducir este video.
               </video>
               <p className="mt-2 text-xs text-slate-500">
-                Demo del sistema con datos ficticios. Los nombres de clientes y negocios son de ejemplo.
+                Demo del sistema con datos ficticios. Los nombres de clientes y negocios son de ejemplo. Voz sintética Piper es_AR (datos OpenSLR 61, CC BY-SA 4.0).
               </p>
             </div>
           )}

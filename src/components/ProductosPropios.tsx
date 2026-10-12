@@ -184,6 +184,7 @@ export const ProductosPropios: React.FC = () => (
             </figure>
           ))}
         </div>
+        <p className="mt-3 text-xs text-slate-500">Demos con datos ficticios. Voz sintética Piper es_AR (datos OpenSLR 61, CC BY-SA 4.0).</p>
         <p className="mt-3 text-xs text-slate-500">Demo con datos ficticios. Calandria funciona dentro de los sistemas que desarrollamos a medida.</p>
       </div>
 
