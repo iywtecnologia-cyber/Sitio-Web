@@ -22,8 +22,8 @@ export const PRODUCTOS = [
 
 // Videos de Calandria funcionando dentro de dos sistemas a medida (datos ficticios).
 const VIDEOS_CALANDRIA = [
-  { src: '/calandria/calandria-kiosco.mp4', poster: '/calandria/calandria-kiosco.jpg', titulo: 'En un kiosco', detalle: 'Carga el pedido semanal que aprendió, baja el precio de lo que vence, arma el pedido a proveedores y los recordatorios de fiado.' },
-  { src: '/calandria/calandria-salon-de-eventos.mp4', poster: '/calandria/calandria-salon-de-eventos.jpg', titulo: 'En un salón de eventos', detalle: 'Avisa los saldos pendientes, arma las tareas de la semana, carga los gastos fijos y cierra los eventos realizados.' },
+  { src: '/calandria/calandria-kiosco.mp4', poster: '/calandria/calandria-kiosco.jpg', titulo: 'En un kiosco', detalle: 'Carga el pedido semanal que aprendió, baja el precio de lo que vence, arma el pedido a proveedores y los recordatorios de fiado. Con asistente incluido.' },
+  { src: '/calandria/calandria-salon-de-eventos.mp4', poster: '/calandria/calandria-salon-de-eventos.jpg', titulo: 'En un salón de eventos', detalle: 'Avisa los saldos pendientes, arma las tareas de la semana, carga los gastos fijos y cierra los eventos realizados. Con asistente incluido.' },
 ];
 
 const PALABRA = 'PRÓXIMAMENTE';
@@ -166,7 +166,7 @@ export const ProductosPropios: React.FC = () => (
           <h3 className="text-xl sm:text-2xl font-bold text-white">Mirá a Calandria trabajando</h3>
         </div>
         <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-3xl mb-6">
-          Calandria propone las tareas que se repiten y vos las aprobás con un botón. Todo queda en un registro sellado, sin datos de tus clientes, y se ve cuánto tiempo te ahorró.
+          Calandria propone las tareas que se repiten y vos las aprobás con un botón. Todo queda en un registro sellado, sin datos de tus clientes, y se ve cuánto tiempo te ahorró. Además trae un asistente que te dice cómo vas y te explica cómo hacer cada cosa.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {VIDEOS_CALANDRIA.map((v) => (
