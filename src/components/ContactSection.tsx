@@ -245,16 +245,16 @@ export const ContactSection: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-            {/* Entrada LinkedIn Manuel Angiulli */}
+            {/* Entrada LinkedIn Manuel A. */}
             <a
               href="https://www.linkedin.com/in/manuel-angiulli/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de Manuel Angiulli"
+              title="Perfil de LinkedIn de Manuel A."
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>LinkedIn Manuel Angiulli</span>
+              <span>LinkedIn Manuel A.</span>
             </a>
 
             {/* Entrada LinkedIn M. Sofía Genta */}
