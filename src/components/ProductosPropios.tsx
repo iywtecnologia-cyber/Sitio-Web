@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlaskConical, BellRing } from 'lucide-react';
+import { FlaskConical, BellRing, PlayCircle } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 import { TeroLogo, CalandriaLogo } from './LogosProductos';
 
@@ -18,6 +18,12 @@ export const PRODUCTOS = [
     title: 'Calandria Automatización',
     resumen: 'Aprende las tareas que repetís todos los días, te propone hacerlas y vos aprobás con un botón.',
   },
+];
+
+// Videos de Calandria funcionando dentro de dos sistemas a medida (datos ficticios).
+const VIDEOS_CALANDRIA = [
+  { src: '/calandria/calandria-kiosco.mp4', poster: '/calandria/calandria-kiosco.jpg', titulo: 'En un kiosco', detalle: 'Carga el pedido semanal que aprendió, baja el precio de lo que vence, arma el pedido a proveedores y los recordatorios de fiado.' },
+  { src: '/calandria/calandria-salon-de-eventos.mp4', poster: '/calandria/calandria-salon-de-eventos.jpg', titulo: 'En un salón de eventos', detalle: 'Avisa los saldos pendientes, arma las tareas de la semana, carga los gastos fijos y cierra los eventos realizados.' },
 ];
 
 const PALABRA = 'PRÓXIMAMENTE';
@@ -153,6 +159,33 @@ export const ProductosPropios: React.FC = () => (
         ))}
       </div>
 
+
+      <div id="calandria-en-accion" className="scroll-mt-28 mt-10 sm:mt-12">
+        <div className="flex items-center gap-3 mb-2">
+          <CalandriaLogo className="w-8 h-9 shrink-0" />
+          <h3 className="text-xl sm:text-2xl font-bold text-white">Mirá a Calandria trabajando</h3>
+        </div>
+        <p className="text-sm sm:text-base text-slate-400 leading-relaxed max-w-3xl mb-6">
+          Calandria propone las tareas que se repiten y vos las aprobás con un botón. Todo queda en un registro sellado, sin datos de tus clientes, y se ve cuánto tiempo te ahorró.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {VIDEOS_CALANDRIA.map((v) => (
+            <figure key={v.src} className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-950">
+              <video controls playsInline preload="none" poster={v.poster} className="w-full aspect-video bg-black">
+                <source src={v.src} type="video/mp4" />
+              </video>
+              <figcaption className="p-4 sm:p-5">
+                <div className="flex items-center gap-2 text-white font-bold">
+                  <PlayCircle className="w-4 h-4 text-cyan-400" />
+                  {v.titulo}
+                </div>
+                <p className="mt-1.5 text-sm text-slate-400 leading-relaxed">{v.detalle}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-slate-500">Demo con datos ficticios. Calandria funciona dentro de los sistemas que desarrollamos a medida.</p>
+      </div>
 
       <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <a
