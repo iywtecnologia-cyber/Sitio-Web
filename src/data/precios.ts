@@ -53,14 +53,14 @@ export const PRECIOS: Precio[] = [
   },
   {
     id: 'golondrina-modulo',
-    servicio: 'Golondrina como módulo',
+    servicio: 'Golondrina Automatización como módulo',
     incluye: 'Sumamos Golondrina a un sistema que ya tenés: la G, propuestas con un botón, historial de todo lo que hizo y asistente',
     min: 350_000,
     max: 600_000,
   },
   {
     id: 'golondrina-sistema',
-    servicio: 'Golondrina como sistema nuevo',
+    servicio: 'Golondrina Automatización como sistema nuevo',
     incluye: 'Sistema completo para tu rubro con Golondrina adentro, en la compu y el celular, listo para usar',
     min: 900_000,
     max: 1_500_000,
