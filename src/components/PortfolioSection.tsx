@@ -24,6 +24,8 @@ interface ProjectCase {
   problema: string;
   solucion: string;
   resultado: string;
+  // Video demo con datos ficticios (public/proyectos)
+  video?: { src: string; poster: string };
 }
 
 export const PROJECTS_DATA: ProjectCase[] = [
@@ -41,15 +43,16 @@ export const PROJECTS_DATA: ProjectCase[] = [
   },
   {
     id: 'ingresos-egresos',
-    category: 'Control de Ingresos y Egresos',
-    title: 'Control de Ingresos y Egresos',
+    category: 'Salón de Eventos',
+    title: 'Gestión de salón de eventos',
     highlightNumber: 'Seguimiento en $ARS',
     highlightText: 'Control de señas y saldos por cobrar',
     icon: Wallet,
     badgeColor: 'border-pink-500/40 text-pink-300 bg-pink-950/30',
     problema: 'Anotaciones sueltas y descontrol sobre fechas reservadas, qué señas se cobraron y qué saldos quedaban pendientes por cobrar.',
     solucion: 'Plataforma con calendario operativo, registro de señas abonadas, cálculo automático de saldos en $ARS y alertas de cobro.',
-    resultado: 'Visualización instantánea de cada evento, cobros al día y cero desfasajes de dinero.'
+    resultado: 'Visualización instantánea de cada evento, cobros al día y cero desfasajes de dinero.',
+    video: { src: '/proyectos/demo-salon-de-eventos.mp4', poster: '/proyectos/demo-salon-de-eventos.jpg' }
   },
   {
     id: 'don-ramon',
@@ -61,7 +64,8 @@ export const PROJECTS_DATA: ProjectCase[] = [
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
     problema: 'Ventas lentas en mostrador, stock desfasado y dificultad para controlar productos por vencer y el arqueo de caja diario.',
     solucion: 'Punto de venta web (POS) ultrarrápido con sincronización en tiempo real entre mostrador y depósito, liquidación y control de vencimientos.',
-    resultado: 'Ventas ágiles desde el navegador sin instalar software, caja cuadrada al centavo y stock siempre al día.'
+    resultado: 'Ventas ágiles desde el navegador sin instalar software, caja cuadrada al centavo y stock siempre al día.',
+    video: { src: '/proyectos/demo-sistema-kiosco.mp4', poster: '/proyectos/demo-sistema-kiosco.jpg' }
   },
   {
     id: 'consultorio-marie',
@@ -73,7 +77,8 @@ export const PROJECTS_DATA: ProjectCase[] = [
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
     problema: 'Fichas de pacientes, obras sociales y seguimiento de llamados dispersos entre cuadernos de papel y chats de WhatsApp.',
     solucion: 'Ficha digital centralizada por paciente con historial, obra social, adjuntos y botones de contacto directo a WhatsApp y correo.',
-    resultado: 'Acceso inmediato al expediente completo y comunicación con el paciente en un solo clic.'
+    resultado: 'Acceso inmediato al expediente completo y comunicación con el paciente en un solo clic.',
+    video: { src: '/proyectos/demo-agenda-consultorio.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg' }
   },
   {
     id: 'control-financiero',
@@ -85,7 +90,8 @@ export const PROJECTS_DATA: ProjectCase[] = [
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
     problema: 'Dificultad para visualizar ganancias reales y fuga de gastos al depender de planillas complejas o anotaciones manuales.',
     solucion: 'Dashboard financiero interactivo con categorización ágil de gastos, métricas en vivo y exportación instantánea de reportes.',
-    resultado: 'Claridad total del flujo de fondos diario y toma de decisiones con números exactos.'
+    resultado: 'Claridad total del flujo de fondos diario y toma de decisiones con números exactos.',
+    video: { src: '/proyectos/demo-ingresos-y-gastos.mp4', poster: '/proyectos/demo-ingresos-y-gastos.jpg' }
   }
 ];
 
@@ -233,6 +239,26 @@ export const PortfolioSection: React.FC = () => {
             </div>
 
           </div>
+
+          {/* Video demo del sistema (datos ficticios) */}
+          {activeProject.video && (
+            <div className="mt-8">
+              <video
+                key={activeProject.video.src}
+                className="w-full rounded-2xl border border-slate-800 bg-black aspect-[16/10]"
+                src={activeProject.video.src}
+                poster={activeProject.video.poster}
+                controls
+                playsInline
+                preload="none"
+              >
+                Tu navegador no puede reproducir este video.
+              </video>
+              <p className="mt-2 text-xs text-slate-500">
+                Demo del sistema con datos ficticios. Los nombres de clientes y negocios son de ejemplo.
+              </p>
+            </div>
+          )}
 
           {/* Footer del Caso: Botón de consulta específico con flecha alineada */}
           <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
