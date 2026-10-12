@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
+import { FlaskConical, BellRing } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
+import { TeroLogo, CalandriaLogo } from './LogosProductos';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
 // se actualizan acá.
 export const PRODUCTOS = [
   {
     id: 'software-ciberseguridad',
-    icon: ShieldCheck,
+    icon: TeroLogo,
     title: 'TERO Security',
+    resumen: 'Vigila la seguridad de tu empresa todos los días: detecta fallas y ataques, y responde.',
   },
   {
     id: 'calandria-automatizacion',
-    icon: Workflow,
+    icon: CalandriaLogo,
     title: 'Calandria Automatización',
+    resumen: 'Aprende las tareas que repetís todos los días, te propone hacerlas y vos aprobás con un botón.',
   },
 ];
 
@@ -139,12 +142,13 @@ export const ProductosPropios: React.FC = () => (
       <CartelProximamente />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ id, icon: Icon, title }) => (
-          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-4">
-            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400">
-              <Icon className="w-6 h-6" />
+        {PRODUCTOS.map(({ id, icon: Icon, title, resumen }) => (
+          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex items-center gap-5">
+            <Icon className="w-16 h-[74px] sm:w-20 sm:h-[92px] shrink-0 drop-shadow-[0_0_18px_rgba(34,211,238,0.25)]" />
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
+              <p className="text-sm text-slate-400 leading-relaxed">{resumen}</p>
             </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-white">{title}</h3>
           </div>
         ))}
       </div>
