@@ -1,0 +1,243 @@
+import React, { useEffect, useState } from 'react';
+import { 
+  Store, 
+  TrendingUp, 
+  CheckCircle2, 
+  AlertCircle, 
+  Cpu, 
+  Sparkles, 
+  ArrowRight,
+  Clock
+} from 'lucide-react';
+
+interface ProjectCase {
+  id: string;
+  category: string;
+  title: string;
+  highlightNumber: string;
+  highlightText: string;
+  icon: React.ElementType;
+  badgeColor: string;
+  problema: string;
+  solucion: string;
+  resultado: string;
+  // Video demo con datos ficticios (public/proyectos)
+  video?: { src: string; poster: string };
+}
+
+export const PROJECTS_DATA: ProjectCase[] = [
+  {
+    id: 'don-ramon',
+    category: 'Punto de Venta & Stock',
+    title: 'Gestión integral de comercio',
+    highlightNumber: 'Tiempo real',
+    highlightText: 'Stock sincronizado en caja y depósito',
+    icon: Store,
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    problema: 'Ventas lentas en mostrador, stock desfasado y dificultad para controlar productos por vencer y el arqueo de caja diario.',
+    solucion: 'Punto de venta web (POS) ultrarrápido con sincronización en tiempo real entre mostrador y depósito, liquidación y control de vencimientos.',
+    resultado: 'Ventas ágiles desde el navegador sin instalar software, caja cuadrada al centavo y stock siempre al día.',
+    video: { src: '/proyectos/demo-sistema-kiosco.mp4', poster: '/proyectos/demo-sistema-kiosco.jpg' }
+  },
+  {
+    id: 'control-financiero',
+    category: 'Flujo de Caja & Rentabilidad',
+    title: 'Dashboard de Finanzas y Rentabilidad',
+    highlightNumber: 'Dashboard en vivo',
+    highlightText: 'Ingresos y gastos categorizados al día',
+    icon: TrendingUp,
+    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
+    problema: 'Dificultad para visualizar ganancias reales y fuga de gastos al depender de planillas complejas o anotaciones manuales.',
+    solucion: 'Dashboard financiero interactivo con categorización ágil de gastos, métricas en vivo y exportación instantánea de reportes.',
+    resultado: 'Claridad total del flujo de fondos diario y toma de decisiones con números exactos.',
+    video: { src: '/proyectos/demo-ingresos-y-gastos.mp4', poster: '/proyectos/demo-ingresos-y-gastos.jpg' }
+  }
+];
+
+export const PortfolioSection: React.FC = () => {
+  const [selectedProjectId, setSelectedProjectId] = useState<string>(PROJECTS_DATA[0].id);
+
+  // El menú de arriba puede elegir un proyecto directamente.
+  useEffect(() => {
+    const onSeleccionar = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (PROJECTS_DATA.some((p) => p.id === id)) setSelectedProjectId(id);
+    };
+    window.addEventListener('seleccionar-proyecto', onSeleccionar);
+    return () => window.removeEventListener('seleccionar-proyecto', onSeleccionar);
+  }, []);
+
+  const activeProject = PROJECTS_DATA.find(p => p.id === selectedProjectId) || PROJECTS_DATA[0];
+  const ActiveIcon = activeProject.icon;
+
+  const scrollToContact = () => {
+    const el = document.getElementById('contacto');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <section id="proyectos" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
+      {/* Luces sutiles de fondo */}
+      <div className="absolute top-1/4 -right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Cabecera */}
+        <div className="max-w-full lg:max-w-6xl mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Casos de Estudio & Proyectos</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Nuestros Proyectos{' '}
+            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
+              y Soluciones Desarrolladas
+            </span>
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
+            Sistemas que desarrollamos para reemplazar tareas manuales, procesos desordenados y planillas sueltas por sistemas web intuitivos, rápidos y testeados a fondo.
+          </p>
+        </div>
+
+        {/* Selector de Proyectos (Pestañas horizontales limpias, sin nombres de clientes) */}
+        <div className="flex flex-wrap items-center gap-2.5 mb-8" role="group" aria-label="Elegí un proyecto">
+          {PROJECTS_DATA.map((p) => {
+            const Icon = p.icon;
+            const isSelected = p.id === selectedProjectId;
+            return (
+              <button
+                key={p.id}
+                onClick={() => setSelectedProjectId(p.id)}
+                aria-pressed={isSelected}
+                className={`inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                  isSelected
+                    ? 'bg-cyan-500/15 border-cyan-500/60 text-cyan-200'
+                    : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:text-white hover:border-slate-600'
+                }`}
+              >
+                <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-cyan-300' : 'text-slate-400'}`} />
+                <span>{p.category}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tarjeta Detallada del Proyecto Seleccionado */}
+        <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
+          
+          {/* Header del Caso */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
+            <div className="flex items-start gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                <ActiveIcon className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
+                  <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded border tracking-wider ${activeProject.badgeColor}`}>
+                    {activeProject.category}
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                  {activeProject.title}
+                </h3>
+              </div>
+            </div>
+
+            {/* Highlight Métrica */}
+            <div className="px-5 py-3.5 rounded-xl bg-slate-950/90 border border-slate-800 shrink-0 md:text-right">
+              <div className="text-base sm:text-lg font-black text-cyan-400 font-mono">
+                {activeProject.highlightNumber}
+              </div>
+              <div className="text-xs text-slate-300">
+                {activeProject.highlightText}
+              </div>
+            </div>
+          </div>
+
+          {/* Los 3 Bloques Resumidos del Caso: Problema, Solución y Resultado */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
+            
+            {/* 1. El Problema */}
+            <div className="p-6 rounded-2xl bg-slate-950/70 border border-slate-800/80 flex flex-col justify-between hover:border-slate-700 transition-colors">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-mono text-rose-400 mb-3">
+                  <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                  <span className="font-bold uppercase tracking-wider">1. El Problema</span>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  {activeProject.problema}
+                </p>
+              </div>
+            </div>
+
+            {/* 2. Solución Desarrollada */}
+            <div className="p-6 rounded-2xl bg-slate-950/70 border border-slate-800/80 flex flex-col justify-between hover:border-slate-700 transition-colors">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 mb-3">
+                  <Cpu className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span className="font-bold uppercase tracking-wider">2. Solución Desarrollada</span>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  {activeProject.solucion}
+                </p>
+              </div>
+            </div>
+
+            {/* 3. Resultado Tangible */}
+            <div className="p-6 rounded-2xl bg-gradient-to-b from-slate-950/80 to-emerald-950/20 border border-emerald-500/30 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 mb-3">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="font-bold uppercase tracking-wider">3. Resultado Tangible</span>
+                </div>
+                <p className="text-sm text-slate-200 leading-relaxed font-medium">
+                  {activeProject.resultado}
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Video demo del sistema (datos ficticios) */}
+          {activeProject.video && (
+            <div className="mt-8">
+              <video
+                key={activeProject.video.src}
+                className="w-full rounded-2xl border border-slate-800 bg-black aspect-[16/10]"
+                src={activeProject.video.src}
+                poster={activeProject.video.poster}
+                controls
+                playsInline
+                preload="none"
+              >
+                Tu navegador no puede reproducir este video.
+              </video>
+              <p className="mt-2 text-xs text-slate-500">
+                Demo del sistema con datos ficticios. Los nombres de clientes y negocios son de ejemplo.
+              </p>
+            </div>
+          )}
+
+          {/* Footer del Caso: Botón de consulta específico con flecha alineada */}
+          <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+              <Clock className="w-4 h-4 text-cyan-400" />
+              <span>Desarrollado y probado bajo altos estándares de estabilidad y rapidez</span>
+            </div>
+
+            <button
+              onClick={scrollToContact}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 text-xs font-bold hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+            >
+              <span>Consultar por una solución como esta</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform translate-y-[2px]" />
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
+};
