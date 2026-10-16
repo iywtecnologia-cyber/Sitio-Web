@@ -10,9 +10,9 @@ import { whatsappLink, CONTACT_EMAIL } from '../data/contact';
 // Cuando la demo online esté publicada, poné acá su dirección (ej. 'https://demo.tecnoros.ar').
 // Mientras esté vacía, el botón pide acceso por WhatsApp.
 export const TERO_DEMO_URL = '';
-// Precio que muestra la página. Coincide con el plan de PayPal configurado en el sistema.
-const PRECIO = 'USD 250';
-const PERIODO = 'cada 30 días, por empresa';
+// El precio no se publica (se decidió "a consultar"). Si algún día se quiere mostrar, cambiar acá.
+const PRECIO = 'Abono mensual';
+const PERIODO = 'por empresa · precio a consultar';
 
 const PDF = '/tero/TERO-Security-documentacion-funcional.pdf';
 
@@ -66,7 +66,7 @@ const FAQ = [
   ['¿Dónde quedan mis datos?', 'En tu propio servidor. TERO se instala en tu red (on-premise) con Docker; solo valida la licencia contra nuestro servidor.'],
   ['¿Necesito un equipo de seguridad?', 'No. Está en español, trae una guía paso a paso y te acompañamos en la instalación y la puesta en marcha.'],
   ['¿Qué necesito para instalarlo?', 'Una PC o servidor con Docker, 16 GB de RAM, 4 núcleos y 30 GB libres. En Windows se inicia con doble clic.'],
-  ['¿Cómo se paga?', `Abono de ${PRECIO} ${PERIODO}, por PayPal. Si se deja de pagar, el sistema se bloquea hasta regularizar.`],
+  ['¿Cómo se paga?', 'Con un abono mensual por empresa, por PayPal. Consultanos el precio por WhatsApp. Si se deja de pagar, el sistema se bloquea hasta regularizar.'],
   ['¿Lo puedo probar antes?', 'Sí. Pedinos la demo y te la mostramos funcionando con datos de ejemplo, o con tu empresa.'],
 ];
 
@@ -223,7 +223,7 @@ export const TeroSecurity: React.FC = () => {
             <Titulo k="Plan" t="Un abono simple, todo incluido" />
             <div className="p-8 rounded-2xl border border-cyan-500/40 bg-gradient-to-br from-slate-900 to-slate-950 text-left">
               <div className="flex items-baseline gap-2 flex-wrap">
-                <span className="text-4xl font-extrabold text-white">{PRECIO}</span>
+                <span className="text-3xl sm:text-4xl font-extrabold text-white">{PRECIO}</span>
                 <span className="text-slate-300">{PERIODO}</span>
               </div>
               <ul className="mt-5 space-y-2 text-slate-200">
@@ -232,7 +232,7 @@ export const TeroSecurity: React.FC = () => {
                 ))}
               </ul>
               <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                <Btn href={contratar} primary><MessageCircle className="w-4 h-4" /> Quiero contratarlo</Btn>
+                <Btn href={contratar} primary><MessageCircle className="w-4 h-4" /> Consultar precio y contratar</Btn>
                 <Btn href={TERO_DEMO_URL || pedirDemo}><PlayCircle className="w-4 h-4" /> Primero quiero verlo</Btn>
               </div>
             </div>
