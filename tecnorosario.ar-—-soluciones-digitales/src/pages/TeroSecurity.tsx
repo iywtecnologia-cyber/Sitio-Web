@@ -7,7 +7,7 @@ import {
 import { TecnorosLogo } from '../components/TecnorosLogo';
 import { whatsappLink, CONTACT_EMAIL } from '../data/contact';
 
-// Demo interactiva que corre en el navegador (sin servidor ni costo), con datos ficticios.
+// Demo interactiva (un solo archivo HTML) que corre en el navegador, con datos ficticios de Grupo Delta.
 // Si se vacía, los botones vuelven a pedir la demo por WhatsApp.
 export const TERO_DEMO_URL = '/tero-demo/index.html';
 // El precio no se publica (se decidió "a consultar"). Si algún día se quiere mostrar, cambiar acá.
@@ -132,7 +132,7 @@ export const TeroSecurity: React.FC = () => {
                 La plataforma de ciberseguridad que vigila tu empresa todos los días: encuentra fallas, detecta ataques, responde sola y te lo explica en reportes claros.
               </p>
               <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                <Btn href={TERO_DEMO_URL || pedirDemo} primary><PlayCircle className="w-4 h-4" /> {TERO_DEMO_URL ? 'Probar la demo online' : 'Pedí acceso a la demo'}</Btn>
+                <Btn href={TERO_DEMO_URL || pedirDemo} primary><PlayCircle className="w-4 h-4" /> {TERO_DEMO_URL ? 'Comprar demo' : 'Pedí acceso a la demo'}</Btn>
                 <Btn href={PDF} download><Download className="w-4 h-4" /> Documentación funcional (PDF)</Btn>
               </div>
               <p className="mt-4 text-sm text-slate-400">Hecho en Rosario por tecnoros.ar · Se instala en tu propio servidor.</p>

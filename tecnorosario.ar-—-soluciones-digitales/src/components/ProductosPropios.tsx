@@ -161,7 +161,7 @@ export const ProductosPropios: React.FC = () => (
                   Conocé {title} <ArrowRight className="w-4 h-4" />
                 </a>
                 <a href="/tero-demo/index.html" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-700 hover:border-cyan-400/60 text-slate-100 font-semibold text-sm">
-                  <PlayCircle className="w-4 h-4" /> Probar la demo
+                  <PlayCircle className="w-4 h-4" /> Comprar demo
                 </a>
               </div>
             )}
