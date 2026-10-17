@@ -7,9 +7,9 @@ import {
 import { TecnorosLogo } from '../components/TecnorosLogo';
 import { whatsappLink, CONTACT_EMAIL } from '../data/contact';
 
-// Cuando la demo online esté publicada, poné acá su dirección (ej. 'https://demo.tecnoros.ar').
-// Mientras esté vacía, el botón pide acceso por WhatsApp.
-export const TERO_DEMO_URL = '';
+// Demo interactiva que corre en el navegador (sin servidor ni costo), con datos ficticios.
+// Si se vacía, los botones vuelven a pedir la demo por WhatsApp.
+export const TERO_DEMO_URL = '/tero-demo/index.html';
 // El precio no se publica (se decidió "a consultar"). Si algún día se quiere mostrar, cambiar acá.
 const PRECIO = 'Abono mensual';
 const PERIODO = 'por empresa · precio a consultar';
@@ -67,7 +67,7 @@ const FAQ = [
   ['¿Necesito un equipo de seguridad?', 'No. Está en español, trae una guía paso a paso y te acompañamos en la instalación y la puesta en marcha.'],
   ['¿Qué necesito para instalarlo?', 'Una PC o servidor con Docker, 16 GB de RAM, 4 núcleos y 30 GB libres. En Windows se inicia con doble clic.'],
   ['¿Cómo se paga?', 'Con un abono mensual por empresa, por PayPal. Consultanos el precio por WhatsApp. Si se deja de pagar, el sistema se bloquea hasta regularizar.'],
-  ['¿Lo puedo probar antes?', 'Sí. Pedinos la demo y te la mostramos funcionando con datos de ejemplo, o con tu empresa.'],
+  ['¿Lo puedo probar antes?', 'Sí. La demo online es el sistema real con los datos de una empresa ficticia: podés recorrer todas las pantallas sin registrarte. Y si querés, te lo mostramos funcionando con tu empresa.'],
 ];
 
 const Btn: React.FC<{ href: string; children: React.ReactNode; primary?: boolean; download?: boolean }> = ({ href, children, primary, download }) => (
