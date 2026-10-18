@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing, PlayCircle, CreditCard } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
@@ -9,6 +9,10 @@ export interface ProductoPropio {
   icon: React.ElementType;
   title: string;
   description: string;
+  // Demo navegable (se abre en otra pestaña) y video de presentación.
+  demoUrl?: string;
+  video?: { src: string; poster: string; credito?: string };
+  pagos?: string;
 }
 
 export const PRODUCTOS: ProductoPropio[] = [
@@ -17,6 +21,13 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: ShieldCheck,
     title: 'TERO Software',
     description: 'Sistema de ciberseguridad',
+    demoUrl: '/tero-demo/',
+    video: {
+      src: '/tero/tero-security-demo.mp4',
+      poster: '/tero/tero-security-demo.jpg',
+      credito: 'Voz: Piper (OpenSLR 61, CC BY-SA 4.0)',
+    },
+    pagos: 'Pagás con Mercado Pago (tarjeta, débito o dinero en tu cuenta de Mercado Pago / Mercado Libre) o con PayPal.',
   },
   {
     id: 'golondrina-automatizacion',
@@ -148,7 +159,7 @@ export const ProductosPropios: React.FC = () => (
       <CartelProximamente />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ id, icon: Icon, title, description }) => (
+        {PRODUCTOS.map(({ id, icon: Icon, title, description, demoUrl, video, pagos }) => (
           <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-3 group hover:border-slate-700/80 transition-all">
             <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300 transition-colors">
               <Icon className="w-6 h-6" />
@@ -157,6 +168,41 @@ export const ProductosPropios: React.FC = () => (
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{title}</h3>
               <p className="mt-1.5 text-sm sm:text-base text-cyan-300/90 font-medium leading-relaxed">{description}</p>
             </div>
+            {video && (
+              <figure className="mt-2">
+                <video
+                  src={video.src}
+                  poster={video.poster}
+                  controls
+                  preload="none"
+                  playsInline
+                  className="w-full aspect-video rounded-xl border border-slate-700/80 bg-slate-950"
+                >
+                  Tu navegador no puede reproducir el video.
+                </video>
+                {video.credito && <figcaption className="mt-1.5 text-[11px] text-slate-500">{video.credito}</figcaption>}
+              </figure>
+            )}
+            {demoUrl && (
+              <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
+                <a
+                  href={demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
+                >
+                  <PlayCircle className="w-4 h-4" />
+                  Comprar demo
+                </a>
+                <span className="text-xs text-slate-400">Se abre en otra pestaña, con datos ficticios.</span>
+              </div>
+            )}
+            {pagos && (
+              <p className="flex items-start gap-2 text-xs text-slate-400 leading-relaxed">
+                <CreditCard className="w-4 h-4 shrink-0 text-slate-500" />
+                {pagos}
+              </p>
+            )}
           </div>
         ))}
       </div>
