@@ -67,10 +67,9 @@ export interface Abono {
 export const ABONOS: Abono[] = [
   {
     id: 'tero',
-    nombre: 'TERO Software',
+    nombre: 'TERO Security',
     detalle: 'Sistema de ciberseguridad: revisa y vigila tu negocio, con avisos e informes',
     mensual: null,
-    proximamente: true,
   },
   {
     id: 'soporte',

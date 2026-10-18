@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing, PlayCircle, CreditCard } from 'lucide-react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing, PlayCircle, CreditCard, FileText } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
-// Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
-// se actualizan acá.
+// Productos propios. Los que tienen demo/video ya están disponibles;
+// los marcados como `proximamente` muestran el cartel y el aviso por WhatsApp.
 export interface ProductoPropio {
   id: string;
   icon: React.ElementType;
@@ -13,20 +13,25 @@ export interface ProductoPropio {
   demoUrl?: string;
   video?: { src: string; poster: string; credito?: string };
   pagos?: string;
+  docUrl?: string;
+  modulos?: string[];
+  proximamente?: boolean;
 }
 
 export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'software-ciberseguridad',
     icon: ShieldCheck,
-    title: 'TERO Software',
-    description: 'Sistema de ciberseguridad',
+    title: 'TERO Security',
+    description: 'Sistema de ciberseguridad para empresas: vigila, detecta ataques y responde solo.',
     demoUrl: '/tero-demo/',
     video: {
       src: '/tero/tero-security-demo.mp4',
       poster: '/tero/tero-security-demo.jpg',
       credito: 'Voz: Piper (OpenSLR 61, CC BY-SA 4.0)',
     },
+    docUrl: '/tero/TERO-Security-documentacion-funcional.pdf',
+    modulos: ['Dashboard', 'Activos', 'Escaneos', 'Vulnerabilidades', 'Superficie externa', 'Nube (AWS)', 'Código y repositorios', 'SIEM', 'SOAR', 'Casos', 'Purple Team', 'Reportes', 'Notificaciones', 'Integraciones', 'Usuarios, roles y MFA', 'Pagos y licencia'],
     pagos: 'Pagás con Mercado Pago (tarjeta, débito o dinero en tu cuenta de Mercado Pago / Mercado Libre) o con PayPal.',
   },
   {
@@ -34,6 +39,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: Workflow,
     title: 'Golondrina Automatización',
     description: 'Una nueva forma de automatizar procesos',
+    proximamente: true,
   },
 ];
 
@@ -103,7 +109,7 @@ const CartelProximamente: React.FC = () => {
       onClick={otraVez}
       onMouseEnter={otraVez}
       aria-label="Próximamente. Estamos en fase de creación"
-      className="group mb-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
+      className="group w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
         aria-hidden="true"
@@ -121,7 +127,7 @@ const CartelProximamente: React.FC = () => {
         </span>
         EN EL LABORATORIO
       </span>
-      <span aria-hidden="true" className="relative block mt-3 font-mono text-3xl sm:text-5xl lg:text-6xl font-bold tracking-[0.18em] sm:tracking-[0.25em] text-white group-hover:text-cyan-200 transition-colors">
+      <span aria-hidden="true" className="relative block mt-3 font-mono text-2xl sm:text-5xl lg:text-6xl font-bold tracking-[0.14em] sm:tracking-[0.25em] text-white group-hover:text-cyan-200 transition-colors">
         {texto}
       </span>
       <span aria-hidden="true" className="relative block mt-4 text-base sm:text-lg text-slate-300">
@@ -134,6 +140,106 @@ const CartelProximamente: React.FC = () => {
     </button>
   );
 };
+
+const Encabezado: React.FC<{ producto: ProductoPropio }> = ({ producto: { icon: Icon, title, description } }) => (
+  <div className="flex items-start gap-4">
+    <div className="w-12 h-12 shrink-0 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300 transition-colors">
+      <Icon className="w-6 h-6" />
+    </div>
+    <div>
+      <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{title}</h3>
+      <p className="mt-1.5 text-sm sm:text-base text-cyan-300/90 font-medium leading-relaxed">{description}</p>
+    </div>
+  </div>
+);
+
+const claseTarjeta =
+  'scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 group hover:border-slate-700/80 transition-all';
+
+// Producto disponible: el video ocupa la mayor parte del ancho en pantallas grandes.
+const TarjetaDisponible: React.FC<{ producto: ProductoPropio }> = ({ producto }) => {
+  const { id, demoUrl, video, pagos, docUrl, modulos } = producto;
+  return (
+    <div id={`producto-${id}`} className={`${claseTarjeta} grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6 lg:gap-8 items-start`}>
+      <div className="flex flex-col gap-4 min-w-0">
+        <Encabezado producto={producto} />
+        {modulos && (
+          <ul aria-label="Módulos incluidos" className="flex flex-wrap gap-1.5">
+            {modulos.map((m) => (
+              <li key={m} className="px-2.5 py-1 rounded-md bg-slate-800/70 border border-slate-700/70 text-xs text-slate-300">{m}</li>
+            ))}
+          </ul>
+        )}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
+          {demoUrl && (
+            <a
+              href={demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
+            >
+              <PlayCircle className="w-4 h-4" />
+              Comprar demo
+            </a>
+          )}
+          {docUrl && (
+            <a
+              href={docUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-5 py-3 rounded-xl border border-slate-600 hover:border-cyan-400/60 text-slate-200 font-semibold text-sm transition-colors"
+            >
+              <FileText className="w-4 h-4" />
+              Documentación funcional (PDF)
+            </a>
+          )}
+        </div>
+        {demoUrl && <span className="text-xs text-slate-400">La demo se abre en otra pestaña, con datos ficticios.</span>}
+        {pagos && (
+          <p className="flex items-start gap-2 text-xs text-slate-400 leading-relaxed">
+            <CreditCard className="w-4 h-4 shrink-0 text-slate-500" />
+            {pagos}
+          </p>
+        )}
+      </div>
+      {video && (
+        <figure className="min-w-0 lg:order-none order-first">
+          <video
+            src={video.src}
+            poster={video.poster}
+            controls
+            preload="none"
+            playsInline
+            className="w-full aspect-video rounded-xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10"
+          >
+            Tu navegador no puede reproducir el video.
+          </video>
+          {video.credito && <figcaption className="mt-1.5 text-[11px] text-slate-500">{video.credito}</figcaption>}
+        </figure>
+      )}
+    </div>
+  );
+};
+
+// Producto en el laboratorio: cartel "Próximamente" y aviso por WhatsApp.
+const TarjetaProximamente: React.FC<{ producto: ProductoPropio }> = ({ producto }) => (
+  <div id={`producto-${producto.id}`} className={`${claseTarjeta} flex flex-col gap-5`}>
+    <Encabezado producto={producto} />
+    <CartelProximamente />
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <a
+        href={whatsappLink(`Hola tecnoros.ar, quiero enterarme cuando lancen ${producto.title}`)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
+      >
+        <BellRing className="w-4 h-4" />
+        Quiero ser de los primeros
+      </a>
+      <span className="text-sm text-slate-400">Te avisamos por WhatsApp cuando esté listo.</span>
+    </div>
+  </div>
+);
 
 export const ProductosPropios: React.FC = () => (
   <section id="productos" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
@@ -152,73 +258,14 @@ export const ProductosPropios: React.FC = () => (
           </span>
         </h2>
         <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-          Además de desarrollar a medida, estamos construyendo soluciones propias. Todavía están en proceso, pero podés anotarte para conocerlas antes que nadie.
+          Además de desarrollar a medida, creamos soluciones propias. TERO Security ya está disponible: miralo en video y probá la demo. Golondrina sigue en el laboratorio.
         </p>
       </div>
 
-      <CartelProximamente />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ id, icon: Icon, title, description, demoUrl, video, pagos }) => (
-          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-3 group hover:border-slate-700/80 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300 transition-colors">
-              <Icon className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{title}</h3>
-              <p className="mt-1.5 text-sm sm:text-base text-cyan-300/90 font-medium leading-relaxed">{description}</p>
-            </div>
-            {video && (
-              <figure className="mt-2">
-                <video
-                  src={video.src}
-                  poster={video.poster}
-                  controls
-                  preload="none"
-                  playsInline
-                  className="w-full aspect-video rounded-xl border border-slate-700/80 bg-slate-950"
-                >
-                  Tu navegador no puede reproducir el video.
-                </video>
-                {video.credito && <figcaption className="mt-1.5 text-[11px] text-slate-500">{video.credito}</figcaption>}
-              </figure>
-            )}
-            {demoUrl && (
-              <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-3">
-                <a
-                  href={demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
-                >
-                  <PlayCircle className="w-4 h-4" />
-                  Comprar demo
-                </a>
-                <span className="text-xs text-slate-400">Se abre en otra pestaña, con datos ficticios.</span>
-              </div>
-            )}
-            {pagos && (
-              <p className="flex items-start gap-2 text-xs text-slate-400 leading-relaxed">
-                <CreditCard className="w-4 h-4 shrink-0 text-slate-500" />
-                {pagos}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-
-
-      <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <a
-          href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen sus productos propios')}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
-        >
-          <BellRing className="w-4 h-4" />
-          Quiero ser de los primeros
-        </a>
-        <span className="text-sm text-slate-400">Te avisamos por WhatsApp cuando estén listos.</span>
+      <div className="grid grid-cols-1 gap-6">
+        {PRODUCTOS.map((p) =>
+          p.proximamente ? <TarjetaProximamente key={p.id} producto={p} /> : <TarjetaDisponible key={p.id} producto={p} />
+        )}
       </div>
     </div>
   </section>
