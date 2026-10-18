@@ -12,6 +12,7 @@ El proyecto está 100% optimizado y listo para desplegarse en **Render** (como *
    - **Name**: `tecnorosario-ar`
    - **Branch**: `main` (o tu rama activa)
    - **Build Command**: `npm install && npm run build`
+   - **Root Directory**: vacío (la web está en la raíz del repo)
    - **Publish Directory**: `dist`
 6. Hacé clic en **Create Static Site**.
 
