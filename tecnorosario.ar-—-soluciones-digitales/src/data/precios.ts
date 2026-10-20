@@ -67,8 +67,15 @@ export interface Abono {
 export const ABONOS: Abono[] = [
   {
     id: 'tero',
-    nombre: 'TERO Software',
-    detalle: 'Sistema de ciberseguridad: revisa y vigila tu negocio, con avisos e informes',
+    nombre: 'TERO Security',
+    detalle: 'Sistema de ciberseguridad',
+    mensual: null,
+    proximamente: true,
+  },
+  {
+    id: 'golondrina',
+    nombre: 'Golondrina Automatización',
+    detalle: 'Una nueva forma de automatizar procesos',
     mensual: null,
     proximamente: true,
   },
