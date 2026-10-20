@@ -91,7 +91,7 @@ const CartelProximamente: React.FC = () => {
       type="button"
       onClick={otraVez}
       onMouseEnter={otraVez}
-      aria-label="Próximamente. Estamos en fase de creación"
+      aria-label="En el laboratorio: próximamente. Estamos en fase de creación"
       className="group mb-6 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-8 sm:py-10 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
