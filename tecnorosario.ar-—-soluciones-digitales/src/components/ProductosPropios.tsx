@@ -15,7 +15,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'software-ciberseguridad',
     icon: ShieldCheck,
-    title: 'TERO Software',
+    title: 'TERO Security',
     description: 'Sistema de ciberseguridad',
   },
   {
