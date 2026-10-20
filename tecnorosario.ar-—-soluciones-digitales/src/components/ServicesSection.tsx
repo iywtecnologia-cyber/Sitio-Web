@@ -29,11 +29,12 @@ export const SERVICES: ServiceItem[] = [
   {
     id: 'analisis-qa',
     icon: Target,
-    badge: 'Análisis & Calidad',
+    badge: 'Diagnóstico gratuito',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
     title: 'Entendemos tu problema antes de programar',
-    description: 'Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
+    description: 'El diagnóstico es gratuito y sin compromiso. Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
     bullets: [
+      'Diagnóstico 100% gratuito: te decimos qué conviene hacer',
       'Te mostramos un prototipo antes de empezar',
       'Probamos todo antes de que lo uses',
       'Hablás directo con los fundadores, sin intermediarios'
