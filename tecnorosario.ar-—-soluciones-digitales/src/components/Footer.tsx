@@ -58,8 +58,20 @@ export const Footer: React.FC = () => {
           </nav>
         </div>
 
+        {/* Derechos del consumidor: siempre visibles */}
+        <div className="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-[13px]">
+          <a
+            href="#arrepentimiento"
+            className="inline-flex items-center px-3 py-1.5 rounded-lg border border-cyan-500/50 text-cyan-300 font-semibold hover:bg-cyan-500/10 transition-colors"
+          >
+            Botón de arrepentimiento
+          </a>
+          <a href="#baja" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Botón de baja</a>
+          <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
+        </div>
+
         {/* Fila inferior: créditos + LinkedIn */}
-        <div className="pt-8 sm:pt-10 flex flex-col lg:flex-row items-center justify-between gap-6 font-mono text-[11px] sm:text-xs text-slate-400">
+        <div className="pt-6 sm:pt-8 flex flex-col lg:flex-row items-center justify-between gap-6 font-mono text-[11px] sm:text-xs text-slate-400">
           <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center">
             <span>© {new Date().getFullYear()} tecnoros.ar · Todos los derechos reservados</span>
             <span className="hidden sm:inline text-slate-600" aria-hidden="true">·</span>

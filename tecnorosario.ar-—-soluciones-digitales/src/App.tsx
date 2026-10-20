@@ -16,6 +16,7 @@ import { HowWeWorkSection } from './components/HowWeWorkSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
+import { Arrepentimiento } from './components/Arrepentimiento';
 
 export default function App() {
   return (
@@ -38,6 +39,9 @@ export default function App() {
 
       {/* Asistente guiado: el botón flotante abre el chat */}
       <Asistente />
+
+      {/* Botón de arrepentimiento / baja (se abre con #arrepentimiento o #baja) */}
+      <Arrepentimiento />
     </div>
   );
 }

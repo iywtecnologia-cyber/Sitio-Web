@@ -26,8 +26,9 @@ export const Hero: React.FC = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
-            Tu negocio crece{' '}
-            <span className="animate-text-light-sweep">con vos</span>
+            Todo para tu negocio
+            <br />
+            que crece <span className="animate-text-light-sweep">con vos</span>
           </h1>
 
           <p className="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl leading-relaxed">
@@ -61,6 +62,10 @@ export const Hero: React.FC = () => {
               </li>
             ))}
           </ul>
+
+          <a href="#arrepentimiento" className="mt-6 inline-block text-xs text-slate-400 hover:text-cyan-300 underline underline-offset-4">
+            Botón de arrepentimiento
+          </a>
         </div>
       </div>
     </section>
