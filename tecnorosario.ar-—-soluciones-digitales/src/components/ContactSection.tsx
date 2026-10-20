@@ -9,9 +9,9 @@ import {
   CornerRightDown,
   Linkedin
 } from 'lucide-react';
+import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
 
 const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
-const CONTACT_EMAIL = "tecnorosar@gmail.com";
 const WHATSAPP_NUMBERS = [
   "5493413130336",
   "5491125079568"
@@ -29,7 +29,7 @@ export const ContactSection: React.FC = () => {
     email: '',
     mensaje: DEFAULT_MESSAGE,
   });
-  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
   const [sentSuccess, setSentSuccess] = useState(false);
 
   // El e-mail se redacta en Gmail web, en una pestaña nueva del mismo navegador
@@ -37,10 +37,10 @@ export const ContactSection: React.FC = () => {
   const gmailUrl = (subject: string, body: string) =>
     `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(CONTACT_EMAIL);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+  const handleCopyEmail = (email: string) => {
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(email);
+    setTimeout(() => setCopiedEmail(null), 2000);
   };
 
   // El navegador a veces autocompleta el campo de nombre con el e-mail.
@@ -200,24 +200,31 @@ export const ContactSection: React.FC = () => {
 
             <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
               <span>O escribinos a</span>
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
-                title="Copiar email"
-              >
-                {copiedEmail ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>Copiado</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5 text-slate-400" />
-                    <span>{CONTACT_EMAIL}</span>
-                  </>
-                )}
-              </button>
+              {[
+                { etiqueta: 'Ventas', email: VENTAS_EMAIL },
+                { etiqueta: 'Soporte', email: SOPORTE_EMAIL },
+              ].map(({ etiqueta, email }) => (
+                <button
+                  key={email}
+                  type="button"
+                  onClick={() => handleCopyEmail(email)}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
+                  title={`Copiar email de ${etiqueta.toLowerCase()}`}
+                >
+                  {copiedEmail === email ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>Copiado</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-slate-400" />
+                      <span className="font-sans text-slate-400">{etiqueta}:</span>
+                      <span>{email}</span>
+                    </>
+                  )}
+                </button>
+              ))}
             </div>
 
             {sentSuccess && (

@@ -7,7 +7,11 @@ export const whatsappLink = (message: string): string => {
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 };
 
-export const CONTACT_EMAIL = 'tecnorosar@gmail.com';
+// Casillas del dominio (Cloudflare Email Routing las reenvía al Gmail).
+export const VENTAS_EMAIL = 'ventas@tecnoros.ar';
+export const SOPORTE_EMAIL = 'soporte@tecnoros.ar';
+// Consultas y presupuestos van a ventas.
+export const CONTACT_EMAIL = VENTAS_EMAIL;
 
 // Abre la redacción de Gmail en una pestaña del mismo navegador, con asunto y texto cargados.
 export const gmailLink = (subject: string, body: string): string =>
