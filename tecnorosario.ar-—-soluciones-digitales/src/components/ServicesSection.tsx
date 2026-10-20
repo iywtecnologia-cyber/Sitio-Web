@@ -27,6 +27,19 @@ interface ServiceItem {
 
 export const SERVICES: ServiceItem[] = [
   {
+    id: 'analisis-qa',
+    icon: Target,
+    badge: 'Análisis & Calidad',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    title: 'Entendemos tu problema antes de programar',
+    description: 'Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
+    bullets: [
+      'Te mostramos un prototipo antes de empezar',
+      'Probamos todo antes de que lo uses',
+      'Hablás directo con los fundadores, sin intermediarios'
+    ]
+  },
+  {
     id: 'automatizacion',
     icon: Workflow,
     badge: 'Automatizaciones',
@@ -102,19 +115,6 @@ export const SERVICES: ServiceItem[] = [
       'Se ve bien en la compu y en el celular',
       'Formularios y consultas conectados a tu WhatsApp, mail o planilla',
       'Con asistente y automatizaciones incluidas si las necesitás'
-    ]
-  },
-  {
-    id: 'analisis-qa',
-    icon: Target,
-    badge: 'Análisis & Calidad',
-    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
-    title: 'Entendemos tu problema antes de programar',
-    description: 'Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
-    bullets: [
-      'Te mostramos un prototipo antes de empezar',
-      'Probamos todo antes de que lo uses',
-      'Hablás directo con los fundadores, sin intermediarios'
     ]
   }
 ];
