@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowUpRight, ChevronDown, ArrowRight } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { SERVICES } from './ServicesSection';
+import { PRODUCTOS } from './ProductosPropios';
 import { PROJECTS_DATA } from './PortfolioSection';
 
 interface NavbarProps {
@@ -54,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
       setIsScrolled(window.scrollY > 20);
 
       // Section tracker for active underline
-      const sections = ['inicio', 'servicios', 'sobre-nosotros', 'stack', 'proyectos', 'facturacion', 'como-trabajamos', 'contacto'];
+      const sections = ['inicio', 'servicios', 'productos', 'sobre-nosotros', 'stack', 'proyectos', 'facturacion', 'como-trabajamos', 'contacto'];
       const scrollPosition = window.scrollY + 120;
 
       for (const sectionId of sections) {
@@ -107,6 +108,17 @@ export const Navbar: React.FC<NavbarProps> = () => {
         label: s.title,
         icon: s.icon,
         go: () => irA(`servicio-${s.id}`, true),
+      })),
+    },
+    {
+      label: 'Productos propios',
+      href: '#productos',
+      id: 'productos',
+      items: PRODUCTOS.map((p) => ({
+        key: p.id,
+        label: p.title,
+        icon: p.icon,
+        go: () => irA(`producto-${p.id}`, true),
       })),
     },
     {
@@ -178,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </a>
           </div>
 
-          {/* Zone 2: nav links; Servicios y Proyectos despliegan su lista */}
+          {/* Zone 2: nav links; Servicios, Productos propios y Proyectos despliegan su lista */}
           <nav ref={navRef} className="hidden xl:flex items-center gap-4 2xl:gap-6 text-sm font-medium text-slate-300 translate-y-[18px] sm:translate-y-[20px]">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
