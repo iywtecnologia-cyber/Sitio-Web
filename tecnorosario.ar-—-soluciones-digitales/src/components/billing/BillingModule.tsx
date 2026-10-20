@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Calculator, Check, Mail, MessageCircle, ShieldCheck, Sparkles, Wrench } from 'lucide-react';
+import { Calculator, Check, Mail, MessageCircle, Sparkles, Wrench } from 'lucide-react';
 import { PRECIOS, ABONOS, pesos } from '../../data/precios';
 import { whatsappLink, gmailLink } from '../../data/contact';
 
@@ -90,7 +90,7 @@ export const BillingModule: React.FC = () => {
             })}
             {ABONOS.map((a) => {
               const activo = abonosElegidos.includes(a.id);
-              const Icono = a.id === 'tero' ? ShieldCheck : Wrench;
+              const Icono = Wrench;
               return (
                 <button
                   key={a.id}
