@@ -14,14 +14,14 @@ export const PRECIOS: Precio[] = [
     servicio: 'Automatizaciones para tu negocio',
     incluye: 'Un proceso que se hace solo: planillas, avisos, reportes, integraciones',
     min: 500_000,
-    max: 1_500_000,
+    max: 1_000_000,
   },
   {
     id: 'bots-whatsapp',
     servicio: 'Bot de WhatsApp',
     incluye: 'Responde y toma pedidos a toda hora, con menú y derivación a una persona',
-    min: 1_500_000,
-    max: 3_000_000,
+    min: 600_000,
+    max: 850_000,
   },
   {
     id: 'ciberseguridad',
@@ -41,15 +41,15 @@ export const PRECIOS: Precio[] = [
     id: 'asistentes',
     servicio: 'Asistente para tu web o sistema',
     incluye: 'Asistente guiado que responde a tus clientes (con inteligencia artificial, desde $1.500.000)',
-    min: 450_000,
+    min: 500_000,
     max: 1_200_000,
   },
   {
     id: 'paginas-web',
     servicio: 'Página web',
     incluye: 'Página para tu negocio, con formularios conectados, automatizaciones y asistente',
-    min: 900_000,
-    max: 2_000_000,
+    min: 650_000,
+    max: 1_500_000,
   }
 ];
 
