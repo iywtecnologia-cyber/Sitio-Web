@@ -45,6 +45,7 @@ export const PROJECTS_DATA: ProjectCase[] = [
     icon: Activity,
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
     demoUrl: 'https://agendaodontologica-9is7.onrender.com',
+    video: { src: '/proyectos/demo-agenda-consultorio.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg' },
     pasos: [
       {
         numero: '1',
@@ -204,6 +205,24 @@ export const PortfolioSection: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Video demo con datos ficticios */}
+          {activeProject.video && (
+            <figure className="mt-8">
+              <video
+                key={activeProject.video.src}
+                src={activeProject.video.src}
+                poster={activeProject.video.poster}
+                controls
+                preload="none"
+                playsInline
+                className="w-full max-w-5xl mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10"
+              >
+                Tu navegador no puede reproducir el video.
+              </video>
+              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido con datos ficticios · Voz: Piper (OpenSLR 61, CC BY-SA 4.0)</figcaption>
+            </figure>
+          )}
 
           {/* Los 5 Pasos del Caso de Estudio */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
