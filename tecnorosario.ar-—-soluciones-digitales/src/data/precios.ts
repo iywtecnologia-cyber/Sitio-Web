@@ -34,8 +34,8 @@ export const PRECIOS: Precio[] = [
     id: 'software',
     servicio: 'Software a medida',
     incluye: 'Sistema pensado para tu rubro: gestión, turnos, stock, ventas',
-    min: 2_500_000,
-    max: 4_000_000,
+    min: 1_000_000,
+    max: 2_000_000,
   },
   {
     id: 'asistentes',
