@@ -66,7 +66,7 @@ export const Footer: React.FC = () => {
           >
             Botón de arrepentimiento
           </a>
-          <a href="#baja" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Botón de baja</a>
+          <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
           <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
         </div>
 
