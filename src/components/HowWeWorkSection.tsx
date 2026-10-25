@@ -187,8 +187,8 @@ export const HowWeWorkSection: React.FC = () => {
             })}
           </div>
 
-          {/* Versión Mobile / Tablet interactiva con scroll suave */}
-          <div className="flex lg:hidden items-center gap-3 overflow-x-auto pb-2 no-scrollbar relative z-10">
+          {/* Versión Mobile / Tablet: los 6 pasos a la vista, sin desplazar de costado */}
+          <div className="grid lg:hidden grid-cols-2 sm:grid-cols-3 gap-2 relative z-10">
             {[
               { step: '01', title: '1. Análisis', status: 'Requerimientos', icon: ClipboardList },
               { step: '02', title: '2. Prototipo', status: 'Diseño Funcional', icon: Layers },
@@ -202,7 +202,7 @@ export const HowWeWorkSection: React.FC = () => {
                 <React.Fragment key={index}>
                   <button
                     onClick={() => scrollToStep(node.step)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 shrink-0 cursor-pointer transition-colors text-left"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/40 min-w-0 cursor-pointer transition-colors text-left"
                   >
                     <div className="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                       <NodeIcon className="w-4 h-4" />
@@ -212,11 +212,6 @@ export const HowWeWorkSection: React.FC = () => {
                       <div className="text-[10px] font-mono text-slate-400">{node.status}</div>
                     </div>
                   </button>
-                  {index < 5 && (
-                    <span className="text-cyan-400 font-mono text-xs shrink-0 animate-pulse">
-                      ➔
-                    </span>
-                  )}
                 </React.Fragment>
               );
             })}

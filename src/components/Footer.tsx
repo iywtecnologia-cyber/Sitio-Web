@@ -32,14 +32,15 @@ export const Footer: React.FC = () => {
 
         {/* Fila superior: marca + navegación */}
         <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 pb-8 sm:pb-10 border-b border-slate-800/70">
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 min-w-0 max-w-full">
             <TecnorosLogo className="w-10 h-10 drop-shadow-[0_0_10px_rgba(0,210,243,0.35)] shrink-0" />
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center min-w-0">
               <span className="text-xl font-black tracking-tight text-white leading-none">
                 tecnoros<span className="text-[#00D2F3]">.ar</span>
               </span>
-              <span className="text-[11px] sm:text-[13px] font-mono text-slate-300 mt-1.5 leading-none whitespace-nowrap">
-                Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Robótica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning
+              <span className="text-[11px] sm:text-[13px] font-mono text-slate-300 mt-1.5 leading-snug">
+                <span className="whitespace-nowrap">Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Robótica</span>{' '}
+                <span className="whitespace-nowrap"><span className="hidden sm:inline text-cyan-500/60 font-sans mx-0.5">|</span> Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning</span>
               </span>
             </div>
           </div>
