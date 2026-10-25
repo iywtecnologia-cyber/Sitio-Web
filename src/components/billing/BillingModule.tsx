@@ -202,9 +202,10 @@ export const BillingModule: React.FC = () => {
                     <button
                       key={h.id}
                       type="button"
-                      onClick={() => alternarHardware(h.id)}
+                      onClick={() => h.id !== 'dispositivo-tero' && alternarHardware(h.id)}
+                      disabled={h.id === 'dispositivo-tero'}
                       aria-pressed={activo}
-                      className={`text-left p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between gap-3 ${
+                      className={`text-left p-5 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${h.id === 'dispositivo-tero' ? 'opacity-65 cursor-not-allowed' : 'cursor-pointer'} ${
                         activo
                           ? 'bg-cyan-950/60 border-cyan-400 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400'
                           : 'bg-slate-900/90 border-slate-700/80 hover:border-slate-500'
@@ -220,7 +221,7 @@ export const BillingModule: React.FC = () => {
                             {activo && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
                           </span>
                           <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                            {h.id === 'dispositivo-chaja' ? 'A consultar' : h.precioUsd ? dolares(h.precioUsd) : ''}
+                            {h.id === 'dispositivo-tero' ? 'Próximamente' : h.id === 'dispositivo-chaja' ? 'A consultar' : h.precioUsd ? dolares(h.precioUsd) : ''}
                           </span>
                         </div>
                         <h4 className="font-bold text-white text-base mt-2.5 leading-snug">{h.servicio}</h4>
@@ -230,7 +231,7 @@ export const BillingModule: React.FC = () => {
                       <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
                         <span className="text-[11px] text-slate-400">Referencia ARS:</span>
                         <span className="text-sm font-extrabold text-cyan-300">
-                          {h.id === 'dispositivo-chaja' ? 'A consultar' : `~${pesos(h.min)}`}
+                          {h.id === 'dispositivo-tero' ? 'No disponible' : h.id === 'dispositivo-chaja' ? 'A consultar' : `~${pesos(h.min)}`}
                         </span>
                       </div>
                     </button>
@@ -255,7 +256,7 @@ export const BillingModule: React.FC = () => {
                     </select>
                   </label>}
                   <p className="text-sm font-semibold text-cyan-300">Voz: USD {vozMensualUsd}/mes · {cantidadVoz} licencia/s independientes</p>
-                  <p className="text-xs text-slate-400">Servicio opcional, no incluido en el hardware. Precios comerciales orientativos; activación y disponibilidad sujetas a configuración de Azure AI Speech. La campanilla local no necesita suscripción. El límite se mide por equipo; no se comparte entre dispositivos.</p>
+                  <p className="text-xs text-slate-400">Servicio opcional, no incluido en el hardware. Precios comerciales orientativos; activación y disponibilidad sujetas a configuración de Azure AI Speech. El límite se mide por equipo; no se comparte entre dispositivos.</p>
                 </div>
               )}
 

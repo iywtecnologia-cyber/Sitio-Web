@@ -176,7 +176,7 @@ const CartelProximamente: React.FC = () => {
       type="button"
       onClick={otraVez}
       onMouseEnter={otraVez}
-      aria-label="En el laboratorio: próximamente. Estamos en fase de creación"
+      aria-label="TERO Security: próximamente. Los demás servicios están disponibles para consulta"
       className="group mb-8 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-6 sm:py-8 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
@@ -193,13 +193,13 @@ const CartelProximamente: React.FC = () => {
           <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
           <span className="relative inline-flex w-2 h-2 rounded-full bg-violet-400" />
         </span>
-        EN NUESTRO LABORATORIO DE HARDWARE & SISTEMAS
+        TERO SECURITY · EN DESARROLLO
       </span>
       <span aria-hidden="true" className="relative block mt-2 font-mono text-2xl sm:text-4xl lg:text-5xl font-bold tracking-[0.16em] sm:tracking-[0.22em] text-white group-hover:text-cyan-200 transition-colors">
         {texto}
       </span>
       <span aria-hidden="true" className="relative block mt-2 text-sm sm:text-base text-slate-300">
-        Estamos en fase de fabricación y pruebas de campo<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
+        Solo TERO Security está próximo a lanzarse. CHAJÁ, Golondrina, automatización y robótica se ofrecen bajo evaluación técnica<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
       </span>
       <span aria-hidden="true" className="relative block mx-auto mt-4 h-1 w-40 sm:w-56 rounded-full bg-slate-800 overflow-hidden">
         <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
@@ -209,55 +209,11 @@ const CartelProximamente: React.FC = () => {
   );
 };
 
-// Campanilla Acústica Armónica (Chime de notificación suave de alta definición)
-function playHarmonicChime() {
-  try {
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    if (ctx.state === 'suspended') {
-      ctx.resume();
-    }
-    const now = ctx.currentTime;
-    // Dos notas armónicas cálidas y suaves (Do5 y Sol5) con caída suave
-    const notes = [523.25, 783.99];
-    notes.forEach((freq, idx) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-
-      gain.gain.setValueAtTime(0, now + idx * 0.08);
-      gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.08 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.45);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now + idx * 0.08);
-      osc.stop(now + idx * 0.08 + 0.5);
-    });
-  } catch {
-    // fallback
-  }
-}
-
-// Síntesis de voz calibrada de alta definición con filtro de voces naturales en español
-// No se simulan voces: la narración natural es un servicio adicional cotizable.
-function speakNaturalVoice(
-  _text: string,
-  _style: 'female-soft' | 'male-neutral' | 'chime-only',
-  onStart?: () => void,
-  onEnd?: () => void
-) {
-  onStart?.();
-  playHarmonicChime();
-  window.setTimeout(() => onEnd?.(), 650);
-}
-
 export const ProductosPropios: React.FC = () => {
   // Dispositivo de hardware seleccionado en el laboratorio 3D (Chajá o Golondrina)
   const [selectedSystem, setSelectedSystem] = useState<'tero' | 'golondrina' | 'colibri'>('colibri');
   const [colibriMode, setColibriMode] = useState<'voice' | 'text' | 'shield' | 'learn'>('voice');
+  const [activeCapability, setActiveCapability] = useState<'voice' | 'text' | 'shield' | null>(null);
   const [customFilament, setCustomFilament] = useState(false);
   const [filamentColorHex, setFilamentColorHex] = useState('#06b6d4');
 
@@ -266,13 +222,10 @@ export const ProductosPropios: React.FC = () => {
   const [physicalDemo, setPhysicalDemo] = useState<{label: string; message: string} | null>(null);
   const [demoCount, setDemoCount] = useState(0);
 
-  // Selector de estilo acústico: Voz Femenina Natural / Voz Masculina Neutra / Solo Campanilla (sin voz)
-  const voiceStyle = 'chime-only' as const;
 
   // Estado de simulación interactiva de 1-clic y auto-aprendizaje
   const [isLearningSim, setIsLearningSim] = useState(false);
   const [learningStep, setLearningStep] = useState(0);
-  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const activeData = selectedSystem === 'colibri'
     ? (PRODUCTOS.find(p => p.id === 'colibri-micro-hub') || PRODUCTOS[1])
@@ -312,31 +265,13 @@ export const ProductosPropios: React.FC = () => {
 
     setTimeout(() => {
       setLearningStep(3);
-      speakNaturalVoice(
-        'Chajá configurado. Planta calibrada y red protegida.',
-        voiceStyle,
-        () => setIsSpeaking(true),
-        () => setIsSpeaking(false)
-      );
+
     }, 2000);
 
     setTimeout(() => {
       setIsLearningSim(false);
       setColibriMode('voice');
     }, 4500);
-  };
-
-  const handlePlayVoiceSample = () => {
-    const frase = voiceStyle === 'chime-only'
-      ? 'Campanilla acústica tecnológica activa'
-      : 'Campanilla de aviso del micro-hub.';
-
-    speakNaturalVoice(
-      frase,
-      voiceStyle,
-      () => setIsSpeaking(true),
-      () => setIsSpeaking(false)
-    );
   };
 
   const handleWhatsAppQuote = () => {
@@ -409,7 +344,7 @@ export const ProductosPropios: React.FC = () => {
                     {isColibri ? (
                       <span className="text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <Sparkles className="w-3 h-3 text-cyan-400" />
-                        <span>Edge AI • 1-Clic</span>
+                        <span>Disponible a pedido</span>
                       </span>
                     ) : isGolondrina ? (
                       <span className="text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
@@ -422,7 +357,7 @@ export const ProductosPropios: React.FC = () => {
                       </span>
                     ) : (
                       <span className="text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
-                        Cerebro & Cuerpo
+                        Servicio a medida
                       </span>
                     )}
                   </div>
@@ -577,11 +512,14 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </div>
 
-        <section className="mb-6 rounded-2xl border border-amber-500/40 bg-slate-900/90 p-5 space-y-3" aria-label="Estado de desarrollo y seguridad industrial">
-          <h3 className="text-lg font-bold text-white">Estado de desarrollo y validación industrial</h3>
-          <p className="text-sm text-slate-200">Golondrina y CHAJÁ se presentan con fines informativos y demostrativos. Las simulaciones no controlan motores, válvulas ni maquinaria real. Las funciones de automatización y actuación física son capacidades previstas sujetas a ingeniería, evaluación de riesgos, pruebas y conformidad normativa aplicable a cada instalación.</p>
-          <p className="text-sm text-amber-200">Actualmente no se declara certificación de seguridad funcional ni habilitación para operar procesos industriales críticos. Las consultas y presupuestos son preliminares y no constituyen una oferta de instalación operativa inmediata.</p>
-          <p className="text-xs text-slate-400">La capacitación individual del equipo no equivale a certificación del producto o de una instalación. Antes de habilitar funciones de control se requerirá evaluación por profesionales competentes y el cumplimiento de los requisitos legales y técnicos correspondientes.</p>
+        <section className="mb-6 rounded-2xl border border-amber-500/40 bg-slate-900/90 p-5 space-y-3" aria-label="Compromiso con la seguridad industrial">
+          <h3 className="text-lg font-bold text-white">Compromiso con la seguridad industrial</h3>
+          <p className="text-xs text-slate-400">TecnoRosario · Información técnica y comercial</p>
+          <p className="inline-flex w-fit rounded-full border border-amber-400/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">En desarrollo y validación</p>
+          <p className="text-sm text-slate-200">Nuestras soluciones Golondrina y CHAJÁ están concebidas para monitoreo inteligente, automatización y protección de entornos industriales.</p>
+          <p className="text-sm text-slate-200">Las capacidades de control de motores, válvulas y otros actuadores se presentan actualmente como funcionalidades previstas o demostrativas, sujetas a evaluación técnica y de seguridad.</p>
+          <p className="text-sm text-slate-200">Antes de ofrecer una implementación operativa se determinarán los requisitos normativos aplicables, las pruebas necesarias y las condiciones de instalación.</p>
+          <p className="text-sm text-amber-200">Los productos no se anuncian como certificados. Las demostraciones no constituyen autorización para operar maquinaria real ni reemplazan los sistemas de seguridad industrial.</p>
         </section>
 
         {/* Aplicaciones Llave en Mano de Golondrina Automatización (Listas para implementar hoy) */}
@@ -666,10 +604,10 @@ export const ProductosPropios: React.FC = () => {
               {(selectedSystem === 'colibri' || selectedSystem === 'golondrina') && (
                 <section className="rounded-xl border border-cyan-500/30 bg-slate-950/90 p-4 text-slate-200" aria-label="Simulador de controles físicos">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <h4 className="font-bold text-sm text-cyan-300">Controles de la carcasa · demostración interactiva</h4>
+                    <h4 className="font-bold text-sm text-cyan-300">Botones de la carcasa · demo</h4>
                     <span className="text-[10px] rounded-full border border-amber-500/40 px-2 py-1 text-amber-300">SIMULACIÓN · sin conexión a máquinas</span>
                   </div>
-                  <p className="text-xs text-slate-400 mb-3">Los controles de este panel representan los botones visibles en el modelo 3D. Tocá uno para probar su comportamiento previsto. No son funciones de hardware verificadas.</p>
+                  <p className="text-xs text-slate-400 mb-3">Probá los controles del modelo 3D. Solo simulación.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {(selectedSystem === 'colibri' ? [
                       {label:'CONFIG',desc:'Iniciar configuración y vinculación',message:'Modo de configuración simulado. En un equipo real requerirá autenticación y validación de red.'},
@@ -737,53 +675,29 @@ export const ProductosPropios: React.FC = () => {
               {/* PANEL INTERACTIVO DE CONTROL EN VIVO DE CHAJÁ */}
               {selectedSystem === 'colibri' && (
                 <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/40 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                      <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider block font-bold">
-                        Simulación Interactiva & Avisos
-                      </span>
-                      <h4 className="text-sm sm:text-base font-bold text-white mt-0.5">
-                        Conocé las funciones y probá la demostración de configuración
-                      </h4>
-                    </div>
-                    <span className="text-xs font-mono text-slate-400">
-                      Reemplaza a una PC grande
-                    </span>
+                  <div>
+                    <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-bold">CHAJÁ · Demo interactiva</span>
+                    <h4 className="text-sm font-bold text-white">Elegí una función para conocerla</h4>
                   </div>
-
-                  {/* Indicadores de capacidades: informativos, sin interacción */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5" aria-label="Capacidades disponibles del micro-hub">
-                    <div className="p-3 rounded-xl border bg-emerald-500/10 border-emerald-400/60 text-emerald-300 text-xs font-bold flex items-center justify-center gap-2">
-                      <Volume2 className="w-4 h-4" aria-hidden="true" />
-                      <span>1. Alerta por Voz (Servicio adicional)</span>
-                    </div>
-                    <div className="p-3 rounded-xl border bg-slate-950/80 border-slate-800 text-slate-300 text-xs font-bold flex items-center justify-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-cyan-400" aria-hidden="true" />
-                      <span>2. Alerta Texto (WhatsApp)</span>
-                    </div>
-                    <div className="p-3 rounded-xl border bg-slate-950/80 border-slate-800 text-slate-300 text-xs font-bold flex items-center justify-center gap-2">
-                      <Shield className="w-4 h-4 text-sky-400" aria-hidden="true" />
-                      <span>3. Ciberseguridad & Red</span>
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2" aria-label="Funciones de CHAJÁ">
+                    {([
+                      {id:'voice' as const, label:'Voz (opcional)', icon:Volume2, info:'Alertas habladas con abono mensual por cada CHAJÁ. Servicio a contratar; no reproduce voz en esta demo.'},
+                      {id:'text' as const, label:'WhatsApp', icon:MessageSquare, info:'Avisos de eventos y anomalías por WhatsApp, sujetos a configuración del servicio.'},
+                      {id:'shield' as const, label:'Ciberseguridad', icon:Shield, info:'Aislamiento y supervisión de red industrial. Funcionalidad sujeta a validación técnica.'},
+                    ]).map(({id,label,icon:Icon,info}) => (
+                      <button key={id} type="button" aria-pressed={activeCapability === id}
+                        onClick={() => {setActiveCapability(id);setColibriMode(id);}}
+                        className={`p-3 rounded-xl border bg-slate-950/80 text-slate-300 text-xs font-bold flex items-center justify-center gap-2 hover:border-cyan-500/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 ${activeCapability===id?'border-cyan-500':'border-slate-800'}`}>
+                        <Icon className="w-4 h-4 text-cyan-400" aria-hidden="true" /> {label}
+                      </button>
+                    ))}
                   </div>
-                  <div className="p-4 rounded-xl bg-slate-950/90 border border-cyan-500/30 space-y-2">
-                    <p className="text-xs font-bold text-cyan-300">Voz natural profesional · Servicio opcional pago</p>
-                    <p className="text-xs text-slate-300 leading-relaxed">El dispositivo no incluye voz hablada ni voz emulada. Las alertas sonoras básicas utilizan una campanilla. Si necesitás mensajes hablados fluidos, podés contratar el servicio adicional de voz neuronal, sujeto a cotización, conexión y configuración.</p>
-                    <button type="button" onClick={() => {
-                      const message = encodeURIComponent('Hola TecnoRosario, quiero consultar el precio y condiciones del servicio opcional de voz natural para CHAJÁ Micro-Hub.');
-                      window.open(`https://wa.me/5493415112000?text=${message}`, '_blank', 'noopener,noreferrer');
-                    }} className="inline-flex items-center gap-2 rounded-lg border border-cyan-500/50 px-3 py-2 text-xs font-bold text-cyan-300 hover:bg-cyan-500/10">Consultar servicio de voz por WhatsApp <ArrowRight className="w-3.5 h-3.5" /></button>
-                  </div>
-
-                  <div className="rounded-xl border border-slate-700 bg-slate-950/80 p-3 text-xs text-slate-300 space-y-1.5">
-                    <p className="font-bold text-white">¿Qué hace cada control de CHAJÁ?</p>
-                    <p><strong className="text-cyan-300">Autoaprendizaje:</strong> ejecuta una demostración visual de detección de patrones. No configura ninguna planta real.</p>
-                    <p><strong className="text-cyan-300">Campanilla:</strong> permite escuchar una notificación básica sin voz hablada.</p>
-                    <p><strong className="text-cyan-300">Ver por dentro:</strong> abre el modelo 3D para conocer sus componentes.</p>
-                    <p><strong className="text-cyan-300">Indicadores superiores:</strong> describen servicios previstos; no son botones ni activan equipos.</p>
-                    <p className="text-amber-200">La voz neuronal es un abono opcional por cada CHAJÁ instalado. No está incluida ni integrada en esta demostración.</p>
-                  </div>
-
+                  {activeCapability && (
+                    <div role="status" aria-live="polite" className="p-3 rounded-xl border border-slate-700 bg-slate-950/80 text-xs text-slate-300">
+                      {activeCapability==='voice' ? 'Voz: alertas habladas mediante servicio pago por equipo; no hay voz de prueba.' : activeCapability==='text' ? 'WhatsApp: notificaciones de eventos, previa configuración.' : 'Ciberseguridad: protección y segmentación de red, sujeta a evaluación.'}
+                      {activeCapability==='voice' && <button type="button" onClick={() => window.open('https://wa.me/5493415112000?text='+encodeURIComponent('Hola, quiero cotizar voz premium por CHAJÁ.'),'_blank','noopener,noreferrer')} className="ml-2 underline text-cyan-300">Consultar precio</button>}
+                    </div>
+                  )}
                   {/* Botones de Acción de Prueba en Vivo */}
                   <div className="flex flex-col sm:flex-row gap-2.5 pt-2 border-t border-slate-800/80">
                     <button
@@ -799,20 +713,11 @@ export const ProductosPropios: React.FC = () => {
                             ? 'Escaneando variables de planta...'
                             : learningStep === 2
                             ? 'Aprendiendo ritmos normales (ML)...'
-                            : '¡Planta y Red 100% Configuradas!'
-                          : 'Probar 1-Clic de Auto-Aprendizaje (Machine Learning)'}
+                            : 'Demo completada'
+                          : 'Simular autoaprendizaje'}
                       </span>
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={handlePlayVoiceSample}
-                      disabled={isSpeaking}
-                      className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs sm:text-sm font-bold text-slate-200 flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
-                    >
-                      <Volume2 className={`w-4 h-4 ${isSpeaking ? 'text-emerald-400 animate-pulse' : 'text-cyan-400'}`} />
-                      <span>{isSpeaking ? 'Reproduciendo campanilla...' : 'Probar Campanilla (sin voz)'}</span>
-                    </button>
                   </div>
 
                   {/* Mensaje de Confirmación de Configuración */}
@@ -820,9 +725,9 @@ export const ProductosPropios: React.FC = () => {
                     <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/50 text-xs text-emerald-200 flex items-center gap-2.5 animate-fadeIn">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>
-                        {learningStep === 1 && 'Paso 1: Detectando contexto operativo de máquinas sin programación manual...'}
-                        {learningStep === 2 && 'Paso 2: Machine Learning contextual calculando umbrales normales...'}
-                        {learningStep === 3 && '¡Simulación finalizada! WhatsApp disponible; voz natural opcional con costo adicional.'}
+                        {learningStep === 1 && 'Paso 1: Detectando variables de ejemplo...'}
+                        {learningStep === 2 && 'Paso 2: Calculando patrones simulados...'}
+                        {learningStep === 3 && 'Demo finalizada. No se configuraron equipos reales.'}
                       </span>
                     </div>
                   )}
@@ -1105,7 +1010,7 @@ export const ProductosPropios: React.FC = () => {
                   Transductor Acústico de Neodimio & DAC
                 </h4>
                 <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Micro-altavoz con diafragma de mylar y cámara de resonancia cilíndrica. Produce campanillas armónicas cálidas de notificación suave y alocución de voz clara, con opción de silenciar la voz y utilizar únicamente la campana acústica de estudio.
+                  Módulo de audio opcional para alertas habladas mediante servicio contratado; sujeto a diseño y validación del hardware.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">

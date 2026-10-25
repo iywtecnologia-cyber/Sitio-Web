@@ -18,21 +18,21 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   {
     id: 'dispositivo-chaja',
     servicio: 'CHAJÁ Micro-Hub · Edge AI y Ciberseguridad',
-    incluye: 'Micro-Hub industrial. Alertas visuales y campanilla local. Voz hablada neuronal opcional por cada equipo, con suscripción separada. Precio del hardware a confirmar en presupuesto formal.',
+    incluye: 'Micro-Hub industrial. Alertas visuales. Voz hablada neuronal opcional por cada equipo, con suscripción separada. Precio del hardware a confirmar en presupuesto formal.',
     min: 0, max: 0, precioUsd: 0, tipo: 'hardware',
     badge: 'Precio del equipo a consultar',
     notaHardware: 'No incluye voz hablada. El precio del hardware se confirma luego del diagnóstico técnico.',
   },
   {
     id: 'dispositivo-tero',
-    servicio: 'Dispositivo Físico TERO Security (Hardware Appliance)',
-    incluye: 'Compra única del aparato físico (250 USD): Microprocesador criptográfico, 4 puertos Ethernet blindados, almacenamiento flash local y firmware IDS/IPS. Fabricado en filamento Negro Mate industrial de serie.',
+    servicio: 'TERO Security · Próximamente (Hardware Appliance)',
+    incluye: 'Producto en investigación y desarrollo. Todavía no disponible para compra o instalación. Consultá por novedades.',
     min: 300_000,
     max: 300_000,
     precioUsd: 250,
     tipo: 'hardware',
-    badge: 'Dispositivo Físico · 250 USD',
-    notaHardware: 'Equipo físico plug & play. No requiere abono obligatorio para operar de forma local autónoma.',
+    badge: 'Próximamente · No disponible para compra',
+    notaHardware: 'TERO Security no está disponible para venta. Las especificaciones y precios son preliminares.',
   },
   {
     id: 'dispositivo-golondrina',
@@ -157,9 +157,8 @@ export const ABONOS: Abono[] = [
   {
     id: 'carancho',
     nombre: 'Carancho • Cerebro Robótico & Gemelo Digital 3D (Software en Computadora)',
-    detalle: 'Programación del cerebro autónomo, algoritmos de navegación ROS 2 y simulación de gemelos digitales por computadora. (No incluye cuerpo físico).',
+    detalle: 'Servicio de robótica a medida disponible para evaluación y presupuesto: cerebro autónomo, algoritmos ROS 2 y gemelo digital. La fabricación e instalación física se cotizan y validan por separado.',
     mensual: null,
-    proximamente: true,
   },
 ];
 
