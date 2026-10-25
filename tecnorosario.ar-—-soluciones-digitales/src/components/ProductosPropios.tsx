@@ -30,7 +30,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: Bot,
     title: 'Carancho Robótica Autónoma',
     tagline: 'Una nueva propuesta de tecnología robótica.',
-    description: 'Un proyecto de investigación y desarrollo en robótica autónoma e inteligencia contextual.',
+    description: 'Un proyecto de investigación y desarrollo en tecnología robótica.',
   },
 ];
 
