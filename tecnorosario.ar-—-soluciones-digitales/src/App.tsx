@@ -7,6 +7,7 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductosPropios } from './components/ProductosPropios';
+import { DisenadorRobot3D } from './components/DisenadorRobot3D';
 import { ServicesSection } from './components/ServicesSection';
 import { AboutSection } from './components/AboutSection';
 import { StackSection } from './components/StackSection';
@@ -27,6 +28,7 @@ export default function App() {
         <Hero />
         <ServicesSection />
         <ProductosPropios />
+        <DisenadorRobot3D />
         <PortfolioSection />
         <HowWeWorkSection />
         <BillingModule />
