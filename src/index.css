@@ -5,6 +5,10 @@
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
+  /* Nada se sale de costado en el celular (luces de fondo, tarjetas anchas) */
+  html, body {
+    overflow-x: clip;
+  }
   body {
     font-family: var(--font-sans);
     background-color: #070A12;

@@ -63,19 +63,18 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'colibri-micro-hub',
     icon: Cpu,
     title: 'CHAJÁ Micro-Hub • Edge AI & Ciberseguridad',
-    tagline: 'Dispositivo 3D diminuto con pantalla: reemplaza a una computadora grande con IA contextual, ciberseguridad y 1 solo clic.',
-    description: 'El micro-dispositivo propio de TecnoRosario: un hardware diminuto impreso en 3D que reemplaza por completo a una computadora grande en tu planta, galpón o comercio. Integra ciberseguridad perimetral para proteger tus datos industriales y Machine Learning contextual que aprende en minutos el ciclo normal de tus máquinas. Con su micro-pantalla interactiva, configurás con un solo clic si preferís que te hable por altavoz de voz audible o te notifique por WhatsApp/Telegram. Toda tu empresa protegida y configurada con un solo dispositivo.',
+    tagline: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.',
+    description: 'Un equipo chico que se instala en tu planta, galpón o comercio. Aprende cómo funciona tu operación, protege tus datos y te avisa por WhatsApp o por voz cuando algo cambia. Lo resolvés con un clic.',
     priceUsd: 180,
     priceArs: 216000,
     category: 'Edge Computing & Micro-Dispositivo 3D',
     specs: [
-      'Reemplaza una computadora grande: diminuto (8×8 cm), silencioso y de ultra bajo consumo',
-      'Ciberseguridad de datos integrada: red encriptada local, aislamiento OT/IT y cortafuegos',
-      'Machine Learning contextual: aprende los parámetros y ritmos normales en minutos sin tocar código',
-      'Pantalla micro-OLED de 1 clic: elegí si te habla por voz audible o te avisa por WhatsApp',
-      'Alertas instantáneas a WhatsApp y Telegram con botón de resolución en 1 solo clic',
-      'Fabricado en impresión 3D técnica en Rosario con anclaje a riel DIN o fijación magnética',
-      'Configuración Zero-Effort: 1 solo clic en su pantalla y tenés toda tu empresa configurada'
+      'Diminuto, silencioso y de bajo consumo',
+      'Protege los datos de tu empresa',
+      'Aprende cómo funciona tu operación y avisa si algo cambia',
+      'Alertas por WhatsApp o por voz, y se resuelven con 1 clic',
+      'Fabricado en Rosario',
+      'Se configura en minutos, sin tocar código'
     ]
   },
   {
@@ -644,40 +643,6 @@ export const ProductosPropios: React.FC = () => {
                   <span>Rueda del mouse: Zoom interactivo directo continuo</span>
                 </div>
 
-                {/* Botón y Slider de "Ver por dentro" / Despiece de Hardware */}
-                {selectedSystem === 'colibri' && (
-                  <div className="flex items-center gap-3 bg-slate-950/80 px-3 py-1.5 rounded-lg border border-cyan-500/30">
-                    <button
-                      type="button"
-                      onClick={() => setExplodedAmount(explodedAmount > 0.05 ? 0 : 0.85)}
-                      className={`px-2.5 py-1 rounded text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        explodedAmount > 0.05
-                          ? 'bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/30'
-                          : 'bg-slate-800 text-cyan-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>{explodedAmount > 0.05 ? 'Cerrar Carcasa 3D' : 'Ver por Dentro (Despiece PCB)'}</span>
-                    </button>
-
-                    <div className="hidden sm:flex items-center gap-2">
-                      <span className="text-[10px] text-slate-400">Apertura:</span>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.05"
-                        value={explodedAmount}
-                        onChange={(e) => setExplodedAmount(parseFloat(e.target.value))}
-                        className="w-20 accent-cyan-400 cursor-pointer"
-                        title="Despiece de componentes internos"
-                      />
-                      <span className="text-[10.5px] font-bold text-cyan-300 w-8">
-                        {Math.round(explodedAmount * 100)}%
-                      </span>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* PANEL INTERACTIVO DE CONTROL EN VIVO DE CHAJÁ */}
@@ -899,181 +864,6 @@ export const ProductosPropios: React.FC = () => {
           </div>
 
         </div>
-
-        {/* =========================================================================
-            RADIOGRAFÍA TÉCNICA: ¿CÓMO ESTÁ HECHO CHAJÁ POR DENTRO?
-            ========================================================================= */}
-        <div id="colibri-interior-hardware" className="mt-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900/90 via-slate-950 to-cyan-950/30 border border-cyan-500/30 shadow-2xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-2">
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Ingeniería Electrónica Industrial • TecnoRosario</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                ¿Cómo está hecho CHAJÁ por dentro?
-              </h3>
-              <p className="mt-1.5 text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
-                Reemplaza una computadora gigante porque concentra toda la potencia de cálculo, ciberseguridad y audio en un micro-hardware de estado sólido, sin partes mecánicas frágiles ni ventiladores que aspiren polvo de fábrica.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setSelectedSystem('colibri');
-                setExplodedAmount(0.85);
-                const el = document.getElementById('hardware-studio-3d');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-cyan-500/20 shrink-0 cursor-pointer"
-            >
-              <Eye className="w-4 h-4" />
-              <span>Ver Despiece 3D en el Laboratorio</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-            {/* Componente 1: PCB FR-4 */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono text-xs font-bold">
-                    01
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    Sustrato FR-4
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Placa Base PCB Multicapa Industrial
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Circuito impreso de 4 capas con pistas de cobre pesado de 2oz y plano de masa continuo. Diseñado para absorber vibraciones mecánicas y aislar el ruido electromagnético emitido por motores, contactores y variadores de frecuencia.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                Aislamiento galvánico anti-ruidos
-              </div>
-            </div>
-
-            {/* Componente 2: SoC NPU */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono text-xs font-bold">
-                    02
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    NPU Inferencia
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Procesador Neural Edge Quad-Core
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  SoC con acelerador de tensor que corre el modelo de Machine Learning contextual en tiempo real con latencia menor a 5 ms. Disipación pasiva silenciosa con micro-aletas de aluminio negro: no usa ventiladores, no aspira polvillo ni sufre cuelgues de Windows.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                100% silencioso y sin mantenimiento
-              </div>
-            </div>
-
-            {/* Componente 3: Chip Criptográfico TPM */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 font-mono text-xs font-bold">
-                    03
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    Cifrado Físico
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Chip Criptográfico de Hardware (TPM 2.0)
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Bóveda de silicio donde se generan y protegen las claves criptográficas privadas. Cifra toda la telemetría de planta en AES-256 GCM y aísla la red de automatización para que nadie fuera de tu empresa pueda acceder o vulnerar los datos.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                Cortafuegos perimetral Zero-Cloud
-              </div>
-            </div>
-
-            {/* Componente 4: Transductor Acústico de Neodimio */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-mono text-xs font-bold">
-                    04
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    Audio Premium
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Transductor Acústico de Neodimio & DAC
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Módulo de audio opcional para alertas habladas mediante servicio contratado; sujeto a diseño y validación del hardware.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                Voz natural calibrada o tono tecnológico
-              </div>
-            </div>
-
-            {/* Componente 5: Supercapacitores Anti-Corte */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-violet-400 font-mono text-xs font-bold">
-                    05
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    Respaldo Eléctrico
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Supercapacitores & Filtro Anti-Cortes
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Módulo de almacenamiento electroquímico ultrarrápido que provee hasta 15 segundos de energía limpia ante una interrupción de corriente total en la planta. Registra el corte en su memoria e inmediatamente envía el mensaje de auxilio a WhatsApp antes del apagado.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                Alerta de WhatsApp incluso sin luz
-              </div>
-            </div>
-
-            {/* Componente 6: Magjack & Wi-Fi 6 */}
-            <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 font-mono text-xs font-bold">
-                    06
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    Red Redundante
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  Gigabit Ethernet Blindado & Wi-Fi 6
-                </h4>
-                <p className="mt-2 text-xs text-slate-300 leading-relaxed">
-                  Puerto metálico RJ45 con bobinas magnéticas internas de 1.5 kV de aislamiento contra descargas atmosféricas, complementado por radio Wi-Fi 6 industrial con micro-antena cerámica SMD dorada para conexión inalámbrica robusta.
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-slate-400">
-                Doble enlace cableado e inalámbrico
-              </div>
-            </div>
-          </div>
-        </div>
-
 
       </div>
     </section>
