@@ -176,7 +176,7 @@ const CartelProximamente: React.FC = () => {
       type="button"
       onClick={otraVez}
       onMouseEnter={otraVez}
-      aria-label="TERO Security: próximamente. Los demás servicios están disponibles para consulta"
+      aria-label="TERO Security: próximamente"
       className="group mb-8 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-6 sm:py-8 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
@@ -199,7 +199,7 @@ const CartelProximamente: React.FC = () => {
         {texto}
       </span>
       <span aria-hidden="true" className="relative block mt-2 text-sm sm:text-base text-slate-300">
-        Solo TERO Security está próximo a lanzarse. CHAJÁ, Golondrina, automatización y robótica se ofrecen bajo evaluación técnica<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
+        Sistema de ciberseguridad en fase de desarrollo y pruebas de laboratorio<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
       </span>
       <span aria-hidden="true" className="relative block mx-auto mt-4 h-1 w-40 sm:w-56 rounded-full bg-slate-800 overflow-hidden">
         <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
@@ -344,11 +344,11 @@ export const ProductosPropios: React.FC = () => {
                     {isColibri ? (
                       <span className="text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <Sparkles className="w-3 h-3 text-cyan-400" />
-                        <span>Disponible a pedido</span>
+                        <span>A demanda • Vigente</span>
                       </span>
                     ) : isGolondrina ? (
                       <span className="text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
-                        <span>A Demanda • Activo</span>
+                        <span>A demanda • Vigente</span>
                       </span>
                     ) : id === 'software-ciberseguridad' ? (
                       <span className="text-[11px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1">
@@ -357,7 +357,7 @@ export const ProductosPropios: React.FC = () => {
                       </span>
                     ) : (
                       <span className="text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
-                        Servicio a medida
+                        A demanda • Vigente
                       </span>
                     )}
                   </div>
@@ -515,7 +515,7 @@ export const ProductosPropios: React.FC = () => {
         <section className="mb-6 rounded-2xl border border-amber-500/40 bg-slate-900/90 p-5 space-y-3" aria-label="Compromiso con la seguridad industrial">
           <h3 className="text-lg font-bold text-white">Compromiso con la seguridad industrial</h3>
           <p className="text-xs text-slate-400">TecnoRosario · Información técnica y comercial</p>
-          <p className="inline-flex w-fit rounded-full border border-amber-400/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">En desarrollo y validación</p>
+          <p className="inline-flex w-fit rounded-full border border-amber-400/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">Aviso de seguridad industrial</p>
           <p className="text-sm text-slate-200">Nuestras soluciones Golondrina y CHAJÁ están concebidas para monitoreo inteligente, automatización y protección de entornos industriales.</p>
           <p className="text-sm text-slate-200">Las capacidades de control de motores, válvulas y otros actuadores se presentan actualmente como funcionalidades previstas o demostrativas, sujetas a evaluación técnica y de seguridad.</p>
           <p className="text-sm text-slate-200">Antes de ofrecer una implementación operativa se determinarán los requisitos normativos aplicables, las pruebas necesarias y las condiciones de instalación.</p>
@@ -1066,18 +1066,18 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </div>
 
-        {/* Notificación de lanzamientos */}
+        {/* Aviso de lanzamiento de TERO Security (único producto próximamente) */}
         <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <a
-            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen nuevos dispositivos de hardware y sistemas propios')}
+            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen TERO Security')}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
           >
             <BellRing className="w-4 h-4" />
-            Quiero ser de los primeros
+            Avisame cuando salga TERO Security
           </a>
-          <span className="text-sm text-slate-400">Te avisamos por WhatsApp cuando estén listos.</span>
+          <span className="text-sm text-slate-400">CHAJÁ, Golondrina, automatización y robótica ya están disponibles a demanda. TERO Security te lo avisamos por WhatsApp.</span>
         </div>
 
       </div>
