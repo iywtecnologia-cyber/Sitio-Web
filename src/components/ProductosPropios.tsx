@@ -21,7 +21,8 @@ import {
   Shield,
   CheckCircle2,
   Terminal,
-  Play
+  Play,
+  UserCog
 } from 'lucide-react';
 import { HardwareSystemCanvas3D } from './systems/HardwareSystemCanvas3D';
 import { GolondrinaAplicacionesShowcase } from './systems/GolondrinaAplicacionesShowcase';
@@ -57,6 +58,23 @@ export const PRODUCTOS: ProductoPropio[] = [
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
       'Múltiples sectores: tambos, silos, frío, inyectoras, motores y bombas',
       'Dispositivo físico con sensores fabricado por encargo según tu tablero'
+    ]
+  },
+  {
+    id: 'golondrina-personal',
+    icon: UserCog,
+    title: 'Golondrina Personal • Módulo a tu medida',
+    tagline: 'Aprende tu contexto y te avisa solo donde vos le das permiso.',
+    description: 'Se adapta a cualquier persona o negocio: estudia cómo trabajás y te avisa solo en los lugares que vos habilitaste (WhatsApp, mail o la pantalla). Vos decidís qué puede ver y dónde, y lo cambiás cuando quieras.',
+    priceUsd: 0,
+    priceArs: 0,
+    category: 'Módulo personalizable',
+    specs: [
+      'Aprende tu rutina y tu contexto, sin programar nada',
+      'Solo usa los permisos y canales que vos configurás',
+      'Avisos confiables: te explica por qué te avisa y se puede revisar',
+      'Para cualquier usuario: comercio, oficina, campo o casa',
+      'Se suma a Golondrina o se usa solo, como módulo aparte'
     ]
   },
   {
@@ -233,6 +251,14 @@ export const ProductosPropios: React.FC = () => {
     : (PRODUCTOS.find(p => p.id === 'software-ciberseguridad') || PRODUCTOS[2]);
 
   const handleSelectCard = (id: string) => {
+    if (id === 'golondrina-personal') {
+      window.open(
+        whatsappLink('Hola tecnoros.ar, me interesa Golondrina Personal: el módulo que aprende mi contexto y me avisa donde yo le doy permiso. ¿Cómo sería para mi caso?'),
+        '_blank',
+        'noopener,noreferrer'
+      );
+      return;
+    }
     if (id === 'colibri-micro-hub') {
       setSelectedSystem('colibri');
       const studio = document.getElementById('hardware-studio-3d');
@@ -321,7 +347,8 @@ export const ProductosPropios: React.FC = () => {
             const { id, icon: Icon, title, tagline, description } = prod;
             const isRobotica = id === 'carancho-robotica';
             const isColibri = id === 'colibri-micro-hub';
-            const isGolondrina = id === 'golondrina-automatizacion';
+            const isGolondrina = id === 'golondrina-automatizacion' || id === 'golondrina-personal';
+            const isPersonal = id === 'golondrina-personal';
 
             return (
               <div 
@@ -390,7 +417,9 @@ export const ProductosPropios: React.FC = () => {
                     className="w-full py-2.5 px-3 rounded-xl bg-slate-800/80 hover:bg-cyan-500/20 border border-slate-700 hover:border-cyan-400/50 text-xs font-semibold text-cyan-300 flex items-center justify-center gap-2 transition-all cursor-pointer group/b3d"
                   >
                     <span>
-                      {isRobotica
+                      {isPersonal
+                        ? 'Quiero mi Golondrina Personal'
+                        : isRobotica
                         ? 'Ver Gemelo Digital y Robótica'
                         : isColibri
                         ? 'Probar Micro-Hub 3D (1-Clic)'
