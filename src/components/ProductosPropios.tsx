@@ -177,7 +177,7 @@ const CartelProximamente: React.FC = () => {
       onClick={otraVez}
       onMouseEnter={otraVez}
       aria-label="TERO Security: próximamente"
-      className="group mb-8 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-6 sm:py-8 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
+      className="group mb-12 w-full relative overflow-hidden rounded-2xl border border-violet-500/40 bg-gradient-to-r from-violet-950/50 via-slate-950 to-cyan-950/40 px-6 py-6 sm:py-8 text-center cursor-pointer hover:border-cyan-400/60 transition-colors"
     >
       <span
         aria-hidden="true"
@@ -312,11 +312,13 @@ export const ProductosPropios: React.FC = () => {
           </p>
         </div>
 
-        <CartelProximamente />
-
-        {/* Tarjetas de Productos Propios */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {PRODUCTOS.map((prod) => {
+        {/* Tarjetas de Productos Propios (vigentes a demanda; TERO va aparte en el cartel Próximamente) */}
+        <div className="flex items-center gap-2 mb-4 text-xs font-mono font-bold tracking-widest text-emerald-300">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <span>DISPONIBLES A DEMANDA</span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {PRODUCTOS.filter((prod) => prod.id !== 'software-ciberseguridad').map((prod) => {
             const { id, icon: Icon, title, tagline, description } = prod;
             const isRobotica = id === 'carancho-robotica';
             const isColibri = id === 'colibri-micro-hub';
@@ -403,6 +405,24 @@ export const ProductosPropios: React.FC = () => {
               </div>
             );
           })}
+        </div>
+
+        {/* Próximamente: TERO Security, separado de los productos disponibles */}
+        <div id="tero-proximamente" className="scroll-mt-28 pt-10 border-t border-slate-800/80">
+          <CartelProximamente />
+        {/* Aviso de lanzamiento de TERO Security (único producto próximamente) */}
+        <div className="-mt-6 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <a
+            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen TERO Security')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
+          >
+            <BellRing className="w-4 h-4" />
+            Avisame cuando salga
+          </a>
+          <span className="text-sm text-slate-400">Te avisamos por WhatsApp cuando esté disponible.</span>
+        </div>
         </div>
 
         {/* =========================================================================
@@ -526,7 +546,7 @@ export const ProductosPropios: React.FC = () => {
         <GolondrinaAplicacionesShowcase />
 
         {/* =========================================================================
-            ESTUDIO 3D EXCLUSIVO DE SISTEMAS Y HARDWARE A MEDIDA (CHAJÁ, GOLONDRINA Y TERO)
+            ESTUDIO 3D EXCLUSIVO DE SISTEMAS Y HARDWARE A MEDIDA (CHAJÁ Y GOLONDRINA)
             ========================================================================= */}
         <div id="hardware-studio-3d" className="scroll-mt-24 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 via-slate-950 to-[#070b14] border border-cyan-500/30 shadow-2xl space-y-6">
           
@@ -545,7 +565,7 @@ export const ProductosPropios: React.FC = () => {
               </p>
             </div>
 
-            {/* Selector de Dispositivo Hardware Propio (3 Opciones) */}
+            {/* Selector de Dispositivo Hardware Propio (disponibles a demanda) */}
             <div className="p-1.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-wrap gap-2 self-start md:self-auto shrink-0">
               <button
                 type="button"
@@ -573,18 +593,6 @@ export const ProductosPropios: React.FC = () => {
                 <span>Golondrina (A Demanda)</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => setSelectedSystem('tero')}
-                className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
-                  selectedSystem === 'tero'
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20 font-bold'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <ShieldCheck className="w-4 h-4" />
-                <span>TERO Security (Próximamente)</span>
-              </button>
             </div>
           </div>
 
@@ -1066,19 +1074,6 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </div>
 
-        {/* Aviso de lanzamiento de TERO Security (único producto próximamente) */}
-        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <a
-            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen TERO Security')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
-          >
-            <BellRing className="w-4 h-4" />
-            Avisame cuando salga TERO Security
-          </a>
-          <span className="text-sm text-slate-400">CHAJÁ, Golondrina, automatización y robótica ya están disponibles a demanda. TERO Security te lo avisamos por WhatsApp.</span>
-        </div>
 
       </div>
     </section>
