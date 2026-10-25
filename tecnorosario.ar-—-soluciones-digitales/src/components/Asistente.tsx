@@ -131,12 +131,23 @@ let siguienteId = 1;
 
 // Arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
 // Si se mueve menos de 6px cuenta como clic.
+// Cuando se suelta, después de 5 segundos de inactividad, Marcio regresa a su origen.
 const useArrastre = (alTocar: () => void) => {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   // Mientras lo tenés apretado, Marcio se "levanta" para que se note que lo agarraste.
   const [agarrado, setAgarrado] = useState(false);
+  const [retornando, setRetornando] = useState(false);
+  const retornoTimer = useRef<number | null>(null);
   const ref = useRef<HTMLElement | null>(null);
   const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
+
+  const cancelarRetorno = () => {
+    if (retornoTimer.current) {
+      window.clearTimeout(retornoTimer.current);
+      retornoTimer.current = null;
+    }
+  };
+
   const limitar = (x: number, y: number) => {
     const el = ref.current;
     const w = el?.offsetWidth ?? 120;
@@ -146,14 +157,21 @@ const useArrastre = (alTocar: () => void) => {
       y: Math.min(Math.max(y, 48), window.innerHeight - h - 4),
     };
   };
+
   useEffect(() => {
     const ajustar = () => setPos((p) => (p ? limitar(p.x, p.y) : p));
     window.addEventListener('resize', ajustar);
-    return () => window.removeEventListener('resize', ajustar);
+    return () => {
+      window.removeEventListener('resize', ajustar);
+      cancelarRetorno();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const handlers = {
     onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
+      cancelarRetorno();
+      setRetornando(false);
       const r = ref.current?.getBoundingClientRect();
       if (!r) return;
       arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
@@ -171,7 +189,21 @@ const useArrastre = (alTocar: () => void) => {
       const a = arrastre.current;
       arrastre.current = null;
       setAgarrado(false);
-      if (a && !a.movio) alTocar();
+      if (a && !a.movio) {
+        alTocar();
+        return;
+      }
+      if (a && a.movio) {
+        // Al moverse, tras unos segundos de descanso Marcio regresa automáticamente a su lugar de origen
+        cancelarRetorno();
+        retornoTimer.current = window.setTimeout(() => {
+          setRetornando(true);
+          retornoTimer.current = window.setTimeout(() => {
+            setPos(null);
+            setRetornando(false);
+          }, 850);
+        }, 5000);
+      }
     },
     onPointerCancel: () => {
       arrastre.current = null;
@@ -184,7 +216,7 @@ const useArrastre = (alTocar: () => void) => {
       }
     },
   };
-  return { pos, setPos, ref, handlers, agarrado };
+  return { pos, setPos, ref, handlers, agarrado, retornando };
 };
 
 export const Asistente: React.FC = () => {
@@ -192,8 +224,39 @@ export const Asistente: React.FC = () => {
   // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
   const [marcioVisible, setMarcioVisible] = useState(false);
   const [marcioOculto, setMarcioOculto] = useState(false);
+  const [ocultoPor3D, setOcultoPor3D] = useState(false);
   const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
   const [frase, setFrase] = useState('¡Hola! 👋 ¿Te ayudo? Podés arrastrarme');
+
+  // Detección automática: Cuando el usuario está personalizando el robot o producto (sección 3D activa),
+  // Marcio se oculta automáticamente para dejar despejada toda la vista y los controles.
+  useEffect(() => {
+    const el = document.getElementById('robotica-3d');
+    let observer: IntersectionObserver | null = null;
+    if (el && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setOcultoPor3D(entry.isIntersecting);
+        },
+        { threshold: 0.12 }
+      );
+      observer.observe(el);
+    }
+
+    const handleCustomizing = (e: Event) => {
+      const ce = e as CustomEvent<boolean>;
+      if (typeof ce.detail === 'boolean') {
+        setOcultoPor3D(ce.detail);
+      }
+    };
+    window.addEventListener('customizando-3d', handleCustomizing);
+
+    return () => {
+      if (observer) observer.disconnect();
+      window.removeEventListener('customizando-3d', handleCustomizing);
+    };
+  }, []);
+
   useEffect(() => {
     const id = window.setTimeout(() => setMarcioVisible(true), 2500);
     return () => window.clearTimeout(id);
@@ -437,18 +500,20 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !marcioOculto && (
+      {!abierto && !marcioOculto && !ocultoPor3D && (
         <div
           ref={(el) => {
             contRef.current = el;
           }}
           className={`fixed z-[70] flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
+            lateral.retornando ? 'transition-all duration-700 ease-out' : ''
+          } ${
             pos ? '' : `right-0 bottom-36 sm:bottom-44 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`relative mb-16 max-w-[180px] transition-opacity ${lateral.agarrado ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`relative mb-16 max-w-[180px] transition-opacity ${lateral.agarrado || lateral.retornando ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
@@ -476,6 +541,14 @@ export const Asistente: React.FC = () => {
                 ¡Wiii, me llevás! 🚀
               </span>
             )}
+            {lateral.retornando && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-cyan-400 text-slate-950 px-3 py-1.5 text-xs font-black shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+              >
+                ¡Volviendo a mi base! 🛸
+              </span>
+            )}
             <span
               className={`block transition-transform duration-200 ease-out ${lateral.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
             >
@@ -497,7 +570,9 @@ export const Asistente: React.FC = () => {
         aria-expanded={abierto}
         aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"
-        className="fixed bottom-6 right-6 z-50 p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer"
+        className={`fixed bottom-6 right-6 z-50 p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer ${
+          ocultoPor3D ? 'opacity-0 pointer-events-none scale-75' : 'opacity-100'
+        }`}
       >
         {!abierto && (
           <>

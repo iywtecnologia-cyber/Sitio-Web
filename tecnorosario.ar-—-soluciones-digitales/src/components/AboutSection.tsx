@@ -1,5 +1,37 @@
 import React from 'react';
-import { Users, Sparkles, ShieldCheck, MapPin, Layers } from 'lucide-react';
+import { Users, Sparkles, ShieldCheck, MapPin, Layers, Linkedin, ExternalLink, Cpu } from 'lucide-react';
+
+interface Founder {
+  name: string;
+  role: string;
+  specialty: string;
+  badge: string;
+  linkedin: string;
+}
+
+const FOUNDERS: Founder[] = [
+  {
+    name: 'Manuel A.',
+    role: 'Co-Fundador',
+    specialty: 'Técnico Superior en Seguridad Informática & QA',
+    badge: 'Ciberseguridad & QA',
+    linkedin: 'https://www.linkedin.com/in/manuel-angiulli/',
+  },
+  {
+    name: 'María Sofía Genta',
+    role: 'Co-Fundadora',
+    specialty: 'Técnica Superior en Análisis Funcional de Sistemas Informáticos & QA',
+    badge: 'Análisis Funcional & QA',
+    linkedin: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/',
+  },
+  {
+    name: 'Esteban José Menin',
+    role: 'Co-Fundador',
+    specialty: 'Bachiller en Electrónica & Machine Learning',
+    badge: 'Hardware & Machine Learning',
+    linkedin: 'https://www.linkedin.com/in/esteban-menin-31928a259/',
+  },
+];
 
 export const AboutSection: React.FC = () => {
   return (
@@ -13,7 +45,7 @@ export const AboutSection: React.FC = () => {
         <div className="mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
             <Users className="w-3.5 h-3.5" />
-            <span>Sobre Nosotros · tecnoros.ar</span>
+            <span>Equipo Fundador · tecnoros.ar</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Quiénes somos y qué hacemos
@@ -30,8 +62,55 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos dos rosarinos <strong className="text-white font-semibold">Manuel A.</strong> <span className="text-cyan-300 font-mono text-sm">(Técnico Superior en Seguridad Informática y QA)</span> y <strong className="text-white font-semibold">María Sofía Genta</strong> <span className="text-cyan-300 font-mono text-sm">(Técnica Superior en Análisis Funcional de Sistemas Informáticos y QA)</span> que nos conocimos en septiembre de 2026 siendo voluntarios en los Juegos Suramericanos 2026 en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos.
+            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales.
           </p>
+        </div>
+
+        {/* Fichas de los Fundadores */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          {FOUNDERS.map((founder) => (
+            <div
+              key={founder.name}
+              className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800/90 hover:border-cyan-500/40 transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                    {founder.role}
+                  </span>
+                  <a
+                    href={founder.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 hover:bg-slate-700 transition-all cursor-pointer"
+                    title={`Ver perfil de LinkedIn de ${founder.name}`}
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </div>
+
+                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  {founder.name}
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  {founder.specialty}
+                </p>
+              </div>
+
+              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                <span>{founder.badge}</span>
+                <a
+                  href={founder.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                  <span>LinkedIn</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Grilla con las dos preguntas con diseño moderno */}
@@ -47,7 +126,7 @@ export const AboutSection: React.FC = () => {
                 ¿Qué ofrecemos?
               </h3>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Desarrollamos automatizaciones a medida para diferentes tipos de negocios y, al mismo tiempo, impulsamos proyectos tecnológicos propios que hoy están en plena fase de creación.
+                Desarrollamos automatizaciones a medida para diferentes tipos de negocios y, al mismo tiempo, impulsamos proyectos tecnológicos propios en ciberseguridad, robótica autónoma e inteligencia artificial aplicada.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-cyan-400/80">
@@ -67,12 +146,12 @@ export const AboutSection: React.FC = () => {
                 ¿Qué nos diferencia?
               </h3>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Sabemos llegar al núcleo de cada problema. Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, y aplicamos ciberseguridad en todo lo que desarrollamos.
+                Sabemos llegar al núcleo de cada problema. Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, combinando ingeniería de software, electrónica y seguridad informática sin intermediarios.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-violet-400/80">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Análisis Funcional & Ciberseguridad</span>
+              <span>Análisis Funcional, Electrónica & Ciberseguridad</span>
             </div>
           </div>
         </div>

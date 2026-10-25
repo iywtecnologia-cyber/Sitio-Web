@@ -205,6 +205,22 @@ export const ServicesSection: React.FC = () => {
                   </div>
                 </div>
 
+                {service.id === 'robotica-a-medida' && (
+                  <div className="mt-6 pt-4 border-t border-cyan-500/20">
+                    <button
+                      onClick={() => {
+                        const el = document.getElementById('robotica-3d');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/40 hover:border-cyan-400 text-cyan-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm shadow-cyan-500/10 group/btn3d"
+                    >
+                      <Cpu className="w-4 h-4 text-cyan-400 group-hover/btn3d:scale-110 transition-transform" />
+                      <span>Ver Prototipo en 3D & Diseñar a Medida</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover/btn3d:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                )}
+
                 <div className="mt-8 pt-4 flex items-center justify-between text-xs font-mono text-slate-400">
                   <span className="flex items-center gap-1.5 text-cyan-400">
                     <Sparkles className="w-3.5 h-3.5" />

@@ -8,6 +8,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProductosPropios } from './components/ProductosPropios';
 import { ServicesSection } from './components/ServicesSection';
+import { RobotStudioSection } from './components/robotics/RobotStudioSection';
 import { AboutSection } from './components/AboutSection';
 import { StackSection } from './components/StackSection';
 import { PortfolioSection } from './components/PortfolioSection';
@@ -26,6 +27,7 @@ export default function App() {
       <main className="flex-1">
         <Hero />
         <ServicesSection />
+        <RobotStudioSection />
         <ProductosPropios />
         <PortfolioSection />
         <HowWeWorkSection />

@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
       setIsScrolled(window.scrollY > 20);
 
       // Section tracker for active underline
-      const sections = ['inicio', 'servicios', 'productos', 'sobre-nosotros', 'stack', 'proyectos', 'facturacion', 'como-trabajamos', 'contacto'];
+      const sections = ['inicio', 'servicios', 'robotica-3d', 'productos', 'sobre-nosotros', 'stack', 'proyectos', 'facturacion', 'como-trabajamos', 'contacto'];
       const scrollPosition = window.scrollY + 120;
 
       for (const sectionId of sections) {
@@ -107,8 +107,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
         key: s.id,
         label: s.title,
         icon: s.icon,
-        go: () => irA(`servicio-${s.id}`, true),
+        go: () => (s.id === 'robotica-a-medida' ? irA('robotica-3d', true) : irA(`servicio-${s.id}`, true)),
       })),
+    },
+    {
+      label: 'Robótica 3D',
+      href: '#robotica-3d',
+      id: 'robotica-3d',
     },
     {
       label: 'Productos propios',
