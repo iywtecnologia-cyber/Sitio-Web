@@ -191,7 +191,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </div>
 
           {/* Zone 2: nav links; Servicios, Productos propios y Proyectos despliegan su lista */}
-          <nav ref={navRef} className="hidden xl:flex items-center gap-4 2xl:gap-6 text-sm font-medium text-slate-300 translate-y-[18px] sm:translate-y-[20px]">
+          <nav ref={navRef} className="hidden xl:flex items-center gap-3 2xl:gap-6 text-[13px] 2xl:text-sm font-medium text-slate-300 translate-y-[18px] sm:translate-y-[20px]">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               const underline = isActive && (
@@ -275,18 +275,18 @@ export const Navbar: React.FC<NavbarProps> = () => {
           </nav>
 
           {/* Zone 3: 1-2 primary actions */}
-          <div className="hidden lg:flex items-center gap-3 translate-y-[18px] sm:translate-y-[20px]">
+          <div className="hidden lg:flex items-center gap-2 2xl:gap-3 translate-y-[18px] sm:translate-y-[20px] shrink-0">
             <a
               href="#contacto"
               onClick={(e) => handleLinkClick(e, '#contacto')}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-slate-900 border border-slate-700/80 rounded-lg hover:border-slate-600 hover:bg-slate-800 transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 2xl:px-4 2xl:py-2 text-xs font-semibold text-white bg-slate-900 border border-slate-700/80 rounded-lg hover:border-slate-600 hover:bg-slate-800 transition-colors whitespace-nowrap"
             >
               Contacto
             </a>
             <a
               href="#facturacion"
               onClick={(e) => handleLinkClick(e, '#facturacion')}
-              className="inline-flex xl:hidden 2xl:inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 rounded-lg shadow-md shadow-cyan-500/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 2xl:px-4 2xl:py-2 text-xs font-semibold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 rounded-lg shadow-md shadow-cyan-500/20 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
             >
               <span>Cotizar Proyecto</span>
               <ArrowUpRight className="w-3.5 h-3.5" />

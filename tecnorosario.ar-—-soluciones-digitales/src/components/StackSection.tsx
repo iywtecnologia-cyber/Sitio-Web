@@ -6,12 +6,13 @@ import {
   Database, 
   Code2, 
   CheckCircle2, 
-  Terminal
+  Terminal,
+  Bot
 } from 'lucide-react';
 
 interface TechItem {
   name: string;
-  category: 'frontend' | 'backend' | 'data-cloud' | 'qa-security';
+  category: 'frontend' | 'backend' | 'data-cloud' | 'ciberseguridad' | 'qa' | 'robotics';
   description: string;
   badge: string;
   badgeColor: string;
@@ -64,6 +65,43 @@ const TECH_STACK: TechItem[] = [
     badgeColor: 'border-green-500/40 text-green-300 bg-green-950/30',
   },
 
+  // Robótica & IA (Proyecto CARANCHO)
+  {
+    name: 'ROS 2',
+    category: 'robotics',
+    description: 'Framework estándar en robótica para arquitectura modular, comunicación distribuida entre nodos, control de actuadores y telemetría.',
+    badge: 'Robótica Core',
+    badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
+  },
+  {
+    name: 'Gazebo',
+    category: 'robotics',
+    description: 'Simulador 3D y de física de alta fidelidad para prototipar robots, evaluar sensores y validar algoritmos cinemáticos en entornos virtuales.',
+    badge: 'Simulación 3D',
+    badgeColor: 'border-orange-500/40 text-orange-300 bg-orange-950/30',
+  },
+  {
+    name: 'Python',
+    category: 'robotics',
+    description: 'Desarrollo de algoritmos de navegación autónoma, procesamiento de señales sensoriales e integración de modelos de inteligencia contextual.',
+    badge: 'Lógica & IA',
+    badgeColor: 'border-yellow-500/40 text-yellow-300 bg-yellow-950/30',
+  },
+  {
+    name: 'Visión Artificial',
+    category: 'robotics',
+    description: 'Detección de objetos, segmentación y seguimiento óptico en tiempo real para reconocimiento contextual del entorno físico.',
+    badge: 'Computer Vision',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+  },
+  {
+    name: 'Sensores LiDAR',
+    category: 'robotics',
+    description: 'Telemetría láser y escaneo tridimensional para cartografía espacial de alta precisión y navegación simultánea y localización (SLAM).',
+    badge: 'Percepción 3D',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+  },
+
   // Bases de Datos & Cloud
   {
     name: 'PostgreSQL',
@@ -80,20 +118,36 @@ const TECH_STACK: TechItem[] = [
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
   },
 
-  // Ciberseguridad & QA
+  // Ciberseguridad
   {
     name: 'Auditorías de Ciberseguridad & Hardening',
-    category: 'qa-security',
+    category: 'ciberseguridad',
     description: 'Mitigación activa de vulnerabilidades OWASP Top 10, validación de permisos RBAC y cifrado integral de datos sensibles.',
     badge: 'Ciberseguridad',
     badgeColor: 'border-rose-500/40 text-rose-300 bg-rose-950/30',
   },
   {
+    name: 'Protección de Redes & Análisis de Vulnerabilidades',
+    category: 'ciberseguridad',
+    description: 'Escaneo de puertos, políticas defensivas de firewall y detección proactiva de riesgos en infraestructuras digitales.',
+    badge: 'Seguridad Defensiva',
+    badgeColor: 'border-red-500/40 text-red-300 bg-red-950/30',
+  },
+
+  // QA & Testing
+  {
     name: 'QA Testing Automatizado (Playwright)',
-    category: 'qa-security',
-    description: 'Pruebas funcionales de punta a punta (E2E) y verificación continua para garantizar la estabilidad del software.',
-    badge: 'Garantía QA',
+    category: 'qa',
+    description: 'Pruebas funcionales de punta a punta (E2E) y verificación continua para garantizar la estabilidad del software en cada entrega.',
+    badge: 'Automatización QA',
     badgeColor: 'border-fuchsia-500/40 text-fuchsia-300 bg-fuchsia-950/30',
+  },
+  {
+    name: 'Testing Funcional & Control de Calidad',
+    category: 'qa',
+    description: 'Diseño riguroso de casos de prueba, análisis funcional preventivo y validación minuciosa de flujos de negocio antes de producción.',
+    badge: 'Garantía de Calidad',
+    badgeColor: 'border-pink-500/40 text-pink-300 bg-pink-950/30',
   },
 ];
 
@@ -101,8 +155,10 @@ const CATEGORIES = [
   { id: 'all', label: 'Todo el Stack', icon: Layers },
   { id: 'frontend', label: 'Frontend', icon: Code2 },
   { id: 'backend', label: 'Automatizaciones', icon: Terminal },
+  { id: 'robotics', label: 'Robótica & IA', icon: Bot },
   { id: 'data-cloud', label: 'Bases de Datos & Cloud', icon: Database },
-  { id: 'qa-security', label: 'Ciberseguridad & QA', icon: ShieldCheck },
+  { id: 'ciberseguridad', label: 'Ciberseguridad', icon: ShieldCheck },
+  { id: 'qa', label: 'QA & Testing', icon: CheckCircle2 },
 ] as const;
 
 export const StackSection: React.FC = () => {

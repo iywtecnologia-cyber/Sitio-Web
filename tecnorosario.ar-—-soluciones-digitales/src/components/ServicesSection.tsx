@@ -117,6 +117,20 @@ export const SERVICES: ServiceItem[] = [
       'Formularios y consultas conectados a tu WhatsApp, mail o planilla',
       'Con asistente y automatizaciones incluidas si las necesitás'
     ]
+  },
+  {
+    id: 'robotica-a-medida',
+    icon: Cpu,
+    badge: 'Robótica a Medida',
+    badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
+    title: 'Robótica a medida para tu empresa',
+    description: 'Diseñamos y desarrollamos soluciones robóticas adaptadas a tus necesidades: navegación autónoma, integración de sensores y automatización física de tareas.',
+    bullets: [
+      'Prototipado y simulación virtual en 3D (Gazebo) antes de fabricar',
+      'Arquitectura modular con ROS 2, visión artificial y sensores LiDAR',
+      'Mapeo de espacios (SLAM), navegación sin colisiones y telemetría',
+      'Integración directa con tus sistemas de gestión y paneles de control'
+    ]
   }
 ];
 

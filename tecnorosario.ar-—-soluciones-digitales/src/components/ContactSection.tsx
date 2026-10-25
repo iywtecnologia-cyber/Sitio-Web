@@ -102,7 +102,7 @@ export const ContactSection: React.FC = () => {
               <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent font-extrabold tracking-tight">
                 Hablemos
               </span>
-              <CornerRightDown className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 stroke-[2.5] animate-bounce drop-shadow-[0_0_12px_rgba(0,210,243,0.8)] inline-block ml-1" />
+              <CornerRightDown className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 stroke-[2.5] animate-bounce drop-shadow-[0_0_12px_rgba(0,210,243,0.8)] inline-block ml-1 translate-y-1.5 sm:translate-y-2" />
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
@@ -242,15 +242,27 @@ export const ContactSection: React.FC = () => {
             <h4 className="text-base font-bold text-white flex items-center gap-2">
               <span>Perfiles en LinkedIn</span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                Fundadores
+                Empresa & Fundadores
               </span>
             </h4>
             <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Si querés conocer más de nosotros
+              Conocé más sobre nuestra empresa y nuestro equipo
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
+            {/* Entrada LinkedIn Empresa tecnoros.ar */}
+            <a
+              href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/20 text-cyan-300 hover:text-white transition-all text-xs font-mono group shadow-sm cursor-pointer"
+              title="Perfil de LinkedIn de tecnoros.ar"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
+              <span className="font-semibold">tecnoros.ar</span>
+            </a>
+
             {/* Entrada LinkedIn Manuel A. */}
             <a
               href="https://www.linkedin.com/in/manuel-angiulli/"
@@ -260,7 +272,7 @@ export const ContactSection: React.FC = () => {
               title="Perfil de LinkedIn de Manuel A."
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>LinkedIn Manuel A.</span>
+              <span>Manuel A.</span>
             </a>
 
             {/* Entrada LinkedIn M. Sofía Genta */}
@@ -272,7 +284,7 @@ export const ContactSection: React.FC = () => {
               title="Perfil de LinkedIn de M. Sofía Genta"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>LinkedIn M. Sofía Genta</span>
+              <span>M. Sofía Genta</span>
             </a>
           </div>
         </div>

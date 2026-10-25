@@ -25,10 +25,17 @@ export const PRECIOS: Precio[] = [
   },
   {
     id: 'ciberseguridad',
-    servicio: 'Ciberseguridad',
-    incluye: 'Revisión de seguridad de tu negocio con informe y recomendaciones',
+    servicio: 'Ciberseguridad & Hardening',
+    incluye: 'Revisión y auditoría de seguridad para tu negocio, blindaje de datos sensibles e informe de mitigación',
     min: 500_000,
     max: 1_200_000,
+  },
+  {
+    id: 'qa-testing',
+    servicio: 'QA & Testing de Software',
+    incluye: 'Control de calidad integral, pruebas funcionales (E2E) y testing automatizado para asegurar que tu sistema no falle',
+    min: 450_000,
+    max: 950_000,
   },
   {
     id: 'software',
@@ -50,6 +57,13 @@ export const PRECIOS: Precio[] = [
     incluye: 'Página para tu negocio, con formularios conectados, automatizaciones y asistente',
     min: 650_000,
     max: 1_500_000,
+  },
+  {
+    id: 'robotica-a-medida',
+    servicio: 'Robótica a medida & Autonomía',
+    incluye: 'Desarrollo de prototipos robóticos, simulación física 3D, navegación autónoma y sensores',
+    min: 1_200_000,
+    max: 3_500_000,
   }
 ];
 
@@ -76,6 +90,13 @@ export const ABONOS: Abono[] = [
     id: 'golondrina',
     nombre: 'Golondrina Automatización',
     detalle: 'Una nueva forma de automatizar procesos',
+    mensual: null,
+    proximamente: true,
+  },
+  {
+    id: 'carancho',
+    nombre: 'Carancho Robótica Autónoma',
+    detalle: 'Robótica autónoma e inteligencia contextual',
     mensual: null,
     proximamente: true,
   },

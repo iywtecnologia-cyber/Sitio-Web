@@ -13,6 +13,7 @@ const NAV_LINKS = [
 ];
 
 const LINKEDIN_LINKS = [
+  { href: 'https://www.linkedin.com/in/tecnoros-ar-794698445/', label: 'tecnoros.ar' },
   { href: 'https://www.linkedin.com/in/manuel-angiulli/', label: 'Manuel A.' },
   { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'M. Sofía Genta' },
 ];

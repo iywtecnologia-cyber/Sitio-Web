@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ShieldCheck, FlaskConical, Workflow, BellRing } from 'lucide-react';
+import { ShieldCheck, FlaskConical, Workflow, BellRing, Bot } from 'lucide-react';
 import { whatsappLink } from '../data/contact';
 
 // Productos propios en desarrollo. Cuando tengan nombre y detalles definidos,
@@ -8,6 +8,7 @@ export interface ProductoPropio {
   id: string;
   icon: React.ElementType;
   title: string;
+  tagline?: string;
   description: string;
 }
 
@@ -23,6 +24,13 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: Workflow,
     title: 'Golondrina Automatización',
     description: 'Una nueva forma de automatizar procesos',
+  },
+  {
+    id: 'carancho-robotica',
+    icon: Bot,
+    title: 'Carancho Robótica Autónoma',
+    tagline: 'Una nueva propuesta de tecnología robótica.',
+    description: 'Un proyecto de investigación y desarrollo en robótica autónoma e inteligencia contextual.',
   },
 ];
 
@@ -147,15 +155,22 @@ export const ProductosPropios: React.FC = () => (
 
       <CartelProximamente />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {PRODUCTOS.map(({ id, icon: Icon, title, description }) => (
-          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col gap-3 group hover:border-slate-700/80 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300 transition-colors">
-              <Icon className="w-6 h-6" />
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {PRODUCTOS.map(({ id, icon: Icon, title, tagline, description }) => (
+          <div key={id} id={`producto-${id}`} className="scroll-mt-28 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 flex flex-col justify-between group hover:border-slate-700/80 transition-all">
             <div>
+              <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300 transition-colors mb-4">
+                <Icon className="w-6 h-6" />
+              </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">{title}</h3>
-              <p className="mt-1.5 text-sm sm:text-base text-cyan-300/90 font-medium leading-relaxed">{description}</p>
+              {tagline && (
+                <p className="mt-2 text-sm sm:text-base text-cyan-300 font-semibold leading-relaxed">
+                  {tagline}
+                </p>
+              )}
+              <p className={`mt-1.5 text-sm sm:text-base leading-relaxed ${tagline ? 'text-slate-300' : 'text-cyan-300/90 font-medium'}`}>
+                {description}
+              </p>
             </div>
           </div>
         ))}
