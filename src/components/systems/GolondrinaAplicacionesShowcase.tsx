@@ -222,6 +222,9 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
   // Modo activo en el simulador (Cubre los 12 casos reales)
   const [activeTab, setActiveTab] = useState<SimulationMode>('frio');
   const [companyName, setCompanyName] = useState<string>('Frigorífico San Jorge');
+  // Tarjeta elegida por la persona con "Probar en Simulador" (al cargar no se marca ninguna)
+  const [casoElegido, setCasoElegido] = useState<string | null>(null);
+  const [avisoCaso, setAvisoCaso] = useState<string | null>(null);
 
   // Filtro de categorías en la grilla de lugares
   const [selectedCategory, setSelectedCategory] = useState<'todos' | 'agro' | 'alimentos' | 'industria' | 'logistica' | 'salud'>('todos');
@@ -370,11 +373,15 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
 
   const horasRestantesSilo = (nivelSiloPct * 50) / (tasaConsumoTonH * 100);
 
-  const irAlSimuladorConPreset = (preset: SimulationMode) => {
+  const irAlSimuladorConPreset = (preset: SimulationMode, casoId?: string, lugar?: string) => {
     setActiveTab(preset);
-    const el = document.getElementById('aplicaciones-golondrina');
+    if (casoId) setCasoElegido(casoId);
+    setAvisoCaso(lugar ?? null);
+    window.setTimeout(() => setAvisoCaso(null), 4000);
+    // Lleva directo al tablero del simulador (no al principio del bloque) para ver el caso cargado
+    const el = document.getElementById('tablero-golondrina') ?? document.getElementById('aplicaciones-golondrina');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -420,11 +427,18 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             { id: 'vibracion' as const, label: '4. Motores' },
             { id: 'lacteos' as const, label: '5. Tambos' },
             { id: 'avicola' as const, label: '6. Galpón' },
+            { id: 'riego' as const, label: '7. Riego' },
+            { id: 'fermentador' as const, label: '8. Cervecería' },
+            { id: 'compresor' as const, label: '9. Compresor' },
+            { id: 'generador' as const, label: '10. Generador' },
+            { id: 'vacunas' as const, label: '11. Vacunas' },
+            { id: 'cisterna' as const, label: '12. Cisterna' },
           ].map((tab) => (
             <button
               key={tab.id}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => { setActiveTab(tab.id); setCasoElegido(null); }}
+              aria-pressed={activeTab === tab.id}
               className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'bg-emerald-500 text-slate-950 shadow-md font-bold'
@@ -455,8 +469,14 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         </span>
       </div>
 
+      {avisoCaso && (
+        <div role="status" className="relative z-10 p-3 rounded-xl bg-emerald-500/15 border border-emerald-400 text-sm text-emerald-200 font-semibold">
+          Caso cargado en el simulador: {avisoCaso}. Tocá "Simular" en el tablero para ver la alerta en el WhatsApp.
+        </div>
+      )}
+
       {/* GRID PRINCIPAL: Controles de Planta (7 cols) + Smartphone WhatsApp (5 cols) */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      <div id="tablero-golondrina" className="scroll-mt-28 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* =========================================================
             COLUMNA IZQUIERDA: CONTROLES DE PLANTA (7 COLS)
@@ -1241,7 +1261,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {lugaresFiltrados.map((item) => {
             const Icon = item.icon;
-            const isCurrentlySelectedInSim = activeTab === item.presetTab;
+            const isCurrentlySelectedInSim = casoElegido === item.id;
 
             return (
               <div
@@ -1291,7 +1311,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 <div className="mt-6 pt-4 border-t border-slate-800 flex items-center gap-2.5">
                   <button
                     type="button"
-                    onClick={() => irAlSimuladorConPreset(item.presetTab)}
+                    onClick={() => irAlSimuladorConPreset(item.presetTab, item.id, item.lugar)}
                     className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/40 text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                   >
                     <span>Probar en Simulador</span>

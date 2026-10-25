@@ -357,7 +357,7 @@ export const Asistente: React.FC = () => {
             }}
             {...delChat.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`${delChat.pos ? 'fixed' : 'absolute -top-[7rem] left-1 sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
+            className={`${delChat.pos ? 'fixed' : 'absolute -top-[7rem] left-1 sm:top-4 sm:-left-28 [@media(max-width:639px)_and_(max-height:720px)]:hidden motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
             {delChat.agarrado && (
@@ -380,7 +380,7 @@ export const Asistente: React.FC = () => {
               </span>
             </span>
           </button>
-          <div className="relative max-h-[min(600px,calc(100vh-14rem))] sm:max-h-[min(600px,calc(100vh-8rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
+          <div className="relative max-h-[calc(100dvh-18rem)] [@media(max-width:639px)_and_(max-height:720px)]:max-h-[calc(100dvh-11rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <TecnorosContactIcon className="w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
@@ -570,9 +570,7 @@ export const Asistente: React.FC = () => {
         aria-expanded={abierto}
         aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"
-        className={`fixed bottom-6 right-6 z-50 p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer ${
-          ocultoPor3D ? 'opacity-0 pointer-events-none scale-75' : 'opacity-100'
-        }`}
+        className="fixed bottom-6 right-6 z-[65] p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer"
       >
         {!abierto && (
           <>
