@@ -26,17 +26,51 @@ type Reconocedor = {
   start: () => void; stop: () => void;
 };
 
+// Lo que la persona pide se convierte en una regla con "cuándo te aviso" y cómo te llega.
+type Regla = { texto: string; cuando: string; aviso: string; app?: string };
+
+const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+const interpretar = (t: string): Regla => {
+  const x = t.toLowerCase();
+  const hora = x.match(/a las (\d{1,2})(?::(\d{2}))?/);
+  const hh = hora ? `${hora[1]}:${hora[2] ?? '00'}` : '9:00';
+  const dia = DIAS.find((d) => x.includes(d) || x.includes(d.normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+  const cuandoFecha = x.includes('hoy') ? `Hoy a las ${hh}` : dia ? `El ${dia} a las ${hh}` : `Mañana a las ${hh}`;
+  const limpio = t.replace(/^(recordame|acordame|avisame|avísame)\s+(que\s+)?/i, '').replace(/^\w/, (c) => c.toUpperCase());
+
+  if (/(e-?mail|correo|\bmail)/.test(x)) {
+    return { texto: t, app: 'mail', cuando: 'Apenas te entre ese mail', aviso: '📧 Te entró un mail de un cliente nuevo. ¿Querés que te lo lea?' };
+  }
+  if (/(cobro|pago|transferencia|plata)/.test(x)) {
+    return { texto: t, app: 'pagos', cuando: 'Apenas entre el cobro', aviso: '💰 Entró un cobro nuevo en Mercado Pago.' };
+  }
+  if (/(pedido|venta|compra)/.test(x)) {
+    return { texto: t, app: 'ventas', cuando: 'Apenas entre un pedido', aviso: '🛍️ Tenés un pedido nuevo en tu tienda.' };
+  }
+  if (/(reuni[oó]n|calendario|agenda)/.test(x)) {
+    return { texto: t, app: 'calendario', cuando: '15 minutos antes de cada reunión', aviso: '📅 En 15 minutos tenés una reunión.' };
+  }
+  if (/(record|acord|turno|vacun|llevar|pagar|comprar|llamar)/.test(x)) {
+    return { texto: t, cuando: cuandoFecha, aviso: `⏰ Recordatorio: ${limpio.replace(/^Tengo que/i, 'Tenés que')}` };
+  }
+  return { texto: t, cuando: 'Cuando pase lo que pediste', aviso: `🔔 ${limpio}` };
+};
+
 export const GolondrinaPersonalDemo: React.FC = () => {
   const [permisos, setPermisos] = useState<Record<string, boolean>>({});
   const [texto, setTexto] = useState('');
   const [transcripcion, setTranscripcion] = useState('');
   const [escuchando, setEscuchando] = useState(false);
-  const [reglas, setReglas] = useState<string[]>([]);
+  const [reglas, setReglas] = useState<Regla[]>([]);
+  const [mostrarAviso, setMostrarAviso] = useState(false);
+  const avisoRef = useRef<number | null>(null);
   const recRef = useRef<Reconocedor | null>(null);
   const simRef = useRef<number | null>(null);
 
   useEffect(() => () => {
     recRef.current?.stop();
+    if (avisoRef.current) window.clearTimeout(avisoRef.current);
     if (simRef.current) window.clearInterval(simRef.current);
   }, []);
 
@@ -45,8 +79,12 @@ export const GolondrinaPersonalDemo: React.FC = () => {
   const agregarRegla = (t: string) => {
     const limpio = t.trim();
     if (!limpio) return;
-    setReglas((r) => [limpio, ...r].slice(0, 4));
+    setReglas((r) => [interpretar(limpio), ...r].slice(0, 4));
     setTexto('');
+    // Un segundo después se muestra cómo le va a llegar el aviso
+    setMostrarAviso(false);
+    if (avisoRef.current) window.clearTimeout(avisoRef.current);
+    avisoRef.current = window.setTimeout(() => setMostrarAviso(true), 1000);
   };
 
   // Voz: usa el reconocimiento del navegador si existe (Chrome, Edge); si no, muestra una transcripción de ejemplo.
@@ -189,13 +227,37 @@ export const GolondrinaPersonalDemo: React.FC = () => {
           <div className="mt-3 flex-1">
             <p className="text-[11px] font-mono text-slate-400 mb-2">LO QUE GOLONDRINA VA A HACER</p>
             {reglas.length === 0 ? (
-              <p className="text-xs text-slate-500">Todavía nada. Escribilo o decilo.</p>
+              <p className="text-sm text-slate-500">Todavía nada. Escribilo o decilo.</p>
             ) : (
-              <ul className="space-y-1.5">
-                {reglas.map((r, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-emerald-200"><Bell className="w-4 h-4 mt-0.5 shrink-0" />{r}</li>
-                ))}
+              <ul className="space-y-2">
+                {reglas.map((r, i) => {
+                  const falta = r.app && !permisos[r.app] ? APPS.find((a) => a.id === r.app)?.nombre : null;
+                  return (
+                    <li key={i} className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800">
+                      <span className="flex items-start gap-2 text-sm text-emerald-200"><Bell className="w-4 h-4 mt-0.5 shrink-0" />{r.texto}</span>
+                      <span className="block mt-1 pl-6 text-sm text-cyan-300">🕒 Te aviso: {r.cuando}</span>
+                      {falta && <span className="block mt-0.5 pl-6 text-xs text-amber-300">Para esto, conectá {falta} en el paso 1.</span>}
+                    </li>
+                  );
+                })}
               </ul>
+            )}
+
+            {/* Así te va a llegar: vista del aviso en el celular */}
+            {reglas.length > 0 && mostrarAviso && (
+              <div className="mt-3" aria-live="polite">
+                <p className="text-[11px] font-mono text-slate-400 mb-1.5">ASÍ TE VA A LLEGAR {permisos.whatsapp ? 'POR WHATSAPP' : 'AL CELULAR'}</p>
+                <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/95 text-slate-900 shadow-xl animate-[aparecer_0.4s_ease-out]">
+                  <GolondrinaLogo className="w-8 h-9 shrink-0" />
+                  <span className="min-w-0">
+                    <span className="flex items-center justify-between gap-2 text-xs font-semibold text-slate-500">
+                      <span>Golondrina{permisos.whatsapp ? ' · WhatsApp' : ''}</span>
+                      <span>{reglas[0].cuando.startsWith('Apenas') || reglas[0].cuando.startsWith('15') ? 'ahora' : reglas[0].cuando.replace(/^El |^Mañana a las |^Hoy a las /, '')}</span>
+                    </span>
+                    <span className="block text-sm font-medium leading-snug">{reglas[0].aviso}</span>
+                  </span>
+                </div>
+              </div>
             )}
           </div>
         </div>

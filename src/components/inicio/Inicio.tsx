@@ -5,6 +5,7 @@ import {
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
+import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
 import { whatsappLink, gmailLink, VENTAS_EMAIL, REDES } from '../../data/contact';
 import type { Ruta } from '../../rutas';
 
@@ -150,10 +151,10 @@ export const QueHacemos: React.FC = () => (
 );
 
 /* ── 3. Productos (carrusel en celular) ────────────────────────────────── */
-const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; estado: string; color: string }[] = [
-  { logo: GolondrinaLogo, nombre: 'Golondrina', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Probar el simulador', ir: 'aviso-seguridad', estado: 'Disponible', color: 'emerald' },
+const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; equipo?: Equipo3D; estado: string; color: string }[] = [
+  { logo: GolondrinaLogo, nombre: 'Golondrina Automatización', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'golondrina', estado: 'Disponible', color: 'emerald' },
   { logo: GolondrinaLogo, nombre: 'Golondrina Personal', linea: 'Le decís qué avisarte, por voz o texto. Sin aprender nada.', boton: 'Probar la demo', ir: 'golondrina-personal-demo', estado: 'Disponible', color: 'emerald' },
-  { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu red y tus equipos, y te avisa si algo cambia.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', estado: 'A demanda', color: 'cyan' },
+  { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu red y tus equipos, y te avisa si algo cambia.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'colibri', estado: 'A demanda', color: 'cyan' },
   { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes, en desarrollo.', boton: 'Mantenete informado', ir: 'producto-software-ciberseguridad', estado: 'Próximamente', color: 'violet' },
 ];
 
@@ -171,7 +172,7 @@ export const ProductosInicio: React.FC = () => (
     {/* En celular se desliza de costado; en compu se ven los cuatro */}
     <div className="max-w-7xl mx-auto lg:px-12">
       <ul className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-5 sm:px-8 lg:px-0 pb-3 no-scrollbar">
-        {PRODUCTOS_CORTOS.map(({ logo: Logo, nombre, linea, boton, ir, estado, color }) => (
+        {PRODUCTOS_CORTOS.map(({ logo: Logo, nombre, linea, boton, ir, equipo, estado, color }) => (
           <li key={nombre} className="snap-start shrink-0 w-[80%] sm:w-[45%] lg:w-auto">
             <div className="h-full p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 flex flex-col">
               <div className="flex items-center justify-between gap-2">
@@ -184,7 +185,7 @@ export const ProductosInicio: React.FC = () => (
               <p className="mt-1 text-sm text-slate-400 leading-snug flex-1">{linea}</p>
               <button
                 type="button"
-                onClick={() => irA(ir, true)}
+                onClick={() => { if (equipo) elegirEquipo3D(equipo); irA(ir, true); }}
                 className="mt-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 text-sm font-bold hover:bg-cyan-400/20 cursor-pointer"
               >
                 {boton} <ArrowRight className="w-4 h-4" />
@@ -318,13 +319,13 @@ export const CierrePagina: React.FC = () => (
           href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
+          className="w-full sm:w-96 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
         >
           <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
         </a>
         <a
           href="/contacto"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
+          className="w-full sm:w-96 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold"
         >
           Completar el formulario personalizado
         </a>

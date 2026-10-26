@@ -165,13 +165,13 @@ export const PortfolioSection: React.FC = () => {
         <div className="p-5 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
           
           {/* Header del Caso */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pb-8 border-b border-slate-800/80">
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                 <ActiveIcon className="w-7 h-7" />
               </div>
               <div>
-                <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
                   <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded border tracking-wider ${activeProject.badgeColor}`}>
                     {activeProject.category}
                   </span>
@@ -188,7 +188,7 @@ export const PortfolioSection: React.FC = () => {
                     </a>
                   )}
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-snug lg:whitespace-nowrap">
                   {activeProject.title}
                 </h3>
               </div>
