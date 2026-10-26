@@ -217,6 +217,15 @@ export const RobotStudioSection: React.FC = () => {
             <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
               Nos especializamos en el desarrollo de software e inteligencia: <strong className="text-white">lo primero que se desarrolla es el cerebro del robot</strong> (algoritmos, visión y simulación 3D interactiva). Luego, si el proyecto es viable técnica y comercialmente, <strong className="text-cyan-300">también podés pedir e incorporar el modelo del cuerpo físico</strong> fabricado a medida.
             </p>
+            <a
+              href="https://airclub-udesa.github.io/jar_site/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-xs sm:text-sm font-semibold transition-colors"
+            >
+              <span aria-hidden="true">🏁</span>
+              <span>Estamos desarrollando nuestro robot autónomo para participar del Challenge JAR 2026 (Rosario, 3 al 6 de noviembre)</span>
+            </a>
           </div>
 
           {/* 3D Robotics Lab Badge */}

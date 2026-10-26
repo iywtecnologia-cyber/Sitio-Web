@@ -31,6 +31,13 @@ const FOUNDERS: Founder[] = [
     badge: 'Hardware & Machine Learning',
     linkedin: 'https://www.linkedin.com/in/esteban-menin-31928a259/',
   },
+  {
+    name: 'Sebastián Gabriel Sosa',
+    role: 'Se sumó al equipo',
+    specialty: 'Técnico Electrónico',
+    badge: 'Electrónica & Robótica',
+    linkedin: 'https://www.linkedin.com/in/sebastinsosa/',
+  },
 ];
 
 export const AboutSection: React.FC = () => {
@@ -62,12 +69,12 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales.
+            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales. Más tarde se sumó <strong className="text-white">Sebastián Gabriel Sosa</strong>, técnico electrónico, para reforzar el área de electrónica y robótica.
           </p>
         </div>
 
         {/* Fichas de los Fundadores */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
           {FOUNDERS.map((founder) => (
             <div
               key={founder.name}
