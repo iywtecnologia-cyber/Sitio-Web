@@ -208,7 +208,7 @@ export const RobotStudioSection: React.FC = () => {
             <Cpu className="w-3.5 h-3.5 text-cyan-400" />
             Robótica a medida
           </span>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
             Desarrollo del cerebro robótico y fabricación física a medida
           </h2>
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl">

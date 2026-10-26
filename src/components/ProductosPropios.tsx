@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { irA } from '../rutas';
+import { tomarEquipo3D, EVENTO_EQUIPO_3D, type Equipo3D } from '../equipo3d';
 import { 
   ShieldCheck, 
   FlaskConical, 
@@ -262,6 +263,18 @@ export const ProductosPropios: React.FC = () => {
     : selectedSystem === 'golondrina'
     ? (PRODUCTOS.find(p => p.id === 'golondrina-automatizacion') || PRODUCTOS[0])
     : (PRODUCTOS.find(p => p.id === 'software-ciberseguridad') || PRODUCTOS[2]);
+
+  // Si se llegó con "Verlo en 3D" desde el inicio, mostrar ese equipo
+  useEffect(() => {
+    const inicial = tomarEquipo3D();
+    if (inicial) setSelectedSystem(inicial);
+    const onEquipo = (e: Event) => {
+      tomarEquipo3D();
+      setSelectedSystem((e as CustomEvent<Equipo3D>).detail);
+    };
+    window.addEventListener(EVENTO_EQUIPO_3D, onEquipo);
+    return () => window.removeEventListener(EVENTO_EQUIPO_3D, onEquipo);
+  }, []);
 
   const handleSelectCard = (id: string) => {
     if (id === 'golondrina-personal') {
