@@ -241,7 +241,7 @@ const CartelProximamente: React.FC = () => {
 
 export const ProductosPropios: React.FC = () => {
   // Dispositivo de hardware seleccionado en el laboratorio 3D (Chajá o Golondrina)
-  const [selectedSystem, setSelectedSystem] = useState<'tero' | 'golondrina' | 'colibri'>('colibri');
+  const [selectedSystem, setSelectedSystem] = useState<'tero' | 'golondrina' | 'colibri'>('golondrina');
   const [colibriMode, setColibriMode] = useState<'voice' | 'text' | 'shield' | 'learn'>('voice');
   const [activeCapability, setActiveCapability] = useState<'voice' | 'text' | 'shield' | null>(null);
   const [customFilament, setCustomFilament] = useState(false);
@@ -607,6 +607,19 @@ export const ProductosPropios: React.FC = () => {
             <div className="p-1.5 rounded-xl bg-slate-900 border border-slate-800 flex flex-wrap gap-2 self-start md:self-auto shrink-0">
               <button
                 type="button"
+                onClick={() => setSelectedSystem('golondrina')}
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                  selectedSystem === 'golondrina'
+                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Workflow className="w-4 h-4" />
+                <span>Golondrina Automatización</span>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setSelectedSystem('colibri')}
                 className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                   selectedSystem === 'colibri'
@@ -616,19 +629,6 @@ export const ProductosPropios: React.FC = () => {
               >
                 <Cpu className="w-4 h-4" />
                 <span>CHAJÁ</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedSystem('golondrina')}
-                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
-                  selectedSystem === 'golondrina'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <Workflow className="w-4 h-4" />
-                <span>Golondrina</span>
               </button>
 
             </div>
