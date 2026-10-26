@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Fila superior: marca + navegación */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 pb-8 sm:pb-10 border-b border-slate-800/70">
+        <div className="flex flex-col xl:flex-row items-center justify-between gap-8 pb-8 sm:pb-10 border-b border-slate-800/70">
           <div className="flex items-center gap-3.5 min-w-0 max-w-full">
             <TecnorosLogo className="w-10 h-10 drop-shadow-[0_0_10px_rgba(0,210,243,0.35)] shrink-0" />
             <div className="flex flex-col justify-center min-w-0">
@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
 
           <nav
             aria-label="Secciones del sitio"
-            className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center lg:justify-end gap-x-8 gap-y-1 sm:gap-x-5 xl:gap-x-6 text-[13px] text-slate-400 text-center"
+            className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center xl:justify-end gap-x-8 gap-y-1 sm:gap-x-4 lg:gap-x-5 text-[13px] text-slate-400 text-center"
           >
             {NAV_LINKS.map((link) => (
               <button
