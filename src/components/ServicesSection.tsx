@@ -15,7 +15,7 @@ import {
   MessageCircle,
   Bot,
   Globe,
-  AppWindow,
+  Smartphone,
   Contact
 } from 'lucide-react';
 
@@ -84,16 +84,16 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'aplicaciones-web',
-    icon: AppWindow,
-    badge: 'Aplicaciones Web',
+    id: 'aplicaciones-moviles',
+    icon: Smartphone,
+    badge: 'Aplicaciones Móviles',
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
-    title: 'Aplicaciones web para tu negocio',
-    description: 'Tu sistema funcionando en el navegador: sin instalar nada, desde la compu o el celular, estés donde estés.',
+    title: 'Aplicaciones móviles para tu negocio',
+    description: 'Tu negocio en el celular de tus clientes y de tu equipo, con una app hecha a tu medida.',
     bullets: [
-      'Turnos, pedidos, stock o lo que tu negocio necesite',
-      'Usuarios con permisos para cada persona del equipo',
-      'Funciona en cualquier dispositivo con internet'
+      'Pedidos, turnos, reservas o lo que tu negocio necesite',
+      'Avisos al celular para tus clientes',
+      'Tu equipo la usa desde su propio celular'
     ]
   },
   {

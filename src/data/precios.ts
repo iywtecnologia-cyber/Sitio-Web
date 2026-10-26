@@ -52,7 +52,7 @@ export const SERVICIOS_SOFTWARE: Precio[] = [
   { id: 'diagnostico', servicio: 'Diagnóstico gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
   { id: 'automatizacion', servicio: 'Automatización', incluye: 'Lo que hacés a mano, que se haga solo: planillas, avisos y reportes automáticos', min: 500_000, max: 1_000_000, tipo: 'software' },
   { id: 'ciberseguridad', servicio: 'Ciberseguridad', incluye: 'Revisamos tus sistemas y equipos, cerramos los puntos débiles y te damos un informe', min: 500_000, max: 1_200_000, tipo: 'software' },
-  { id: 'software', servicio: 'Software', incluye: 'Sistemas, aplicaciones web y CRM a medida de tu negocio', min: 1_000_000, max: 2_000_000, tipo: 'software' },
+  { id: 'software', servicio: 'Software', incluye: 'Sistemas, aplicaciones móviles y CRM a medida de tu negocio', min: 1_000_000, max: 2_000_000, tipo: 'software' },
   { id: 'paginas-web', servicio: 'Páginas web', incluye: 'Web moderna, rápida y que se ve bien en el celular, con formularios conectados', min: 650_000, max: 1_500_000, tipo: 'software' },
   { id: 'asistentes', servicio: 'Asistentes', incluye: 'Un asistente que guía a tus clientes en tu web o sistema', min: 500_000, max: 1_200_000, tipo: 'software' },
   { id: 'bots-whatsapp', servicio: 'Bots de WhatsApp', incluye: 'Tu WhatsApp responde solo: pedidos, turnos y consultas, y te pasa a una persona cuando hace falta', min: 600_000, max: 850_000, tipo: 'software' },
