@@ -21,12 +21,13 @@ import {
   Shield,
   CheckCircle2,
   Terminal,
-  Play,
-  UserCog
+  Play
 } from 'lucide-react';
 import { HardwareSystemCanvas3D } from './systems/HardwareSystemCanvas3D';
 import { GolondrinaAplicacionesShowcase } from './systems/GolondrinaAplicacionesShowcase';
 import { whatsappLink } from '../data/contact';
+import { GolondrinaLogo } from './LogosProductos';
+import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
 import { dolares, pesos } from '../data/precios';
 
 export interface ProductoPropio {
@@ -44,7 +45,7 @@ export interface ProductoPropio {
 export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'golondrina-automatizacion',
-    icon: Workflow,
+    icon: GolondrinaLogo,
     title: 'Golondrina Automatización • Software & Telemetría',
     tagline: 'Hardware a demanda y software contextual de telemetría con alertas por WhatsApp.',
     description: 'Implementación inmediata de software de telemetría y automatización: detecta el contexto operativo de tu empresa sin configuraciones complicadas y alerta con botón de resolución en 1 solo clic por WhatsApp. Aplicable en tambos y leche, silos, cámaras de frío, inyectoras, motores y bombas.',
@@ -62,19 +63,18 @@ export const PRODUCTOS: ProductoPropio[] = [
   },
   {
     id: 'golondrina-personal',
-    icon: UserCog,
+    icon: GolondrinaLogo,
     title: 'Golondrina Personal • Módulo a tu medida',
-    tagline: 'Aprende tu contexto y te avisa solo donde vos le das permiso.',
-    description: 'Se adapta a cualquier persona o negocio: estudia cómo trabajás y te avisa solo en los lugares que vos habilitaste (WhatsApp, mail o la pantalla). Vos decidís qué puede ver y dónde, y lo cambiás cuando quieras.',
+    tagline: 'Con una G no tenés que aprender nada.',
+    description: 'Al iniciarla encuentra las aplicaciones que usás y le das permiso con un clic, escribiendo o hablando: un transcriptor muestra al lado lo que le vas pidiendo. Después te avisa solo donde la habilitaste.',
     priceUsd: 0,
     priceArs: 0,
     category: 'Módulo personalizable',
     specs: [
-      'Aprende tu rutina y tu contexto, sin programar nada',
-      'Solo usa los permisos y canales que vos configurás',
-      'Avisos confiables: te explica por qué te avisa y se puede revisar',
-      'Para cualquier usuario: comercio, oficina, campo o casa',
-      'Se suma a Golondrina o se usa solo, como módulo aparte'
+      'Permisos con un clic, por escrito o por voz',
+      'Te avisa solo donde vos la habilitás',
+      'Se integra a tu sistema actual o como sistema nuevo',
+      'Para comercio, oficina, campo o casa'
     ]
   },
   {
@@ -252,11 +252,8 @@ export const ProductosPropios: React.FC = () => {
 
   const handleSelectCard = (id: string) => {
     if (id === 'golondrina-personal') {
-      window.open(
-        whatsappLink('Hola tecnoros.ar, me interesa Golondrina Personal: el módulo que aprende mi contexto y me avisa donde yo le doy permiso. ¿Cómo sería para mi caso?'),
-        '_blank',
-        'noopener,noreferrer'
-      );
+      const demo = document.getElementById('golondrina-personal-demo');
+      if (demo) demo.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
     if (id === 'colibri-micro-hub') {
@@ -418,7 +415,7 @@ export const ProductosPropios: React.FC = () => {
                   >
                     <span>
                       {isPersonal
-                        ? 'Quiero mi Golondrina Personal'
+                        ? 'Probar cómo se configura'
                         : isRobotica
                         ? 'Ver Gemelo Digital y Robótica'
                         : isColibri
@@ -434,6 +431,8 @@ export const ProductosPropios: React.FC = () => {
             );
           })}
         </div>
+
+        <GolondrinaPersonalDemo />
 
         {/* Próximamente: TERO Security, separado de los productos disponibles */}
         <div id="tero-proximamente" className="scroll-mt-28 pt-10 border-t border-slate-800/80">
