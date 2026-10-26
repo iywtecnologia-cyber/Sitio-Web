@@ -1,5 +1,6 @@
 import React from 'react';
 import { irA } from '../rutas';
+import { consultarPor } from '../consulta';
 import { 
   Workflow, 
   ShieldCheck, 
@@ -136,9 +137,6 @@ export const SERVICES: ServiceItem[] = [
 ];
 
 export const ServicesSection: React.FC = () => {
-  const scrollToContact = () => {
-    irA('contacto');
-  };
 
   return (
     <section id="servicios" className="py-14 sm:py-16 md:py-20 bg-[#090D18] border-t border-slate-800/50 relative overflow-hidden">
@@ -226,7 +224,7 @@ export const ServicesSection: React.FC = () => {
                     100% Personalizado
                   </span>
                   <button
-                    onClick={scrollToContact}
+                    onClick={() => consultarPor(`servicio-${service.id}`)}
                     className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors cursor-pointer group/btn"
                   >
                     <span>Consultar por este servicio</span>
@@ -249,7 +247,7 @@ export const ServicesSection: React.FC = () => {
             </p>
           </div>
           <button
-            onClick={scrollToContact}
+            onClick={() => consultarPor('diagnostico')}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap cursor-pointer shrink-0 group"
           >
             <span>Agendar Diagnóstico Gratuito</span>

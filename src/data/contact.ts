@@ -8,6 +8,13 @@ export const whatsappLink = (message: string): string => {
 };
 
 // Casillas del dominio (Cloudflare Email Routing las reenvía al Gmail).
+// Redes de tecnoros.ar
+export const REDES = {
+  linkedin: 'https://www.linkedin.com/in/tecnoros-ar-794698445/',
+  instagram: 'https://www.instagram.com/tecnorosar/',
+  tiktok: 'https://www.tiktok.com/@tecnorosar',
+};
+
 export const VENTAS_EMAIL = 'ventas@tecnoros.ar';
 export const SOPORTE_EMAIL = 'soporte@tecnoros.ar';
 // Consultas y presupuestos van a ventas.

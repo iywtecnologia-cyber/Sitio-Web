@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { irA } from '../rutas';
+import { consultarPor } from '../consulta';
 import { PlegableMovil } from './PlegableMovil';
 import { 
   ClipboardList, 
@@ -85,9 +86,6 @@ const STEPS: Step[] = [
 export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabajamos' }) => {
   const [highlightedStep, setHighlightedStep] = useState<string | null>(null);
 
-  const scrollToContact = () => {
-    irA('contacto');
-  };
 
   const scrollToStep = (stepNumber: string) => {
     const el = document.getElementById(`paso-${stepNumber}`);
@@ -292,7 +290,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
           </div>
 
           <button
-            onClick={scrollToContact}
+            onClick={() => consultarPor('proyecto-nuevo')}
             className="inline-flex items-center justify-center gap-1 px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap cursor-pointer shrink-0 leading-none group"
           >
             <span>Iniciar Proyecto con Nosotros</span>

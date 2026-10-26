@@ -445,9 +445,9 @@ export const ProductosPropios: React.FC = () => {
             className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
           >
             <BellRing className="w-4 h-4" />
-            Avisame cuando salga
+            Mantenete informado
           </a>
-          <span className="text-sm text-slate-400">Te avisamos por WhatsApp cuando esté disponible.</span>
+          <span className="text-sm text-slate-400">Te contamos las novedades por WhatsApp.</span>
         </div>
         </div>
 

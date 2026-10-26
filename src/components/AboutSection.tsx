@@ -28,14 +28,14 @@ export const FOUNDERS: Founder[] = [
     name: 'Esteban José Menin',
     role: 'Se sumó al equipo',
     specialty: 'Bachiller en Electrónica & Machine Learning',
-    badge: 'Hardware & Machine Learning',
+    badge: 'Electrónica & Machine Learning',
     linkedin: 'https://www.linkedin.com/in/esteban-menin-31928a259/',
   },
   {
     name: 'Sebastián Gabriel Sosa',
     role: 'Se sumó al equipo',
     specialty: 'Técnico Electrónico',
-    badge: 'Electrónica & Robótica',
+    badge: 'Electrónica & Desarrollo',
     linkedin: 'https://www.linkedin.com/in/sebastinsosa/',
   },
 ];

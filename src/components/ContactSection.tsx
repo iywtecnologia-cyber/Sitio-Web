@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Mail, 
   MessageCircle, 
@@ -10,6 +10,8 @@ import {
   Linkedin
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
+import { BotonesRedes } from './Redes';
+import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 
 const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
 const WHATSAPP_NUMBERS = [
@@ -29,7 +31,32 @@ export const ContactSection: React.FC = () => {
     email: '',
     mensaje: DEFAULT_MESSAGE,
   });
+  const [tema, setTema] = useState('');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
+
+  // Elegir un tema reescribe el mensaje con el texto de ese tema (después se puede editar).
+  const elegirTema = (id: string) => {
+    setTema(id);
+    const t = temaPorId(id);
+    setFormData((f) => ({ ...f, mensaje: t ? t.mensaje : DEFAULT_MESSAGE }));
+  };
+
+  // Si se llegó desde un botón "Consultar por…", el tema ya viene elegido.
+  useEffect(() => {
+    const inicial = tomarTemaPendiente();
+    if (inicial) elegirTema(inicial);
+    const onTema = (e: Event) => {
+      tomarTemaPendiente();
+      elegirTema((e as CustomEvent<string>).detail);
+    };
+    window.addEventListener(EVENTO_TEMA, onTema);
+    return () => window.removeEventListener(EVENTO_TEMA, onTema);
+  }, []);
+
+  const grupos = temas().reduce<Record<string, ReturnType<typeof temas>>>((acc, t) => {
+    (acc[t.grupo] ||= []).push(t);
+    return acc;
+  }, {});
   const [sentSuccess, setSentSuccess] = useState(false);
 
   // El e-mail se redacta en Gmail web, en una pestaña nueva del mismo navegador
@@ -62,7 +89,7 @@ export const ContactSection: React.FC = () => {
     const emailStr = email ? `• *Email de contacto:* ${email}\n` : '';
     const msgStr = formData.mensaje.trim() || DEFAULT_MESSAGE;
     
-    const formattedText = `Hola equipo de tecnoros.ar,\n\n${nameStr}${emailStr}• *Problema a resolver:* ${msgStr}`;
+    const formattedText = `Hola equipo de tecnoros.ar,\n\n${nameStr}${emailStr}• *Consulta:* ${msgStr}`;
     const waUrl = `https://wa.me/${targetNumber}?text=${encodeURIComponent(formattedText)}`;
     window.open(waUrl, '_blank');
   };
@@ -73,7 +100,8 @@ export const ContactSection: React.FC = () => {
     const messageText = formData.mensaje.trim() || DEFAULT_MESSAGE;
 
     // Solo se incluyen los datos que la persona completó.
-    const subject = nombre ? `Consulta de ${nombre} - tecnoros.ar` : 'Consulta desde la web - tecnoros.ar';
+    const etiquetaTema = temaPorId(tema)?.etiqueta;
+    const subject = `${etiquetaTema ? `Consulta: ${etiquetaTema}` : 'Consulta desde la web'}${nombre ? ` - ${nombre}` : ''} - tecnoros.ar`;
     const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `Email de contacto: ${email}`].filter(Boolean).join('\n');
     const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
@@ -117,7 +145,7 @@ export const ContactSection: React.FC = () => {
               Dejanos tu consulta directa
             </h3>
             <p className="text-xs sm:text-sm text-slate-400">
-              Te dejamos un mensaje de ejemplo: cambialo por lo que necesites y elegí cómo enviarlo.
+              Elegí el tema y el mensaje se escribe solo. Cambialo como quieras y elegí cómo enviarlo.
             </p>
           </div>
 
@@ -157,9 +185,30 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div>
+              <label htmlFor="contacto-tema" className="block text-xs font-mono text-slate-300 mb-2">
+                ¿Sobre qué querés consultar?
+              </label>
+              <select
+                id="contacto-tema"
+                value={tema}
+                onChange={(e) => elegirTema(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
+              >
+                <option value="">Elegí un tema (opcional)</option>
+                {Object.entries(grupos).map(([grupo, lista]) => (
+                  <optgroup key={grupo} label={grupo}>
+                    {lista.map((t) => (
+                      <option key={t.id} value={t.id}>{t.etiqueta}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-mono text-slate-300">
-                  Mensaje / Problema a Resolver
+                <label htmlFor="contacto-mensaje" className="block text-xs font-mono text-slate-300">
+                  Tu mensaje
                 </label>
               </div>
               <textarea
@@ -236,31 +285,13 @@ export const ContactSection: React.FC = () => {
           </form>
         </div>
 
-        {/* Sección de Conexión en LinkedIn */}
-        <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h4 className="text-base font-bold text-white flex items-center gap-2">
-              <span>Seguinos en LinkedIn</span>
-            </h4>
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Novedades, proyectos y casos de tecnoros.ar
-            </p>
+        {/* Redes de tecnoros.ar */}
+        <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="text-center md:text-left">
+            <h4 className="text-base font-bold text-white">Seguinos en redes</h4>
+            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">Novedades, proyectos y el avance de nuestro robot para el JAR</p>
           </div>
-
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-
-            {/* Entrada LinkedIn Empresa tecnoros.ar */}
-            <a
-              href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/20 text-cyan-300 hover:text-white transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de tecnoros.ar"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span className="font-semibold">tecnoros.ar en LinkedIn</span>
-            </a>
-          </div>
+          <BotonesRedes />
         </div>
 
       </div>

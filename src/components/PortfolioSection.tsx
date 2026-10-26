@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { irA } from '../rutas';
+import { consultarPor } from '../consulta';
 import { 
   Activity,
   CheckCircle2, 
@@ -109,9 +110,6 @@ export const PortfolioSection: React.FC = () => {
   const activeProject = PROJECTS_DATA.find(p => p.id === selectedProjectId) || PROJECTS_DATA[0];
   const ActiveIcon = activeProject.icon;
 
-  const scrollToContact = () => {
-    irA('contacto');
-  };
 
   return (
     <section id="proyectos" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
@@ -285,7 +283,7 @@ export const PortfolioSection: React.FC = () => {
             </div>
 
             <button
-              onClick={scrollToContact}
+              onClick={() => consultarPor(`proyecto-${activeProject.id}`)}
               className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 text-cyan-300 text-xs font-bold hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
             >
               <span>Consultar por una solución como esta</span>
