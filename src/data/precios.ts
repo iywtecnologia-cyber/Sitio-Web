@@ -47,72 +47,16 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   },
 ];
 
+// Mismos servicios y orden que la remera y la web
 export const SERVICIOS_SOFTWARE: Precio[] = [
-  {
-    id: 'automatizacion',
-    servicio: 'Automatizaciones para tu negocio',
-    incluye: 'Un proceso que se hace solo: planillas, avisos automáticos, reportes e integración de sistemas',
-    min: 500_000,
-    max: 1_000_000,
-    tipo: 'software',
-  },
-  {
-    id: 'bots-whatsapp',
-    servicio: 'Bot de WhatsApp Empresarial',
-    incluye: 'Atención 24/7, toma de pedidos, asignación de turnos y derivación inteligente a operadores humanos',
-    min: 600_000,
-    max: 850_000,
-    tipo: 'software',
-  },
-  {
-    id: 'ciberseguridad',
-    servicio: 'Ciberseguridad & Hardening de Software',
-    incluye: 'Auditoría integral, blindaje de servidores y base de datos, mitigación de vulnerabilidades e informe pericial',
-    min: 500_000,
-    max: 1_200_000,
-    tipo: 'software',
-  },
-  {
-    id: 'qa-testing',
-    servicio: 'QA & Testing Integral de Software',
-    incluye: 'Pruebas funcionales E2E, control de regresiones y automatización de tests para asegurar cero fallas',
-    min: 450_000,
-    max: 950_000,
-    tipo: 'software',
-  },
-  {
-    id: 'software',
-    servicio: 'Software y Plataforma a Medida',
-    incluye: 'Sistema adaptado a tu modelo de negocio: gestión comercial, logística, stock o ERP modular',
-    min: 1_000_000,
-    max: 2_000_000,
-    tipo: 'software',
-  },
-  {
-    id: 'asistentes',
-    servicio: 'Asistente para tu Web o Sistema',
-    incluye: 'Asistente guiado interactivo para tus clientes (opcional con modelos de IA avanzada)',
-    min: 500_000,
-    max: 1_200_000,
-    tipo: 'software',
-  },
-  {
-    id: 'paginas-web',
-    servicio: 'Página Web de Alto Rendimiento',
-    incluye: 'Diseño moderno responsivo, formularios conectados, optimización SEO y asistente integrado',
-    min: 650_000,
-    max: 1_500_000,
-    tipo: 'software',
-  },
-  {
-    id: 'robotica-a-medida',
-    servicio: 'Robótica a Medida & Simulación ROS 2',
-    incluye: 'Diseño mecatrónico personalizado, gemelo digital 3D en Gazebo, cinemática y navegación autónoma',
-    min: 1_200_000,
-    max: 3_500_000,
-    tipo: 'software',
-    badge: 'Robótica ROS 2',
-  },
+  { id: 'diagnostico', servicio: 'Diagnóstico gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
+  { id: 'automatizacion', servicio: 'Automatización', incluye: 'Lo que hacés a mano, que se haga solo: planillas, avisos y reportes automáticos', min: 500_000, max: 1_000_000, tipo: 'software' },
+  { id: 'ciberseguridad', servicio: 'Ciberseguridad', incluye: 'Revisamos tus sistemas y equipos, cerramos los puntos débiles y te damos un informe', min: 500_000, max: 1_200_000, tipo: 'software' },
+  { id: 'software', servicio: 'Software', incluye: 'Sistemas, aplicaciones web y CRM a medida de tu negocio', min: 1_000_000, max: 2_000_000, tipo: 'software' },
+  { id: 'paginas-web', servicio: 'Páginas web', incluye: 'Web moderna, rápida y que se ve bien en el celular, con formularios conectados', min: 650_000, max: 1_500_000, tipo: 'software' },
+  { id: 'asistentes', servicio: 'Asistentes', incluye: 'Un asistente que guía a tus clientes en tu web o sistema', min: 500_000, max: 1_200_000, tipo: 'software' },
+  { id: 'bots-whatsapp', servicio: 'Bots de WhatsApp', incluye: 'Tu WhatsApp responde solo: pedidos, turnos y consultas, y te pasa a una persona cuando hace falta', min: 600_000, max: 850_000, tipo: 'software' },
+  { id: 'robotica-a-medida', servicio: 'Robótica a medida', incluye: 'Robots de tamaño chico: primero el cerebro y la simulación 3D; el cuerpo físico, si es viable', min: 1_200_000, max: 3_500_000, tipo: 'software', badge: 'Robots chicos' },
 ];
 
 // Lista completa combinada para compatibilidad
@@ -136,9 +80,8 @@ export const ABONOS: Abono[] = [
   {
     id: 'tero',
     nombre: 'TERO Security (Ciberseguridad IDS/IPS & Reglas Continuas)',
-    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real. (Próximamente • En fase de I+D).',
+    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real.',
     mensual: 85_000,
-    proximamente: true,
     esServicioParaHardware: true,
   },
   {
@@ -156,8 +99,8 @@ export const ABONOS: Abono[] = [
   },
   {
     id: 'carancho',
-    nombre: 'Carancho • Cerebro Robótico & Gemelo Digital 3D (Software en Computadora)',
-    detalle: 'Servicio de robótica a medida disponible para evaluación y presupuesto: cerebro autónomo, algoritmos ROS 2 y gemelo digital. La fabricación e instalación física se cotizan y validan por separado.',
+    nombre: 'Robótica a medida (robots de tamaño chico)',
+    detalle: 'Desarrollamos el cerebro del robot y lo probás en 3D. Si es viable, cotizamos aparte la fabricación del cuerpo físico.',
     mensual: null,
   },
 ];

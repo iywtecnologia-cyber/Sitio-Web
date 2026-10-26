@@ -110,7 +110,7 @@ export const BillingModule: React.FC = () => {
   if (seleccionSoftware.length > 0) {
     itemsMensaje.push('💻 SOFTWARE & AUTOMATIZACIONES (Pago único):');
     seleccionSoftware.forEach((s) => {
-      itemsMensaje.push(`  • ${s.servicio} (${pesos(s.min)} a ${pesos(s.max)})`);
+      itemsMensaje.push(`  • ${s.servicio} (${s.max === 0 ? 'gratis' : `${pesos(s.min)} a ${pesos(s.max)}`})`);
     });
   }
 
@@ -192,7 +192,7 @@ export const BillingModule: React.FC = () => {
               </div>
 
               <p className="text-base text-slate-300 mb-5">
-                Son <strong className="text-white">productos a demanda</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. Acá ves el precio del equipo y del servicio mensual.
+                Son <strong className="text-white">sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. Acá ves el precio del equipo y del servicio mensual.
               </p>
 
               {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
@@ -208,11 +208,11 @@ export const BillingModule: React.FC = () => {
                   },
                   {
                     nombre: 'TERO Security',
-                    estado: 'Próximamente',
+                    estado: 'Disponible a demanda',
                     color: 'violet',
-                    equipo: `~${pesos(300_000)} (precio preliminar)`,
-                    extra: 'Todavía no está a la venta',
-                    servicio: `${pesos(85_000)} por mes (preliminar)`,
+                    equipo: `~${pesos(300_000)}`,
+                    extra: 'Ciberseguridad para la red de tu empresa',
+                    servicio: `${pesos(85_000)} por mes`,
                   },
                   {
                     nombre: 'CHAJÁ',
@@ -255,13 +255,13 @@ export const BillingModule: React.FC = () => {
             <div className="p-6 rounded-3xl bg-slate-900/50 border border-slate-800 shadow-xl">
               <div className="flex items-center gap-2 text-violet-400 text-xs font-mono uppercase tracking-wider font-bold mb-1">
                 <Workflow className="w-4 h-4" />
-                <span>Desarrollo de Software & Robótica · Implementación</span>
+                <span>Servicios</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
-                2. Software, Automatizaciones & Plataformas (Pago Único)
+                2. Servicios (pago único)
               </h3>
               <p className="text-sm text-slate-300 mb-5 leading-relaxed">
-                Desarrollo e ingeniería a medida para tu empresa. Antes de comenzar relevamos las necesidades y te entregamos un prototipo funcional sin costo de diagnóstico.
+                Elegí los que necesites. Empezamos siempre por el diagnóstico gratuito.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -297,7 +297,7 @@ export const BillingModule: React.FC = () => {
                         </div>
                         <span className="block mt-1 text-xs sm:text-sm text-slate-400 leading-snug">{s.incluye}</span>
                         <span className="block mt-2.5 text-xs sm:text-sm font-semibold text-violet-300">
-                          {pesos(s.min)} a {pesos(s.max)}
+                          {s.max === 0 ? 'Gratis' : `${pesos(s.min)} a ${pesos(s.max)}`}
                         </span>
                       </span>
                     </button>
@@ -429,7 +429,7 @@ export const BillingModule: React.FC = () => {
                     {seleccionSoftware.map((s) => (
                       <div key={s.id} className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
                         <span className="truncate">{s.servicio}</span>
-                        <span className="text-slate-400 shrink-0 text-[11px]">desde {pesos(s.min)}</span>
+                        <span className="text-slate-400 shrink-0 text-[11px]">{s.max === 0 ? 'Gratis' : `desde ${pesos(s.min)}`}</span>
                       </div>
                     ))}
                   </div>
