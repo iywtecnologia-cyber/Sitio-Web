@@ -195,9 +195,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
                     <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Ciberseguridad</span>
                     <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Robótica</span>
+                    <span>Software</span>
                   </div>
                   <div className="flex items-center gap-1 text-cyan-300/90">
+                    <span>Robótica</span>
+                    <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Electrónica</span>
                     <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Machine Learning</span>
@@ -209,9 +211,11 @@ export const Navbar: React.FC<NavbarProps> = () => {
                     <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Ciberseguridad</span>
                     <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Robótica</span>
+                    <span>Software</span>
                   </div>
                   <div className="flex items-center gap-1 text-cyan-300/90">
+                    <span>Robótica</span>
+                    <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Electrónica</span>
                     <span className="text-cyan-500/70 font-sans">|</span>
                     <span>Machine Learning</span>

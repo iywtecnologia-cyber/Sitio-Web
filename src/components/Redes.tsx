@@ -25,10 +25,10 @@ export const BotonesRedes: React.FC<{ className?: string }> = ({ className = '' 
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`tecnoros.ar en ${nombre}`}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/80 border border-slate-700 text-slate-200 hover:text-white hover:border-cyan-500/50 transition-colors text-[13px] font-semibold whitespace-nowrap"
+        title={nombre}
+        className="w-11 h-11 inline-flex items-center justify-center rounded-full bg-slate-900/80 border border-slate-700 hover:border-cyan-500/50 hover:bg-slate-800 transition-colors"
       >
-        <Icon className={`w-4 h-4 shrink-0 ${color}`} />
-        <span>{nombre}</span>
+        <Icon className={`w-5 h-5 shrink-0 ${color}`} />
       </a>
     ))}
   </div>
