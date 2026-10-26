@@ -10,7 +10,7 @@ type App = { id: string; nombre: string; que: string; icon: React.ElementType };
 
 const APPS: App[] = [
   { id: 'whatsapp', nombre: 'WhatsApp', que: 'Avisarte por mensaje', icon: MessageCircle },
-  { id: 'mail', nombre: 'Mail', que: 'Leer avisos de facturas y turnos', icon: Mail },
+  { id: 'mail', nombre: 'Mail', que: 'Avisos de facturas y turnos que reenviés', icon: Mail },
   { id: 'calendario', nombre: 'Calendario', que: 'Recordarte reuniones y vencimientos', icon: CalendarDays },
   { id: 'pagos', nombre: 'Mercado Pago', que: 'Avisarte cuando entra un cobro', icon: Wallet },
   { id: 'ventas', nombre: 'Tu tienda online', que: 'Avisarte de pedidos nuevos', icon: ShoppingBag },
@@ -110,14 +110,14 @@ export const GolondrinaPersonalDemo: React.FC = () => {
         <GolondrinaLogo className="w-11 h-12 shrink-0" />
         <div>
           <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Golondrina Personal: así de fácil</h3>
-          <p className="text-sm text-slate-300">Con una G no tenés que aprender nada: al iniciarla encuentra tus aplicaciones y le das permiso con un clic, escribiendo o hablando.</p>
+          <p className="text-sm text-slate-300">Con una G no tenés que aprender nada: elegís qué aplicaciones conectar con un clic y le decís qué avisarte, escribiendo o hablando.</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 1. Aplicaciones encontradas */}
         <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
-          <p className="text-xs font-mono font-bold text-emerald-300 mb-3">1 · ENCONTRÉ ESTAS APLICACIONES. ¿QUÉ ME DEJÁS USAR?</p>
+          <p className="text-xs font-mono font-bold text-emerald-300 mb-3">1 · ¿QUÉ APLICACIONES QUERÉS CONECTAR?</p>
           <ul className="space-y-2">
             {APPS.map(({ id, nombre, que, icon: Icon }) => {
               const ok = !!permisos[id];
@@ -134,13 +134,13 @@ export const GolondrinaPersonalDemo: React.FC = () => {
                     aria-pressed={ok}
                     className={`px-3 py-1.5 rounded-lg text-xs font-bold border cursor-pointer transition-colors shrink-0 ${ok ? 'bg-emerald-500 text-slate-950 border-emerald-400' : 'bg-slate-800 text-slate-200 border-slate-700 hover:border-emerald-500/50'}`}
                   >
-                    {ok ? <span className="inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" />Permitido</span> : 'Permitir'}
+                    {ok ? <span className="inline-flex items-center gap-1"><Check className="w-3.5 h-3.5" />Conectada</span> : 'Conectar'}
                   </button>
                 </li>
               );
             })}
           </ul>
-          <p className="mt-3 text-xs text-slate-400">{cantidad === 0 ? 'Sin permisos todavía: no ve nada.' : `Tiene permiso en ${cantidad} de ${APPS.length}. Lo podés cambiar cuando quieras.`}</p>
+          <p className="mt-3 text-xs text-slate-400">{cantidad === 0 ? 'Nada conectado todavía: no ve nada.' : `Conectaste ${cantidad} de ${APPS.length}. Las podés desconectar cuando quieras.`}</p>
         </div>
 
         {/* 2. Pedidos por texto o voz, con transcriptor */}
