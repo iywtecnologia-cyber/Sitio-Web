@@ -2,6 +2,7 @@ import React from 'react';
 import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { irA } from '../rutas';
+import { BotonesRedes } from './Redes';
 
 const NAV_LINKS = [
   { id: 'servicios', label: 'Servicios' },
@@ -17,9 +18,9 @@ const NAV_LINKS = [
 
 const LINKEDIN_LINKS = [
   { href: 'https://www.linkedin.com/in/manuel-angiulli/', label: 'Manuel A.' },
-  { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'M. Sofía Genta' },
+  { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'María Sofía Genta' },
   { href: 'https://www.linkedin.com/in/esteban-menin-31928a259/', label: 'Esteban José Menin' },
-  { href: 'https://www.linkedin.com/in/sebastinsosa/', label: 'Sebastián G. Sosa' },
+  { href: 'https://www.linkedin.com/in/sebastinsosa/', label: 'Sebastián Gabriel Sosa' },
 ];
 
 export const Footer: React.FC = () => {
@@ -75,7 +76,7 @@ export const Footer: React.FC = () => {
           <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
         </div>
 
-        {/* Equipo y LinkedIn: integrantes arriba, la empresa abajo */}
+        {/* Equipo (LinkedIn de cada integrante) y, abajo, las redes de tecnoros.ar */}
         <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Equipo</span>
           <div className="flex flex-wrap items-center justify-center gap-2.5">
@@ -92,15 +93,8 @@ export const Footer: React.FC = () => {
               </a>
             ))}
           </div>
-          <a
-            href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2]/15 border border-[#0A66C2]/50 text-white hover:bg-[#0A66C2]/25 transition-colors text-[13px] font-semibold whitespace-nowrap"
-          >
-            <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />
-            <span>Seguí a tecnoros.ar en LinkedIn</span>
-          </a>
+          <span className="mt-4 text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Seguinos</span>
+          <BotonesRedes />
         </div>
 
         {/* Créditos */}

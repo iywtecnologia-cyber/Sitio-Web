@@ -341,6 +341,12 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     controls.screenSpacePanning = true;
     controls.target.set(0, 0.08, 0);
 
+    // En celular: deslizar de costado gira el equipo y deslizar arriba/abajo mueve la página,
+    // así el dedo no queda "atrapado" en el dibujo.
+    if (window.matchMedia?.('(pointer: coarse)').matches) {
+      renderer.domElement.style.touchAction = 'pan-y';
+    }
+
     // CONEXIÓN ÍNTIMA POR CONTEXTO ENTRE RUEDITA, ZOOM 3D Y SCROLL DE PÁGINA:
     // - Si el usuario simplemente pasa la ruedita por encima: la página web se desplaza libremente sin trabarse.
     // - Si el usuario interactúa activamente (hace clic/arrastra sobre el 3D), mantiene presionada Ctrl/Cmd,
@@ -501,7 +507,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
 
   return (
     <div
-      className={`relative w-full h-[460px] sm:h-[520px] rounded-2xl overflow-hidden bg-slate-950 border transition-all duration-300 shadow-2xl group/canvas ${
+      className={`relative w-full h-[340px] sm:h-[520px] rounded-2xl overflow-hidden bg-slate-950 border transition-all duration-300 shadow-2xl group/canvas ${
         is3DActive
           ? 'border-cyan-400/80 ring-2 ring-cyan-500/20'
           : 'border-slate-800 hover:border-slate-700'
@@ -564,7 +570,8 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                   : 'bg-slate-500'
               }`}
             />
-            <span>
+            <span className="sm:hidden">👆 De costado: girar · Arriba/abajo: seguir bajando</span>
+            <span className="hidden sm:inline">
               {wheelMode === 'zoom'
                 ? '🔍 Ruedita: Zoom 3D Fijo'
                 : wheelMode === 'scroll'

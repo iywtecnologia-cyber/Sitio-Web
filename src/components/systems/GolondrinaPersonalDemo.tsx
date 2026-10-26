@@ -16,7 +16,8 @@ const APPS: App[] = [
   { id: 'ventas', nombre: 'Tu tienda online', que: 'Avisarte de pedidos nuevos', icon: ShoppingBag },
 ];
 
-const EJEMPLO = 'Avisame por WhatsApp cuando entre un cobro de más de 50 mil pesos';
+const EJEMPLOS = ['Avisame cuando me entre un e-mail de un nuevo cliente', 'Recordame que tengo que llevar a mi perro a vacunarse'];
+const EJEMPLO = EJEMPLOS[0];
 
 type Reconocedor = {
   lang: string; interimResults: boolean; continuous: boolean;
@@ -151,7 +152,7 @@ export const GolondrinaPersonalDemo: React.FC = () => {
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && agregarRegla(texto)}
-              placeholder="Ej: avisame si un cliente no pagó en 7 días"
+              placeholder="Ej: avisame cuando me entre un e-mail de un nuevo cliente"
               aria-label="Escribí qué querés que te avise"
               className="flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-emerald-400 focus:outline-none text-sm text-white placeholder:text-slate-500"
             />
@@ -165,6 +166,19 @@ export const GolondrinaPersonalDemo: React.FC = () => {
             >
               {escuchando ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
             </button>
+          </div>
+
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {EJEMPLOS.map((ej) => (
+              <button
+                key={ej}
+                type="button"
+                onClick={() => agregarRegla(ej)}
+                className="px-2.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-[11px] text-slate-300 hover:border-emerald-500/50 cursor-pointer text-left"
+              >
+                {ej}
+              </button>
+            ))}
           </div>
 
           <div className="mt-3 p-3 rounded-xl bg-slate-950/80 border border-cyan-500/30 min-h-[64px]" aria-live="polite">

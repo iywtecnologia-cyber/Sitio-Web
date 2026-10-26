@@ -18,7 +18,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'saber-mas': '/', 'contacto-rapido': '/',
   servicios: '/servicios', 'como-trabajamos': '/servicios',
   proyectos: '/proyectos',
-  contacto: '/contacto',
+  contacto: '/contacto', 'consulta-directa': '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',

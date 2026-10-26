@@ -45,7 +45,19 @@ export const PlegableMovil: React.FC<Props> = ({ titulo, resumen, children, clas
     <div ref={ref} data-plegable={abierto ? 'abierto' : 'cerrado'} className={className}>
       <button
         type="button"
-        onClick={() => setAbierto((a) => !a)}
+        onClick={() => {
+          const abrir = !abierto;
+          setAbierto(abrir);
+          // Al abrir, llevar la vista al comienzo del bloque (y no quedar abajo)
+          if (abrir) {
+            window.setTimeout(() => {
+              const el = ref.current;
+              if (!el) return;
+              const y = el.getBoundingClientRect().top + window.scrollY - 76;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }, 80);
+          }
+        }}
         aria-expanded={abierto}
         className="sm:hidden w-full mb-3 flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-left cursor-pointer active:scale-[0.99] transition-transform"
       >

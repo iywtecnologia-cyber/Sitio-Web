@@ -232,21 +232,26 @@ export const Asistente: React.FC = () => {
   // Detección automática: Cuando el usuario está personalizando el robot o producto (sección 3D activa),
   // Marcio se oculta automáticamente para dejar despejada toda la vista y los controles.
   useEffect(() => {
-    const el = document.getElementById('robotica-3d');
-    let observer: IntersectionObserver | null = null;
-    if (el && typeof IntersectionObserver !== 'undefined') {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          setOcultoPor3D(entry.isIntersecting);
-        },
-        { threshold: 0.12 }
-      );
-      observer.observe(el);
-    }
+    // En celular, mientras un visor 3D está en pantalla, Marcio se corre para que el dedo
+    // tenga lugar para girar el equipo o seguir bajando sin tocarlo.
+    let observer: { disconnect: () => void } | null = null;
+    const revisar = () => {
+      if (window.innerWidth >= 640) { setOcultoPor3D(false); return; }
+      const visores = document.querySelectorAll('#hardware-studio-3d canvas, #robotica-3d canvas');
+      const h = window.innerHeight;
+      const enPantalla = Array.from(visores).some((c) => {
+        const r = (c.parentElement ?? c).getBoundingClientRect();
+        return r.height > 0 && r.bottom > h * 0.15 && r.top < h * 0.85;
+      });
+      setOcultoPor3D(enPantalla);
+    };
+    window.addEventListener('scroll', revisar, { passive: true });
+    window.addEventListener('resize', revisar);
+    observer = { disconnect: () => { window.removeEventListener('scroll', revisar); window.removeEventListener('resize', revisar); } };
 
     const handleCustomizing = (e: Event) => {
       const ce = e as CustomEvent<boolean>;
-      if (typeof ce.detail === 'boolean') {
+      if (typeof ce.detail === 'boolean' && window.innerWidth < 640) {
         setOcultoPor3D(ce.detail);
       }
     };
@@ -501,7 +506,7 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !marcioOculto && (
+      {!abierto && !marcioOculto && !ocultoPor3D && (
         <div
           ref={(el) => {
             contRef.current = el;
