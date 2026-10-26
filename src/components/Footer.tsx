@@ -42,8 +42,8 @@ export const Footer: React.FC = () => {
                 tecnoros<span className="text-[#00D2F3]">.ar</span>
               </span>
               <span className="text-[11px] sm:text-[13px] font-mono text-slate-300 mt-1.5 leading-snug">
-                <span className="block whitespace-nowrap">Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Robótica</span>
-                <span className="block whitespace-nowrap">Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning</span>
+                <span className="block whitespace-nowrap">Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Software</span>
+                <span className="block whitespace-nowrap">Robótica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning</span>
               </span>
             </div>
           </div>

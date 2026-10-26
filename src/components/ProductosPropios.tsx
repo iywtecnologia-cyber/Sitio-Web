@@ -327,7 +327,7 @@ export const ProductosPropios: React.FC = () => {
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            No son robótica convencional: son <strong className="text-white">sistemas a medida dentro de tus sistemas</strong>. Todos los dispositivos y módulos de hardware físico se fabrican <strong className="text-cyan-300">exclusivamente a demanda y por encargo</strong> según la maquinaria o tablero de cada empresa, mientras que el software de telemetría y automatización está listo para implementación inmediata.
+            Software listo para usar y equipos que fabricamos a pedido para tu máquina o tablero.
           </p>
         </div>
 
@@ -390,18 +390,6 @@ export const ProductosPropios: React.FC = () => {
                       {tagline}
                     </p>
                   )}
-                  <p className="mt-2 text-xs text-slate-300 leading-relaxed line-clamp-4">
-                    {description}
-                  </p>
-
-                  <div className="mt-4 pt-3 border-t border-slate-800/80 space-y-1.5">
-                    {prod.specs.slice(0, 3).map((sp, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-[11px] text-slate-400 font-mono">
-                        <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                        <span>{sp}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-slate-800">
@@ -561,17 +549,23 @@ export const ProductosPropios: React.FC = () => {
 
         </PlegableMovil>
 
-        <PlegableMovil titulo="Compromiso con la seguridad industrial" resumen="Qué se simula hoy y qué requiere evaluación">
-        <section className="mb-6 rounded-2xl border border-amber-500/40 bg-slate-900/90 p-5 space-y-3" aria-label="Compromiso con la seguridad industrial">
-          <h3 className="text-lg font-bold text-white">Compromiso con la seguridad industrial</h3>
-          <p className="text-xs text-slate-400">TecnoRosario · Información técnica y comercial</p>
-          <p className="inline-flex w-fit rounded-full border border-amber-400/40 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-200">Aviso de seguridad industrial</p>
-          <p className="text-sm text-slate-200">Nuestras soluciones Golondrina y CHAJÁ están concebidas para monitoreo inteligente, automatización y protección de entornos industriales.</p>
-          <p className="text-sm text-slate-200">Las capacidades de control de motores, válvulas y otros actuadores se presentan actualmente como funcionalidades previstas o demostrativas, sujetas a evaluación técnica y de seguridad.</p>
-          <p className="text-sm text-slate-200">Antes de ofrecer una implementación operativa se determinarán los requisitos normativos aplicables, las pruebas necesarias y las condiciones de instalación.</p>
-          <p className="text-sm text-amber-200">Los productos no se anuncian como certificados. Las demostraciones no constituyen autorización para operar maquinaria real ni reemplazan los sistemas de seguridad industrial.</p>
-        </section>
-        </PlegableMovil>
+        {/* Aviso de seguridad industrial: una línea a la vista y el texto completo al tocar */}
+        <details className="mb-8 rounded-2xl border border-amber-500/40 bg-slate-900/90 px-5 py-4 group/aviso" aria-label="Compromiso con la seguridad industrial">
+          <summary className="cursor-pointer list-none flex items-start justify-between gap-3">
+            <span>
+              <span className="block text-sm font-bold text-amber-200">Compromiso con la seguridad industrial</span>
+              <span className="block mt-1 text-xs sm:text-sm text-slate-300">Las demos son ilustrativas: no están certificadas ni reemplazan los sistemas de seguridad de tu planta.</span>
+            </span>
+            <span className="shrink-0 text-xs font-semibold text-amber-300 mt-0.5 group-open/aviso:hidden">Ver más</span>
+            <span className="shrink-0 text-xs font-semibold text-amber-300 mt-0.5 hidden group-open/aviso:inline">Ocultar</span>
+          </summary>
+          <div className="mt-3 pt-3 border-t border-slate-800 space-y-2 text-xs sm:text-sm text-slate-300">
+            <p>Golondrina y CHAJÁ están pensados para monitoreo, automatización y protección de entornos industriales.</p>
+            <p>El control de motores, válvulas y otros actuadores se muestra como función prevista o demostrativa, sujeta a evaluación técnica y de seguridad.</p>
+            <p>Antes de una implementación real se definen los requisitos normativos, las pruebas y las condiciones de instalación.</p>
+            <p className="text-amber-200">Los productos no se anuncian como certificados. Las demostraciones no autorizan a operar maquinaria real.</p>
+          </div>
+        </details>
 
         {/* Aplicaciones Llave en Mano de Golondrina Automatización (Listas para implementar hoy) */}
         <PlegableMovil titulo="Simulador de Golondrina" resumen="12 casos reales: frío, silos, tambos y más">

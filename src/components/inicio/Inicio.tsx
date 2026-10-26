@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, ExternalLink, Flag, Instagram, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -117,9 +117,9 @@ export const JarDestacado: React.FC = () => (
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
 const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; extra: string; ir: string }[] = [
   { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', extra: 'Planillas, sistemas y WhatsApp conectados entre sí.', ir: 'servicio-automatizacion' },
-  { icon: Bot, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', extra: 'Cerebro digital primero; el cuerpo físico, si es viable.', ir: 'robotica-3d' },
   { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', extra: 'Revisamos tus equipos y te decimos qué arreglar.', ir: 'servicio-ciberseguridad' },
   { icon: Code2, titulo: 'Software', linea: 'Sistemas, webs y bots a tu medida.', extra: 'Probados a fondo antes de entregarlos.', ir: 'servicio-software' },
+  { icon: Bot, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', extra: 'Cerebro digital primero; el cuerpo físico, si es viable.', ir: 'robotica-3d' },
 ];
 
 export const QueHacemos: React.FC = () => (
@@ -215,16 +215,25 @@ export const EquipoCorto: React.FC = () => (
         titulo="Un equipo de Rosario"
         bajada="Ciberseguridad, QA, automatización, electrónica y machine learning, en un mismo equipo."
       />
-      <ul className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {FOUNDERS.map((f) => (
-          <li key={f.name} className="flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 min-w-0">
-            <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
-              {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
-            </span>
-            <span className="min-w-0">
-              <span className="block text-sm font-semibold text-white leading-tight">{nombreCorto(f.name)}</span>
-              <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
-            </span>
+          <li key={f.name} className="min-w-0">
+            <a
+              href={f.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`LinkedIn de ${f.name}`}
+              className="h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-[#0A66C2]/60 transition-colors min-w-0 group"
+            >
+              <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
+                {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200">{f.name}</span>
+                <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
+              </span>
+              <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />
+            </a>
           </li>
         ))}
       </ul>
