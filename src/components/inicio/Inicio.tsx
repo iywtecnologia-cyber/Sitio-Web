@@ -163,9 +163,9 @@ const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
   { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
   { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Una vez pagado, lo desarrollado a medida es tuyo. Y tus datos son siempre tuyos.' },
-  { icon: CreditCard, titulo: 'Facilidades de pago', linea: '50% al empezar y 50% a la entrega. Transferencia o tarjeta por Mercado Pago.' },
+  { icon: CreditCard, titulo: 'Facilidades de pago', linea: 'Te damos facilidades para que pagar no sea un problema.' },
   { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
-  { icon: Headset, titulo: 'Soporte todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
+  { icon: Headset, titulo: 'Soporte técnico todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
   { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras, sin penalidad.' },
   { icon: Calculator, titulo: 'Precios claros', linea: 'Precios de referencia y combos publicados. Sin sorpresas.' },
 ];
