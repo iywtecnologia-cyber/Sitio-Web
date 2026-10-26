@@ -28,6 +28,7 @@ import { GolondrinaAplicacionesShowcase } from './systems/GolondrinaAplicaciones
 import { whatsappLink } from '../data/contact';
 import { GolondrinaLogo } from './LogosProductos';
 import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
+import { PlegableMovil } from './PlegableMovil';
 import { dolares, pesos } from '../data/precios';
 
 export interface ProductoPropio {
@@ -432,7 +433,9 @@ export const ProductosPropios: React.FC = () => {
           })}
         </div>
 
-        <GolondrinaPersonalDemo />
+        <PlegableMovil titulo="Probá Golondrina Personal" resumen="Conectá apps y pedile avisos por voz o texto">
+          <GolondrinaPersonalDemo />
+        </PlegableMovil>
 
         {/* Próximamente: TERO Security, separado de los productos disponibles */}
         <div id="tero-proximamente" className="scroll-mt-28 pt-10 border-t border-slate-800/80">
@@ -455,6 +458,7 @@ export const ProductosPropios: React.FC = () => {
         {/* =========================================================================
             TABLA TRANSPARENTE DE PRECIOS & ABONOS: GOLONDRINA AUTOMATIZACIÓN
             ========================================================================= */}
+        <PlegableMovil titulo="Precios de Golondrina" resumen="Puesta en marcha y abono mensual">
         <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-slate-900 to-cyan-950/40 border border-emerald-500/40 shadow-2xl relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-800">
             <div>
@@ -559,6 +563,9 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </div>
 
+        </PlegableMovil>
+
+        <PlegableMovil titulo="Compromiso con la seguridad industrial" resumen="Qué se simula hoy y qué requiere evaluación">
         <section className="mb-6 rounded-2xl border border-amber-500/40 bg-slate-900/90 p-5 space-y-3" aria-label="Compromiso con la seguridad industrial">
           <h3 className="text-lg font-bold text-white">Compromiso con la seguridad industrial</h3>
           <p className="text-xs text-slate-400">TecnoRosario · Información técnica y comercial</p>
@@ -568,13 +575,17 @@ export const ProductosPropios: React.FC = () => {
           <p className="text-sm text-slate-200">Antes de ofrecer una implementación operativa se determinarán los requisitos normativos aplicables, las pruebas necesarias y las condiciones de instalación.</p>
           <p className="text-sm text-amber-200">Los productos no se anuncian como certificados. Las demostraciones no constituyen autorización para operar maquinaria real ni reemplazan los sistemas de seguridad industrial.</p>
         </section>
+        </PlegableMovil>
 
         {/* Aplicaciones Llave en Mano de Golondrina Automatización (Listas para implementar hoy) */}
-        <GolondrinaAplicacionesShowcase />
+        <PlegableMovil titulo="Simulador de Golondrina" resumen="12 casos reales: frío, silos, tambos y más">
+          <GolondrinaAplicacionesShowcase />
+        </PlegableMovil>
 
         {/* =========================================================================
             ESTUDIO 3D EXCLUSIVO DE SISTEMAS Y HARDWARE A MEDIDA (CHAJÁ Y GOLONDRINA)
             ========================================================================= */}
+        <PlegableMovil titulo="Ver los equipos en 3D" resumen="CHAJÁ y Golondrina, con sus botones">
         <div id="hardware-studio-3d" className="scroll-mt-24 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-slate-900/90 via-slate-950 to-[#070b14] border border-cyan-500/30 shadow-2xl space-y-6">
           
           {/* Header del Laboratorio 3D de Sistemas */}
@@ -859,6 +870,7 @@ export const ProductosPropios: React.FC = () => {
           </div>
 
         </div>
+        </PlegableMovil>
 
       </div>
     </section>

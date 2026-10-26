@@ -225,7 +225,7 @@ export const BillingModule: React.FC = () => {
                           </span>
                         </div>
                         <h4 className="font-bold text-white text-base mt-2.5 leading-snug">{h.servicio}</h4>
-                        <p className="text-xs text-slate-300 mt-2 leading-relaxed">{h.incluye}</p>
+                        <p className="hidden sm:block text-xs text-slate-300 mt-2 leading-relaxed">{h.incluye}</p>
                       </div>
 
                       <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
@@ -405,7 +405,7 @@ export const BillingModule: React.FC = () => {
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-400 mt-1 leading-relaxed">{a.detalle}</p>
+                          <p className="hidden sm:block text-xs text-slate-400 mt-1 leading-relaxed">{a.detalle}</p>
                         </div>
                       </div>
 

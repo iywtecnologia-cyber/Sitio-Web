@@ -23,6 +23,7 @@ import {
   Maximize2
 } from 'lucide-react';
 import { RobotCanvas3D } from './RobotCanvas3D';
+import { PlegableMovil } from '../PlegableMovil';
 import { 
   RobotConfig, 
   ChassisType, 
@@ -257,6 +258,7 @@ export const RobotStudioSection: React.FC = () => {
           </div>
 
           {/* Two-phase breakdown cards */}
+          <PlegableMovil titulo="Las 2 fases" resumen="Primero simulación 3D, después el robot físico">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t border-slate-800/80">
             <div className="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 flex flex-col justify-between">
               <div>
@@ -292,6 +294,7 @@ export const RobotStudioSection: React.FC = () => {
               </div>
             </div>
           </div>
+          </PlegableMovil>
         </div>
 
         {/* Model Selector Carousel / Bar */}
