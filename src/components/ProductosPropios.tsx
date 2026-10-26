@@ -66,12 +66,12 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: GolondrinaLogo,
     title: 'Golondrina Personal • Módulo a tu medida',
     tagline: 'Con una G no tenés que aprender nada.',
-    description: 'Al iniciarla encuentra las aplicaciones que usás y le das permiso con un clic, escribiendo o hablando: un transcriptor muestra al lado lo que le vas pidiendo. Después te avisa solo donde la habilitaste.',
+    description: 'Elegís qué aplicaciones conectar con un clic y le decís qué querés que te avise, escribiendo o hablando: un transcriptor muestra al lado lo que le vas pidiendo. Después te avisa solo donde la habilitaste.',
     priceUsd: 0,
     priceArs: 0,
     category: 'Módulo personalizable',
     specs: [
-      'Permisos con un clic, por escrito o por voz',
+      'Conectás tus apps con un clic; pedidos por escrito o por voz',
       'Te avisa solo donde vos la habilitás',
       'Se integra a tu sistema actual o como sistema nuevo',
       'Para comercio, oficina, campo o casa'
