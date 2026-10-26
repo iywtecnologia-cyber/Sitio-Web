@@ -95,19 +95,6 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'bots-whatsapp',
-    icon: MessageCircle,
-    badge: 'Bots de WhatsApp',
-    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
-    title: 'Bots de WhatsApp',
-    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
-    bullets: [
-      'Responde las consultas frecuentes al instante',
-      'Toma pedidos y turnos por WhatsApp',
-      'Te deriva el chat cuando hace falta una persona'
-    ]
-  },
-  {
     id: 'asistentes',
     icon: Bot,
     badge: 'Asistentes',
@@ -118,6 +105,19 @@ export const SERVICES: ServiceItem[] = [
       'Responde al instante las preguntas frecuentes',
       'Guía a tus clientes a lo que buscan',
       'Te deriva la consulta por WhatsApp cuando hace falta'
+    ]
+  },
+  {
+    id: 'bots-whatsapp',
+    icon: MessageCircle,
+    badge: 'Bots de WhatsApp',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    title: 'Bots de WhatsApp',
+    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
+    bullets: [
+      'Responde las consultas frecuentes al instante',
+      'Toma pedidos y turnos por WhatsApp',
+      'Te deriva el chat cuando hace falta una persona'
     ]
   },
   {

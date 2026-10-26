@@ -376,6 +376,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
   // Demo automática ("como un video"): una cámara de frío pierde temperatura, llega el WhatsApp
   // y se resuelve con 1 clic, solo. Así se entiende sin leer.
   const [demoPaso, setDemoPaso] = useState(0);
+  const [cartelDemo, setCartelDemo] = useState(false);
   const timersRef = useRef<number[]>([]);
   const limpiarDemo = () => {
     timersRef.current.forEach((t) => { window.clearTimeout(t); window.clearInterval(t); });
@@ -399,6 +400,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
       setCorteElectrico(false);
       setTempC(-20);
       setDemoPaso(1);
+      setCartelDemo(true);
       verAlto('tablero-golondrina');
       let temp = -20;
       const sube = window.setInterval(() => {
@@ -413,10 +415,12 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           timersRef.current.push(window.setTimeout(() => {
             handleResponderWhatsApp('Confirmar Alerta y Asistir al Local');
             setDemoPaso(3);
+            // el cartel de abajo se va solo
+            timersRef.current.push(window.setTimeout(() => setCartelDemo(false), 3500));
             timersRef.current.push(window.setTimeout(() => window.dispatchEvent(new CustomEvent('customizando-3d', { detail: false })), 4000));
-          }, 3200));
+          }, 6000));
         }
-      }, 160);
+      }, 380);
       timersRef.current.push(sube);
     }, 80);
     timersRef.current.push(t0);
@@ -424,7 +428,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
   const PASOS_DEMO = [
     { n: 1, titulo: 'Algo falla', texto: 'Se corta la luz y la cámara de frío empieza a calentarse.' },
     { n: 2, titulo: 'Te llega un WhatsApp', texto: 'Golondrina lo detecta sola y te avisa al instante.' },
-    { n: 3, titulo: 'Lo resolvés con 1 clic', texto: 'Tocás un botón en el mensaje y queda registrado.' },
+    { n: 3, titulo: 'Lo resolvés con 1 clic', texto: 'Tocás un botón en el mensaje y queda confirmado.' },
   ];
 
   const irAlSimuladorConPreset = (preset: SimulationMode, casoId?: string, lugar?: string) => {
@@ -496,7 +500,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 text-base font-extrabold shadow-lg shadow-emerald-500/25 cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform"
           >
             <Play className="w-5 h-5 fill-slate-950" />
-            {demoPaso === 0 ? 'Mirá cómo funciona (15 segundos)' : demoPaso === 3 ? 'Verlo de nuevo' : 'Reproduciendo…'}
+            {demoPaso === 0 ? 'Mirá cómo funciona (20 segundos)' : demoPaso === 3 ? 'Verlo de nuevo' : 'Reproduciendo…'}
           </button>
           <span className="text-sm sm:text-base text-slate-400">o probalo vos: elegí un caso y tocá el botón rojo de “Simular”.</span>
         </div>
@@ -552,7 +556,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         </span>
       </div>
 
-      {demoPaso > 0 && (
+      {demoPaso > 0 && cartelDemo && (
         <div role="status" aria-live="polite" className="fixed bottom-24 sm:bottom-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-md px-4 py-3 rounded-2xl bg-slate-950/95 border border-emerald-400 shadow-2xl shadow-emerald-500/20 flex items-center gap-3">
           <span className="w-9 h-9 rounded-full bg-emerald-400 text-slate-950 font-black flex items-center justify-center shrink-0">{demoPaso}</span>
           <span className="min-w-0">
@@ -1279,7 +1283,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 <div className="p-3 rounded-xl bg-emerald-950/90 border border-emerald-400 text-xs font-mono text-emerald-200 space-y-1 animate-in fade-in">
                   <div className="font-bold flex items-center gap-1.5 text-white">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>✓ Acción Registrada: "{whatsappResponse}"</span>
+                    <span>✓ Confirmado: "{whatsappResponse}"</span>
                   </div>
                   <p className="text-[10px] text-emerald-300">
                     Resuelto en 1 segundo por el operador. Cero planillas, cero esfuerzo físico.
