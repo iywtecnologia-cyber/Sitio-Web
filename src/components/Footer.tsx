@@ -39,15 +39,15 @@ export const Footer: React.FC = () => {
                 tecnoros<span className="text-[#00D2F3]">.ar</span>
               </span>
               <span className="text-[11px] sm:text-[13px] font-mono text-slate-300 mt-1.5 leading-snug">
-                <span className="whitespace-nowrap">Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Robótica</span>{' '}
-                <span className="whitespace-nowrap"><span className="hidden sm:inline text-cyan-500/60 font-sans mx-0.5">|</span> Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning</span>
+                <span className="block whitespace-nowrap">Automatización <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Ciberseguridad <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Robótica</span>
+                <span className="block whitespace-nowrap">Electrónica <span className="text-cyan-500/60 font-sans mx-0.5">|</span> Machine Learning</span>
               </span>
             </div>
           </div>
 
           <nav
             aria-label="Secciones del sitio"
-            className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-x-8 gap-y-1 sm:gap-x-7 text-[13px] text-slate-400 text-center"
+            className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center lg:justify-end gap-x-8 gap-y-1 sm:gap-x-5 xl:gap-x-6 text-[13px] text-slate-400 text-center"
           >
             {NAV_LINKS.map((link) => (
               <button
@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Derechos del consumidor: siempre visibles */}
-        <div className="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2 text-[13px]">
+        <div className="pt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]">
           <a
             href="#arrepentimiento"
             className="inline-flex items-center px-3 py-1.5 rounded-lg border border-cyan-500/50 text-cyan-300 font-semibold hover:bg-cyan-500/10 transition-colors"
@@ -73,26 +73,17 @@ export const Footer: React.FC = () => {
           <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
         </div>
 
-        {/* Fila inferior: créditos + LinkedIn */}
-        <div className="pt-6 sm:pt-8 flex flex-col lg:flex-row items-center justify-between gap-6 font-mono text-[11px] sm:text-xs text-slate-400">
-          <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center">
-            <span>© {new Date().getFullYear()} tecnoros.ar · Todos los derechos reservados</span>
-            <span className="hidden sm:inline text-slate-600" aria-hidden="true">·</span>
-            <span className="flex items-center gap-1.5">
-              Hecho con
-              <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 shrink-0" aria-label="amor" />
-              en Rosario, Santa Fe
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        {/* Equipo y LinkedIn: integrantes arriba, la empresa abajo */}
+        <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
+          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Equipo</span>
+          <div className="flex flex-wrap items-center justify-center gap-2.5">
             {LINKEDIN_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-slate-400 hover:text-cyan-300 transition-colors py-1 whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-cyan-300 hover:border-[#0A66C2]/60 transition-colors text-[13px] whitespace-nowrap"
               >
                 <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
                 <span>{link.label}</span>
@@ -103,11 +94,22 @@ export const Footer: React.FC = () => {
             href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-1 flex items-center justify-center gap-1.5 text-slate-400 hover:text-cyan-300 transition-colors py-1 whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2]/15 border border-[#0A66C2]/50 text-white hover:bg-[#0A66C2]/25 transition-colors text-[13px] font-semibold whitespace-nowrap"
           >
-            <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
-            <span>tecnoros.ar</span>
+            <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />
+            <span>Seguí a tecnoros.ar en LinkedIn</span>
           </a>
+        </div>
+
+        {/* Créditos */}
+        <div className="mt-8 pt-6 border-t border-slate-800/70 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 text-center font-mono text-[11px] sm:text-xs text-slate-500">
+          <span>© {new Date().getFullYear()} tecnoros.ar · Todos los derechos reservados</span>
+          <span className="hidden sm:inline text-slate-700" aria-hidden="true">·</span>
+          <span className="inline-flex items-center gap-1.5">
+            Hecho con
+            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 shrink-0" aria-label="amor" />
+            en Rosario, Santa Fe
+          </span>
         </div>
       </div>
     </footer>
