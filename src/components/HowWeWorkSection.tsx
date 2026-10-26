@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { irA } from '../rutas';
 import { PlegableMovil } from './PlegableMovil';
 import { 
   ClipboardList, 
@@ -81,12 +82,11 @@ const STEPS: Step[] = [
   }
 ];
 
-export const HowWeWorkSection: React.FC = () => {
+export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabajamos' }) => {
   const [highlightedStep, setHighlightedStep] = useState<string | null>(null);
 
   const scrollToContact = () => {
-    const el = document.getElementById('contacto');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    irA('contacto');
   };
 
   const scrollToStep = (stepNumber: string) => {
@@ -99,7 +99,7 @@ export const HowWeWorkSection: React.FC = () => {
   };
 
   return (
-    <section id="como-trabajamos" className="py-14 sm:py-16 md:py-20 bg-[#090D18] border-t border-slate-800/50 relative overflow-hidden">
+    <section id={id} className="py-14 sm:py-16 md:py-20 bg-[#090D18] border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/3 right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />

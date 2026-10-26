@@ -1,14 +1,17 @@
 import React from 'react';
 import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
+import { irA } from '../rutas';
 
 const NAV_LINKS = [
   { id: 'servicios', label: 'Servicios' },
   { id: 'productos', label: 'Productos' },
+  { id: 'robotica-3d', label: 'Robótica 3D' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'como-trabajamos', label: 'Cómo Trabajamos' },
   { id: 'facturacion', label: 'Presupuestos' },
-  { id: 'sobre-nosotros', label: 'Sobre Nosotros' },
+  { id: 'sobre-nosotros', label: 'Nosotros' },
+  { id: 'stack', label: 'Tecnologías' },
   { id: 'contacto', label: 'Contacto' },
 ];
 
@@ -21,8 +24,7 @@ const LINKEDIN_LINKS = [
 
 export const Footer: React.FC = () => {
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    irA(id);
   };
 
   return (

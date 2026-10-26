@@ -4,6 +4,7 @@ import { TecnorosLogo } from './TecnorosLogo';
 import { SERVICES } from './ServicesSection';
 import { PRODUCTOS } from './ProductosPropios';
 import { PROJECTS_DATA } from './PortfolioSection';
+import { irA, useRuta } from '../rutas';
 
 interface NavbarProps {
   onNavigate?: (sectionId: string) => void;
@@ -24,28 +25,16 @@ interface NavLink {
   items?: SubItem[];
 }
 
-// Lleva a un elemento de la página y lo resalta un momento para que se note a dónde llegó.
-const irA = (elementId: string, resaltar = false) => {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (resaltar && typeof el.animate === 'function') {
-    window.setTimeout(() => {
-      el.animate(
-        [
-          { boxShadow: '0 0 0 2px rgba(34,211,238,0.9)' },
-          { boxShadow: '0 0 0 2px rgba(34,211,238,0)' },
-        ],
-        { duration: 1600, easing: 'ease-out' }
-      );
-    }, 500);
-  }
-};
-
 export const Navbar: React.FC<NavbarProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('inicio');
+  const [seccionInicio, setActiveSection] = useState('inicio');
+  const ruta = useRuta();
+  const SECCION_DE_PAGINA: Record<string, string> = {
+    '/servicios': 'servicios', '/productos': 'productos', '/robotica': 'robotica-3d',
+    '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros',
+  };
+  const activeSection = ruta === '/' ? seccionInicio : SECCION_DE_PAGINA[ruta];
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [openMobileGroup, setOpenMobileGroup] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -151,16 +140,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
       })),
     },
     { label: 'Cómo Trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
-    { label: 'Sobre Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
+    { label: 'Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     closeAll();
-    const targetElement = document.querySelector(href);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    irA(href.replace(/^#/, ''));
   };
 
   const pick = (item: SubItem) => {

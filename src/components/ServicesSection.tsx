@@ -1,4 +1,5 @@
 import React from 'react';
+import { irA } from '../rutas';
 import { 
   Workflow, 
   ShieldCheck, 
@@ -136,8 +137,7 @@ export const SERVICES: ServiceItem[] = [
 
 export const ServicesSection: React.FC = () => {
   const scrollToContact = () => {
-    const el = document.getElementById('contacto');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    irA('contacto');
   };
 
   return (
@@ -209,8 +209,7 @@ export const ServicesSection: React.FC = () => {
                   <div className="mt-6 pt-4 border-t border-cyan-500/20">
                     <button
                       onClick={() => {
-                        const el = document.getElementById('robotica-3d');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                        irA('robotica-3d');
                       }}
                       className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/40 hover:border-cyan-400 text-cyan-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm shadow-cyan-500/10 group/btn3d"
                     >
