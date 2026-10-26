@@ -24,7 +24,7 @@ import { useRuta, type Ruta } from './rutas';
 const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; contenido: React.ReactNode }> = {
   '/servicios': { titulo: 'Servicios', contenido: <><ServicesSection /><HowWeWorkSection /></> },
   '/productos': { titulo: 'Productos propios', contenido: <ProductosPropios /> },
-  '/robotica': { titulo: 'Robótica 3D', contenido: <RobotStudioSection /> },
+  '/robotica': { titulo: 'Diseñá tu robot', contenido: <RobotStudioSection /> },
   '/proyectos': { titulo: 'Proyectos', contenido: <PortfolioSection /> },
   '/presupuesto': { titulo: 'Presupuesto', contenido: <BillingModule /> },
   '/tecnologias': { titulo: 'Tecnologías', contenido: <StackSection /> },
