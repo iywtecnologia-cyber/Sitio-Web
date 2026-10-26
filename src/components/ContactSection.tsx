@@ -240,65 +240,14 @@ export const ContactSection: React.FC = () => {
         <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="text-base font-bold text-white flex items-center gap-2">
-              <span>Perfiles en LinkedIn</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                Empresa & Fundadores
-              </span>
+              <span>Seguinos en LinkedIn</span>
             </h4>
             <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Conocé más sobre nuestra empresa y nuestro equipo
+              Novedades, proyectos y casos de tecnoros.ar
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-
-            {/* Entrada LinkedIn Manuel A. */}
-            <a
-              href="https://www.linkedin.com/in/manuel-angiulli/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de Manuel A."
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>Manuel A.</span>
-            </a>
-
-            {/* Entrada LinkedIn M. Sofía Genta */}
-            <a
-              href="https://www.linkedin.com/in/mariiasof%C3%ADagenta/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de M. Sofía Genta"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>M. Sofía Genta</span>
-            </a>
-
-            {/* Entrada LinkedIn Esteban José Menin */}
-            <a
-              href="https://www.linkedin.com/in/esteban-menin-31928a259/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de Esteban José Menin"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>Esteban Menin</span>
-            </a>
-
-            {/* Entrada LinkedIn Sebastián Gabriel Sosa */}
-            <a
-              href="https://www.linkedin.com/in/sebastinsosa/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de Sebastián Gabriel Sosa"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span>Sebastián G. Sosa</span>
-            </a>
 
             {/* Entrada LinkedIn Empresa tecnoros.ar */}
             <a
@@ -309,7 +258,7 @@ export const ContactSection: React.FC = () => {
               title="Perfil de LinkedIn de tecnoros.ar"
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span className="font-semibold">tecnoros.ar</span>
+              <span className="font-semibold">tecnoros.ar en LinkedIn</span>
             </a>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PlegableMovil } from './PlegableMovil';
 import { 
   ClipboardList, 
   Layers, 
@@ -219,6 +220,7 @@ export const HowWeWorkSection: React.FC = () => {
         </div>
 
         {/* Grilla de los 6 Pasos del Proceso */}
+        <PlegableMovil titulo="Ver cada paso en detalle" resumen="Qué hacemos y qué recibís en cada etapa">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {STEPS.map((step) => {
             const Icon = step.icon;
@@ -275,6 +277,7 @@ export const HowWeWorkSection: React.FC = () => {
             );
           })}
         </div>
+        </PlegableMovil>
 
         {/* Resumen del Flujo de Trabajo en Banner */}
         <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-cyan-950/30 border border-slate-800 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">

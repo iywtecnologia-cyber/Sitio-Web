@@ -195,7 +195,7 @@ export const ServicesSection: React.FC = () => {
                     {service.description}
                   </p>
 
-                  <div className="space-y-2.5 pt-4 border-t border-slate-800/80">
+                  <div className="hidden sm:block space-y-2.5 pt-4 border-t border-slate-800/80">
                     {service.bullets.map((bullet, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
                         <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />

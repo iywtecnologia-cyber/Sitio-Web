@@ -234,14 +234,14 @@ export const StackSection: React.FC = () => {
         </div>
 
         {/* Grilla de Tecnologías */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {filteredTechs.map((tech) => (
             <div
               key={tech.name}
-              className="p-6 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800/90 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between"
+              className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800/90 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-start justify-between gap-2 mb-3">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:mb-3">
                   <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug">
                     {tech.name}
                   </h3>
@@ -249,7 +249,7 @@ export const StackSection: React.FC = () => {
                     {tech.badge}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p className="hidden sm:block text-xs sm:text-sm text-slate-300 leading-relaxed">
                   {tech.description}
                 </p>
               </div>
