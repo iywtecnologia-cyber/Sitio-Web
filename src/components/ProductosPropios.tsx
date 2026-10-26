@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { irA } from '../rutas';
 import { 
   ShieldCheck, 
   FlaskConical, 
@@ -253,26 +254,21 @@ export const ProductosPropios: React.FC = () => {
 
   const handleSelectCard = (id: string) => {
     if (id === 'golondrina-personal') {
-      const demo = document.getElementById('golondrina-personal-demo');
-      if (demo) demo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      irA('golondrina-personal-demo');
       return;
     }
     if (id === 'colibri-micro-hub') {
       setSelectedSystem('colibri');
-      const studio = document.getElementById('hardware-studio-3d');
-      if (studio) studio.scrollIntoView({ behavior: 'smooth' });
+      irA('hardware-studio-3d');
     } else if (id === 'software-ciberseguridad') {
       setSelectedSystem('tero');
-      const studio = document.getElementById('hardware-studio-3d');
-      if (studio) studio.scrollIntoView({ behavior: 'smooth' });
+      irA('hardware-studio-3d');
     } else if (id === 'golondrina-automatizacion') {
       setSelectedSystem('golondrina');
-      const studio = document.getElementById('hardware-studio-3d');
-      if (studio) studio.scrollIntoView({ behavior: 'smooth' });
+      irA('hardware-studio-3d');
     } else {
       // Carancho Robótica Autónoma -> Dirige al laboratorio de robótica
-      const el = document.getElementById('robotica-3d');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      irA('robotica-3d');
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { irA as irASeccion } from '../rutas';
 import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
@@ -326,7 +327,7 @@ export const Asistente: React.FC = () => {
 
   const irA = (id: string) => {
     setAbierto(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    irASeccion(id);
   };
 
   const verOpciones = () =>

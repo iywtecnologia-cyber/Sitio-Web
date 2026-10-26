@@ -9,7 +9,7 @@ interface Founder {
   linkedin: string;
 }
 
-const FOUNDERS: Founder[] = [
+export const FOUNDERS: Founder[] = [
   {
     name: 'Manuel A.',
     role: 'Co-Fundador',

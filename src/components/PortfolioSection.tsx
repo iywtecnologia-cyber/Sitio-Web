@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { irA } from '../rutas';
 import { 
   Activity,
   CheckCircle2, 
@@ -92,6 +93,7 @@ export const PROJECTS_DATA: ProjectCase[] = [
 ];
 
 export const PortfolioSection: React.FC = () => {
+  const [verPasos, setVerPasos] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState<string>(PROJECTS_DATA[0].id);
 
   // El menú de arriba puede elegir un proyecto directamente.
@@ -108,8 +110,7 @@ export const PortfolioSection: React.FC = () => {
   const ActiveIcon = activeProject.icon;
 
   const scrollToContact = () => {
-    const el = document.getElementById('contacto');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    irA('contacto');
   };
 
   return (
@@ -124,16 +125,16 @@ export const PortfolioSection: React.FC = () => {
         <div className="max-w-full lg:max-w-6xl mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Casos de Estudio & Proyectos</span>
+            <span>Proyectos</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Nuestros Proyectos{' '}
+            Lo que{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
-              y Soluciones Desarrolladas
+              ya hicimos
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
-            Sistemas que desarrollamos para reemplazar tareas manuales, procesos desordenados y planillas sueltas por sistemas web intuitivos, rápidos y testeados a fondo.
+            Sistemas reales que reemplazan planillas y tareas a mano. Miralos funcionando.
           </p>
         </div>
 
@@ -163,7 +164,7 @@ export const PortfolioSection: React.FC = () => {
         )}
 
         {/* Tarjeta Detallada del Proyecto */}
-        <div className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
+        <div className="p-5 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
           
           {/* Header del Caso */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80">
@@ -224,8 +225,17 @@ export const PortfolioSection: React.FC = () => {
             </figure>
           )}
 
-          {/* Los 5 Pasos del Caso de Estudio */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+          {/* Los 5 Pasos del Caso de Estudio: se abren solo si interesan */}
+          <button
+            type="button"
+            onClick={() => setVerPasos((v) => !v)}
+            aria-expanded={verPasos}
+            className="mt-6 w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-950/70 border border-slate-700 text-sm font-semibold text-cyan-300 hover:border-cyan-500/50 cursor-pointer"
+          >
+            {verPasos ? 'Ocultar cómo lo resolvimos' : `Ver cómo lo resolvimos (${activeProject.pasos.length} pasos)`}
+          </button>
+          {verPasos && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
             {activeProject.pasos.map((paso) => {
               const PasoIcon = paso.icon;
               return (
@@ -265,6 +275,7 @@ export const PortfolioSection: React.FC = () => {
               );
             })}
           </div>
+          )}
 
           {/* Footer del Caso: Botones de demo en vivo y consulta */}
           <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
