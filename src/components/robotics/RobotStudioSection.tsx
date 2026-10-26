@@ -195,7 +195,7 @@ export const RobotStudioSection: React.FC = () => {
   };
 
   return (
-    <section id="robotica-3d" className="py-14 sm:py-20 bg-[#060810] border-t border-slate-800/60 relative overflow-hidden">
+    <section id="robotica-3d" className="py-14 sm:py-20 bg-transparent border-t border-slate-800/60 relative overflow-hidden">
       {/* Background radial atmosphere */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[550px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[550px] h-[450px] bg-violet-600/5 rounded-full blur-[130px] pointer-events-none" />

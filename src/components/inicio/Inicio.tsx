@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, Target, Globe, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, AppWindow, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, Target, Globe, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -125,7 +125,7 @@ const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string
   { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
   { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
   { icon: Code2, titulo: 'Software', linea: 'Sistemas a medida para tu negocio.', ir: 'servicio-software' },
-  { icon: AppWindow, titulo: 'Aplicaciones web', linea: 'Tu sistema en el navegador, desde cualquier lugar.', ir: 'servicio-aplicaciones-web' },
+  { icon: Smartphone, titulo: 'Aplicaciones móviles', linea: 'Tu negocio en el celular de tus clientes.', ir: 'servicio-aplicaciones-moviles' },
   { icon: Contact, titulo: 'CRM', linea: 'Tus clientes, ventas y seguimientos en un solo lugar.', ir: 'servicio-crm' },
   { icon: Globe, titulo: 'Páginas web', linea: 'Webs que trabajan por vos.', ir: 'servicio-paginas-web' },
   { icon: Bot, titulo: 'Asistentes', linea: 'Un asistente en tu web o sistema.', ir: 'servicio-asistentes' },
@@ -166,7 +166,7 @@ const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
   { icon: CreditCard, titulo: 'Facilidades de pago', linea: 'Te damos facilidades para que pagar no sea un problema.' },
   { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
   { icon: Headset, titulo: 'Soporte técnico todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
-  { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras, sin penalidad.' },
+  { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras.' },
   { icon: Calculator, titulo: 'Precios claros', linea: 'Precios de referencia y combos publicados. Sin sorpresas.' },
 ];
 

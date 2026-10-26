@@ -169,7 +169,7 @@ export const StackSection: React.FC = () => {
     : TECH_STACK.filter(t => t.category === activeTab);
 
   return (
-    <section id="stack" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden">
+    <section id="stack" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />

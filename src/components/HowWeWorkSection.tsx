@@ -97,7 +97,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
   };
 
   return (
-    <section id={id} className="py-14 sm:py-16 md:py-20 bg-[#090D18] border-t border-slate-800/50 relative overflow-hidden">
+    <section id={id} className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/3 right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />

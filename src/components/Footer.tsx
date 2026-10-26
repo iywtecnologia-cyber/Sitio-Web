@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
 
   return (
     // pb extra en celular para que el botón flotante de contacto no tape el contenido
-    <footer className="bg-[#05070D] border-t border-slate-800/80 text-slate-400 text-xs pt-14 pb-28 sm:pt-16 sm:pb-16">
+    <footer className="bg-[#05070D]/85 backdrop-blur-sm border-t border-slate-800/80 text-slate-400 text-xs pt-14 pb-28 sm:pt-16 sm:pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Fila superior: marca + navegación */}

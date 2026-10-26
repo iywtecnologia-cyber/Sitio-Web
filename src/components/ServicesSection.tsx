@@ -15,7 +15,7 @@ import {
   MessageCircle,
   Bot,
   Globe,
-  AppWindow,
+  Smartphone,
   Contact
 } from 'lucide-react';
 
@@ -84,16 +84,16 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'aplicaciones-web',
-    icon: AppWindow,
-    badge: 'Aplicaciones Web',
+    id: 'aplicaciones-moviles',
+    icon: Smartphone,
+    badge: 'Aplicaciones Móviles',
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
-    title: 'Aplicaciones web para tu negocio',
-    description: 'Tu sistema funcionando en el navegador: sin instalar nada, desde la compu o el celular, estés donde estés.',
+    title: 'Aplicaciones móviles para tu negocio',
+    description: 'Tu negocio en el celular de tus clientes y de tu equipo, con una app hecha a tu medida.',
     bullets: [
-      'Turnos, pedidos, stock o lo que tu negocio necesite',
-      'Usuarios con permisos para cada persona del equipo',
-      'Funciona en cualquier dispositivo con internet'
+      'Pedidos, turnos, reservas o lo que tu negocio necesite',
+      'Avisos al celular para tus clientes',
+      'Tu equipo la usa desde su propio celular'
     ]
   },
   {
@@ -167,7 +167,7 @@ export const SERVICES: ServiceItem[] = [
 export const ServicesSection: React.FC = () => {
 
   return (
-    <section id="servicios" className="py-14 sm:py-16 md:py-20 bg-[#090D18] border-t border-slate-800/50 relative overflow-hidden">
+    <section id="servicios" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
