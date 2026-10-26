@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, Target, Globe, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, Target, Globe, Search, Eye, MapPin, HelpCircle, Package, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -150,6 +150,38 @@ export const QueHacemos: React.FC = () => (
   </section>
 );
 
+/* ── Por qué elegirnos ─────────────────────────────────────────────── */
+const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
+  { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
+  { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
+  { icon: ShieldCheck, titulo: 'Probado y seguro', linea: 'Venimos de QA y ciberseguridad: lo probamos a fondo y cuidamos tus datos.' },
+  { icon: Users, titulo: 'Un solo equipo para todo', linea: 'Software, automatización, electrónica y robótica, sin pasarte de mano en mano.' },
+  { icon: Calculator, titulo: 'Precios claros', linea: 'Publicamos precios de referencia y combos. Sin sorpresas.' },
+  { icon: MapPin, titulo: 'De Rosario', linea: 'Hablás directo con quien lo hace, y te acompañamos después de entregar.' },
+];
+
+export const PorQueElegirnos: React.FC = () => (
+  <section id="por-que-elegirnos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <Titulo chip="Por qué elegirnos" titulo="Lo que nos hace distintos" />
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {RAZONES.map(({ icon: Icon, titulo, linea }) => (
+          <li key={titulo} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800">
+            <span className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
+              <Icon className="w-5 h-5" />
+            </span>
+            <span>
+              <span className="block text-base sm:text-lg font-bold text-white">{titulo}</span>
+              <span className="block mt-1 text-sm sm:text-base text-slate-400 leading-snug">{linea}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <VerMas onClick={() => irA('combos')}>Ver combos con precio</VerMas>
+    </div>
+  </section>
+);
+
 /* ── 3. Productos (carrusel en celular) ────────────────────────────────── */
 const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; equipo?: Equipo3D; estado: string; color: string }[] = [
   { logo: GolondrinaLogo, nombre: 'Golondrina Automatización', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'golondrina', estado: 'Disponible', color: 'emerald' },
@@ -244,12 +276,14 @@ export const EquipoCorto: React.FC = () => (
 );
 
 /* ── 5. ¿Querés saber más? ─────────────────────────────────────────────── */
-const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: Ruta }[] = [
+const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: string }[] = [
   { icon: Layers, titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos', ruta: '/servicios' },
   { icon: Boxes, titulo: 'Productos y demos', linea: 'Simuladores, equipos en 3D y precios', ruta: '/productos' },
   { icon: Bot, titulo: 'Diseñá tu robot', linea: 'Armalo y probalo en 3D, en la pantalla', ruta: '/robotica' },
   { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
+  { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
+  { icon: HelpCircle, titulo: 'Preguntas frecuentes', linea: 'Lo que más nos preguntan', ruta: '/preguntas-frecuentes' },
   { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
 ];
 
@@ -259,7 +293,7 @@ export const SaberMas: React.FC = () => (
       <Titulo chip="¿Querés saber más?" titulo="Elegí qué te interesa" />
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {SECCIONES.map(({ icon: Icon, titulo, linea, ruta }) => (
-          <li key={ruta}>
+          <li key={titulo}>
             <a
               href={ruta}
               className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors group"

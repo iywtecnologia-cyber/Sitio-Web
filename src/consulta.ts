@@ -1,6 +1,7 @@
 import { irA } from './rutas';
 import { SERVICES } from './components/ServicesSection';
 import { PROJECTS_DATA } from './components/PortfolioSection';
+import { COMBOS } from './data/combos';
 
 // Temas del formulario de contacto: cubre todas las secciones de la web.
 // Cuando alguien toca "Consultar por…" en cualquier parte, el formulario se abre
@@ -30,6 +31,12 @@ export const temas = (): Tema[] => [
     grupo: 'Proyectos',
     etiqueta: p.title,
     mensaje: `Hola, vi el proyecto "${p.title}" y quiero algo parecido para mi negocio. Les cuento: `,
+  })),
+  ...COMBOS.map((c) => ({
+    id: `combo-${c.id}`,
+    grupo: 'Combos',
+    etiqueta: `Combo ${c.nombre}`,
+    mensaje: `Hola, me interesa el combo "${c.nombre}" (${c.incluye.filter((i) => i !== 'Diagnóstico gratuito').join(', ')}). Les cuento sobre mi negocio: `,
   })),
   { id: 'robotica', grupo: 'Robótica', etiqueta: 'Un robot a medida', mensaje: 'Hola, quiero consultar por un robot a medida. La tarea que necesito resolver es: ' },
   { id: 'jar', grupo: 'Robótica', etiqueta: 'Challenge JAR 2026', mensaje: 'Hola, vi que están desarrollando un robot para el Challenge JAR 2026 y quiero saber más.' },
