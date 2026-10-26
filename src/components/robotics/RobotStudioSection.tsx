@@ -224,7 +224,7 @@ export const RobotStudioSection: React.FC = () => {
               className="mt-4 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-xs sm:text-sm font-semibold transition-colors"
             >
               <span aria-hidden="true">🏁</span>
-              <span>Nuestro equipo se postuló al Challenge JAR 2026 de robótica autónoma (Rosario, 3 al 6 de noviembre)</span>
+              <span>Estamos desarrollando nuestro robot autónomo para participar del Challenge JAR 2026 (Rosario, 3 al 6 de noviembre)</span>
             </a>
           </div>
 
