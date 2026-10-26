@@ -145,7 +145,7 @@ export const ABONOS: Abono[] = [
     id: 'golondrina',
     nombre: 'Golondrina Automatización • Software Cloud & Alertas Contextuales',
     detalle: 'Servicio activo disponible hoy: servidor en la nube para acceso remoto web y móvil, reconocimiento contextual de eventos críticos en planta y notificaciones proactivas directas por WhatsApp.',
-    mensual: 65_000,
+    mensual: 80_000,
     esServicioParaHardware: true,
   },
   {
