@@ -37,6 +37,9 @@ export interface ProductoPropio {
   icon: React.ElementType;
   title: string;
   tagline?: string;
+  // Explicación simple: qué es y qué hace
+  queEs?: string;
+  queHace?: string;
   description: string;
   priceUsd: number;
   priceArs: number;
@@ -49,6 +52,8 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'golondrina-automatizacion',
     icon: GolondrinaLogo,
     title: 'Golondrina Automatización • Software & Telemetría',
+    queEs: 'Un sistema con sensores que vigila tus máquinas, cámaras de frío, tanques o silos.',
+    queHace: 'Si algo falla, te avisa por WhatsApp y lo resolvés con 1 clic.',
     tagline: 'Hardware a demanda y software contextual de telemetría con alertas por WhatsApp.',
     description: 'Implementación inmediata de software de telemetría y automatización: detecta el contexto operativo de tu empresa sin configuraciones complicadas y alerta con botón de resolución en 1 solo clic por WhatsApp. Aplicable en tambos y leche, silos, cámaras de frío, inyectoras, motores y bombas.',
     priceUsd: 190,
@@ -56,7 +61,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     category: 'Software & Automatización Contextual',
     specs: [
       'Setup inicial: $120.000 a $250.000 ARS ($150 a $250 USD) por única vez',
-      'Abono mensual SaaS: $35.000 a $80.000 ARS/mes por máquina monitoreada',
+      'Abono mensual SaaS: $80.000 a $120.000 ARS/mes por máquina monitoreada',
       'Automatización contextual (Zero-Click): detecta anomalías y actúa sola',
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
       'Múltiples sectores: tambos, silos, frío, inyectoras, motores y bombas',
@@ -67,6 +72,8 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'golondrina-personal',
     icon: GolondrinaLogo,
     title: 'Golondrina Personal • Módulo a tu medida',
+    queEs: 'Un asistente que se conecta a las apps que vos elijas (mail, calendario, cobros).',
+    queHace: 'Te avisa y te recuerda lo que le pidas, por voz o por texto.',
     tagline: 'Con una G no tenés que aprender nada.',
     description: 'Elegís qué aplicaciones conectar con un clic y le decís qué querés que te avise, escribiendo o hablando: un transcriptor muestra al lado lo que le vas pidiendo. Después te avisa solo donde la habilitaste.',
     priceUsd: 0,
@@ -83,6 +90,8 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'colibri-micro-hub',
     icon: Cpu,
     title: 'CHAJÁ Micro-Hub • Edge AI & Ciberseguridad',
+    queEs: 'Un equipo chiquito que se instala en tu planta, galpón o comercio.',
+    queHace: 'Cuida tu red y tus equipos, y te avisa por WhatsApp o por voz cuando algo cambia.',
     tagline: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.',
     description: 'Un equipo chico que se instala en tu planta, galpón o comercio. Aprende cómo funciona tu operación, protege tus datos y te avisa por WhatsApp o por voz cuando algo cambia. Lo resolvés con un clic.',
     priceUsd: 180,
@@ -116,6 +125,8 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'carancho-robotica',
     icon: Bot,
     title: 'Robótica a Medida • Cerebro Digital & Cuerpo Físico',
+    queEs: 'Un robot hecho para una tarea de tu negocio.',
+    queHace: 'Primero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.',
     tagline: 'Lo primero que se desarrolla es el cerebro del robot; si es viable, también incorporás el cuerpo físico.',
     description: 'Nos especializamos en el desarrollo de software e inteligencia: lo primero que se diseña y programa es el cerebro del robot (algoritmos, visión artificial, percepción y simulación en computadora). Luego, evaluando la viabilidad técnica y operativa del proyecto, podés pedir e incorporar también el modelo del cuerpo físico (chasis, electrónica, motores y ensamble fabricado a medida).',
     priceUsd: 0,
@@ -338,7 +349,7 @@ export const ProductosPropios: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {PRODUCTOS.filter((prod) => prod.id !== 'software-ciberseguridad').map((prod) => {
-            const { id, icon: Icon, title, tagline, description } = prod;
+            const { id, icon: Icon, title, tagline, queEs, queHace } = prod;
             const isRobotica = id === 'carancho-robotica';
             const isColibri = id === 'colibri-micro-hub';
             const isGolondrina = id === 'golondrina-automatizacion' || id === 'golondrina-personal';
@@ -385,8 +396,13 @@ export const ProductosPropios: React.FC = () => {
                   </div>
 
                   <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">{title}</h3>
-                  {tagline && (
-                    <p className="mt-2 text-xs text-cyan-300 font-semibold leading-relaxed">
+                  {queEs ? (
+                    <dl className="mt-3 space-y-2 text-sm leading-snug">
+                      <div><dt className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{queEs}</dd></div>
+                      <div><dt className="text-[11px] font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{queHace}</dd></div>
+                    </dl>
+                  ) : tagline && (
+                    <p className="mt-2 text-sm text-cyan-300 font-semibold leading-relaxed">
                       {tagline}
                     </p>
                   )}
@@ -458,7 +474,7 @@ export const ProductosPropios: React.FC = () => {
               </p>
             </div>
             <a
-              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($120.000-$250.000 ARS) y el abono mensual ($35.000-$80.000 ARS/mes) de Golondrina Automatización.')}
+              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($120.000-$250.000 ARS) y el abono mensual ($80.000-$120.000 ARS/mes) de Golondrina Automatización.')}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
@@ -521,7 +537,7 @@ export const ProductosPropios: React.FC = () => {
                 
                 <div className="mt-3 flex flex-wrap items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
-                    $35.000 a $80.000 ARS
+                    $80.000 a $120.000 ARS
                   </span>
                   <span className="text-xs text-slate-400 font-mono">
                     / mes por máquina o cámara
@@ -692,7 +708,12 @@ export const ProductosPropios: React.FC = () => {
               <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
                 <div>
                   <h4 className="text-xl font-bold text-white tracking-tight">{activeData.title}</h4>
-                  {activeData.tagline && <p className="mt-2 text-base text-slate-300">{activeData.tagline}</p>}
+                  {activeData.queEs ? (
+                    <dl className="mt-3 space-y-2.5 text-base leading-snug">
+                      <div><dt className="text-xs font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{activeData.queEs}</dd></div>
+                      <div><dt className="text-xs font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{activeData.queHace}</dd></div>
+                    </dl>
+                  ) : activeData.tagline && <p className="mt-2 text-base text-slate-300">{activeData.tagline}</p>}
                 </div>
 
                 {/* Personalización de Color de Carcasa (Filamento PETG) */}

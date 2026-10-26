@@ -119,8 +119,8 @@ const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string
   { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
   { icon: Code2, titulo: 'Software', linea: 'Sistemas a medida para tu negocio.', ir: 'servicio-software' },
   { icon: Globe, titulo: 'Páginas web', linea: 'Webs que trabajan por vos.', ir: 'servicio-paginas-web' },
-  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
   { icon: Bot, titulo: 'Asistentes', linea: 'Un asistente en tu web o sistema.', ir: 'servicio-asistentes' },
+  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
   { icon: Cpu, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', ir: 'robotica-3d' },
 ];
 
@@ -151,9 +151,9 @@ export const QueHacemos: React.FC = () => (
 
 /* ── 3. Productos (carrusel en celular) ────────────────────────────────── */
 const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; estado: string; color: string }[] = [
-  { logo: GolondrinaLogo, nombre: 'Golondrina', linea: 'Mira tu planta y te avisa por WhatsApp. Lo resolvés con 1 clic.', boton: 'Probar el simulador', ir: 'aviso-seguridad', estado: 'Disponible', color: 'emerald' },
+  { logo: GolondrinaLogo, nombre: 'Golondrina', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Probar el simulador', ir: 'aviso-seguridad', estado: 'Disponible', color: 'emerald' },
   { logo: GolondrinaLogo, nombre: 'Golondrina Personal', linea: 'Le decís qué avisarte, por voz o texto. Sin aprender nada.', boton: 'Probar la demo', ir: 'golondrina-personal-demo', estado: 'Disponible', color: 'emerald' },
-  { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', estado: 'A demanda', color: 'cyan' },
+  { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu red y tus equipos, y te avisa si algo cambia.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', estado: 'A demanda', color: 'cyan' },
   { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes, en desarrollo.', boton: 'Mantenete informado', ir: 'producto-software-ciberseguridad', estado: 'Próximamente', color: 'violet' },
 ];
 
@@ -315,18 +315,18 @@ export const CierrePagina: React.FC = () => (
       <p className="mt-2 text-sm sm:text-base text-slate-400">Contanos qué necesitás y te respondemos en el día.</p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href={gmailLink('Consulta desde la web - tecnoros.ar', 'Hola equipo de tecnoros.ar,\n\nLes escribo por: ')}
+          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
         >
-          <Mail className="w-4 h-4" /> Escribinos un e-mail
+          <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
         </a>
         <a
           href="/contacto"
           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
-          Completar el formulario
+          Completar el formulario personalizado
         </a>
       </div>
     </div>

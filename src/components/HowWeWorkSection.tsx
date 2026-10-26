@@ -111,10 +111,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
             <span>Nuestra Metodología</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Cómo trabajamos:{' '}
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
-              del problema a la solución en producción
-            </span>
+            Cómo trabajamos: del problema a la solución en producción
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
             Un proceso transparente, predecible y orientado a resultados. Construimos soluciones sólidas validando cada decisión directamente con vos.
