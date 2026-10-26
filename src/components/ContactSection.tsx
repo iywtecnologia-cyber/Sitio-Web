@@ -298,6 +298,18 @@ export const ContactSection: React.FC = () => {
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
               <span>Esteban Menin</span>
             </a>
+
+            {/* Entrada LinkedIn Sebastián Gabriel Sosa */}
+            <a
+              href="https://www.linkedin.com/in/sebastinsosa/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 hover:border-[#0A66C2]/60 hover:bg-[#0A66C2]/10 text-slate-300 hover:text-cyan-300 transition-all text-xs font-mono group shadow-sm cursor-pointer"
+              title="Perfil de LinkedIn de Sebastián Gabriel Sosa"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
+              <span>Sebastián G. Sosa</span>
+            </a>
           </div>
         </div>
 
