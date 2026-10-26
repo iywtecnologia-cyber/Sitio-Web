@@ -535,10 +535,15 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
               <ShieldCheck className="w-4 h-4 text-amber-400" />
               <span>TERO Security • Ciberseguridad IDS/IPS (Próximamente)</span>
             </>
+          ) : systemType === 'colibri' ? (
+            <>
+              <Workflow className="w-4 h-4 text-cyan-400" />
+              <span>CHAJÁ Micro-Hub</span>
+            </>
           ) : (
             <>
               <Workflow className="w-4 h-4 text-emerald-400" />
-              <span>Golondrina Automatización • Servicio Activo Disponible</span>
+              <span>Golondrina Automatización</span>
             </>
           )}
         </div>

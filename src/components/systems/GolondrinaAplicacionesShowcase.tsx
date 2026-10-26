@@ -404,7 +404,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
       </div>
 
       {/* Cabecera del Simulador */}
-      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="relative z-10 flex flex-col gap-4 pb-4 border-b border-slate-800">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -419,7 +419,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         </div>
 
         {/* Selector Rápido de Preset en Cabecera */}
-        <div className="flex flex-wrap p-1 rounded-xl bg-slate-900 border border-slate-800 shrink-0 gap-1 max-w-full overflow-x-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 p-1 rounded-xl bg-slate-900 border border-slate-800 gap-1 w-full" role="group" aria-label="Elegir escenario">
           {[
             { id: 'frio' as const, label: '1. Frío' },
             { id: 'oee' as const, label: '2. OEE' },
@@ -439,7 +439,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               type="button"
               onClick={() => { setActiveTab(tab.id); setCasoElegido(null); }}
               aria-pressed={activeTab === tab.id}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-2 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer text-center truncate ${
                 activeTab === tab.id
                   ? 'bg-emerald-500 text-slate-950 shadow-md font-bold'
                   : 'text-slate-400 hover:text-white'

@@ -26,7 +26,7 @@ const FOUNDERS: Founder[] = [
   },
   {
     name: 'Esteban José Menin',
-    role: 'Co-Fundador',
+    role: 'Se sumó al equipo',
     specialty: 'Bachiller en Electrónica & Machine Learning',
     badge: 'Hardware & Machine Learning',
     linkedin: 'https://www.linkedin.com/in/esteban-menin-31928a259/',
@@ -69,7 +69,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales. Más tarde se sumó <strong className="text-white">Sebastián Gabriel Sosa</strong>, técnico electrónico, para reforzar el área de electrónica y robótica.
+            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales. Más tarde se sumaron <strong className="text-white">Esteban José Menin</strong>, en electrónica y machine learning, y <strong className="text-white">Sebastián Gabriel Sosa</strong>, técnico electrónico, para reforzar el área de electrónica y robótica.
           </p>
         </div>
 
