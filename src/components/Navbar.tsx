@@ -4,7 +4,7 @@ import { TecnorosLogo } from './TecnorosLogo';
 import { SERVICES } from './ServicesSection';
 import { PRODUCTOS } from './ProductosPropios';
 import { PROJECTS_DATA } from './PortfolioSection';
-import { irA, useRuta } from '../rutas';
+import { irA, useRuta, type Ruta } from '../rutas';
 
 interface NavbarProps {
   onNavigate?: (sectionId: string) => void;
@@ -25,13 +25,23 @@ interface NavLink {
   items?: SubItem[];
 }
 
+const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
+  { ruta: '/', titulo: 'Inicio', linea: 'Quiénes somos y qué hacemos' },
+  { ruta: '/servicios', titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos' },
+  { ruta: '/productos', titulo: 'Productos y demos', linea: 'Golondrina, CHAJÁ y TERO' },
+  { ruta: '/robotica', titulo: 'Robótica 3D', linea: 'Armá y probá un robot' },
+  { ruta: '/proyectos', titulo: 'Proyectos', linea: 'Sistemas funcionando' },
+  { ruta: '/presupuesto', titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta' },
+  { ruta: '/nosotros', titulo: 'Nosotros', linea: 'Historia y equipo' },
+];
+
 export const Navbar: React.FC<NavbarProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [seccionInicio, setActiveSection] = useState('inicio');
   const ruta = useRuta();
   const SECCION_DE_PAGINA: Record<string, string> = {
-    '/servicios': 'servicios', '/productos': 'productos', '/robotica': 'robotica-3d',
+    '/servicios': 'servicios', '/productos': 'productos', '/robotica': 'robotica-3d', '/proyectos': 'proyectos', '/contacto': 'contacto',
     '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros',
   };
   const activeSection = ruta === '/' ? seccionInicio : SECCION_DE_PAGINA[ruta];
@@ -327,83 +337,34 @@ export const Navbar: React.FC<NavbarProps> = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Menú del celular: una lista simple de páginas, cada una con una línea que dice qué hay */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#0B1120] border-b border-slate-800 px-4 pt-3 pb-6 space-y-1 max-h-[calc(100vh-5rem)] overflow-y-auto">
-          {navLinks.map((link) => {
-            if (!link.items) {
-              return (
+        <div className="xl:hidden bg-[#0B1120] border-b border-slate-800 px-4 pt-3 pb-6 max-h-[calc(100dvh-5rem)] overflow-y-auto">
+          <ul className="space-y-1">
+            {MENU_MOVIL.map(({ ruta: r, titulo, linea }) => (
+              <li key={r}>
                 <a
-                  key={link.id}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, link.href)}
-                  className="block px-3 py-2.5 text-base font-medium text-slate-200 hover:text-cyan-400 hover:bg-slate-800/50 rounded-lg transition-colors"
+                  href={r}
+                  onClick={closeAll}
+                  aria-current={ruta === r ? 'page' : undefined}
+                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-colors ${ruta === r ? 'bg-cyan-500/10 text-cyan-300' : 'text-slate-200 hover:bg-slate-800/50'}`}
                 >
-                  {link.label}
+                  <span className="min-w-0">
+                    <span className="block text-base font-semibold">{titulo}</span>
+                    <span className="block text-xs text-slate-400">{linea}</span>
+                  </span>
+                  <ArrowRight className="w-4 h-4 text-slate-500 shrink-0" />
                 </a>
-              );
-            }
-            const isOpen = openMobileGroup === link.id;
-            return (
-              <div key={link.id}>
-                <button
-                  type="button"
-                  onClick={() => setOpenMobileGroup(isOpen ? null : link.id)}
-                  aria-expanded={isOpen}
-                  className={`w-full flex items-center justify-between px-3 py-2.5 text-base font-medium rounded-lg transition-colors ${
-                    isOpen ? 'text-cyan-400 bg-slate-800/50' : 'text-slate-200 hover:text-cyan-400 hover:bg-slate-800/50'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {isOpen && (
-                  <ul className="mt-1 mb-2 ml-3 pl-3 border-l border-slate-800 flex flex-col">
-                    {link.items.map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <li key={item.key}>
-                          <button
-                            type="button"
-                            onClick={() => pick(item)}
-                            className="w-full flex items-center gap-3 px-2 py-2 rounded-lg text-left text-sm text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
-                          >
-                            <Icon className="w-4 h-4 text-cyan-400 shrink-0" />
-                            <span>{item.label}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                    <li>
-                      <a
-                        href={link.href}
-                        onClick={(e) => handleLinkClick(e, link.href)}
-                        className="flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-semibold text-cyan-300 hover:text-cyan-200"
-                      >
-                        Ver todo <ArrowRight className="w-3.5 h-3.5" />
-                      </a>
-                    </li>
-                  </ul>
-                )}
-              </div>
-            );
-          })}
-          <div className="pt-3 mt-2 border-t border-slate-800 flex flex-col gap-2">
-            <a
-              href="#contacto"
-              onClick={(e) => handleLinkClick(e, '#contacto')}
-              className="w-full text-center px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800/80 rounded-lg hover:bg-slate-800"
-            >
-              Contacto
-            </a>
-            <a
-              href="#facturacion"
-              onClick={(e) => handleLinkClick(e, '#facturacion')}
-              className="w-full text-center px-4 py-2.5 text-sm font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-lg shadow-md shadow-cyan-500/20"
-            >
-              Cotizar Proyecto
-            </a>
-          </div>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/contacto"
+            onClick={closeAll}
+            className="mt-4 block w-full text-center px-4 py-3 text-sm font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl"
+          >
+            Contactanos
+          </a>
         </div>
       )}
     </header>

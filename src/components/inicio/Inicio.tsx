@@ -1,11 +1,12 @@
 import React from 'react';
 import {
-  ArrowRight, Workflow, Bot, ShieldCheck, Code2, Cpu, Search, Box, Rocket, Wrench, MessageCircle,
+  ArrowRight, ExternalLink, Flag, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
-import { whatsappLink } from '../../data/contact';
+import { whatsappLink, VENTAS_EMAIL } from '../../data/contact';
+import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
 // Lo pesado (simuladores, 3D, presupuestador, tecnologías) vive en su propia página.
@@ -35,16 +36,21 @@ export const HeroCorto: React.FC = () => (
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-      <span className="inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
-        Rosario · Soluciones a tu medida
-      </span>
+      <button
+        type="button"
+        onClick={() => irA('jar-2026')}
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/15 border border-violet-400/50 text-xs sm:text-sm font-semibold text-violet-200 mb-5 cursor-pointer hover:bg-violet-500/25"
+      >
+        <span aria-hidden="true">🏁</span> Rumbo al Challenge JAR 2026
+        <ArrowRight className="w-3.5 h-3.5" />
+      </button>
       <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
         Todo para tu negocio
         <br />
         que crece <span className="animate-text-light-sweep">con vos</span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Automatizamos lo que te roba horas, cuidamos tu información y hacemos el software que te falta.
+        Somos un equipo de Rosario: automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -69,20 +75,60 @@ export const HeroCorto: React.FC = () => (
   </section>
 );
 
+/* ── JAR 2026: bien visible en celular y compu ─────────────────────────── */
+export const JarDestacado: React.FC = () => (
+  <section id="jar-2026" className="scroll-mt-24 px-5 sm:px-8 lg:px-12">
+    <div className="max-w-7xl mx-auto relative overflow-hidden rounded-3xl border border-violet-400/50 bg-gradient-to-br from-violet-950/70 via-slate-900 to-cyan-950/50 p-5 sm:p-8 lg:p-10 shadow-2xl shadow-violet-900/30">
+      <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-violet-500/20 blur-3xl pointer-events-none" />
+      <div className="relative flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-10">
+        <span className="hidden sm:flex w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-violet-500/20 border border-violet-400/50 items-center justify-center text-violet-200 shrink-0">
+          <Flag className="w-7 h-7 sm:w-8 sm:h-8" />
+        </span>
+        <div className="flex-1 min-w-0">
+          <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-violet-300">Challenge JAR 2026 · Rosario · 3 al 6 de noviembre</span>
+          <h2 className="mt-1.5 text-xl sm:text-3xl font-extrabold text-white leading-tight">
+            Estamos desarrollando nuestro robot autónomo para participar
+          </h2>
+          <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl">
+            Lo diseñamos y lo probamos en 3D antes de construirlo, igual que hacemos con los robots a medida para empresas.
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => navegar('/robotica')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-violet-400 text-slate-950 font-bold cursor-pointer hover:bg-violet-300"
+          >
+            Ver el robot en 3D <ArrowRight className="w-4 h-4" />
+          </button>
+          <a
+            href="https://airclub-udesa.github.io/jar_site/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-950/60 border border-violet-400/40 text-violet-100 font-semibold hover:border-violet-300"
+          >
+            Sobre el torneo <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
-const SERVICIOS_CORTOS = [
-  { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
-  { icon: Bot, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', ir: 'robotica-3d' },
-  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
-  { icon: Code2, titulo: 'Software', linea: 'Sistemas, webs y bots a tu medida.', ir: 'servicio-software' },
+const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; extra: string; ir: string }[] = [
+  { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', extra: 'Planillas, sistemas y WhatsApp conectados entre sí.', ir: 'servicio-automatizacion' },
+  { icon: Bot, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', extra: 'Cerebro digital primero; el cuerpo físico, si es viable.', ir: 'robotica-3d' },
+  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', extra: 'Revisamos tus equipos y te decimos qué arreglar.', ir: 'servicio-ciberseguridad' },
+  { icon: Code2, titulo: 'Software', linea: 'Sistemas, webs y bots a tu medida.', extra: 'Probados a fondo antes de entregarlos.', ir: 'servicio-software' },
 ];
 
 export const QueHacemos: React.FC = () => (
   <section id="que-hacemos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Qué hacemos" titulo="Cuatro cosas, bien hechas" />
+      <Titulo chip="Qué hacemos" titulo="Cuatro cosas, bien hechas" bajada="Tocá la que te interese para ver el detalle." />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-        {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, ir }) => (
+        {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, extra, ir }) => (
           <button
             key={titulo}
             type="button"
@@ -94,6 +140,7 @@ export const QueHacemos: React.FC = () => (
             </span>
             <span className="block font-bold text-white">{titulo}</span>
             <span className="block mt-1 text-xs sm:text-sm text-slate-400 leading-snug">{linea}</span>
+            <span className="hidden lg:block mt-2 text-sm text-slate-500 leading-snug">{extra}</span>
           </button>
         ))}
       </div>
@@ -119,7 +166,7 @@ const CHIP: Record<string, string> = {
 export const ProductosInicio: React.FC = () => (
   <section id="productos-inicio" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Productos propios" titulo="Probalos acá mismo" bajada="Deslizá para ver cada uno." />
+      <Titulo chip="Qué ofrecemos" titulo="Nuestros productos" bajada="Deslizá para ver cada uno y probalo." />
     </div>
     {/* En celular se desliza de costado; en compu se ven los cuatro */}
     <div className="max-w-7xl mx-auto lg:px-12">
@@ -153,56 +200,100 @@ export const ProductosInicio: React.FC = () => (
   </section>
 );
 
-/* ── 5. Cómo trabajamos ───────────────────────────────────────────────── */
-const PASOS = [
-  { icon: Search, titulo: 'Diagnóstico', linea: 'Sin costo' },
-  { icon: Box, titulo: 'Prototipo', linea: 'Lo ves antes de pagar' },
-  { icon: Wrench, titulo: 'Desarrollo', linea: 'Probado a fondo' },
-  { icon: Rocket, titulo: 'Puesta en marcha', linea: 'Y soporte después' },
-];
+// "María Sofía Genta" → "Sofía Genta", "Esteban José Menin" → "Esteban Menin"
+const nombreCorto = (n: string) => {
+  const p = n.split(' ');
+  if (p.length <= 2) return n;
+  return n.startsWith('María') ? `${p[1]} ${p[2]}` : `${p[0]} ${p[p.length - 1]}`;
+};
 
-export const ComoTrabajamosCorto: React.FC = () => (
-  <section id="como-trabajamos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Cómo trabajamos" titulo="De tu problema a la solución, en 4 pasos" />
-      <ol className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-        {PASOS.map(({ icon: Icon, titulo, linea }, i) => (
-          <li key={titulo} className="p-4 sm:p-5 rounded-2xl bg-slate-900/70 border border-slate-800">
-            <div className="flex items-center gap-2.5">
-              <span className="w-9 h-9 rounded-full bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shrink-0">
-                <Icon className="w-4 h-4" />
-              </span>
-              <span className="text-xs font-mono text-slate-500">0{i + 1}</span>
-            </div>
-            <span className="block mt-3 font-bold text-white">{titulo}</span>
-            <span className="block text-xs sm:text-sm text-slate-400">{linea}</span>
-          </li>
-        ))}
-      </ol>
-      <VerMas onClick={() => irA('proceso-completo')}>Ver el proceso completo</VerMas>
-    </div>
-  </section>
-);
-
-/* ── 6. Equipo ────────────────────────────────────────────────────────── */
+/* ── 4. Quiénes somos ────────────────────────────────────────────────── */
 export const EquipoCorto: React.FC = () => (
   <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Equipo" titulo="Somos de Rosario" />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <Titulo
+        chip="Quiénes somos"
+        titulo="Un equipo de Rosario"
+        bajada="Ciberseguridad, QA, automatización, electrónica y machine learning, en un mismo equipo."
+      />
+      <ul className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {FOUNDERS.map((f) => (
-          <li key={f.name} className="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/70 border border-slate-800">
-            <span className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-sm font-bold text-white shrink-0">
+          <li key={f.name} className="flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 min-w-0">
+            <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
               {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
             </span>
             <span className="min-w-0">
-              <span className="block font-semibold text-white truncate">{f.name}</span>
-              <span className="block text-xs text-slate-400 truncate">{f.badge}</span>
+              <span className="block text-sm font-semibold text-white leading-tight">{nombreCorto(f.name)}</span>
+              <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
             </span>
           </li>
         ))}
       </ul>
-      <VerMas onClick={() => navegar('/nosotros')}>Conocé nuestra historia</VerMas>
+    </div>
+  </section>
+);
+
+/* ── 5. ¿Querés saber más? ─────────────────────────────────────────────── */
+const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: Ruta }[] = [
+  { icon: Layers, titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos', ruta: '/servicios' },
+  { icon: Boxes, titulo: 'Productos y demos', linea: 'Simuladores, equipos en 3D y precios', ruta: '/productos' },
+  { icon: Bot, titulo: 'Robótica 3D', linea: 'Armá y probá un robot en la pantalla', ruta: '/robotica' },
+  { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
+  { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
+  { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
+];
+
+export const SaberMas: React.FC = () => (
+  <section id="saber-mas" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <Titulo chip="¿Querés saber más?" titulo="Elegí qué te interesa" />
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {SECCIONES.map(({ icon: Icon, titulo, linea, ruta }) => (
+          <li key={ruta}>
+            <a
+              href={ruta}
+              className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors group"
+            >
+              <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
+                <Icon className="w-5 h-5" />
+              </span>
+              <span className="flex-1 min-w-0">
+                <span className="block font-bold text-white">{titulo}</span>
+                <span className="block text-xs sm:text-sm text-slate-400">{linea}</span>
+              </span>
+              <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-cyan-300 shrink-0" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+);
+
+/* ── 6. Contacto rápido ───────────────────────────────────────────────── */
+export const ContactoRapido: React.FC = () => (
+  <section id="contacto-rapido" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+    <div className="max-w-3xl mx-auto px-5 text-center">
+      <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Contacto</span>
+      <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white">Contanos qué necesitás</h2>
+      <p className="mt-2 text-sm sm:text-base text-slate-400">El diagnóstico es sin costo. Te respondemos en el día.</p>
+      <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
+        >
+          <MessageCircle className="w-4 h-4" /> WhatsApp
+        </a>
+        <a
+          href={`mailto:${VENTAS_EMAIL}`}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
+        >
+          <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}
+        </a>
+      </div>
+      <a href="/contacto" className="mt-4 inline-block text-sm text-cyan-300 underline underline-offset-4">Prefiero dejar un mensaje en el formulario</a>
     </div>
   </section>
 );
@@ -222,15 +313,13 @@ export const CierrePagina: React.FC = () => (
         >
           <MessageCircle className="w-4 h-4" /> Escribinos por WhatsApp
         </a>
-        <button
-          type="button"
-          onClick={() => irA('contacto')}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold cursor-pointer"
+        <a
+          href="/"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
-          Otras formas de contacto
-        </button>
+          Volver al inicio
+        </a>
       </div>
     </div>
   </section>
 );
-

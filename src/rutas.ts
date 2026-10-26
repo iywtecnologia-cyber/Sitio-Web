@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 // (simuladores, 3D, presupuestador, tecnologías) vive en páginas propias.
 // Render ya reescribe cualquier ruta a index.html, así que /productos, /robotica, etc. funcionan al recargar.
 
-export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/presupuesto' | '/tecnologias' | '/nosotros';
+export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto';
 
-export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/presupuesto', '/tecnologias', '/nosotros'];
+export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto'];
 
 const normalizar = (p: string): Ruta => {
   const limpio = (p.replace(/\/+$/, '') || '/') as Ruta;
@@ -15,8 +15,10 @@ const normalizar = (p: string): Ruta => {
 
 // En qué página vive cada sección (id del elemento). Lo que no está acá se busca en la página actual o en el inicio.
 const PAGINA_DE: Record<string, Ruta> = {
-  inicio: '/', 'que-hacemos': '/', 'productos-inicio': '/', proyectos: '/', 'como-trabajamos': '/', equipo: '/', contacto: '/',
-  servicios: '/servicios', 'proceso-completo': '/servicios',
+  inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'saber-mas': '/', 'contacto-rapido': '/',
+  servicios: '/servicios', 'como-trabajamos': '/servicios',
+  proyectos: '/proyectos',
+  contacto: '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',

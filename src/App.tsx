@@ -17,17 +17,19 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
-import { HeroCorto, QueHacemos, ProductosInicio, ComoTrabajamosCorto, EquipoCorto, CierrePagina } from './components/inicio/Inicio';
+import { HeroCorto, JarDestacado, QueHacemos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { useRuta, type Ruta } from './rutas';
 
 // El inicio es un resumen corto; cada tema largo tiene su propia página.
 const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; contenido: React.ReactNode }> = {
-  '/servicios': { titulo: 'Servicios', contenido: <><ServicesSection /><HowWeWorkSection id="proceso-completo" /></> },
+  '/servicios': { titulo: 'Servicios', contenido: <><ServicesSection /><HowWeWorkSection /></> },
   '/productos': { titulo: 'Productos propios', contenido: <ProductosPropios /> },
   '/robotica': { titulo: 'Robótica 3D', contenido: <RobotStudioSection /> },
+  '/proyectos': { titulo: 'Proyectos', contenido: <PortfolioSection /> },
   '/presupuesto': { titulo: 'Presupuesto', contenido: <BillingModule /> },
   '/tecnologias': { titulo: 'Tecnologías', contenido: <StackSection /> },
   '/nosotros': { titulo: 'Nosotros', contenido: <AboutSection /> },
+  '/contacto': { titulo: 'Contacto', contenido: <ContactSection /> },
 };
 
 export default function App() {
@@ -44,18 +46,19 @@ export default function App() {
       <main className="flex-1">
         {ruta === '/' ? (
           <>
+            {/* Orden: quiénes somos → JAR → qué hacemos → qué ofrecemos → a dónde ir para saber más → contacto */}
             <HeroCorto />
+            <JarDestacado />
+            <EquipoCorto />
             <QueHacemos />
             <ProductosInicio />
-            <PortfolioSection />
-            <ComoTrabajamosCorto />
-            <EquipoCorto />
-            <ContactSection />
+            <SaberMas />
+            <ContactoRapido />
           </>
         ) : (
           <div key={ruta} className="pt-16 sm:pt-20">
             {PAGINAS[ruta].contenido}
-            <CierrePagina />
+            {ruta !== '/contacto' && <CierrePagina />}
           </div>
         )}
       </main>
