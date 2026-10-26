@@ -251,17 +251,6 @@ export const ContactSection: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-            {/* Entrada LinkedIn Empresa tecnoros.ar */}
-            <a
-              href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/20 text-cyan-300 hover:text-white transition-all text-xs font-mono group shadow-sm cursor-pointer"
-              title="Perfil de LinkedIn de tecnoros.ar"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
-              <span className="font-semibold">tecnoros.ar</span>
-            </a>
 
             {/* Entrada LinkedIn Manuel A. */}
             <a
@@ -309,6 +298,18 @@ export const ContactSection: React.FC = () => {
             >
               <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
               <span>Sebastián G. Sosa</span>
+            </a>
+
+            {/* Entrada LinkedIn Empresa tecnoros.ar */}
+            <a
+              href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/20 text-cyan-300 hover:text-white transition-all text-xs font-mono group shadow-sm cursor-pointer"
+              title="Perfil de LinkedIn de tecnoros.ar"
+            >
+              <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] group-hover:scale-110 transition-transform shrink-0" />
+              <span className="font-semibold">tecnoros.ar</span>
             </a>
           </div>
         </div>

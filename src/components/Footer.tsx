@@ -13,7 +13,6 @@ const NAV_LINKS = [
 ];
 
 const LINKEDIN_LINKS = [
-  { href: 'https://www.linkedin.com/in/tecnoros-ar-794698445/', label: 'tecnoros.ar' },
   { href: 'https://www.linkedin.com/in/manuel-angiulli/', label: 'Manuel A.' },
   { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'M. Sofía Genta' },
   { href: 'https://www.linkedin.com/in/esteban-menin-31928a259/', label: 'Esteban José Menin' },
@@ -100,6 +99,15 @@ export const Footer: React.FC = () => {
               </a>
             ))}
           </div>
+          <a
+            href="https://www.linkedin.com/in/tecnoros-ar-794698445/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 flex items-center justify-center gap-1.5 text-slate-400 hover:text-cyan-300 transition-colors py-1 whitespace-nowrap"
+          >
+            <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
+            <span>tecnoros.ar</span>
+          </a>
         </div>
       </div>
     </footer>

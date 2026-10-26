@@ -639,24 +639,24 @@ export const ProductosPropios: React.FC = () => {
               {(selectedSystem === 'colibri' || selectedSystem === 'golondrina') && (
                 <section className="rounded-xl border border-cyan-500/30 bg-slate-950/90 p-4 text-slate-200" aria-label="Simulador de controles físicos">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <h4 className="font-bold text-sm text-cyan-300">Botones de la carcasa · demo</h4>
+                    <h4 className="font-bold text-sm text-cyan-300">¿Para qué sirve cada botón del equipo?</h4>
                     <span className="text-[10px] rounded-full border border-amber-500/40 px-2 py-1 text-amber-300">SIMULACIÓN · sin conexión a máquinas</span>
                   </div>
-                  <p className="text-xs text-slate-400 mb-3">Probá los controles del modelo 3D. Solo simulación.</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <p className="text-xs text-slate-400 mb-3">Son los botones que tiene la caja. Tocalos para ver qué hacen (simulación).</p>
+                  <div className={`grid grid-cols-1 gap-2 ${selectedSystem === 'colibri' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
                     {(selectedSystem === 'colibri' ? [
-                      {label:'CONFIG',desc:'Iniciar configuración y vinculación',message:'Modo de configuración simulado. En un equipo real requerirá autenticación y validación de red.'},
-                      {label:'TEST',desc:'Diagnóstico de sensores y comunicaciones',message:'Prueba simulada completada: sensores, red y alertas en estado demostrativo.'},
-                      {label:'ACK',desc:'Reconocer una alerta',message:'Alerta de demostración reconocida. Las protecciones críticas nunca se desactivan.'},
+                      {label:'CONFIG',nombre:'Configurar',desc:'Lo apretás una sola vez al instalarlo: se vincula con tu celular y empieza a aprender cómo trabajás.',message:'Listo para configurar (simulación). En el equipo real te pide confirmar desde tu celular.'},
+                      {label:'TEST',nombre:'Probar',desc:'Revisa que sensores, conexión y avisos funcionen. Usalo cuando quieras chequear que todo anda.',message:'Prueba completada (simulación): sensores, conexión y avisos funcionando.'},
+                      {label:'ACK',nombre:'Silenciar alerta',desc:'Confirma que viste el aviso y apaga el sonido. La alerta queda registrada.',message:'Alerta confirmada y silenciada (simulación). Queda en el historial.'},
                     ] : [
-                      {label:'STATUS',desc:'Consultar estado del equipo',message:'Estado simulado: sensores conectados, monitoreo disponible y sin alarmas activas.'},
-                      {label:'PAIR',desc:'Iniciar vinculación segura',message:'Vinculación simulada. No se ha conectado ningún sensor ni dispositivo real.'},
+                      {label:'STATUS',nombre:'Ver estado',desc:'Muestra en la pantalla si todo está bien, qué sensores están conectados y si hay alarmas.',message:'Todo en orden (simulación): sensores conectados y sin alarmas.'},
+                      {label:'PAIR',nombre:'Vincular',desc:'Sirve para conectar un sensor nuevo o tu celular al equipo.',message:'Modo vinculación (simulación): en el equipo real acercás el sensor o confirmás desde el celular.'},
                     ]).map((control) => (
                       <button key={control.label} type="button" title={control.desc}
                         onClick={() => {setPhysicalDemo({label:control.label,message:control.message});setDemoCount(n=>n+1);}}
                         className="text-left rounded-lg border border-cyan-700/50 bg-slate-900 hover:bg-cyan-950/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 p-3 transition-colors">
-                        <span className="block font-bold text-cyan-300 text-xs">● {control.label}</span>
-                        <span className="block text-[11px] text-slate-400 mt-1">{control.desc}</span>
+                        <span className="flex items-center gap-2"><span className="font-bold text-white text-sm">{control.nombre}</span><span className="text-[10px] font-mono text-cyan-300 border border-cyan-700/60 rounded px-1.5">{control.label}</span></span>
+                        <span className="block text-[11px] text-slate-300 mt-1.5 leading-snug">{control.desc}</span>
                       </button>
                     ))}
                   </div>
@@ -697,39 +697,6 @@ export const ProductosPropios: React.FC = () => {
                     <div role="status" aria-live="polite" className="p-3 rounded-xl border border-slate-700 bg-slate-950/80 text-xs text-slate-300">
                       {activeCapability==='voice' ? 'Voz: alertas habladas mediante servicio pago por equipo; no hay voz de prueba.' : activeCapability==='text' ? 'WhatsApp: notificaciones de eventos, previa configuración.' : 'Ciberseguridad: protección y segmentación de red, sujeta a evaluación.'}
                       {activeCapability==='voice' && <button type="button" onClick={() => window.open('https://wa.me/5493415112000?text='+encodeURIComponent('Hola, quiero cotizar voz premium por CHAJÁ.'),'_blank','noopener,noreferrer')} className="ml-2 underline text-cyan-300">Consultar precio</button>}
-                    </div>
-                  )}
-                  {/* Botones de Acción de Prueba en Vivo */}
-                  <div className="flex flex-col sm:flex-row gap-2.5 pt-2 border-t border-slate-800/80">
-                    <button
-                      type="button"
-                      onClick={handleTrigger1ClickLearn}
-                      disabled={isLearningSim}
-                      className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-emerald-400 to-cyan-400 hover:opacity-95 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
-                    >
-                      <Zap className="w-4 h-4 fill-slate-950" />
-                      <span>
-                        {isLearningSim
-                          ? learningStep === 1
-                            ? 'Escaneando variables de planta...'
-                            : learningStep === 2
-                            ? 'Aprendiendo ritmos normales (ML)...'
-                            : 'Demo completada'
-                          : 'Simular autoaprendizaje'}
-                      </span>
-                    </button>
-
-                  </div>
-
-                  {/* Mensaje de Confirmación de Configuración */}
-                  {isLearningSim && (
-                    <div className="p-3 rounded-xl bg-emerald-950/60 border border-emerald-500/50 text-xs text-emerald-200 flex items-center gap-2.5 animate-fadeIn">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>
-                        {learningStep === 1 && 'Paso 1: Detectando variables de ejemplo...'}
-                        {learningStep === 2 && 'Paso 2: Calculando patrones simulados...'}
-                        {learningStep === 3 && 'Demo finalizada. No se configuraron equipos reales.'}
-                      </span>
                     </div>
                   )}
                 </div>
