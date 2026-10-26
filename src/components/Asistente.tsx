@@ -226,6 +226,7 @@ export const Asistente: React.FC = () => {
   const [marcioVisible, setMarcioVisible] = useState(false);
   const [marcioOculto, setMarcioOculto] = useState(false);
   const [ocultoPor3D, setOcultoPor3D] = useState(false);
+  const [ocultoPorDemo, setOcultoPorDemo] = useState(false);
   const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
   const [frase, setFrase] = useState('¡Hola! 👋 ¿Te ayudo? Podés arrastrarme');
 
@@ -251,8 +252,8 @@ export const Asistente: React.FC = () => {
 
     const handleCustomizing = (e: Event) => {
       const ce = e as CustomEvent<boolean>;
-      if (typeof ce.detail === 'boolean' && window.innerWidth < 640) {
-        setOcultoPor3D(ce.detail);
+      if (typeof ce.detail === 'boolean') {
+        setOcultoPorDemo(ce.detail && window.innerWidth < 640);
       }
     };
     window.addEventListener('customizando-3d', handleCustomizing);
@@ -506,7 +507,7 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !marcioOculto && !ocultoPor3D && (
+      {!abierto && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && (
         <div
           ref={(el) => {
             contRef.current = el;

@@ -202,99 +202,37 @@ export const RobotStudioSection: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
-              <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Robótica a Medida • Cerebro Digital & Cuerpo Físico Integrado</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Desarrollo del cerebro robótico y{' '}
-              <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
-                fabricación física a medida
-              </span>
-            </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
-              Nos especializamos en el desarrollo de software e inteligencia: <strong className="text-white">lo primero que se desarrolla es el cerebro del robot</strong> (algoritmos, visión y simulación 3D interactiva). Luego, si el proyecto es viable técnica y comercialmente, <strong className="text-cyan-300">también podés pedir e incorporar el modelo del cuerpo físico</strong> fabricado a medida.
-            </p>
-            <a
-              href="https://airclub-udesa.github.io/jar_site/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-xs sm:text-sm font-semibold transition-colors"
-            >
-              <span aria-hidden="true">🏁</span>
-              <span>Estamos desarrollando nuestro robot autónomo para participar del Challenge JAR 2026 (Rosario, 3 al 6 de noviembre)</span>
-            </a>
-          </div>
-
-          {/* 3D Robotics Lab Badge */}
-          <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center gap-3 self-start md:self-auto shrink-0 shadow-lg">
-            <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-              <Cpu className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Flujo Progresivo</div>
-              <div className="text-xs font-bold text-white font-mono">1. Cerebro (Software) → 2. Cuerpo Físico (Si es viable)</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Banner Institucional de Viabilidad Técnica & Rol del 3D */}
-        <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-cyan-950/60 via-slate-900 to-violet-950/50 border border-cyan-500/35 flex flex-col gap-4 shadow-xl">
-          <div className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0 mt-0.5">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div className="space-y-1.5 flex-1">
-              <strong className="text-white block text-base sm:text-lg">
-                ¿Cómo desarrollamos tu solución robótica? Proceso Progresivo en 2 Fases
-              </strong>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                Nuestro objetivo es desarrollar <strong className="text-cyan-300">soluciones robóticas completas adaptadas a necesidades reales</strong>. Cada proyecto se analiza de manera individual, asegurando que no gastes en materiales innecesarios antes de comprobar el funcionamiento digital:
-              </p>
-            </div>
-          </div>
-
-          {/* Two-phase breakdown cards */}
-          <PlegableMovil titulo="Las 2 fases" resumen="Primero simulación 3D, después el robot físico">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t border-slate-800/80">
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/30 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 text-xs font-mono font-bold flex items-center justify-center">1</span>
-                  <span className="text-xs font-mono font-bold text-cyan-300 uppercase tracking-wide">Fase 1: El Cerebro del Robot</span>
-                </div>
-                <h4 className="text-sm font-bold text-white mb-1.5">Inteligencia, Software Autónomo & Gemelo 3D</h4>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Es lo primero que se desarrolla: la lógica de navegación (ROS 2), algoritmos de mapeo SLAM, visión por computadora y telemetría. La interacción tridimensional te permite interactuar con el robot y ver exactamente cómo trabaja antes de fabricarlo.
-                </p>
-              </div>
-              <div className="mt-3 text-[11px] font-mono text-cyan-400/90 flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Simulación digital interactiva sin costos de fierros</span>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-violet-500/30 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-violet-500/20 border border-violet-400/50 text-violet-300 text-xs font-mono font-bold flex items-center justify-center">2</span>
-                  <span className="text-xs font-mono font-bold text-violet-300 uppercase tracking-wide">Fase 2: El Cuerpo Físico (Opcional si es viable)</span>
-                </div>
-                <h4 className="text-sm font-bold text-white mb-1.5">Integración, Mecánica & Fabricación a Medida</h4>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Si el análisis de viabilidad técnica y comercial resulta favorable, <strong className="text-white">también podés pedir e incorporar la parte física</strong>: diseñamos y fabricamos el chasis, las ruedas motrices, la electrónica de potencia, baterías y sensores integrados.
-                </p>
-              </div>
-              <div className="mt-3 text-[11px] font-mono text-violet-400/90 flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5 text-violet-400" />
-                <span>Fabricación a medida sujeta a evaluación técnica previa</span>
-              </div>
-            </div>
-          </div>
-          </PlegableMovil>
+        {/* Encabezado corto: qué hacemos en una frase y los 2 pasos */}
+        <div className="mb-8 space-y-4">
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400">
+            <Cpu className="w-3.5 h-3.5 text-cyan-400" />
+            Robótica a medida
+          </span>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+            Desarrollo del cerebro robótico y fabricación física a medida
+          </h2>
+          <p className="text-base sm:text-lg text-slate-300 max-w-3xl">
+            Primero programamos el cerebro del robot y lo probás en 3D. Si funciona, fabricamos el cuerpo.
+          </p>
+          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl">
+            <li className="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
+              <span className="w-9 h-9 rounded-full bg-cyan-400 text-slate-950 font-black flex items-center justify-center shrink-0">1</span>
+              <span><strong className="block text-white text-base">El cerebro</strong><span className="text-sm text-slate-300">Lo programamos y lo probás en 3D</span></span>
+            </li>
+            <li className="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/90 border border-violet-500/30">
+              <span className="w-9 h-9 rounded-full bg-violet-400 text-slate-950 font-black flex items-center justify-center shrink-0">2</span>
+              <span><strong className="block text-white text-base">El cuerpo</strong><span className="text-sm text-slate-300">Lo fabricamos si es viable</span></span>
+            </li>
+          </ol>
+          <a
+            href="https://airclub-udesa.github.io/jar_site/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-sm font-semibold transition-colors"
+          >
+            <span aria-hidden="true">🏁</span>
+            <span>Rumbo al Challenge JAR 2026: estamos desarrollando nuestro robot para participar</span>
+          </a>
         </div>
 
         {/* Model Selector Carousel / Bar */}
@@ -938,20 +876,20 @@ export const RobotStudioSection: React.FC = () => {
             <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-950 border border-cyan-500/30 space-y-3">
               <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
                 <Zap className="w-4 h-4 text-cyan-400" />
-                <span>Desarrollo de Software en Rosario</span>
+                <span>Hecho en Rosario</span>
               </div>
-              <h4 className="text-base font-bold text-white leading-snug">
-                ¿Querés desarrollar el cerebro y evaluar el cuerpo físico para tu robot?
+              <h4 className="text-lg font-bold text-white leading-snug">
+                ¿Querés un robot para tu negocio?
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Coordinamos un diagnóstico: primero programamos la navegación, visión y control en ROS 2 y te entregamos la simulación 3D interactiva en computadora para validar todo sin costos de materiales. Si la viabilidad técnica es aprobada, también podés pedir e incorporar la fabricación del cuerpo físico.
+              <p className="text-sm text-slate-300">
+                Empezamos por el cerebro y lo ves en 3D antes de gastar en materiales.
               </p>
               <button
                 onClick={handleQuoteClick}
                 className="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <Send className="w-4 h-4 text-slate-950" />
-                <span>Cotizar Cerebro Digital & Viabilidad de Cuerpo Físico</span>
+                <span>Cotizar mi robot</span>
               </button>
             </div>
 

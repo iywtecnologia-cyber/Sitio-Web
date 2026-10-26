@@ -550,16 +550,16 @@ export const ProductosPropios: React.FC = () => {
         </PlegableMovil>
 
         {/* Aviso de seguridad industrial: una línea a la vista y el texto completo al tocar */}
-        <details className="mb-8 rounded-2xl border border-amber-500/40 bg-slate-900/90 px-5 py-4 group/aviso" aria-label="Compromiso con la seguridad industrial">
+        <details id="aviso-seguridad" className="scroll-mt-24 mb-8 rounded-2xl border border-amber-500/40 bg-slate-900/90 px-5 py-4 group/aviso" aria-label="Compromiso con la seguridad industrial">
           <summary className="cursor-pointer list-none flex items-start justify-between gap-3">
             <span>
-              <span className="block text-sm font-bold text-amber-200">Compromiso con la seguridad industrial</span>
-              <span className="block mt-1 text-xs sm:text-sm text-slate-300">Las demos son ilustrativas: no están certificadas ni reemplazan los sistemas de seguridad de tu planta.</span>
+              <span className="block text-base sm:text-lg font-bold text-amber-200">Compromiso con la seguridad industrial</span>
+              <span className="block mt-1 text-sm sm:text-base text-slate-300">Las demos son ilustrativas: no están certificadas ni reemplazan los sistemas de seguridad de tu planta.</span>
             </span>
-            <span className="shrink-0 text-xs font-semibold text-amber-300 mt-0.5 group-open/aviso:hidden">Ver más</span>
-            <span className="shrink-0 text-xs font-semibold text-amber-300 mt-0.5 hidden group-open/aviso:inline">Ocultar</span>
+            <span className="shrink-0 text-sm font-semibold text-amber-300 mt-0.5 group-open/aviso:hidden">Ver más</span>
+            <span className="shrink-0 text-sm font-semibold text-amber-300 mt-0.5 hidden group-open/aviso:inline">Ocultar</span>
           </summary>
-          <div className="mt-3 pt-3 border-t border-slate-800 space-y-2 text-xs sm:text-sm text-slate-300">
+          <div className="mt-3 pt-3 border-t border-slate-800 space-y-2 text-sm sm:text-base text-slate-300">
             <p>Golondrina y CHAJÁ están pensados para monitoreo, automatización y protección de entornos industriales.</p>
             <p>El control de motores, válvulas y otros actuadores se muestra como función prevista o demostrativa, sujeta a evaluación técnica y de seguridad.</p>
             <p>Antes de una implementación real se definen los requisitos normativos, las pruebas y las condiciones de instalación.</p>
@@ -568,9 +568,7 @@ export const ProductosPropios: React.FC = () => {
         </details>
 
         {/* Aplicaciones Llave en Mano de Golondrina Automatización (Listas para implementar hoy) */}
-        <PlegableMovil titulo="Simulador de Golondrina" resumen="12 casos reales: frío, silos, tambos y más">
-          <GolondrinaAplicacionesShowcase />
-        </PlegableMovil>
+        <GolondrinaAplicacionesShowcase />
 
         {/* =========================================================================
             ESTUDIO 3D EXCLUSIVO DE SISTEMAS Y HARDWARE A MEDIDA (CHAJÁ Y GOLONDRINA)
@@ -581,15 +579,11 @@ export const ProductosPropios: React.FC = () => {
           {/* Header del Laboratorio 3D de Sistemas */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
             <div>
-              <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 mb-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Banco de Ensayo 3D • Micro-Dispositivos & Hardware a Medida</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                Inspección 3D & Simulación Interactiva de Hardware
+              <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Mirá los equipos en 3D
               </h3>
-              <p className="mt-1 text-xs sm:text-sm text-slate-300">
-                Probá el funcionamiento interactivo de nuestros dispositivos propios. Cada gabinete se imprime <strong className="text-cyan-300">en 3D a demanda</strong> para adaptarse a tu tablero, riel DIN o maquinaria.
+              <p className="mt-2 text-base sm:text-lg text-slate-300">
+                Giralo con el dedo o el mouse y tocá sus botones para ver qué hacen.
               </p>
             </div>
 
@@ -598,27 +592,27 @@ export const ProductosPropios: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedSystem('colibri')}
-                className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                   selectedSystem === 'colibri'
                     ? 'bg-gradient-to-r from-cyan-400 to-sky-400 text-slate-950 shadow-md shadow-cyan-500/20 font-bold'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <Cpu className="w-4 h-4" />
-                <span>CHAJÁ (Edge AI & 1-Clic)</span>
+                <span>CHAJÁ</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setSelectedSystem('golondrina')}
-                className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                   selectedSystem === 'golondrina'
                     ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
                 <Workflow className="w-4 h-4" />
-                <span>Golondrina (A Demanda)</span>
+                <span>Golondrina</span>
               </button>
 
             </div>
@@ -640,10 +634,8 @@ export const ProductosPropios: React.FC = () => {
               {(selectedSystem === 'colibri' || selectedSystem === 'golondrina') && (
                 <section className="rounded-xl border border-cyan-500/30 bg-slate-950/90 p-4 text-slate-200" aria-label="Simulador de controles físicos">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <h4 className="font-bold text-sm text-cyan-300">¿Para qué sirve cada botón del equipo?</h4>
-                    <span className="text-[10px] rounded-full border border-amber-500/40 px-2 py-1 text-amber-300">SIMULACIÓN · sin conexión a máquinas</span>
+                    <h4 className="font-bold text-base text-cyan-300">Tocá un botón del equipo</h4>
                   </div>
-                  <p className="text-xs text-slate-400 mb-3">Son los botones que tiene la caja. Tocalos para ver qué hacen (simulación).</p>
                   <div className={`grid grid-cols-1 gap-2 ${selectedSystem === 'colibri' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
                     {(selectedSystem === 'colibri' ? [
                       {label:'CONFIG',nombre:'Configurar',desc:'Lo apretás una sola vez al instalarlo: se vincula con tu celular y empieza a aprender cómo trabajás.',message:'Listo para configurar (simulación). En el equipo real te pide confirmar desde tu celular.'},
@@ -657,22 +649,12 @@ export const ProductosPropios: React.FC = () => {
                         onClick={() => {setPhysicalDemo({label:control.label,message:control.message});setDemoCount(n=>n+1);}}
                         className="text-left rounded-lg border border-cyan-700/50 bg-slate-900 hover:bg-cyan-950/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 p-3 transition-colors">
                         <span className="flex items-center gap-2"><span className="font-bold text-white text-sm">{control.nombre}</span><span className="text-[10px] font-mono text-cyan-300 border border-cyan-700/60 rounded px-1.5">{control.label}</span></span>
-                        <span className="block text-[11px] text-slate-300 mt-1.5 leading-snug">{control.desc}</span>
                       </button>
                     ))}
                   </div>
                   {physicalDemo && <div key={demoCount} role="status" aria-live="polite" className="mt-3 p-3 rounded-lg bg-cyan-950/40 border border-cyan-700/40 text-xs"><strong className="text-cyan-300">{physicalDemo.label}:</strong> {physicalDemo.message}</div>}
                 </section>
               )}
-
-              {/* Barra de Ayuda, Zoom y CONTROL DE DESPIECE / VER POR DENTRO */}
-              <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300">
-                <div className="flex items-center gap-2 text-cyan-300">
-                  <Sliders className="w-3.5 h-3.5" />
-                  <span>Rueda del mouse: Zoom interactivo directo continuo</span>
-                </div>
-
-              </div>
 
               {/* PANEL INTERACTIVO DE CONTROL EN VIVO DE CHAJÁ */}
               {selectedSystem === 'colibri' && (
@@ -708,76 +690,9 @@ export const ProductosPropios: React.FC = () => {
             <div className="lg:col-span-4 flex flex-col gap-4">
               
               <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                    {activeData.category}
-                  </span>
-                  {selectedSystem === 'colibri' ? (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-cyan-400" />
-                      <span>Micro-Dispositivo Edge</span>
-                    </span>
-                  ) : selectedSystem === 'golondrina' ? (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold flex items-center gap-1">
-                      <span>Hardware a Demanda</span>
-                    </span>
-                  ) : (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                      <span>Próximamente en I+D</span>
-                    </span>
-                  )}
-                </div>
-
                 <div>
                   <h4 className="text-xl font-bold text-white tracking-tight">{activeData.title}</h4>
-                  {selectedSystem === 'colibri' ? (
-                    <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-xl font-extrabold text-cyan-300 font-mono">
-                        Micro-Dispositivo 3D
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">
-                        (Reemplaza una PC grande)
-                      </span>
-                    </div>
-                  ) : selectedSystem === 'golondrina' ? (
-                    <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-xl font-extrabold text-emerald-300 font-mono">
-                        Hardware a Demanda
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">
-                        (Módulo a medida por encargo)
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="mt-1 flex items-baseline gap-2">
-                      <span className="text-lg font-bold text-amber-300 font-mono">
-                        Próximamente
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">
-                        (En fase de prototipado)
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  {activeData.description}
-                </p>
-
-                {/* Especificaciones de Hardware */}
-                <div className="space-y-2 pt-2 border-t border-slate-800">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
-                    Especificaciones Técnicas:
-                  </span>
-                  <div className="space-y-1.5">
-                    {activeData.specs.map((sp, i) => (
-                      <div key={i} className="flex items-start gap-2 text-xs text-slate-300">
-                        <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
-                        <span>{sp}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {activeData.tagline && <p className="mt-2 text-base text-slate-300">{activeData.tagline}</p>}
                 </div>
 
                 {/* Personalización de Color de Carcasa (Filamento PETG) */}
@@ -785,10 +700,7 @@ export const ProductosPropios: React.FC = () => {
                   <div className="flex items-start gap-2.5">
                     <div className="w-4 h-4 rounded-full bg-slate-900 border border-slate-700 shrink-0 mt-0.5" />
                     <div className="text-xs text-slate-300">
-                      <strong className="text-white">Color de serie: Negro Mate Industrial</strong>
-                      <p className="text-[11px] text-slate-400 mt-0.5">
-                        Impreso en filamento técnico de alta resistencia térmica para durabilidad en tablero o rack.
-                      </p>
+                      <strong className="text-white">Color: negro mate</strong>
                     </div>
                   </div>
 
@@ -837,9 +749,9 @@ export const ProductosPropios: React.FC = () => {
                     <Send className="w-4 h-4" />
                     <span>
                       {selectedSystem === 'colibri'
-                        ? 'Cotizar CHAJÁ Micro-Hub en WhatsApp'
+                        ? 'Cotizar CHAJÁ en WhatsApp'
                         : selectedSystem === 'golondrina'
-                        ? 'Cotizar Módulo Golondrina en WhatsApp (A Demanda)'
+                        ? 'Cotizar Golondrina en WhatsApp'
                         : 'Consultar por Avances de TERO Security en WhatsApp'}
                     </span>
                   </button>

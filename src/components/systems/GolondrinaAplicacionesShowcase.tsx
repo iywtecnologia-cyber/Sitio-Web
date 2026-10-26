@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   ThermometerSnowflake, 
   Activity, 
@@ -373,6 +373,60 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
 
   const horasRestantesSilo = (nivelSiloPct * 50) / (tasaConsumoTonH * 100);
 
+  // Demo automática ("como un video"): una cámara de frío pierde temperatura, llega el WhatsApp
+  // y se resuelve con 1 clic, solo. Así se entiende sin leer.
+  const [demoPaso, setDemoPaso] = useState(0);
+  const timersRef = useRef<number[]>([]);
+  const limpiarDemo = () => {
+    timersRef.current.forEach((t) => { window.clearTimeout(t); window.clearInterval(t); });
+    timersRef.current = [];
+  };
+  useEffect(() => limpiarDemo, []);
+  const verAlto = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+  const verDemo = () => {
+    limpiarDemo();
+    window.dispatchEvent(new CustomEvent('customizando-3d', { detail: true }));
+    setActiveTab('frio');
+    setCasoElegido(null);
+    const t0 = window.setTimeout(() => {
+      setWhatsappResponse(null);
+      setIsAlarmActive(false);
+      setCorteElectrico(false);
+      setTempC(-20);
+      setDemoPaso(1);
+      verAlto('tablero-golondrina');
+      let temp = -20;
+      const sube = window.setInterval(() => {
+        temp += 0.5;
+        setTempC(temp);
+        if (temp >= -13.5) {
+          window.clearInterval(sube);
+          setCorteElectrico(true);
+          triggerAlarm();
+          setDemoPaso(2);
+          if (window.innerWidth < 1024) verAlto('celular-golondrina');
+          timersRef.current.push(window.setTimeout(() => {
+            handleResponderWhatsApp('Confirmar Alerta y Asistir al Local');
+            setDemoPaso(3);
+            timersRef.current.push(window.setTimeout(() => window.dispatchEvent(new CustomEvent('customizando-3d', { detail: false })), 4000));
+          }, 3200));
+        }
+      }, 160);
+      timersRef.current.push(sube);
+    }, 80);
+    timersRef.current.push(t0);
+  };
+  const PASOS_DEMO = [
+    { n: 1, titulo: 'Algo falla', texto: 'Se corta la luz y la cámara de frío empieza a calentarse.' },
+    { n: 2, titulo: 'Te llega un WhatsApp', texto: 'Golondrina lo detecta sola y te avisa al instante.' },
+    { n: 3, titulo: 'Lo resolvés con 1 clic', texto: 'Tocás un botón en el mensaje y queda registrado.' },
+  ];
+
   const irAlSimuladorConPreset = (preset: SimulationMode, casoId?: string, lugar?: string) => {
     setActiveTab(preset);
     if (casoId) setCasoElegido(casoId);
@@ -397,27 +451,56 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
       {/* Luz ambiental */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="rounded-xl border border-cyan-500/30 bg-slate-900 p-4 text-sm text-slate-200 space-y-2">
-        <p className="font-bold text-white">Guía de los botones de Golondrina</p>
-        <p><strong>Elegir escenario:</strong> selecciona un proceso (frío, producción, silos y otros). <strong>Simular falla:</strong> provoca un evento ficticio y muestra cómo se vería una alerta. <strong>Restablecer / Reiniciar:</strong> devuelve los valores de la demostración a su estado normal. <strong>Probar en simulador:</strong> carga el caso elegido.</p>
-        <p className="text-amber-200 text-xs">Todo sucede dentro de esta simulación web. No se envían órdenes a máquinas, motores o válvulas reales. La instalación y automatización industrial requieren evaluación técnica y de seguridad previa.</p>
-      </div>
-
-      {/* Cabecera del Simulador */}
-      <div className="relative z-10 flex flex-col gap-4 pb-4 border-b border-slate-800">
+      {/* Cabecera simple + "cómo funciona" que se reproduce solo */}
+      <div className="relative z-10 flex flex-col gap-5 pb-5 border-b border-slate-800">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>BANCO DE PRUEBA EN VIVO • MODO DEMOSTRACIÓN B2B</span>
-          </div>
-          <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Probá Golondrina con <span className="text-emerald-400">1 Solo Clic</span>
+          <h3 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Probá <span className="text-emerald-400">Golondrina</span>
           </h3>
-          <p className="mt-1 text-xs sm:text-sm text-slate-300">
-            Tocá los controles de planta. Mirá cómo suena el WhatsApp. Resolvé sin esfuerzo físico ni planillas manuales.
+          <p className="mt-2 text-base sm:text-lg text-slate-300">
+            Así te avisa cuando algo falla, y así lo resolvés con 1 clic.
           </p>
         </div>
 
+        <ol className="grid grid-cols-1 sm:grid-cols-3 gap-3" aria-label="Cómo funciona">
+          {PASOS_DEMO.map((p) => {
+            const activo = demoPaso === p.n;
+            const hecho = demoPaso > p.n;
+            return (
+              <li
+                key={p.n}
+                className={`p-4 rounded-2xl border transition-all duration-500 ${
+                  activo
+                    ? 'bg-emerald-500/15 border-emerald-400 ring-2 ring-emerald-400/30 scale-[1.02]'
+                    : hecho
+                    ? 'bg-slate-900 border-emerald-500/40'
+                    : 'bg-slate-900 border-slate-800'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`w-9 h-9 rounded-full flex items-center justify-center text-base font-black shrink-0 ${activo || hecho ? 'bg-emerald-400 text-slate-950' : 'bg-slate-800 text-slate-300'}`}>
+                    {hecho ? '✓' : p.n}
+                  </span>
+                  <span className="text-base sm:text-lg font-bold text-white leading-tight">{p.titulo}</span>
+                </div>
+                <p className="mt-2 text-sm sm:text-base text-slate-300">{p.texto}</p>
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <button
+            type="button"
+            onClick={verDemo}
+            className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 text-base font-extrabold shadow-lg shadow-emerald-500/25 cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-transform"
+          >
+            <Play className="w-5 h-5 fill-slate-950" />
+            {demoPaso === 0 ? 'Mirá cómo funciona (15 segundos)' : demoPaso === 3 ? 'Verlo de nuevo' : 'Reproduciendo…'}
+          </button>
+          <span className="text-sm sm:text-base text-slate-400">o probalo vos: elegí un caso y tocá el botón rojo de “Simular”.</span>
+        </div>
+        <p className="text-sm text-amber-200/90">Es una simulación: no se conecta a ninguna máquina real.</p>
         {/* Selector Rápido de Preset en Cabecera */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 p-1 rounded-xl bg-slate-900 border border-slate-800 gap-1 w-full" role="group" aria-label="Elegir escenario">
           {[
@@ -439,7 +522,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               type="button"
               onClick={() => { setActiveTab(tab.id); setCasoElegido(null); }}
               aria-pressed={activeTab === tab.id}
-              className={`px-2 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer text-center truncate ${
+              className={`px-2 py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer text-center truncate ${
                 activeTab === tab.id
                   ? 'bg-emerald-500 text-slate-950 shadow-md font-bold'
                   : 'text-slate-400 hover:text-white'
@@ -468,6 +551,17 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           (Aparece en el mensaje de WhatsApp a la derecha)
         </span>
       </div>
+
+      {demoPaso > 0 && (
+        <div role="status" aria-live="polite" className="fixed bottom-24 sm:bottom-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-md px-4 py-3 rounded-2xl bg-slate-950/95 border border-emerald-400 shadow-2xl shadow-emerald-500/20 flex items-center gap-3">
+          <span className="w-9 h-9 rounded-full bg-emerald-400 text-slate-950 font-black flex items-center justify-center shrink-0">{demoPaso}</span>
+          <span className="min-w-0">
+            <span className="block text-base font-bold text-white">{PASOS_DEMO[demoPaso - 1].titulo}</span>
+            <span className="block text-sm text-slate-300">{PASOS_DEMO[demoPaso - 1].texto}</span>
+          </span>
+          <button type="button" onClick={() => { limpiarDemo(); setDemoPaso(0); window.dispatchEvent(new CustomEvent('customizando-3d', { detail: false })); }} aria-label="Cerrar" className="ml-auto text-slate-400 hover:text-white text-lg leading-none cursor-pointer">×</button>
+        </div>
+      )}
 
       {avisoCaso && (
         <div role="status" className="relative z-10 p-3 rounded-xl bg-emerald-500/15 border border-emerald-400 text-sm text-emerald-200 font-semibold">
@@ -999,7 +1093,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         {/* =========================================================
             COLUMNA DERECHA: TELÉFONO WHATSAPP EN VIVO (5 COLS)
             ========================================================= */}
-        <div className="lg:col-span-5">
+        <div id="celular-golondrina" className="lg:col-span-5 scroll-mt-28">
           <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -1224,11 +1318,11 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           </div>
 
           <h4 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            12 Lugares Reales Donde Podés Implementar Golondrina
+            ¿Dónde se usa?
           </h4>
 
-          <p className="text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
-            Cualquier máquina, tanque o proceso físico donde una falla o detención no detectada a tiempo cueste plata o esfuerzo humano. <strong className="text-cyan-300">Tocá "Probar en Simulador" en cualquiera de ellos</strong> para ver exactamente cómo responde el sistema arriba:
+          <p className="text-base text-slate-300 max-w-3xl">
+            Tocá “Probar” y ese caso se carga en el simulador.
           </p>
         </div>
 
@@ -1266,7 +1360,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             return (
               <div
                 key={item.id}
-                className={`p-6 rounded-2xl border transition-all flex flex-col justify-between group shadow-xl ${
+                className={`p-5 rounded-2xl border transition-all flex flex-col justify-between group shadow-xl ${
                   isCurrentlySelectedInSim
                     ? 'bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-950 border-emerald-400 ring-1 ring-emerald-400/40'
                     : 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/50'
@@ -1285,26 +1379,10 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                   <h5 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors leading-snug">
                     {item.lugar}
                   </h5>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                  <p className="text-sm text-slate-400 mt-1 leading-snug">
                     {item.subtitulo}
                   </p>
 
-                  <div className="mt-4 pt-3.5 border-t border-slate-800/80 space-y-2.5 text-xs">
-                    <div>
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">¿Dónde se conecta el sensor?</span>
-                      <p className="text-slate-300 text-[11px] font-mono mt-0.5">{item.sensor}</p>
-                    </div>
-
-                    <div>
-                      <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block font-semibold">¿Qué detecta Golondrina?</span>
-                      <p className="text-slate-200 text-xs leading-relaxed mt-0.5">{item.queDetecta}</p>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-slate-950/80 border border-slate-800/90 text-[11px] text-amber-200/90 leading-tight">
-                      <strong className="text-amber-300 block text-[10px] font-mono uppercase tracking-wider mb-1">Riesgo o Pérdida Evitada:</strong>
-                      {item.riesgoEvitado}
-                    </div>
-                  </div>
                 </div>
 
                 {/* Botones de Acción: Ambos activos en TODAS las tarjetas */}
@@ -1314,7 +1392,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     onClick={() => irAlSimuladorConPreset(item.presetTab, item.id, item.lugar)}
                     className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/40 text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
                   >
-                    <span>Probar en Simulador</span>
+                    <span>Probar</span>
                     <span className="text-sm font-black">↑</span>
                   </button>
                   <a
@@ -1339,10 +1417,10 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         <div className="flex items-start gap-3">
           <Sparkles className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
           <div className="text-slate-300 leading-relaxed">
-            <strong className="text-white block text-sm sm:text-base mb-1">
-              ¿Tu empresa tiene otra máquina, variable o proceso específico?
+            <strong className="text-white block text-base">
+              ¿Tenés otra máquina o proceso?
             </strong>
-            Golondrina es 100% modular: el software y la telemetría se implementan de inmediato, y los módulos de hardware físico con sensores se fabrican <strong className="text-cyan-300">exclusivamente a demanda y por encargo</strong> para adaptarse a la maquinaria o tableros de tu empresa.
+            <span className="text-sm">Lo adaptamos a tu planta.</span>
           </div>
         </div>
         <a

@@ -10,7 +10,6 @@ import {
   Linkedin
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
-import { BotonesRedes } from './Redes';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 
 const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
@@ -283,15 +282,6 @@ export const ContactSection: React.FC = () => {
               </div>
             )}
           </form>
-        </div>
-
-        {/* Redes de tecnoros.ar */}
-        <div className="mt-12 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-5">
-          <div className="text-center md:text-left">
-            <h4 className="text-base font-bold text-white">Seguinos en redes</h4>
-            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">Novedades, proyectos y el avance de nuestro robot para el JAR</p>
-          </div>
-          <BotonesRedes />
         </div>
 
       </div>

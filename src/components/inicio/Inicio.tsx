@@ -5,7 +5,7 @@ import {
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
-import { whatsappLink, VENTAS_EMAIL, REDES } from '../../data/contact';
+import { whatsappLink, gmailLink, VENTAS_EMAIL, REDES } from '../../data/contact';
 import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
@@ -39,10 +39,8 @@ export const HeroCorto: React.FC = () => (
       <span className="inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
         Rosario · Soluciones a tu medida
       </span>
-      <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
-        Todo para tu negocio
-        <br />
-        que crece <span className="animate-text-light-sweep">con vos</span>
+      <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
+        Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
         Somos un equipo de Rosario: automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
@@ -150,7 +148,7 @@ export const QueHacemos: React.FC = () => (
 
 /* ── 3. Productos (carrusel en celular) ────────────────────────────────── */
 const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; estado: string; color: string }[] = [
-  { logo: GolondrinaLogo, nombre: 'Golondrina', linea: 'Mira tu planta y te avisa por WhatsApp. Lo resolvés con 1 clic.', boton: 'Probar el simulador', ir: 'aplicaciones-golondrina', estado: 'Disponible', color: 'emerald' },
+  { logo: GolondrinaLogo, nombre: 'Golondrina', linea: 'Mira tu planta y te avisa por WhatsApp. Lo resolvés con 1 clic.', boton: 'Probar el simulador', ir: 'aviso-seguridad', estado: 'Disponible', color: 'emerald' },
   { logo: GolondrinaLogo, nombre: 'Golondrina Personal', linea: 'Le decís qué avisarte, por voz o texto. Sin aprender nada.', boton: 'Probar la demo', ir: 'golondrina-personal-demo', estado: 'Disponible', color: 'emerald' },
   { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', estado: 'A demanda', color: 'cyan' },
   { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes, en desarrollo.', boton: 'Mantenete informado', ir: 'producto-software-ciberseguridad', estado: 'Próximamente', color: 'violet' },
@@ -314,18 +312,18 @@ export const CierrePagina: React.FC = () => (
       <p className="mt-2 text-sm sm:text-base text-slate-400">Contanos qué necesitás y te respondemos en el día.</p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          href={gmailLink('Consulta desde la web - tecnoros.ar', 'Hola equipo de tecnoros.ar,\n\nLes escribo por: ')}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold"
         >
-          <MessageCircle className="w-4 h-4" /> Escribinos por WhatsApp
+          <Mail className="w-4 h-4" /> Escribinos un e-mail
         </a>
         <a
-          href="/"
+          href="/contacto"
           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
-          Volver al inicio
+          Completar el formulario
         </a>
       </div>
     </div>

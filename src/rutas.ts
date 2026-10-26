@@ -20,7 +20,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   proyectos: '/proyectos',
   contacto: '/contacto', 'consulta-directa': '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'hardware-studio-3d': '/productos',
-  'aplicaciones-golondrina': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
+  'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',
   facturacion: '/presupuesto',
   stack: '/tecnologias',
