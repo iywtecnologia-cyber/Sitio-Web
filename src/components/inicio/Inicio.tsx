@@ -154,10 +154,10 @@ export const QueHacemos: React.FC = () => (
 const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
   { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
-  { icon: ShieldCheck, titulo: 'Probado y seguro', linea: 'Venimos de QA y ciberseguridad: lo probamos a fondo y cuidamos tus datos.' },
-  { icon: Users, titulo: 'Un solo equipo para todo', linea: 'Software, automatización, electrónica y robótica, sin pasarte de mano en mano.' },
+  { icon: Layers, titulo: 'Todo lo que tu empresa necesita', linea: 'Te ofrecemos distintos servicios para tu empresa, en un solo lugar.' },
   { icon: Calculator, titulo: 'Precios claros', linea: 'Publicamos precios de referencia y combos. Sin sorpresas.' },
-  { icon: MapPin, titulo: 'De Rosario', linea: 'Hablás directo con quien lo hace, y te acompañamos después de entregar.' },
+  { icon: MapPin, titulo: 'De Rosario', linea: 'Hablás directo con quien lo hace.' },
+  { icon: Users, titulo: 'Te acompañamos después', linea: 'Soporte y mejoras cuando las necesites, también después de entregar.' },
 ];
 
 export const PorQueElegirnos: React.FC = () => (
