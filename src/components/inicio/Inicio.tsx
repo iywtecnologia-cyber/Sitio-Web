@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, Target, Globe, Search, Eye, MapPin, HelpCircle, Package, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, Target, Globe, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, AppWindow, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -38,7 +38,7 @@ export const HeroCorto: React.FC = () => (
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
       <span className="inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
-        Rosario · Soluciones a tu medida
+        De Rosario para todo el mundo
       </span>
       <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
@@ -62,9 +62,15 @@ export const HeroCorto: React.FC = () => (
           Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
         </button>
       </div>
-      <a href="#arrepentimiento" className="mt-6 inline-block text-xs text-slate-400 hover:text-cyan-300 underline underline-offset-4">
-        Botón de arrepentimiento
-      </a>
+      {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
+      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
+          <Unlock className="w-3.5 h-3.5" /> Sin permanencia
+        </span>
+        <a href="#arrepentimiento" className="text-slate-400 hover:text-cyan-300 underline underline-offset-4">
+          Botón de arrepentimiento
+        </a>
+      </div>
     </div>
   </section>
 );
@@ -119,6 +125,8 @@ const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string
   { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
   { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
   { icon: Code2, titulo: 'Software', linea: 'Sistemas a medida para tu negocio.', ir: 'servicio-software' },
+  { icon: AppWindow, titulo: 'Aplicaciones web', linea: 'Tu sistema en el navegador, desde cualquier lugar.', ir: 'servicio-aplicaciones-web' },
+  { icon: Contact, titulo: 'CRM', linea: 'Tus clientes, ventas y seguimientos en un solo lugar.', ir: 'servicio-crm' },
   { icon: Globe, titulo: 'Páginas web', linea: 'Webs que trabajan por vos.', ir: 'servicio-paginas-web' },
   { icon: Bot, titulo: 'Asistentes', linea: 'Un asistente en tu web o sistema.', ir: 'servicio-asistentes' },
   { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
@@ -129,7 +137,7 @@ export const QueHacemos: React.FC = () => (
   <section id="que-hacemos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo chip="Qué hacemos" titulo="Lo que ofrecemos" bajada="Tocá lo que te interese para ver el detalle." />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, ir }) => (
           <button
             key={titulo}
@@ -154,21 +162,23 @@ export const QueHacemos: React.FC = () => (
 const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
   { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
-  { icon: Layers, titulo: 'Todo lo que tu empresa necesita', linea: 'Te ofrecemos distintos servicios para tu empresa, en un solo lugar.' },
-  { icon: Calculator, titulo: 'Precios claros', linea: 'Publicamos precios de referencia y combos. Sin sorpresas.' },
-  { icon: MapPin, titulo: 'De Rosario', linea: 'Hablás directo con quien lo hace.' },
-  { icon: Users, titulo: 'Te acompañamos después', linea: 'Soporte y mejoras cuando las necesites, también después de entregar.' },
+  { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Una vez pagado, lo desarrollado a medida es tuyo. Y tus datos son siempre tuyos.' },
+  { icon: CreditCard, titulo: 'Facilidades de pago', linea: '50% al empezar y 50% a la entrega. Transferencia o tarjeta por Mercado Pago.' },
+  { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
+  { icon: Headset, titulo: 'Soporte todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
+  { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras, sin penalidad.' },
+  { icon: Calculator, titulo: 'Precios claros', linea: 'Precios de referencia y combos publicados. Sin sorpresas.' },
 ];
 
 export const PorQueElegirnos: React.FC = () => (
   <section id="por-que-elegirnos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo chip="Por qué elegirnos" titulo="Lo que nos hace distintos" />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {RAZONES.map(({ icon: Icon, titulo, linea }) => (
-          <li key={titulo} className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800">
-            <span className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-300 shrink-0">
-              <Icon className="w-5 h-5" />
+          <li key={titulo} className="flex sm:flex-col items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-slate-900 to-slate-950 border border-emerald-500/25">
+            <span className="w-12 h-12 rounded-2xl bg-emerald-400 flex items-center justify-center text-slate-950 shrink-0 shadow-lg shadow-emerald-500/20">
+              <Icon className="w-6 h-6" />
             </span>
             <span>
               <span className="block text-base sm:text-lg font-bold text-white">{titulo}</span>
@@ -283,7 +293,6 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
-  { icon: HelpCircle, titulo: 'Preguntas frecuentes', linea: 'Lo que más nos preguntan', ruta: '/preguntas-frecuentes' },
   { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
 ];
 

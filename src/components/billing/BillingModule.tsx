@@ -183,121 +183,72 @@ export const BillingModule: React.FC = () => {
                     <span>Dispositivos Físicos · Fabricación Propia</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-                    1. Compra de Aparatos Hardware (Pago Único)
+                    1. Productos a demanda: equipo y servicio
                   </h3>
                 </div>
                 <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
-                  Equipos reales plug & play
+                  Precios de referencia
                 </span>
               </div>
 
-              <p className="text-sm text-slate-300 mb-5 leading-relaxed">
-                Aparatos electrónicos físicos diseñados e integrados por nuestro equipo. Vienen con firmware embebido autónomo y carcasa técnica impresa en 3D en <strong className="text-white">Negro Mate industrial</strong> de serie. <strong className="text-cyan-300">No requieren abono mensual para funcionar de forma local</strong>.
+              <p className="text-base text-slate-300 mb-5">
+                Son <strong className="text-white">productos a demanda</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. Acá ves el precio del equipo y del servicio mensual.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {DISPOSITIVOS_HARDWARE.map((h) => {
-                  const activo = hardwareElegidos.includes(h.id);
-                  return (
-                    <button
-                      key={h.id}
-                      type="button"
-                      onClick={() => h.id !== 'dispositivo-tero' && alternarHardware(h.id)}
-                      disabled={h.id === 'dispositivo-tero'}
-                      aria-pressed={activo}
-                      className={`text-left p-5 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${h.id === 'dispositivo-tero' ? 'opacity-65 cursor-not-allowed' : 'cursor-pointer'} ${
-                        activo
-                          ? 'bg-cyan-950/60 border-cyan-400 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400'
-                          : 'bg-slate-900/90 border-slate-700/80 hover:border-slate-500'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-start justify-between gap-2">
-                          <span
-                            className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
-                              activo ? 'bg-cyan-400 border-cyan-400 text-slate-950' : 'border-slate-500'
-                            }`}
-                          >
-                            {activo && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
-                          </span>
-                          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-                            {h.id === 'dispositivo-tero' ? 'Próximamente' : h.id === 'dispositivo-chaja' ? 'A consultar' : h.precioUsd ? dolares(h.precioUsd) : ''}
-                          </span>
-                        </div>
-                        <h4 className="font-bold text-white text-base mt-2.5 leading-snug">{h.servicio}</h4>
-                        <p className="hidden sm:block text-xs text-slate-300 mt-2 leading-relaxed">{h.incluye}</p>
-                      </div>
-
-                      <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                        <span className="text-[11px] text-slate-400">Referencia ARS:</span>
-                        <span className="text-sm font-extrabold text-cyan-300">
-                          {h.id === 'dispositivo-tero' ? 'No disponible' : h.id === 'dispositivo-chaja' ? 'A consultar' : `~${pesos(h.min)}`}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {chajaSeleccionado && (
-                <div className="mt-5 p-4 rounded-2xl border border-cyan-500/40 bg-slate-950/70 space-y-4">
-                  <h4 className="font-bold text-white">CHAJÁ · Equipos y voz opcional por dispositivo</h4>
-                  <label className="block text-sm text-slate-300">Cantidad de CHAJÁ a comprar
-                    <input aria-label="Cantidad de equipos CHAJÁ" type="number" min={1} max={100} value={cantidadChaja} onChange={e => { const n = Math.max(1, Math.min(100, Number(e.target.value) || 1)); setCantidadChaja(n); setCantidadVoz(v => Math.min(v,n)); }} className="block mt-2 w-24 bg-slate-900 border border-slate-600 rounded-lg p-2 text-white" />
-                  </label>
-                  <label className="block text-sm text-slate-300">¿En cuántos CHAJÁ querés activar voz hablada? (0 = sin voz)
-                    <input aria-label="Licencias de voz CHAJÁ" type="number" min={0} max={cantidadChaja} value={cantidadVoz} onChange={e => setCantidadVoz(Math.max(0,Math.min(cantidadChaja,Number(e.target.value)||0)))} className="block mt-2 w-24 bg-slate-900 border border-slate-600 rounded-lg p-2 text-white" />
-                  </label>
-                  {cantidadVoz > 0 && <label className="block text-sm text-slate-300">Plan por equipo
-                    <select aria-label="Plan de voz CHAJÁ" value={planVoz} onChange={e => setPlanVoz(e.target.value as typeof planVoz)} className="block mt-2 w-full bg-slate-900 border border-slate-600 rounded-lg p-2 text-white">
-                      <option value="esencial">Esencial · 500 alertas/mes · USD 9/equipo/mes</option>
-                      <option value="profesional">Profesional · 2.000 alertas/mes · USD 19/equipo/mes</option>
-                      <option value="industrial">Industrial · 5.000 alertas/mes · USD 39/equipo/mes</option>
-                    </select>
-                  </label>}
-                  <p className="text-sm font-semibold text-cyan-300">Voz: USD {vozMensualUsd}/mes · {cantidadVoz} licencia/s independientes</p>
-                  <p className="text-xs text-slate-400">Servicio opcional, no incluido en el hardware. Precios comerciales orientativos; activación y disponibilidad sujetas a configuración de Azure AI Speech. El límite se mide por equipo; no se comparte entre dispositivos.</p>
-                </div>
-              )}
-
-              {/* Opción de Filamento de Color: SOLO se muestra si se seleccionó al menos un dispositivo físico */}
-              {tieneHardware && (
-                <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900 to-slate-900 border border-cyan-400/50 shadow-lg shadow-cyan-500/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shrink-0 mt-0.5">
-                      <Palette className="w-5 h-5" />
+              {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
+              <ul className="space-y-3">
+                {[
+                  {
+                    nombre: 'Golondrina Automatización',
+                    estado: 'Disponible a demanda',
+                    color: 'emerald',
+                    equipo: `${dolares(190)} (~${pesos(228_000)})`,
+                    extra: 'Puesta en marcha: $120.000 a $250.000 (una vez)',
+                    servicio: '$80.000 a $120.000 por mes',
+                  },
+                  {
+                    nombre: 'TERO Security',
+                    estado: 'Próximamente',
+                    color: 'violet',
+                    equipo: `~${pesos(300_000)} (precio preliminar)`,
+                    extra: 'Todavía no está a la venta',
+                    servicio: `${pesos(85_000)} por mes (preliminar)`,
+                  },
+                  {
+                    nombre: 'CHAJÁ',
+                    estado: 'Disponible a demanda',
+                    color: 'cyan',
+                    equipo: 'A consultar (se confirma después del diagnóstico)',
+                    extra: 'Voz hablada opcional por equipo: USD 9, 19 o 39 por mes',
+                    servicio: 'A consultar',
+                  },
+                ].map((pr) => (
+                  <li key={pr.nombre} className="p-4 sm:p-5 rounded-2xl bg-slate-950/70 border border-slate-800">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h4 className="text-lg font-extrabold text-white">{pr.nombre}</h4>
+                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
+                        pr.color === 'emerald' ? 'text-emerald-300 border-emerald-500/40 bg-emerald-500/10'
+                        : pr.color === 'violet' ? 'text-violet-300 border-violet-500/40 bg-violet-500/10'
+                        : 'text-cyan-300 border-cyan-500/40 bg-cyan-500/10'
+                      }`}>{pr.estado}</span>
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-white text-sm sm:text-base">
-                          Personalización de Color de Filamento 3D
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold">
-                          Exclusivo para Hardware
-                        </span>
+                    <dl className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <dt className="text-xs text-slate-400">Equipo (pago único)</dt>
+                        <dd className="mt-0.5 font-bold text-white">{pr.equipo}</dd>
                       </div>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 leading-snug">
-                        De serie se imprimen en <strong className="text-white">Negro Mate industrial</strong> (sin cargo extra). Si preferís la carcasa con el color o identidad de tu marca, sumás una bobina técnica dedicada.
-                      </p>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setFilamentoPersonalizado(!filamentoPersonalizado)}
-                    className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
-                      filamentoPersonalizado
-                        ? 'bg-cyan-400 text-slate-950 shadow-md shadow-cyan-500/25 font-extrabold'
-                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-600'
-                    }`}
-                  >
-                    <span className={`w-4 h-4 rounded border flex items-center justify-center ${filamentoPersonalizado ? 'bg-slate-950 border-slate-950 text-cyan-400' : 'border-slate-500'}`}>
-                      {filamentoPersonalizado && <Check className="w-3 h-3 stroke-[3]" />}
-                    </span>
-                    <span>{filamentoPersonalizado ? 'Color a medida incluido' : `+ Color a medida (${pesos(OPCION_FILAMENTO_HARDWARE.min)})`}</span>
-                  </button>
-                </div>
-              )}
+                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+                        <dt className="text-xs text-slate-400">Servicio mensual</dt>
+                        <dd className="mt-0.5 font-bold text-white">{pr.servicio}</dd>
+                      </div>
+                    </dl>
+                    <p className="mt-2 text-xs text-slate-400">{pr.extra}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-xs text-slate-400">
+                De serie se entregan en negro mate. Color de tu marca: +{pesos(OPCION_FILAMENTO_HARDWARE.min)}. El servicio mensual se da de baja cuando quieras.
+              </p>
             </div>
 
             {/* SECCIÓN 2: SOFTWARE & AUTOMATIZACIONES (PAGO ÚNICO) */}

@@ -18,7 +18,6 @@ import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
 import { Combos } from './components/extra/Combos';
-import { PreguntasFrecuentes } from './components/extra/PreguntasFrecuentes';
 import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { useRuta, type Ruta } from './rutas';
 
@@ -32,7 +31,6 @@ const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; contenido: React.Rea
   '/tecnologias': { titulo: 'Tecnologías', contenido: <StackSection /> },
   '/nosotros': { titulo: 'Nosotros', contenido: <AboutSection /> },
   '/contacto': { titulo: 'Contacto', contenido: <ContactSection /> },
-  '/preguntas-frecuentes': { titulo: 'Preguntas frecuentes', contenido: <PreguntasFrecuentes /> },
 };
 
 export default function App() {

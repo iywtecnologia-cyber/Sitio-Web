@@ -14,7 +14,9 @@ import {
   Layers,
   MessageCircle,
   Bot,
-  Globe
+  Globe,
+  AppWindow,
+  Contact
 } from 'lucide-react';
 
 interface ServiceItem {
@@ -79,6 +81,32 @@ export const SERVICES: ServiceItem[] = [
       'Un sistema distinto para cada rubro: turnos, ventas, stock o lo que necesites',
       'Un panel para ver cómo va tu negocio, al momento',
       'Lo usás desde la compu o el celular, estés donde estés'
+    ]
+  },
+  {
+    id: 'aplicaciones-web',
+    icon: AppWindow,
+    badge: 'Aplicaciones Web',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+    title: 'Aplicaciones web para tu negocio',
+    description: 'Tu sistema funcionando en el navegador: sin instalar nada, desde la compu o el celular, estés donde estés.',
+    bullets: [
+      'Turnos, pedidos, stock o lo que tu negocio necesite',
+      'Usuarios con permisos para cada persona del equipo',
+      'Funciona en cualquier dispositivo con internet'
+    ]
+  },
+  {
+    id: 'crm',
+    icon: Contact,
+    badge: 'CRM',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    title: 'CRM: tus clientes en un solo lugar',
+    description: 'Todo lo de cada cliente junto: datos, consultas, ventas y seguimientos, para que no se te pase ninguno.',
+    bullets: [
+      'Ficha de cada cliente con su historial',
+      'Recordatorios de seguimiento y ventas pendientes',
+      'Se conecta con tu WhatsApp, tu web o tus planillas'
     ]
   },
   {
