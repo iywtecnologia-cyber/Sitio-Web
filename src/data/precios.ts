@@ -80,8 +80,9 @@ export const ABONOS: Abono[] = [
   {
     id: 'tero',
     nombre: 'TERO Security (Ciberseguridad IDS/IPS & Reglas Continuas)',
-    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real.',
+    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real. (Próximamente • En fase de I+D).',
     mensual: 85_000,
+    proximamente: true,
     esServicioParaHardware: true,
   },
   {

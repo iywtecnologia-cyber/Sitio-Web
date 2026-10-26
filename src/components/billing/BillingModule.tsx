@@ -192,7 +192,7 @@ export const BillingModule: React.FC = () => {
               </div>
 
               <p className="text-base text-slate-300 mb-5">
-                Son <strong className="text-white">sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. Acá ves el precio del equipo y del servicio mensual.
+                <strong className="text-white">Golondrina Automatización y CHAJÁ son sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. TERO Security sale próximamente. Acá ves el precio del equipo y del servicio mensual.
               </p>
 
               {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
@@ -208,11 +208,11 @@ export const BillingModule: React.FC = () => {
                   },
                   {
                     nombre: 'TERO Security',
-                    estado: 'Disponible a demanda',
+                    estado: 'Próximamente',
                     color: 'violet',
-                    equipo: `~${pesos(300_000)}`,
-                    extra: 'Ciberseguridad para la red de tu empresa',
-                    servicio: `${pesos(85_000)} por mes`,
+                    equipo: `~${pesos(300_000)} (precio preliminar)`,
+                    extra: 'Todavía no está a la venta. Tocá "Mantenete informado" en Productos para enterarte cuando salga.',
+                    servicio: `${pesos(85_000)} por mes (preliminar)`,
                   },
                   {
                     nombre: 'CHAJÁ',
