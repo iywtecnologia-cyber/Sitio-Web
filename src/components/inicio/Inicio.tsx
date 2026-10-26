@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, Target, Globe, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -113,11 +113,15 @@ export const JarDestacado: React.FC = () => (
 );
 
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
-const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; extra: string; ir: string }[] = [
-  { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', extra: 'Planillas, sistemas y WhatsApp conectados entre sí.', ir: 'servicio-automatizacion' },
-  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', extra: 'Revisamos tus equipos y te decimos qué arreglar.', ir: 'servicio-ciberseguridad' },
-  { icon: Code2, titulo: 'Software', linea: 'Sistemas, webs y bots a tu medida.', extra: 'Probados a fondo antes de entregarlos.', ir: 'servicio-software' },
-  { icon: Bot, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', extra: 'Cerebro digital primero; el cuerpo físico, si es viable.', ir: 'robotica-3d' },
+const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
+  { icon: Target, titulo: 'Diagnóstico gratuito', linea: 'Entendemos tu problema antes de programar.', ir: 'servicio-analisis-qa' },
+  { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
+  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
+  { icon: Code2, titulo: 'Software', linea: 'Sistemas a medida para tu negocio.', ir: 'servicio-software' },
+  { icon: Globe, titulo: 'Páginas web', linea: 'Webs que trabajan por vos.', ir: 'servicio-paginas-web' },
+  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
+  { icon: Bot, titulo: 'Asistentes', linea: 'Un asistente en tu web o sistema.', ir: 'servicio-asistentes' },
+  { icon: Cpu, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', ir: 'robotica-3d' },
 ];
 
 export const QueHacemos: React.FC = () => (
@@ -125,19 +129,18 @@ export const QueHacemos: React.FC = () => (
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo chip="Qué hacemos" titulo="Lo que ofrecemos" bajada="Tocá lo que te interese para ver el detalle." />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-        {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, extra, ir }) => (
+        {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, ir }) => (
           <button
             key={titulo}
             type="button"
             onClick={() => irA(ir, true)}
-            className="text-left p-4 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors cursor-pointer group"
+            className="flex flex-col items-start justify-start text-left p-4 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors cursor-pointer group"
           >
             <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 mb-3">
               <Icon className="w-5 h-5" />
             </span>
             <span className="block font-bold text-white">{titulo}</span>
             <span className="block mt-1 text-xs sm:text-sm text-slate-400 leading-snug">{linea}</span>
-            <span className="hidden lg:block mt-2 text-sm text-slate-500 leading-snug">{extra}</span>
           </button>
         ))}
       </div>

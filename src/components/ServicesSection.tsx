@@ -56,19 +56,6 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'bots-whatsapp',
-    icon: MessageCircle,
-    badge: 'Bots de WhatsApp',
-    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
-    title: 'Bots de WhatsApp',
-    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
-    bullets: [
-      'Responde las consultas frecuentes al instante',
-      'Toma pedidos y turnos por WhatsApp',
-      'Te deriva el chat cuando hace falta una persona'
-    ]
-  },
-  {
     id: 'ciberseguridad',
     icon: ShieldCheck,
     badge: 'Ciberseguridad',
@@ -95,19 +82,6 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'asistentes',
-    icon: Bot,
-    badge: 'Asistentes',
-    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
-    title: 'Asistentes para tu web o sistema',
-    description: 'Sumamos un asistente a la web o al sistema que ya tenés: responde las preguntas de tus clientes, los guía y toma consultas a toda hora, sin cambiar nada de lo que ya usás.',
-    bullets: [
-      'Responde al instante las preguntas frecuentes',
-      'Guía a tus clientes a lo que buscan',
-      'Te deriva la consulta por WhatsApp cuando hace falta'
-    ]
-  },
-  {
     id: 'paginas-web',
     icon: Globe,
     badge: 'Páginas web',
@@ -118,6 +92,32 @@ export const SERVICES: ServiceItem[] = [
       'Se ve bien en la compu y en el celular',
       'Formularios y consultas conectados a tu WhatsApp, mail o planilla',
       'Con asistente y automatizaciones incluidas si las necesitás'
+    ]
+  },
+  {
+    id: 'bots-whatsapp',
+    icon: MessageCircle,
+    badge: 'Bots de WhatsApp',
+    badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
+    title: 'Bots de WhatsApp',
+    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
+    bullets: [
+      'Responde las consultas frecuentes al instante',
+      'Toma pedidos y turnos por WhatsApp',
+      'Te deriva el chat cuando hace falta una persona'
+    ]
+  },
+  {
+    id: 'asistentes',
+    icon: Bot,
+    badge: 'Asistentes',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+    title: 'Asistentes para tu web o sistema',
+    description: 'Sumamos un asistente a la web o al sistema que ya tenés: responde las preguntas de tus clientes, los guía y toma consultas a toda hora, sin cambiar nada de lo que ya usás.',
+    bullets: [
+      'Responde al instante las preguntas frecuentes',
+      'Guía a tus clientes a lo que buscan',
+      'Te deriva la consulta por WhatsApp cuando hace falta'
     ]
   },
   {

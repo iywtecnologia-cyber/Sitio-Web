@@ -175,7 +175,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
       <div className="w-full px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 sm:h-[84px] gap-2 sm:gap-4">
 
-          {/* Brand Lockup: Logo + tecnoros.ar + Tagline (compact & stacked to prevent overflow) */}
+          {/* Marca: solo el logo y tecnoros.ar */}
           <div className="flex items-center shrink-0">
             <a
               href="#inicio"
@@ -183,44 +183,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
               className="flex items-center gap-2.5 sm:gap-3.5 group py-1"
             >
               <div className="relative group-hover:scale-105 transition-transform duration-200 shrink-0">
-                <TecnorosLogo className="w-10 h-10 sm:w-11 sm:h-11 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
+                <TecnorosLogo className="w-11 h-11 sm:w-12 sm:h-12 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
               </div>
               <div className="flex flex-col justify-center">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-white leading-none">
+                <span className="text-2xl sm:text-[1.75rem] font-black tracking-tight text-white leading-none">
                   tecnoros<span className="text-[#00D2F3]">.ar</span>
                 </span>
-                <div className="hidden sm:flex flex-col text-[10px] xl:text-[10px] 2xl:text-[11px] font-mono text-slate-300 mt-1 leading-tight">
-                  <div className="flex items-center gap-1 text-slate-300">
-                    <span>Automatización</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Ciberseguridad</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Software</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-cyan-300/90">
-                    <span>Robótica</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Electrónica</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Machine Learning</span>
-                  </div>
-                </div>
-                <div className="flex sm:hidden flex-col text-[8.5px] font-mono mt-0.5 leading-tight">
-                  <div className="flex items-center gap-1 text-slate-300">
-                    <span>Automatización</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Ciberseguridad</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Software</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-cyan-300/90">
-                    <span>Robótica</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Electrónica</span>
-                    <span className="text-cyan-500/70 font-sans">|</span>
-                    <span>Machine Learning</span>
-                  </div>
-                </div>
               </div>
             </a>
           </div>
