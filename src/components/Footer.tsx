@@ -7,7 +7,7 @@ import { BotonesRedes } from './Redes';
 const NAV_LINKS = [
   { id: 'servicios', label: 'Servicios' },
   { id: 'productos', label: 'Productos' },
-  { id: 'robotica-3d', label: 'Robótica 3D' },
+  { id: 'robotica-3d', label: 'Diseñá tu robot' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'como-trabajamos', label: 'Cómo Trabajamos' },
   { id: 'facturacion', label: 'Presupuestos' },

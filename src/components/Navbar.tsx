@@ -29,7 +29,7 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
   { ruta: '/', titulo: 'Inicio', linea: 'Quiénes somos y qué hacemos' },
   { ruta: '/servicios', titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos' },
   { ruta: '/productos', titulo: 'Productos y demos', linea: 'Golondrina, CHAJÁ y TERO' },
-  { ruta: '/robotica', titulo: 'Robótica 3D', linea: 'Armá y probá un robot' },
+  { ruta: '/robotica', titulo: 'Diseñá tu robot', linea: 'Armalo y probalo en 3D' },
   { ruta: '/proyectos', titulo: 'Proyectos', linea: 'Sistemas funcionando' },
   { ruta: '/presupuesto', titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta' },
   { ruta: '/nosotros', titulo: 'Nosotros', linea: 'Historia y equipo' },
@@ -110,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
       })),
     },
     {
-      label: 'Robótica 3D',
+      label: 'Diseñá tu robot',
       href: '#robotica-3d',
       id: 'robotica-3d',
     },
