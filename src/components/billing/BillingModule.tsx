@@ -147,7 +147,7 @@ export const BillingModule: React.FC = () => {
   const tieneSeleccion = seleccionHardware.length > 0 || seleccionSoftware.length > 0 || seleccionAbonos.length > 0;
 
   return (
-    <section id="facturacion" className="py-14 sm:py-16 md:py-20 bg-[#070A12] border-t border-slate-800/50 relative overflow-hidden scroll-mt-20">
+    <section id="facturacion" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden scroll-mt-20">
       <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
 

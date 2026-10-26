@@ -18,6 +18,7 @@ import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
 import { Combos } from './components/extra/Combos';
+import { FondoColor } from './components/FondoColor';
 import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { useRuta, type Ruta } from './rutas';
 
@@ -41,7 +42,9 @@ export default function App() {
   }, [ruta]);
 
   return (
-    <div className="min-h-screen bg-[#070A12] text-slate-100 flex flex-col selection:bg-cyan-500/20 selection:text-cyan-300">
+    <div className="relative min-h-screen text-slate-100 flex flex-col selection:bg-cyan-500/20 selection:text-cyan-300">
+      {/* Fondo con color (la lucecita de arriba lo cambia) */}
+      <FondoColor />
       <Navbar />
 
       <main className="flex-1">
