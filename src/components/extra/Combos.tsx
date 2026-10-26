@@ -28,11 +28,17 @@ export const Combos: React.FC = () => (
             <h3 className="text-lg font-extrabold text-white">{c.nombre}</h3>
             <p className="mt-1 text-sm text-slate-400">{c.para}</p>
             <ul className="mt-4 space-y-1.5 flex-1">
-              {c.incluye.map((i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-slate-200">
-                  <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> {i}
-                </li>
-              ))}
+              {c.incluye.map((i) =>
+                i === 'Diagnóstico gratuito' ? (
+                  <li key={i} className="flex items-center gap-2 px-2.5 py-1.5 -mx-1 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-sm font-bold text-emerald-200">
+                    <Check className="w-4 h-4 text-emerald-300 shrink-0" /> {i}
+                  </li>
+                ) : (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-200">
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> {i}
+                  </li>
+                ),
+              )}
             </ul>
             <div className="mt-5 pt-4 border-t border-slate-800">
               <span className="block text-xs text-slate-500 line-through">Por separado {pesos(c.separado)}</span>

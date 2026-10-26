@@ -70,7 +70,6 @@ export const Footer: React.FC = () => {
           </a>
           <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
           <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
-          <a href="/preguntas-frecuentes" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Preguntas frecuentes</a>
         </div>
 
         {/* Equipo (LinkedIn de cada integrante) y, abajo, las redes de tecnoros.ar */}
