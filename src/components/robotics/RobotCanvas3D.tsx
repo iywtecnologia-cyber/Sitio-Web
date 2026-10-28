@@ -790,7 +790,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
       {/* Touch & Scroll Interaction Tip */}
       <div className="absolute bottom-4 left-4 z-10 pointer-events-none hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/85 border border-slate-800/80 text-[11px] font-mono text-slate-300 shadow-md backdrop-blur-md">
         <RotateCcw className="w-3 h-3 text-cyan-400" />
-        <span>Arrastrá para rotar • Clic para foco 3D o Ctrl+Rueda para Zoom • Rueda libre para scrollear</span>
+        <span>Arrastrá para girarlo</span>
       </div>
     </div>
   );

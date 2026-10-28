@@ -18,6 +18,7 @@ import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
 import { Combos } from './components/extra/Combos';
+import { Blog } from './components/extra/Blog';
 import { FondoColor } from './components/FondoColor';
 import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { useRuta, type Ruta } from './rutas';
@@ -32,6 +33,7 @@ const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; contenido: React.Rea
   '/tecnologias': { titulo: 'Tecnologías', contenido: <StackSection /> },
   '/nosotros': { titulo: 'Nosotros', contenido: <AboutSection /> },
   '/contacto': { titulo: 'Contacto', contenido: <ContactSection /> },
+  '/blog': { titulo: 'Blog', contenido: <Blog /> },
 };
 
 export default function App() {
@@ -57,6 +59,7 @@ export default function App() {
             <QueHacemos />
             <PorQueElegirnos />
             <ProductosInicio />
+            <Combos id="combos-inicio" />
             <SaberMas />
             <ContactoRapido />
           </>

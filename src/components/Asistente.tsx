@@ -75,9 +75,9 @@ const TEMAS: Tema[] = [
   {
     id: 'marketing',
     boton: 'Campañas y marca',
-    palabras: ['campaña', 'campana', 'publicidad', 'meta', 'google', 'ads', 'instagram', 'facebook', 'marca', 'marketing', 'estrategia', 'redes'],
+    palabras: ['campaña', 'campana', 'publicidad', 'meta', 'google', 'ads', 'instagram', 'facebook', 'marca', 'marketing', 'estrategia', 'redes', 'logo', 'identidad', 'colores'],
     respuesta:
-      'Armamos campañas en Meta (Instagram y Facebook) y Google Ads, y hacemos el análisis y la estrategia de tu marca para que se entienda y venda más.',
+      'Armamos campañas en Meta (Instagram y Facebook) y Google Ads, hacemos el análisis y la estrategia de tu marca, y su identidad: logo, colores y estilo.',
     seccion: 'servicio-campanas-ads',
     whatsapp: 'Hola tecnoros.ar, quiero consultar por campañas y estrategia de marca.',
   },

@@ -79,7 +79,8 @@ export const GolondrinaPersonalDemo: React.FC = () => {
   const agregarRegla = (t: string) => {
     const limpio = t.trim();
     if (!limpio) return;
-    setReglas((r) => [interpretar(limpio), ...r].slice(0, 4));
+    // Si ya lo pidió, no se repite: lo sube arriba de la lista
+    setReglas((r) => [interpretar(limpio), ...r.filter((x) => x.texto.trim().toLowerCase() !== limpio.toLowerCase())].slice(0, 4));
     setTexto('');
     // Un segundo después se muestra cómo le va a llegar el aviso
     setMostrarAviso(false);
@@ -149,7 +150,7 @@ export const GolondrinaPersonalDemo: React.FC = () => {
         <GolondrinaLogo className="w-11 h-12 shrink-0" />
         <div>
           <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Golondrina Personal: así de fácil</h3>
-          <p className="text-sm text-slate-300">Con una G no tenés que aprender nada: elegís qué aplicaciones conectar con un clic y le decís qué avisarte, escribiendo o hablando.</p>
+          <p className="text-sm text-slate-300">Elegís qué conectar y le decís qué avisarte, escribiendo o hablando.</p>
         </div>
       </div>
 
@@ -264,7 +265,7 @@ export const GolondrinaPersonalDemo: React.FC = () => {
       </div>
 
       <div className="mt-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <p className="text-xs text-slate-400">Es una demostración: no se conecta a tus cuentas. La voz la transcribe tu navegador y esta web no guarda nada. Se integra a un sistema que ya usás o se instala como sistema nuevo.</p>
+        <p className="text-xs text-slate-400">Es una demo: no se conecta a tus cuentas ni guarda nada.</p>
         <a
           href={whatsappLink('Hola tecnoros.ar, quiero Golondrina Personal: que aprenda mi contexto y me avise donde yo le dé permiso.')}
           target="_blank"

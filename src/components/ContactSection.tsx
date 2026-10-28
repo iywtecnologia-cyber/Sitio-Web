@@ -12,6 +12,26 @@ import {
 import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 
+// Palabras que ayudan a elegir el tema solo, mientras la persona escribe
+const PALABRAS_TEMA: [string, string[]][] = [
+  ['servicio-ecommerce', ['tienda', 'vender online', 'e-commerce', 'ecommerce', 'carrito']],
+  ['servicio-aplicaciones-moviles', ['app', 'aplicación', 'aplicacion', 'celular']],
+  ['servicio-crm', ['crm', 'seguimiento de clientes', 'base de clientes']],
+  ['servicio-bots-whatsapp', ['whatsapp', 'bot']],
+  ['servicio-asistentes', ['asistente', 'personaje', 'mascota']],
+  ['servicio-campanas-ads', ['campaña', 'campana', 'publicidad', 'anuncio', 'ads', 'instagram', 'facebook', 'google']],
+  ['servicio-identidad-marca', ['logo', 'identidad', 'colores de la marca']],
+  ['servicio-estrategia-marca', ['marca', 'estrategia', 'posicionamiento']],
+  ['servicio-ciberseguridad', ['segur', 'hacke', 'virus', 'contraseña', 'ataque']],
+  ['servicio-robotica-a-medida', ['robot']],
+  ['servicio-automatizacion', ['automat', 'turno', 'reserva', 'planilla', 'excel', 'formulario', 'reporte', 'factura', 'carga de datos', 'integr']],
+  ['diagnostico', ['diagnóstico', 'diagnostico', 'no sé qué', 'no se que']],
+  ['producto-golondrina', ['golondrina', 'máquina', 'maquina', 'planta', 'cámara de frío', 'camara de frio', 'sensor']],
+  ['producto-chaja', ['chajá', 'chaja']],
+  ['producto-tero', ['tero']],
+  ['presupuesto', ['presupuesto', 'precio', 'cuánto cuesta', 'cuanto cuesta', 'cotiz']],
+];
+
 const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
 const WHATSAPP_NUMBERS = [
   "5493413130336",
@@ -34,7 +54,21 @@ export const ContactSection: React.FC = () => {
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
 
   // Elegir un tema reescribe el mensaje con el texto de ese tema (después se puede editar).
+  // Si la persona escribe sin elegir tema, lo elegimos solos según lo que escribe
+  const [temaAuto, setTemaAuto] = useState(false);
+  const escribirMensaje = (texto: string) => {
+    setFormData((f) => ({ ...f, mensaje: texto }));
+    if (tema && !temaAuto) return; // eligió un tema a mano: no lo tocamos
+    const t = texto.toLowerCase();
+    const hallado = PALABRAS_TEMA.find(([, palabras]) => palabras.some((p) => t.includes(p)));
+    if (hallado) {
+      setTema(hallado[0]);
+      setTemaAuto(true);
+    }
+  };
+
   const elegirTema = (id: string) => {
+    setTemaAuto(false);
     setTema(id);
     const t = temaPorId(id);
     setFormData((f) => ({ ...f, mensaje: t ? t.mensaje : DEFAULT_MESSAGE }));
@@ -184,8 +218,9 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="contacto-tema" className="block text-xs font-mono text-slate-300 mb-2">
+              <label htmlFor="contacto-tema" className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-300 mb-2">
                 ¿Sobre qué querés consultar?
+                {temaAuto && <span className="font-sans px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300">Lo elegimos según tu mensaje</span>}
               </label>
               <select
                 id="contacto-tema"
@@ -215,7 +250,7 @@ export const ContactSection: React.FC = () => {
                 name="mensaje"
                 rows={4}
                 value={formData.mensaje}
-                onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
+                onChange={(e) => escribirMensaje(e.target.value)}
                 placeholder="Contanos qué situación o proceso necesitás resolver en tu negocio..."
                 className="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition-colors leading-relaxed"
                 required
@@ -252,26 +287,18 @@ export const ContactSection: React.FC = () => {
                 { etiqueta: 'Ventas', email: VENTAS_EMAIL },
                 { etiqueta: 'Soporte', email: SOPORTE_EMAIL },
               ].map(({ etiqueta, email }) => (
-                <button
+                <a
                   key={email}
-                  type="button"
-                  onClick={() => handleCopyEmail(email)}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 transition-colors cursor-pointer"
-                  title={`Copiar email de ${etiqueta.toLowerCase()}`}
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(`Consulta para ${etiqueta.toLowerCase()} - tecnoros.ar`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
+                  title={`Escribir un e-mail a ${etiqueta.toLowerCase()}`}
                 >
-                  {copiedEmail === email ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-cyan-400" />
-                      <span>Copiado</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-slate-400" />
-                      <span className="font-sans text-slate-400">{etiqueta}:</span>
-                      <span>{email}</span>
-                    </>
-                  )}
-                </button>
+                  <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                  <span className="font-sans text-slate-400">{etiqueta}:</span>
+                  <span>{email}</span>
+                </a>
               ))}
             </div>
 

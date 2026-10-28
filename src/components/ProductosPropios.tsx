@@ -61,7 +61,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     priceArs: 228000,
     category: 'Software & Automatización Contextual',
     specs: [
-      'Setup inicial: $120.000 a $250.000 ARS por única vez',
+      'Setup inicial: $300.000 a $500.000 ARS por única vez',
       'Abono mensual SaaS: $80.000 a $120.000 ARS/mes por máquina monitoreada',
       'Automatización contextual (Zero-Click): detecta anomalías y actúa sola',
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
@@ -487,11 +487,11 @@ export const ProductosPropios: React.FC = () => {
                 Tarifas de Setup y Abono Mensual
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                Estructura transparente sin costos ocultos: cobro de puesta en marcha por única vez y suscripción mensual por monitoreo continuo 24/7.
+                Un pago para instalarlo y un abono mensual. Sin costos ocultos.
               </p>
             </div>
             <a
-              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($120.000-$250.000 ARS) y el abono mensual ($80.000-$120.000 ARS/mes) de Golondrina Automatización.')}
+              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($300.000-$500.000 ARS) y el abono mensual ($80.000-$120.000 ARS/mes) de Golondrina Automatización.')}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
@@ -516,7 +516,7 @@ export const ProductosPropios: React.FC = () => {
                 
                 <div className="mt-3 flex flex-wrap items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
-                    $120.000 a $250.000 ARS
+                    $300.000 a $500.000 ARS
                   </span>
                   <span className="text-xs text-slate-400 font-mono">
                     por única vez
@@ -524,7 +524,7 @@ export const ProductosPropios: React.FC = () => {
                 </div>
 
                 <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  <strong className="text-white">Qué cobramos:</strong> Instalación del sensor en planta, conexión a la red Wi-Fi industrial, calibración de umbrales operativos y configuración de los números de WhatsApp de los encargados.
+                  <strong className="text-white">Qué cobramos:</strong> Instalación, configuración y avisos a tus encargados.
                 </p>
               </div>
 
@@ -562,7 +562,7 @@ export const ProductosPropios: React.FC = () => {
                 </div>
 
                 <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  <strong className="text-white">Qué cobramos:</strong> Monitoreo continuo 24/7, servidor en la nube de alta disponibilidad, envío de alertas automáticas por WhatsApp con botón de resolución en 1 clic y reporte semanal ejecutivo en PDF.
+                  <strong className="text-white">Qué cobramos:</strong> Monitoreo 24/7, avisos por WhatsApp y un reporte semanal.
                 </p>
               </div>
 

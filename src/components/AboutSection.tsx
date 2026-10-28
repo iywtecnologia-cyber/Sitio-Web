@@ -69,7 +69,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos que nos conocimos en septiembre de 2026 siendo voluntarios en los <strong className="text-white">Juegos Suramericanos 2026</strong> en la ciudad de Rosario y ahí decidimos asociarnos para emprender juntos. Unimos nuestras disciplinas en <strong className="text-white">ciberseguridad</strong>, <strong className="text-white">QA</strong>, <strong className="text-white">análisis funcional</strong>, <strong className="text-white">automatización de procesos</strong>, <strong className="text-white">electrónica</strong> y <strong className="text-white">machine learning</strong> para construir software, hardware y soluciones que transforman negocios y resuelven desafíos reales. Más tarde se sumaron <strong className="text-white">Esteban José Menin</strong>, en electrónica y machine learning, y <strong className="text-white">Sebastián Gabriel Sosa</strong>, técnico electrónico, para reforzar el área de electrónica y robótica.
+            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica.
           </p>
         </div>
 
@@ -133,7 +133,7 @@ export const AboutSection: React.FC = () => {
                 ¿Qué ofrecemos?
               </h3>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Desarrollamos automatizaciones a medida para diferentes tipos de negocios y, al mismo tiempo, impulsamos proyectos tecnológicos propios en ciberseguridad, robótica autónoma e inteligencia artificial aplicada.
+                Hacemos automatizaciones a medida y tenemos productos propios de ciberseguridad, robótica e inteligencia artificial.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-cyan-400/80">
@@ -153,7 +153,7 @@ export const AboutSection: React.FC = () => {
                 ¿Qué nos diferencia?
               </h3>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Sabemos llegar al núcleo de cada problema. Analizamos a fondo los requerimientos de cada cliente para diseñar la solución adecuada, combinando ingeniería de software, electrónica y seguridad informática sin intermediarios.
+                Entendemos cada problema a fondo y lo resolvemos sin intermediarios.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-violet-400/80">
