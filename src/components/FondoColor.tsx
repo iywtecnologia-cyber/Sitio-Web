@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Lightbulb } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sun, Moon } from 'lucide-react';
 
 // Fondo con color: manchas de luz suaves detrás de toda la web.
-// La "lucecita" cambia el color del fondo; la elección se recuerda en ese navegador.
+// El fondo usa el tema Aurora (cian, violeta y verde).
 
 type Tema = { id: string; nombre: string; capas: string };
 
@@ -42,30 +42,9 @@ const TEMAS: Tema[] = [
   { id: 'noche', nombre: 'Noche', capas: 'none' },
 ];
 
-const CLAVE = 'tecnoros-fondo';
-const EVENTO = 'cambio-fondo';
-
-const leer = (): string => {
-  try {
-    return localStorage.getItem(CLAVE) || 'aurora';
-  } catch {
-    return 'aurora';
-  }
-};
-
-const useTema = () => {
-  const [id, setId] = useState<string>(leer);
-  useEffect(() => {
-    const on = () => setId(leer());
-    window.addEventListener(EVENTO, on);
-    return () => window.removeEventListener(EVENTO, on);
-  }, []);
-  return TEMAS.find((t) => t.id === id) ?? TEMAS[0];
-};
-
 // Capa fija detrás de todo el contenido
 export const FondoColor: React.FC = () => {
-  const tema = useTema();
+  const tema = TEMAS[0];
   return (
     <div
       aria-hidden="true"
@@ -75,31 +54,50 @@ export const FondoColor: React.FC = () => {
   );
 };
 
-// Botón "lucecita": cada toque pasa al siguiente color
+// Interruptor claro / oscuro (sol y luna). El modo claro invierte los colores de la web
+// y deja las fotos, videos y el 3D como están. Se recuerda en el navegador de cada visitante.
+const CLAVE_MODO = 'tecnoros-modo';
+const leerModo = (): 'oscuro' | 'claro' => {
+  try {
+    return localStorage.getItem(CLAVE_MODO) === 'claro' ? 'claro' : 'oscuro';
+  } catch {
+    return 'oscuro';
+  }
+};
+const aplicarModo = (m: 'oscuro' | 'claro') => {
+  document.documentElement.dataset.tema = m;
+};
+if (typeof document !== 'undefined') aplicarModo(leerModo());
+
 export const BotonFondo: React.FC<{ className?: string }> = ({ className = '' }) => {
-  const tema = useTema();
-  const siguiente = () => {
-    const i = TEMAS.findIndex((t) => t.id === tema.id);
-    const nuevo = TEMAS[(i + 1) % TEMAS.length];
+  const [modo, setModo] = useState<'oscuro' | 'claro'>(leerModo);
+  const claro = modo === 'claro';
+  const cambiar = () => {
+    const nuevo = claro ? 'oscuro' : 'claro';
+    setModo(nuevo);
+    aplicarModo(nuevo);
     try {
-      localStorage.setItem(CLAVE, nuevo.id);
+      localStorage.setItem(CLAVE_MODO, nuevo);
     } catch {
       /* sin almacenamiento: igual cambia mientras la página está abierta */
     }
-    window.dispatchEvent(new Event(EVENTO));
   };
-  const apagado = tema.id === 'noche';
   return (
     <button
       type="button"
-      onClick={siguiente}
-      title={`Color de fondo: ${tema.nombre} (tocá para cambiar)`}
-      aria-label={`Cambiar el color del fondo. Ahora: ${tema.nombre}`}
-      className={`p-2 rounded-lg border transition-colors cursor-pointer ${
-        apagado ? 'border-slate-700 text-slate-500 hover:text-slate-300' : 'border-amber-400/40 text-amber-300 bg-amber-400/10 hover:bg-amber-400/20'
-      } ${className}`}
+      role="switch"
+      aria-checked={claro}
+      onClick={cambiar}
+      title={claro ? 'Pasar a modo oscuro' : 'Pasar a modo claro'}
+      aria-label="Modo claro"
+      className={`relative inline-flex items-center w-14 h-7 rounded-full border border-slate-600 bg-slate-800 transition-colors cursor-pointer shrink-0 ${className}`}
     >
-      <Lightbulb className={`w-4 h-4 ${apagado ? '' : 'drop-shadow-[0_0_6px_rgba(251,191,36,0.42)]'}`} />
+      <Sun className="absolute left-1.5 w-3.5 h-3.5 text-amber-300" aria-hidden="true" />
+      <Moon className="absolute right-1.5 w-3.5 h-3.5 text-slate-300" aria-hidden="true" />
+      <span
+        className={`absolute top-0.5 w-6 h-6 rounded-full bg-white shadow transition-transform duration-300 ${claro ? 'translate-x-[1.85rem]' : 'translate-x-0.5'}`}
+        aria-hidden="true"
+      />
     </button>
   );
 };

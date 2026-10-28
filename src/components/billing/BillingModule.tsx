@@ -110,7 +110,7 @@ export const BillingModule: React.FC = () => {
   if (seleccionSoftware.length > 0) {
     itemsMensaje.push('💻 SOFTWARE & AUTOMATIZACIONES (Pago único):');
     seleccionSoftware.forEach((s) => {
-      itemsMensaje.push(`  • ${s.servicio} (${s.max === 0 ? 'gratis' : `${pesos(s.min)} a ${pesos(s.max)}`})`);
+      itemsMensaje.push(`  • ${s.servicio} (${s.consultar ? 'a consultar' : s.max === 0 ? 'gratis' : `${pesos(s.min)} a ${pesos(s.max)}`})`);
     });
   }
 
@@ -192,7 +192,7 @@ export const BillingModule: React.FC = () => {
               </div>
 
               <p className="text-base text-slate-300 mb-5">
-                Son <strong className="text-white">sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. Acá ves el precio del equipo y del servicio mensual.
+                <strong className="text-white">Golondrina Automatización y CHAJÁ son sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. TERO Security sale próximamente. Acá ves el precio del equipo y del servicio mensual.
               </p>
 
               {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
@@ -208,11 +208,11 @@ export const BillingModule: React.FC = () => {
                   },
                   {
                     nombre: 'TERO Security',
-                    estado: 'Disponible a demanda',
+                    estado: 'Próximamente',
                     color: 'violet',
-                    equipo: `~${pesos(300_000)}`,
-                    extra: 'Ciberseguridad para la red de tu empresa',
-                    servicio: `${pesos(85_000)} por mes`,
+                    equipo: `${dolares(300)} de implementación`,
+                    extra: 'Todavía no está a la venta. Tocá "Mantenete informado" en Productos para enterarte cuando salga.',
+                    servicio: `${dolares(250)} por mes`,
                   },
                   {
                     nombre: 'CHAJÁ',
@@ -297,7 +297,7 @@ export const BillingModule: React.FC = () => {
                         </div>
                         <span className="block mt-1 text-xs sm:text-sm text-slate-400 leading-snug">{s.incluye}</span>
                         <span className="block mt-2.5 text-xs sm:text-sm font-semibold text-violet-300">
-                          {s.max === 0 ? 'Gratis' : `${pesos(s.min)} a ${pesos(s.max)}`}
+                          {s.consultar ? 'A consultar' : s.max === 0 ? 'Gratis' : `${pesos(s.min)} a ${pesos(s.max)}`}
                         </span>
                       </span>
                     </button>
@@ -362,7 +362,7 @@ export const BillingModule: React.FC = () => {
 
                       <div className="sm:text-right shrink-0 pl-8 sm:pl-0">
                         <span className="text-sm font-extrabold text-sky-300 whitespace-nowrap">
-                          {a.proximamente ? 'Próximamente' : a.mensual === null ? 'A consultar' : `desde ${pesos(a.mensual)}/mes`}
+                          {a.proximamente ? `Próximamente${a.mensualUsd ? ` · ${dolares(a.mensualUsd)}/mes` : ''}` : a.mensual === null ? 'A consultar' : `desde ${pesos(a.mensual)}/mes`}
                         </span>
                       </div>
                     </button>
@@ -429,7 +429,7 @@ export const BillingModule: React.FC = () => {
                     {seleccionSoftware.map((s) => (
                       <div key={s.id} className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
                         <span className="truncate">{s.servicio}</span>
-                        <span className="text-slate-400 shrink-0 text-[11px]">{s.max === 0 ? 'Gratis' : `desde ${pesos(s.min)}`}</span>
+                        <span className="text-slate-400 shrink-0 text-[11px]">{s.consultar ? 'A consultar' : s.max === 0 ? 'Gratis' : `desde ${pesos(s.min)}`}</span>
                       </div>
                     ))}
                   </div>

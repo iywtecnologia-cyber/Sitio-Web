@@ -15,6 +15,9 @@ import {
   MessageCircle,
   Bot,
   Globe,
+  ShoppingCart,
+  Megaphone,
+  Compass,
   Smartphone,
   Contact
 } from 'lucide-react';
@@ -33,7 +36,7 @@ export const SERVICES: ServiceItem[] = [
   {
     id: 'analisis-qa',
     icon: Target,
-    badge: 'Diagnóstico gratuito',
+    badge: 'Diagnóstico inicial gratuito',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
     title: 'Entendemos tu problema antes de programar',
     description: 'El diagnóstico es gratuito y sin compromiso. Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
@@ -50,11 +53,13 @@ export const SERVICES: ServiceItem[] = [
     badge: 'Automatizaciones',
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
     title: 'Automatizaciones para tu negocio',
-    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tus planillas, sistemas y procesos para que trabajen juntos y vos ganes horas cada día.',
+    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tus herramientas para que trabajen juntas y vos ganes horas cada día.',
     bullets: [
-      'Los datos se cargan solos en tu planilla o sistema',
-      'Recordatorios automáticos de turnos, pagos y vencimientos',
-      'Reportes que se arman solos, sin hacerlos a mano'
+      'Turnos y reservas: confirmaciones, recordatorios y seguimiento de citas',
+      'Consultas comerciales: formularios, registro de potenciales clientes y seguimiento',
+      'Tareas administrativas: carga de datos, generación de documentos y reportes',
+      'Integración de sistemas: formularios, CRM, bases de datos y herramientas de trabajo conectados',
+      'Asistentes web: respuestas a preguntas frecuentes y orientación a visitantes, con derivación a una persona cuando corresponda'
     ]
   },
   {
@@ -71,16 +76,16 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'software',
-    icon: Code2,
-    badge: 'Desarrollo a Medida',
-    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
-    title: 'Sistemas a medida para tu negocio',
-    description: 'Si las planillas y las agendas en papel ya no te alcanzan, armamos el sistema justo para cómo trabajás vos.',
+    id: 'ecommerce',
+    icon: ShoppingCart,
+    badge: 'E-commerce',
+    badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
+    title: 'Tu tienda online',
+    description: 'Vendé por internet con una tienda propia: catálogo, carrito y cobros, conectada con tu stock y tu WhatsApp.',
     bullets: [
-      'Un sistema distinto para cada rubro: turnos, ventas, stock o lo que necesites',
-      'Un panel para ver cómo va tu negocio, al momento',
-      'Lo usás desde la compu o el celular, estés donde estés'
+      'Catálogo de productos fácil de actualizar',
+      'Carrito y cobro online',
+      'Avisos de pedidos nuevos al instante'
     ]
   },
   {
@@ -110,32 +115,6 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
-    id: 'paginas-web',
-    icon: Globe,
-    badge: 'Páginas web',
-    badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
-    title: 'Páginas web que trabajan por vos',
-    description: 'Creamos la página de tu negocio y la hacemos trabajar: formularios que cargan los datos solos, avisos automáticos y un asistente que atiende a tus clientes.',
-    bullets: [
-      'Se ve bien en la compu y en el celular',
-      'Formularios y consultas conectados a tu WhatsApp, mail o planilla',
-      'Con asistente y automatizaciones incluidas si las necesitás'
-    ]
-  },
-  {
-    id: 'asistentes',
-    icon: Bot,
-    badge: 'Asistentes',
-    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
-    title: 'Asistentes para tu web o sistema',
-    description: 'Sumamos un asistente a la web o al sistema que ya tenés: responde las preguntas de tus clientes, los guía y toma consultas a toda hora, sin cambiar nada de lo que ya usás.',
-    bullets: [
-      'Responde al instante las preguntas frecuentes',
-      'Guía a tus clientes a lo que buscan',
-      'Te deriva la consulta por WhatsApp cuando hace falta'
-    ]
-  },
-  {
     id: 'bots-whatsapp',
     icon: MessageCircle,
     badge: 'Bots de WhatsApp',
@@ -146,6 +125,19 @@ export const SERVICES: ServiceItem[] = [
       'Responde las consultas frecuentes al instante',
       'Toma pedidos y turnos por WhatsApp',
       'Te deriva el chat cuando hace falta una persona'
+    ]
+  },
+  {
+    id: 'asistentes',
+    icon: Bot,
+    badge: 'Asistentes animados',
+    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
+    title: 'Asistentes ilustrados y con animación web',
+    description: 'Un personaje propio para tu marca, dibujado y animado en tu web, que saluda, guía a tus clientes y les responde. Como Marcio.',
+    bullets: [
+      'Personaje ilustrado a medida de tu marca',
+      'Animaciones en la web: saluda, se mueve y reacciona',
+      'Guía a tus visitantes y los deriva a una persona cuando hace falta'
     ]
   },
   {
@@ -160,6 +152,32 @@ export const SERVICES: ServiceItem[] = [
       'Simulación 3D interactiva en computadora para probar cómo trabaja antes de fabricar',
       'Paso 2: Fabricación del cuerpo físico a medida (chasis, mecánica y electrónica) si es viable',
       'Evaluación previa de viabilidad técnica y comercial individual para cada proyecto'
+    ]
+  },
+  {
+    id: 'campanas-ads',
+    icon: Megaphone,
+    badge: 'Campañas',
+    badgeColor: 'border-pink-500/40 text-pink-300 bg-pink-950/30',
+    title: 'Campañas en Meta y Google Ads',
+    description: 'Armamos y medimos tus campañas en Instagram, Facebook y Google para que te encuentren los clientes que buscás.',
+    bullets: [
+      'Campañas en Meta (Instagram y Facebook) y Google Ads',
+      'Público y presupuesto pensados para tu negocio',
+      'Informes claros de cuánto rinde cada peso invertido'
+    ]
+  },
+  {
+    id: 'estrategia-marca',
+    icon: Compass,
+    badge: 'Estrategia de marca',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+    title: 'Estrategia y análisis de marca',
+    description: 'Analizamos cómo se ve tu marca hoy y armamos un plan para que se entienda, se recuerde y venda más.',
+    bullets: [
+      'Análisis de tu marca y de tu competencia',
+      'Mensaje, tono e identidad claros',
+      'Plan de acción para redes, web y campañas'
     ]
   }
 ];
