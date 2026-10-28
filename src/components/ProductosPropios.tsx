@@ -61,7 +61,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     priceArs: 228000,
     category: 'Software & Automatización Contextual',
     specs: [
-      'Setup inicial: $120.000 a $250.000 ARS ($150 a $250 USD) por única vez',
+      'Setup inicial: $120.000 a $250.000 ARS por única vez',
       'Abono mensual SaaS: $80.000 a $120.000 ARS/mes por máquina monitoreada',
       'Automatización contextual (Zero-Click): detecta anomalías y actúa sola',
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
@@ -231,6 +231,10 @@ const CartelProximamente: React.FC = () => {
       </span>
       <span aria-hidden="true" className="relative block mt-2 text-sm sm:text-base text-slate-300">
         Sistema de ciberseguridad en fase de desarrollo y pruebas de laboratorio<span className="inline-block w-[0.6ch] animate-pulse motion-reduce:animate-none">_</span>
+      </span>
+      <span className="relative mt-3 flex flex-wrap justify-center gap-2 text-xs sm:text-sm font-semibold">
+        <span className="px-3 py-1 rounded-full bg-slate-900/80 border border-violet-500/40 text-violet-200">Implementación USD 300</span>
+        <span className="px-3 py-1 rounded-full bg-slate-900/80 border border-violet-500/40 text-violet-200">Servicio USD 250 por mes</span>
       </span>
       <span aria-hidden="true" className="relative block mx-auto mt-4 h-1 w-40 sm:w-56 rounded-full bg-slate-800 overflow-hidden">
         <span className="block h-full w-1/3 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400 animate-[creando_1.8s_ease-in-out_infinite] motion-reduce:animate-none" />
@@ -515,7 +519,7 @@ export const ProductosPropios: React.FC = () => {
                     $120.000 a $250.000 ARS
                   </span>
                   <span className="text-xs text-slate-400 font-mono">
-                    (o $150 a $250 USD) por única vez
+                    por única vez
                   </span>
                 </div>
 

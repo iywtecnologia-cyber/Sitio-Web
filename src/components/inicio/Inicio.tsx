@@ -198,7 +198,7 @@ const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string
   { logo: GolondrinaLogo, nombre: 'Golondrina Automatización', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'golondrina', estado: 'Disponible', color: 'emerald' },
   { logo: GolondrinaLogo, nombre: 'Golondrina Personal', linea: 'Le decís qué avisarte, por voz o texto. Sin aprender nada.', boton: 'Probar la demo', ir: 'golondrina-personal-demo', estado: 'Disponible', color: 'emerald' },
   { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu red y tus equipos, y te avisa si algo cambia.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'colibri', estado: 'A demanda', color: 'cyan' },
-  { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes, en desarrollo.', boton: 'Mantenete informado', ir: 'producto-software-ciberseguridad', estado: 'Próximamente', color: 'violet' },
+  { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes. Implementación USD 300 y servicio USD 250 por mes.', boton: 'Mantenete informado', ir: 'tero-proximamente', estado: 'Próximamente', color: 'violet' },
 ];
 
 const CHIP: Record<string, string> = {

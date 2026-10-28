@@ -28,7 +28,7 @@ const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; contenido: React.Rea
   '/productos': { titulo: 'Productos propios', contenido: <ProductosPropios /> },
   '/robotica': { titulo: 'Diseñá tu robot', contenido: <RobotStudioSection /> },
   '/proyectos': { titulo: 'Proyectos', contenido: <PortfolioSection /> },
-  '/presupuesto': { titulo: 'Presupuesto', contenido: <><Combos /><BillingModule /></> },
+  '/presupuesto': { titulo: 'Presupuesto', contenido: <><BillingModule /><Combos /></> },
   '/tecnologias': { titulo: 'Tecnologías', contenido: <StackSection /> },
   '/nosotros': { titulo: 'Nosotros', contenido: <AboutSection /> },
   '/contacto': { titulo: 'Contacto', contenido: <ContactSection /> },
