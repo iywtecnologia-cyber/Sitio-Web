@@ -172,9 +172,9 @@ export const SERVICES: ServiceItem[] = [
   {
     id: 'identidad-marca',
     icon: Palette,
-    badge: 'Identidad',
+    badge: 'Identidad visual',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
-    title: 'Identidad de marca',
+    title: 'Identidad visual',
     description: 'Cómo se ve tu marca: logo, colores y tipografías.',
     bullets: [
       'Logo y paleta de colores',

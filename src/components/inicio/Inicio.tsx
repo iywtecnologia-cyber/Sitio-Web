@@ -132,7 +132,7 @@ const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string
   { icon: Cpu, titulo: 'Robótica', linea: 'Cerebro digital y cuerpo físico.', ir: 'servicio-robotica-a-medida' },
   { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Que te encuentren.', ir: 'servicio-campanas-ads' },
   { icon: Compass, titulo: 'Estrategia de marca', linea: 'Qué decir y a quién.', ir: 'servicio-estrategia-marca' },
-  { icon: Palette, titulo: 'Identidad de marca', linea: 'Logo, colores y estilo.', ir: 'servicio-identidad-marca' },
+  { icon: Palette, titulo: 'Identidad visual', linea: 'Logo, colores y estilo.', ir: 'servicio-identidad-marca' },
 ];
 
 export const QueHacemos: React.FC = () => (
