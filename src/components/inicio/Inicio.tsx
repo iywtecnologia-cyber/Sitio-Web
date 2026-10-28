@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, Target, Globe, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, Target, Globe, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -121,23 +121,24 @@ export const JarDestacado: React.FC = () => (
 
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
 const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
-  { icon: Target, titulo: 'Diagnóstico gratuito', linea: 'Entendemos tu problema antes de programar.', ir: 'servicio-analisis-qa' },
-  { icon: Workflow, titulo: 'Automatización', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
+  { icon: Target, titulo: 'Diagnóstico inicial gratuito', linea: 'Entendemos tu problema antes de proponerte nada.', ir: 'servicio-analisis-qa' },
+  { icon: Workflow, titulo: 'Automatizaciones', linea: 'Turnos, consultas, tareas administrativas y sistemas conectados.', ir: 'servicio-automatizacion' },
   { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
-  { icon: Code2, titulo: 'Software', linea: 'Sistemas a medida para tu negocio.', ir: 'servicio-software' },
+  { icon: ShoppingCart, titulo: 'E-commerce', linea: 'Tu tienda online, conectada con tu stock.', ir: 'servicio-ecommerce' },
   { icon: Smartphone, titulo: 'Aplicaciones móviles', linea: 'Tu negocio en el celular de tus clientes.', ir: 'servicio-aplicaciones-moviles' },
   { icon: Contact, titulo: 'CRM', linea: 'Tus clientes, ventas y seguimientos en un solo lugar.', ir: 'servicio-crm' },
-  { icon: Globe, titulo: 'Páginas web', linea: 'Webs que trabajan por vos.', ir: 'servicio-paginas-web' },
-  { icon: Bot, titulo: 'Asistentes', linea: 'Un asistente en tu web o sistema.', ir: 'servicio-asistentes' },
   { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
+  { icon: Bot, titulo: 'Asistentes animados', linea: 'Un personaje ilustrado y animado para tu web.', ir: 'servicio-asistentes' },
   { icon: Cpu, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', ir: 'robotica-3d' },
+  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Que te encuentren los clientes que buscás.', ir: 'servicio-campanas-ads' },
+  { icon: Compass, titulo: 'Estrategia de marca', linea: 'Análisis y plan para que tu marca venda más.', ir: 'servicio-estrategia-marca' },
 ];
 
 export const QueHacemos: React.FC = () => (
   <section id="que-hacemos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo chip="Qué hacemos" titulo="Lo que ofrecemos" bajada="Tocá lo que te interese para ver el detalle." />
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, ir }) => (
           <button
             key={titulo}

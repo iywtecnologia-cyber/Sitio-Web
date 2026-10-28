@@ -12,6 +12,7 @@ export interface Precio {
   tipo: 'hardware' | 'software';
   badge?: string;
   notaHardware?: string;
+  consultar?: boolean;
 }
 
 export const DISPOSITIVOS_HARDWARE: Precio[] = [
@@ -27,9 +28,9 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
     id: 'dispositivo-tero',
     servicio: 'TERO Security · Próximamente (Hardware Appliance)',
     incluye: 'Producto en investigación y desarrollo. Todavía no disponible para compra o instalación. Consultá por novedades.',
-    min: 300_000,
-    max: 300_000,
-    precioUsd: 250,
+    min: 360_000,
+    max: 360_000,
+    precioUsd: 300,
     tipo: 'hardware',
     badge: 'Próximamente · No disponible para compra',
     notaHardware: 'TERO Security no está disponible para venta. Las especificaciones y precios son preliminares.',
@@ -47,16 +48,20 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   },
 ];
 
-// Mismos servicios y orden que la remera y la web
+// Mismos servicios y orden que la remera y la web.
+// consultar: el precio se pasa después del diagnóstico (todavía no hay rango publicado).
 export const SERVICIOS_SOFTWARE: Precio[] = [
-  { id: 'diagnostico', servicio: 'Diagnóstico gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
-  { id: 'automatizacion', servicio: 'Automatización', incluye: 'Lo que hacés a mano, que se haga solo: planillas, avisos y reportes automáticos', min: 500_000, max: 1_000_000, tipo: 'software' },
+  { id: 'diagnostico', servicio: 'Diagnóstico inicial gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
+  { id: 'automatizacion', servicio: 'Automatizaciones', incluye: 'Turnos y reservas, consultas comerciales, tareas administrativas, integración de sistemas y asistentes web', min: 500_000, max: 1_000_000, tipo: 'software' },
   { id: 'ciberseguridad', servicio: 'Ciberseguridad', incluye: 'Revisamos tus sistemas y equipos, cerramos los puntos débiles y te damos un informe', min: 500_000, max: 1_200_000, tipo: 'software' },
-  { id: 'software', servicio: 'Software', incluye: 'Sistemas, aplicaciones móviles y CRM a medida de tu negocio', min: 1_000_000, max: 2_000_000, tipo: 'software' },
-  { id: 'paginas-web', servicio: 'Páginas web', incluye: 'Web moderna, rápida y que se ve bien en el celular, con formularios conectados', min: 650_000, max: 1_500_000, tipo: 'software' },
-  { id: 'asistentes', servicio: 'Asistentes', incluye: 'Un asistente que guía a tus clientes en tu web o sistema', min: 500_000, max: 1_200_000, tipo: 'software' },
+  { id: 'ecommerce', servicio: 'E-commerce', incluye: 'Tu tienda online con catálogo, carrito y cobros, conectada con tu stock', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'aplicaciones-moviles', servicio: 'Aplicaciones móviles', incluye: 'Una app a medida de tu negocio para tus clientes o tu equipo', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'crm', servicio: 'CRM', incluye: 'Tus clientes, ventas y seguimientos en un solo lugar', min: 0, max: 0, consultar: true, tipo: 'software' },
   { id: 'bots-whatsapp', servicio: 'Bots de WhatsApp', incluye: 'Tu WhatsApp responde solo: pedidos, turnos y consultas, y te pasa a una persona cuando hace falta', min: 600_000, max: 850_000, tipo: 'software' },
+  { id: 'asistentes', servicio: 'Asistentes ilustrados y animados', incluye: 'Un personaje dibujado y animado para tu web que guía a tus clientes', min: 500_000, max: 1_200_000, tipo: 'software' },
   { id: 'robotica-a-medida', servicio: 'Robótica a medida', incluye: 'Robots de tamaño chico: primero el cerebro y la simulación 3D; el cuerpo físico, si es viable', min: 1_200_000, max: 3_500_000, tipo: 'software', badge: 'Robots chicos' },
+  { id: 'campanas-ads', servicio: 'Campañas en Meta y Google Ads', incluye: 'Campañas en Instagram, Facebook y Google, con informes de resultados', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'estrategia-marca', servicio: 'Estrategia y análisis de marca', incluye: 'Análisis de tu marca y un plan para redes, web y campañas', min: 0, max: 0, consultar: true, tipo: 'software' },
 ];
 
 // Lista completa combinada para compatibilidad
@@ -74,14 +79,17 @@ export interface Abono {
   mensual: number | null;
   proximamente?: boolean;
   esServicioParaHardware?: boolean;
+  mensualUsd?: number;
 }
 
 export const ABONOS: Abono[] = [
   {
     id: 'tero',
     nombre: 'TERO Security (Ciberseguridad IDS/IPS & Reglas Continuas)',
-    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real.',
-    mensual: 85_000,
+    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real. (Próximamente).',
+    mensual: 300_000,
+    mensualUsd: 250,
+    proximamente: true,
     esServicioParaHardware: true,
   },
   {
