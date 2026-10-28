@@ -38,7 +38,7 @@ export const BillingModule: React.FC = () => {
   const [cantidadVoz, setCantidadVoz] = useState(0);
   const [planVoz, setPlanVoz] = useState<'esencial' | 'profesional' | 'industrial'>('profesional');
   // Precios en pesos (solo TERO Security se cotiza en dólares)
-  const planesVoz = { esencial: { ars: 10_800, alertas: 500 }, profesional: { ars: 22_800, alertas: 2000 }, industrial: { ars: 46_800, alertas: 5000 } };
+  const planesVoz = { esencial: { ars: 35_000, alertas: 500 }, profesional: { ars: 60_000, alertas: 2000 }, industrial: { ars: 95_000, alertas: 5000 } };
   const chajaSeleccionado = hardwareElegidos.includes('dispositivo-chaja');
   const precioVoz = planesVoz[planVoz];
   const vozMensual = cantidadVoz * precioVoz.ars;
