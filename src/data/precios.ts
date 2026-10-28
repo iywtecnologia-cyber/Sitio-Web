@@ -62,7 +62,7 @@ export const SERVICIOS_SOFTWARE: Precio[] = [
   { id: 'robotica-a-medida', servicio: 'Robótica a medida', incluye: 'Robots de tamaño chico: primero el cerebro y la simulación 3D; el cuerpo físico, si es viable', min: 1_200_000, max: 3_500_000, tipo: 'software', badge: 'Robots chicos' },
   { id: 'campanas-ads', servicio: 'Campañas en Meta y Google Ads', incluye: 'Campañas en Instagram, Facebook y Google, con informes de resultados', min: 0, max: 0, consultar: true, tipo: 'software' },
   { id: 'estrategia-marca', servicio: 'Estrategia y análisis de marca', incluye: 'Análisis de tu marca y un plan para redes, web y campañas', min: 0, max: 0, consultar: true, tipo: 'software' },
-  { id: 'identidad-marca', servicio: 'Identidad de marca', incluye: 'Logo, colores, tipografías y manual de marca', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'identidad-marca', servicio: 'Identidad visual', incluye: 'Logo, colores, tipografías y manual de marca', min: 0, max: 0, consultar: true, tipo: 'software' },
 ];
 
 // Lista completa combinada para compatibilidad
