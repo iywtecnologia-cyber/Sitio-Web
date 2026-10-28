@@ -1089,7 +1089,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             {/* Aviso de Cero Esfuerzo */}
             <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-300 flex items-center gap-2 font-mono">
               <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
-              <span>Cero esfuerzo: nadie tiene que cargar planillas. Golondrina detecta y pregunta sola.</span>
+              <span>Golondrina detecta y avisa sola.</span>
             </div>
           </div>
         </div>

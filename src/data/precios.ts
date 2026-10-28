@@ -54,14 +54,15 @@ export const SERVICIOS_SOFTWARE: Precio[] = [
   { id: 'diagnostico', servicio: 'Diagnóstico inicial gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
   { id: 'automatizacion', servicio: 'Automatizaciones', incluye: 'Turnos y reservas, consultas comerciales, tareas administrativas, integración de sistemas y asistentes web', min: 500_000, max: 1_000_000, tipo: 'software' },
   { id: 'ciberseguridad', servicio: 'Ciberseguridad', incluye: 'Revisamos tus sistemas y equipos, cerramos los puntos débiles y te damos un informe', min: 500_000, max: 1_200_000, tipo: 'software' },
-  { id: 'ecommerce', servicio: 'E-commerce', incluye: 'Tu tienda online con catálogo, carrito y cobros, conectada con tu stock', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'ecommerce', servicio: 'E-commerce', incluye: 'Tu tienda online con catálogo, carrito y cobros, conectada con tu stock', min: 650_000, max: 1_500_000, tipo: 'software' },
   { id: 'aplicaciones-moviles', servicio: 'Aplicaciones móviles', incluye: 'Una app a medida de tu negocio para tus clientes o tu equipo', min: 0, max: 0, consultar: true, tipo: 'software' },
-  { id: 'crm', servicio: 'CRM', incluye: 'Tus clientes, ventas y seguimientos en un solo lugar', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'crm', servicio: 'CRM', incluye: 'Tus clientes, ventas y seguimientos en un solo lugar', min: 1_000_000, max: 2_000_000, tipo: 'software' },
   { id: 'bots-whatsapp', servicio: 'Bots de WhatsApp', incluye: 'Tu WhatsApp responde solo: pedidos, turnos y consultas, y te pasa a una persona cuando hace falta', min: 600_000, max: 850_000, tipo: 'software' },
   { id: 'asistentes', servicio: 'Asistentes ilustrados y animados', incluye: 'Un personaje dibujado y animado para tu web que guía a tus clientes', min: 500_000, max: 1_200_000, tipo: 'software' },
   { id: 'robotica-a-medida', servicio: 'Robótica a medida', incluye: 'Robots de tamaño chico: primero el cerebro y la simulación 3D; el cuerpo físico, si es viable', min: 1_200_000, max: 3_500_000, tipo: 'software', badge: 'Robots chicos' },
   { id: 'campanas-ads', servicio: 'Campañas en Meta y Google Ads', incluye: 'Campañas en Instagram, Facebook y Google, con informes de resultados', min: 0, max: 0, consultar: true, tipo: 'software' },
   { id: 'estrategia-marca', servicio: 'Estrategia y análisis de marca', incluye: 'Análisis de tu marca y un plan para redes, web y campañas', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'identidad-marca', servicio: 'Identidad de marca', incluye: 'Logo, colores, tipografías y manual de marca', min: 0, max: 0, consultar: true, tipo: 'software' },
 ];
 
 // Lista completa combinada para compatibilidad
@@ -86,7 +87,7 @@ export const ABONOS: Abono[] = [
   {
     id: 'tero',
     nombre: 'TERO Security (Ciberseguridad IDS/IPS & Reglas Continuas)',
-    detalle: 'Servicio integral de ciberseguridad para redes corporativas, telemetría y reglas de detección de amenazas en tiempo real. (Próximamente).',
+    detalle: 'Ciberseguridad para la red de tu empresa. (Próximamente).',
     mensual: 300_000,
     mensualUsd: 250,
     proximamente: true,
@@ -95,14 +96,14 @@ export const ABONOS: Abono[] = [
   {
     id: 'golondrina',
     nombre: 'Golondrina Automatización • Software Cloud & Alertas Contextuales',
-    detalle: 'Servicio activo disponible hoy: servidor en la nube para acceso remoto web y móvil, reconocimiento contextual de eventos críticos en planta y notificaciones proactivas directas por WhatsApp.',
+    detalle: 'Monitoreo en la nube y avisos por WhatsApp de lo que pasa en tu planta.',
     mensual: 80_000,
     esServicioParaHardware: true,
   },
   {
     id: 'soporte',
     nombre: 'Abono Soporte y Mantenimiento de Software',
-    detalle: 'Monitoreo preventivo de servidores, copias de seguridad automáticas y horas mensuales de evolución técnica.',
+    detalle: 'Copias de seguridad, monitoreo y horas para mejoras.',
     mensual: 150_000,
   },
   {

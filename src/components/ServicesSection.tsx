@@ -19,7 +19,8 @@ import {
   Megaphone,
   Compass,
   Smartphone,
-  Contact
+  Contact,
+  Palette,
 } from 'lucide-react';
 
 interface ServiceItem {
@@ -36,15 +37,13 @@ export const SERVICES: ServiceItem[] = [
   {
     id: 'analisis-qa',
     icon: Target,
-    badge: 'Diagnóstico inicial gratuito',
+    badge: 'Gratis',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
-    title: 'Entendemos tu problema antes de programar',
-    description: 'El diagnóstico es gratuito y sin compromiso. Primero relevamos cómo trabajás, después construimos exactamente lo que necesitás, y lo probamos a fondo antes de entregártelo.',
+    title: 'Diagnóstico inicial gratuito',
+    description: 'Te escuchamos y te decimos qué conviene hacer. Sin costo.',
     bullets: [
-      'Diagnóstico 100% gratuito: te decimos qué conviene hacer',
-      'Te mostramos un prototipo antes de empezar',
-      'Probamos todo antes de que lo uses',
-      'Hablás directo con los fundadores, sin intermediarios'
+      'Sin compromiso',
+      'Te mostramos un prototipo antes de empezar'
     ]
   },
   {
@@ -52,27 +51,26 @@ export const SERVICES: ServiceItem[] = [
     icon: Workflow,
     badge: 'Automatizaciones',
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
-    title: 'Automatizaciones para tu negocio',
-    description: 'Dejá de hacer a mano lo que se puede hacer solo. Conectamos tus herramientas para que trabajen juntas y vos ganes horas cada día.',
+    title: 'Automatizaciones',
+    description: 'Lo que hacés a mano, que se haga solo.',
     bullets: [
-      'Turnos y reservas: confirmaciones, recordatorios y seguimiento de citas',
-      'Consultas comerciales: formularios, registro de potenciales clientes y seguimiento',
-      'Tareas administrativas: carga de datos, generación de documentos y reportes',
-      'Integración de sistemas: formularios, CRM, bases de datos y herramientas de trabajo conectados',
-      'Asistentes web: respuestas a preguntas frecuentes y orientación a visitantes, con derivación a una persona cuando corresponda'
+      'Turnos y reservas',
+      'Consultas comerciales',
+      'Tareas administrativas',
+      'Integración de sistemas',
+      'Asistentes web'
     ]
   },
   {
     id: 'ciberseguridad',
     icon: ShieldCheck,
     badge: 'Ciberseguridad',
-    badgeColor: 'border-rose-500/40 text-rose-300 bg-rose-950/30',
-    title: 'Ciberseguridad para tu negocio',
-    description: 'Protegemos los datos de tu negocio y de tus clientes. Todo lo que desarrollamos sale revisado y pensado para que nadie entre donde no debe.',
+    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
+    title: 'Ciberseguridad',
+    description: 'Protegemos los datos de tu negocio y de tus clientes.',
     bullets: [
-      'Revisamos tus sistemas y te decimos qué riesgos tienen',
-      'Cada persona accede solo a lo que necesita',
-      'Los datos de tus clientes, protegidos y cifrados'
+      'Revisión de riesgos',
+      'Accesos ordenados y seguros'
     ]
   },
   {
@@ -80,25 +78,23 @@ export const SERVICES: ServiceItem[] = [
     icon: ShoppingCart,
     badge: 'E-commerce',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
-    title: 'Tu tienda online',
-    description: 'Vendé por internet con una tienda propia: catálogo, carrito y cobros, conectada con tu stock y tu WhatsApp.',
+    title: 'E-commerce',
+    description: 'Tu tienda online para vender las 24 horas.',
     bullets: [
-      'Catálogo de productos fácil de actualizar',
-      'Carrito y cobro online',
-      'Avisos de pedidos nuevos al instante'
+      'Catálogo y cobros online',
+      'Avisos de pedidos al instante'
     ]
   },
   {
     id: 'aplicaciones-moviles',
     icon: Smartphone,
-    badge: 'Aplicaciones Móviles',
+    badge: 'Apps',
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
-    title: 'Aplicaciones móviles para tu negocio',
-    description: 'Tu negocio en el celular de tus clientes y de tu equipo, con una app hecha a tu medida.',
+    title: 'Aplicaciones móviles',
+    description: 'Tu negocio en el celular de tus clientes.',
     bullets: [
-      'Pedidos, turnos, reservas o lo que tu negocio necesite',
-      'Avisos al celular para tus clientes',
-      'Tu equipo la usa desde su propio celular'
+      'Pedidos, turnos o reservas',
+      'Avisos al celular'
     ]
   },
   {
@@ -107,51 +103,46 @@ export const SERVICES: ServiceItem[] = [
     badge: 'CRM',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
     title: 'CRM: tus clientes en un solo lugar',
-    description: 'Todo lo de cada cliente junto: datos, consultas, ventas y seguimientos, para que no se te pase ninguno.',
+    description: 'Que no se te pase ningún cliente ni ninguna venta.',
     bullets: [
-      'Ficha de cada cliente con su historial',
-      'Recordatorios de seguimiento y ventas pendientes',
-      'Se conecta con tu WhatsApp, tu web o tus planillas'
+      'Ficha e historial de cada cliente',
+      'Recordatorios de seguimiento'
     ]
   },
   {
     id: 'bots-whatsapp',
     icon: MessageCircle,
-    badge: 'Bots de WhatsApp',
+    badge: 'WhatsApp',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30',
     title: 'Bots de WhatsApp',
-    description: 'Tu WhatsApp responde solo, a toda hora, aunque no estés. Atiende las consultas de siempre y te pasa la conversación cuando hace falta una persona.',
+    description: 'Tu WhatsApp responde solo, a toda hora.',
     bullets: [
-      'Responde las consultas frecuentes al instante',
-      'Toma pedidos y turnos por WhatsApp',
-      'Te deriva el chat cuando hace falta una persona'
+      'Consultas, pedidos y turnos',
+      'Te pasa con una persona cuando hace falta'
     ]
   },
   {
     id: 'asistentes',
     icon: Bot,
-    badge: 'Asistentes animados',
+    badge: 'Asistentes',
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
-    title: 'Asistentes ilustrados y con animación web',
-    description: 'Un personaje propio para tu marca, dibujado y animado en tu web, que saluda, guía a tus clientes y les responde. Como Marcio.',
+    title: 'Asistentes ilustrados y con animación digital',
+    description: 'Un personaje propio que guía a tus clientes en tu web. Como Marcio.',
     bullets: [
-      'Personaje ilustrado a medida de tu marca',
-      'Animaciones en la web: saluda, se mueve y reacciona',
-      'Guía a tus visitantes y los deriva a una persona cuando hace falta'
+      'Dibujado a medida de tu marca',
+      'Animado: saluda y se mueve'
     ]
   },
   {
     id: 'robotica-a-medida',
     icon: Cpu,
-    badge: 'Robótica a Medida',
-    badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
-    title: 'Robótica a medida: cerebro digital y cuerpo físico',
-    description: 'Nos especializamos en el desarrollo inteligente: lo primero que se desarrolla es el cerebro del robot (software autónomo, percepción sensorial y simulación 3D). Si el proyecto es viable técnicamente, también podés pedir e incorporar el modelo del cuerpo físico.',
+    badge: 'Robótica',
+    badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
+    title: 'Robótica: cerebro digital y cuerpo físico',
+    description: 'Primero el cerebro del robot en 3D; si funciona, el cuerpo.',
     bullets: [
-      'Paso 1: Desarrollo del cerebro robótico e IA (ROS 2, visión artificial, SLAM)',
-      'Simulación 3D interactiva en computadora para probar cómo trabaja antes de fabricar',
-      'Paso 2: Fabricación del cuerpo físico a medida (chasis, mecánica y electrónica) si es viable',
-      'Evaluación previa de viabilidad técnica y comercial individual para cada proyecto'
+      'Robots de tamaño chico',
+      'Lo probás antes de fabricarlo'
     ]
   },
   {
@@ -160,24 +151,34 @@ export const SERVICES: ServiceItem[] = [
     badge: 'Campañas',
     badgeColor: 'border-pink-500/40 text-pink-300 bg-pink-950/30',
     title: 'Campañas en Meta y Google Ads',
-    description: 'Armamos y medimos tus campañas en Instagram, Facebook y Google para que te encuentren los clientes que buscás.',
+    description: 'Que te encuentren los clientes que buscás.',
     bullets: [
-      'Campañas en Meta (Instagram y Facebook) y Google Ads',
-      'Público y presupuesto pensados para tu negocio',
-      'Informes claros de cuánto rinde cada peso invertido'
+      'Instagram, Facebook y Google',
+      'Informes claros de resultados'
     ]
   },
   {
     id: 'estrategia-marca',
     icon: Compass,
-    badge: 'Estrategia de marca',
+    badge: 'Estrategia',
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
     title: 'Estrategia y análisis de marca',
-    description: 'Analizamos cómo se ve tu marca hoy y armamos un plan para que se entienda, se recuerde y venda más.',
+    description: 'Qué decir, a quién y cómo, para que tu marca venda más.',
     bullets: [
-      'Análisis de tu marca y de tu competencia',
-      'Mensaje, tono e identidad claros',
-      'Plan de acción para redes, web y campañas'
+      'Análisis de tu marca y tu competencia',
+      'Plan para redes, web y campañas'
+    ]
+  },
+  {
+    id: 'identidad-marca',
+    icon: Palette,
+    badge: 'Identidad',
+    badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30',
+    title: 'Identidad de marca',
+    description: 'Cómo se ve tu marca: logo, colores y tipografías.',
+    bullets: [
+      'Logo y paleta de colores',
+      'Manual para usarla siempre igual'
     ]
   }
 ];
@@ -205,76 +206,40 @@ export const ServicesSection: React.FC = () => {
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
-            Nos tomamos el tiempo de entender cómo trabajás y armamos la solución justa para vos: ni más, ni menos.
+            Entendemos cómo trabajás y armamos lo justo para vos.
           </p>
         </div>
 
-        {/* Grilla de Servicios Principales */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {SERVICES.map((service, index) => {
+        {/* Grilla de servicios: nombre, para qué sirve en una línea y poco más */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {SERVICES.map((service) => {
             const Icon = service.icon;
-            // Con una cantidad impar de servicios, el último ocupa todo el ancho.
-            const isLastOdd = SERVICES.length % 2 === 1 && index === SERVICES.length - 1;
             return (
               <div
                 key={service.id}
                 id={`servicio-${service.id}`}
-                className={`p-8 rounded-2xl bg-gradient-to-br from-slate-900/80 to-slate-950 border border-slate-800 hover:border-slate-700 transition-all duration-300 group flex flex-col justify-between relative overflow-hidden scroll-mt-28 ${isLastOdd ? 'md:col-span-2' : ''}`}
+                className="scroll-mt-28 p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900/85 to-slate-950 border border-slate-800 hover:border-cyan-500/40 transition-colors flex flex-col"
               >
-                <div>
-                  <div className="flex items-center justify-between gap-4 mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-slate-800/80 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:scale-105 group-hover:border-cyan-500/40 transition-all">
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className={`text-[11px] font-mono uppercase px-2.5 py-1 rounded border tracking-wider ${service.badgeColor}`}>
-                      {service.badge}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors mb-3">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-
-                  <div className="hidden sm:block space-y-2.5 pt-4 border-t border-slate-800/80">
-                    {service.bullets.map((bullet, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300">
-                        <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                        <span>{bullet}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {service.id === 'robotica-a-medida' && (
-                  <div className="mt-6 pt-4 border-t border-cyan-500/20">
-                    <button
-                      onClick={() => {
-                        irA('robotica-3d');
-                      }}
-                      className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500/20 to-violet-500/20 border border-cyan-400/40 hover:border-cyan-400 text-cyan-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm shadow-cyan-500/10 group/btn3d"
-                    >
-                      <Cpu className="w-4 h-4 text-cyan-400 group-hover/btn3d:scale-110 transition-transform" />
-                      <span>Ver Prototipo en 3D & Diseñar a Medida</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover/btn3d:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                )}
-
-                <div className="mt-8 pt-4 flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-cyan-400">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    100% Personalizado
+                <div className="flex items-center gap-3">
+                  <span className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
+                    <Icon className="w-5 h-5" />
                   </span>
-                  <button
-                    onClick={() => consultarPor(`servicio-${service.id}`)}
-                    className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors cursor-pointer group/btn"
-                  >
-                    <span>Consultar por este servicio</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-cyan-400 group-hover/btn:translate-x-1 transition-transform translate-y-[2px]" />
+                  <h3 className="text-lg font-bold text-white leading-snug">{service.title}</h3>
+                </div>
+                <p className="mt-3 text-base text-slate-300">{service.description}</p>
+                <ul className="mt-3 flex flex-wrap gap-1.5 flex-1 content-start">
+                  {service.bullets.map((b) => (
+                    <li key={b} className="px-2.5 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs text-slate-300">{b}</li>
+                  ))}
+                </ul>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {service.id === 'robotica-a-medida' && (
+                    <button type="button" onClick={() => irA('robotica-3d')} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400/10 border border-cyan-400/40 text-cyan-300 text-sm font-semibold cursor-pointer hover:bg-cyan-400/20">
+                      Diseñá tu robot <ArrowRight className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button type="button" onClick={() => consultarPor(`servicio-${service.id}`)} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold cursor-pointer hover:border-cyan-500/50">
+                    Consultar <ArrowRight className="w-4 h-4 text-cyan-400" />
                   </button>
                 </div>
               </div>
@@ -289,7 +254,7 @@ export const ServicesSection: React.FC = () => {
               ¿Tenés un cuello de botella o proyecto en mente?
             </h4>
             <p className="text-sm text-slate-300">
-              Coordinemos una charla de diagnóstico sin costo: nos contás tu caso y te decimos cómo lo resolveríamos.
+              Contanos tu caso y te decimos cómo lo resolveríamos. Sin costo.
             </p>
           </div>
           <button

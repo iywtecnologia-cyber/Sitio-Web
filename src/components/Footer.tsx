@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { id: 'facturacion', label: 'Presupuestos' },
   { id: 'sobre-nosotros', label: 'Nosotros' },
   { id: 'stack', label: 'Tecnologías' },
+  { id: 'blog', label: 'Blog' },
   { id: 'contacto', label: 'Contacto' },
 ];
 

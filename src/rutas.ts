@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 // (simuladores, 3D, presupuestador, tecnologías) vive en páginas propias.
 // Render ya reescribe cualquier ruta a index.html, así que /productos, /robotica, etc. funcionan al recargar.
 
-export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto';
+export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto' | '/blog';
 
-export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto'];
+export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto', '/blog'];
 
 const normalizar = (p: string): Ruta => {
   const limpio = (p.replace(/\/+$/, '') || '/') as Ruta;
@@ -23,7 +23,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',
   facturacion: '/presupuesto', combos: '/presupuesto',
-  'por-que-elegirnos': '/',
+  'por-que-elegirnos': '/', 'combos-inicio': '/', blog: '/blog',
   stack: '/tecnologias',
   'sobre-nosotros': '/nosotros',
 };

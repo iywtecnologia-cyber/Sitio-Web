@@ -31,7 +31,7 @@ const STEPS: Step[] = [
     number: '01',
     title: 'Análisis de Requerimientos',
     shortDesc: 'Diagnóstico a fondo del negocio',
-    details: 'Llegamos al núcleo de cada problema. Relevamos detalladamente tus procesos operativos y necesidades técnicas para diseñar la arquitectura exacta que tu empresa necesita.',
+    details: 'Entendemos cómo trabajás y qué necesitás.',
     icon: ClipboardList,
     badge: 'Diagnóstico',
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30'
@@ -40,7 +40,7 @@ const STEPS: Step[] = [
     number: '02',
     title: 'Prototipo de la Solución',
     shortDesc: 'Modelado y diseño funcional',
-    details: 'Diseñamos un prototipo de la solución para que puedas visualizar la dinámica del sistema, la experiencia de usuario y las automatizaciones antes de escribir una sola línea de código.',
+    details: 'Te mostramos cómo va a funcionar antes de programarlo.',
     icon: Layers,
     badge: 'Prototipado',
     badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30'
@@ -49,7 +49,7 @@ const STEPS: Step[] = [
     number: '03',
     title: 'Evaluación con el Cliente',
     shortDesc: 'Revisión y alineación mutua',
-    details: 'Lo evaluamos y testeamos en conjunto con vos. Ajustamos detalles, validamos que resuelva el problema real y, cuando estás 100% de acuerdo, damos inicio al desarrollo formal.',
+    details: 'Lo revisamos juntos y seguimos solo cuando estás de acuerdo.',
     icon: UserCheck,
     badge: 'Validación',
     badgeColor: 'border-amber-500/40 text-amber-300 bg-amber-950/30'
@@ -58,7 +58,7 @@ const STEPS: Step[] = [
     number: '04',
     title: 'Desarrollo & Testing Continuo',
     shortDesc: 'Desarrollo con QA continuo',
-    details: 'Programamos la solución aplicando testing continuo en cada etapa. Aseguramos la calidad funcional del software y auditamos la ciberseguridad desde la primera línea.',
+    details: 'Lo programamos y lo probamos en cada etapa.',
     icon: Code2,
     badge: 'QA Continuo',
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30'
@@ -67,7 +67,7 @@ const STEPS: Step[] = [
     number: '05',
     title: 'Implementación & Puesta en Producción',
     shortDesc: 'Lanzamiento en vivo',
-    details: 'Desplegamos el sistema en infraestructura cloud segura y de alta disponibilidad. Configuramos accesos, capacitamos a tu equipo y dejamos la plataforma 100% operativa.',
+    details: 'Lo dejamos andando y le enseñamos a tu equipo a usarlo.',
     icon: Rocket,
     badge: 'Producción',
     badgeColor: 'border-emerald-500/40 text-emerald-300 bg-emerald-950/30'
@@ -76,7 +76,7 @@ const STEPS: Step[] = [
     number: '06',
     title: 'Soporte Continuo & Mejora Evolutiva',
     shortDesc: 'Acompañamiento y soporte técnico activo',
-    details: 'Te brindamos soporte continuo post-lanzamiento, monitoreo de estabilidad en producción y propuestas de mejora permanente para que tu sistema evolucione a la par de tu negocio.',
+    details: 'Te acompañamos después y lo mejoramos con vos.',
     icon: TrendingUp,
     badge: 'Soporte Continuo',
     badgeColor: 'border-fuchsia-500/40 text-fuchsia-300 bg-fuchsia-950/30'
@@ -114,7 +114,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
             Cómo trabajamos: del problema a la solución en producción
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Un proceso transparente, predecible y orientado a resultados. Construimos soluciones sólidas validando cada decisión directamente con vos.
+            Seis pasos claros, y vos aprobás cada uno.
           </p>
         </div>
 
@@ -282,7 +282,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
               <span>Garantía de Satisfacción, Soporte Continuo y Transparencia</span>
             </h4>
             <p className="text-sm text-slate-300 leading-relaxed">
-              No avanzamos al desarrollo hasta que el prototipo esté completamente validado por vos, y te brindamos soporte continuo en producción para responder consultas, monitorear la plataforma y acompañar el crecimiento de tu empresa.
+              No avanzamos sin tu aprobación, y te acompañamos después de entregar.
             </p>
           </div>
 

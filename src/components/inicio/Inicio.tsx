@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, Target, Globe, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -37,8 +37,8 @@ export const HeroCorto: React.FC = () => (
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-      <span className="inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
-        De Rosario para todo el mundo
+      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
+        De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
       </span>
       <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
@@ -121,17 +121,18 @@ export const JarDestacado: React.FC = () => (
 
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
 const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
-  { icon: Target, titulo: 'Diagnóstico inicial gratuito', linea: 'Entendemos tu problema antes de proponerte nada.', ir: 'servicio-analisis-qa' },
-  { icon: Workflow, titulo: 'Automatizaciones', linea: 'Turnos, consultas, tareas administrativas y sistemas conectados.', ir: 'servicio-automatizacion' },
-  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos y tus equipos, protegidos.', ir: 'servicio-ciberseguridad' },
-  { icon: ShoppingCart, titulo: 'E-commerce', linea: 'Tu tienda online, conectada con tu stock.', ir: 'servicio-ecommerce' },
-  { icon: Smartphone, titulo: 'Aplicaciones móviles', linea: 'Tu negocio en el celular de tus clientes.', ir: 'servicio-aplicaciones-moviles' },
-  { icon: Contact, titulo: 'CRM', linea: 'Tus clientes, ventas y seguimientos en un solo lugar.', ir: 'servicio-crm' },
-  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Tu WhatsApp responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
-  { icon: Bot, titulo: 'Asistentes animados', linea: 'Un personaje ilustrado y animado para tu web.', ir: 'servicio-asistentes' },
-  { icon: Cpu, titulo: 'Robótica', linea: 'Tu robot primero en 3D, después real.', ir: 'robotica-3d' },
-  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Que te encuentren los clientes que buscás.', ir: 'servicio-campanas-ads' },
-  { icon: Compass, titulo: 'Estrategia de marca', linea: 'Análisis y plan para que tu marca venda más.', ir: 'servicio-estrategia-marca' },
+  { icon: Target, titulo: 'Diagnóstico inicial gratuito', linea: 'Te decimos qué conviene hacer.', ir: 'servicio-analisis-qa' },
+  { icon: Workflow, titulo: 'Automatizaciones', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
+  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos, protegidos.', ir: 'servicio-ciberseguridad' },
+  { icon: ShoppingCart, titulo: 'E-commerce', linea: 'Tu tienda online.', ir: 'servicio-ecommerce' },
+  { icon: Smartphone, titulo: 'Aplicaciones móviles', linea: 'Tu negocio en el celular.', ir: 'servicio-aplicaciones-moviles' },
+  { icon: Contact, titulo: 'CRM', linea: 'Tus clientes en un solo lugar.', ir: 'servicio-crm' },
+  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
+  { icon: Bot, titulo: 'Asistentes animados', linea: 'Un personaje que guía a tus clientes.', ir: 'servicio-asistentes' },
+  { icon: Cpu, titulo: 'Robótica', linea: 'Cerebro digital y cuerpo físico.', ir: 'servicio-robotica-a-medida' },
+  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Que te encuentren.', ir: 'servicio-campanas-ads' },
+  { icon: Compass, titulo: 'Estrategia de marca', linea: 'Qué decir y a quién.', ir: 'servicio-estrategia-marca' },
+  { icon: Palette, titulo: 'Identidad de marca', linea: 'Logo, colores y estilo.', ir: 'servicio-identidad-marca' },
 ];
 
 export const QueHacemos: React.FC = () => (
@@ -188,7 +189,7 @@ export const PorQueElegirnos: React.FC = () => (
           </li>
         ))}
       </ul>
-      <VerMas onClick={() => irA('combos')}>Ver combos con precio</VerMas>
+      <VerMas onClick={() => irA('combos-inicio')}>Ver combos con precio</VerMas>
     </div>
   </section>
 );
@@ -295,6 +296,7 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
   { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
+  { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
 ];
 
 export const SaberMas: React.FC = () => (

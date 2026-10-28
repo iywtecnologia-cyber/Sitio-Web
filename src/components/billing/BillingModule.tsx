@@ -162,7 +162,7 @@ export const BillingModule: React.FC = () => {
             </span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
-            Diferenciamos con total claridad la compra de <strong className="text-white">dispositivos físicos de hardware</strong>, el <strong className="text-white">desarrollo de software a medida</strong> y los <strong className="text-white">abonos mensuales opcionales</strong> de soporte o telemetría.
+            Marcá lo que necesitás y mirá el total al instante.
           </p>
         </div>
 
@@ -190,7 +190,7 @@ export const BillingModule: React.FC = () => {
               </div>
 
               <p className="text-base text-slate-300 mb-5">
-                <strong className="text-white">Golondrina Automatización y CHAJÁ son sistemas a demanda que ya están disponibles</strong>: los fabricamos cuando los pedís, a la medida de tu tablero o máquina. TERO Security sale próximamente. Acá ves el precio del equipo y del servicio mensual.
+                <strong className="text-white">Golondrina Automatización y CHAJÁ ya están disponibles</strong>, a pedido. TERO Security sale próximamente.
               </p>
 
               {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
@@ -201,7 +201,7 @@ export const BillingModule: React.FC = () => {
                     estado: 'Disponible a demanda',
                     color: 'emerald',
                     equipo: pesos(228_000),
-                    extra: 'Puesta en marcha: $120.000 a $250.000 (una vez)',
+                    extra: 'Puesta en marcha: $300.000 a $500.000 (una vez)',
                     servicio: '$80.000 a $120.000 por mes',
                   },
                   {
@@ -282,7 +282,7 @@ export const BillingModule: React.FC = () => {
                         {cantidadVoz > 0 && (
                           <p className="mt-2 text-sm font-semibold text-cyan-300">Voz: {pesos(vozMensual)} por mes · {cantidadVoz} equipo{cantidadVoz > 1 ? 's' : ''}</p>
                         )}
-                        <p className="mt-1 text-xs text-slate-500">Servicio opcional, no incluido en el equipo. El límite de alertas es por equipo.</p>
+                        <p className="mt-1 text-xs text-slate-500">Opcional. El límite es por equipo.</p>
                       </div>
                     )}
                   </li>
@@ -361,7 +361,7 @@ export const BillingModule: React.FC = () => {
               <div className="p-3.5 mb-5 rounded-xl bg-sky-950/30 border border-sky-500/20 text-xs text-sky-200 flex items-start gap-2.5">
                 <Info className="w-4 h-4 shrink-0 text-sky-400 mt-0.5" />
                 <span>
-                  <strong className="text-white">Aclaración importante:</strong> Los abonos mensuales son servicios de software en la nube, actualizaciones de firmas y soporte continuo. <strong className="text-white">NO son los aparatos físicos</strong>. Podés comprar un dispositivo físico sin contratar abono, o sumar el abono para delegar el monitoreo.
+                  <strong className="text-white">Ojo:</strong> el abono es el servicio, no el equipo. Podés comprar el equipo sin abono.
                 </span>
               </div>
 
@@ -430,7 +430,7 @@ export const BillingModule: React.FC = () => {
             {!tieneSeleccion ? (
               <div className="py-8 text-center text-slate-400 text-sm">
                 <Calculator className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-                <p>Marcá los dispositivos físicos, software o abonos que te interesen para ver el desglose en tiempo real.</p>
+                <p>Marcá lo que te interesa y acá ves el total.</p>
               </div>
             ) : (
               <div className="mt-4 space-y-4">
@@ -542,7 +542,7 @@ export const BillingModule: React.FC = () => {
             </div>
 
             <p className="mt-4 text-[11px] leading-relaxed text-slate-400">
-              Cotización orientativa. El diagnóstico técnico inicial es 100% gratuito. Para confirmar disponibilidad de componentes y plazo de entrega, coordinamos un presupuesto cerrado por escrito.
+              Precio orientativo. Después del diagnóstico gratuito te pasamos un presupuesto cerrado.
             </p>
           </div>
         </div>
