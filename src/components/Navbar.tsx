@@ -5,7 +5,6 @@ import { SERVICES } from './ServicesSection';
 import { PRODUCTOS } from './ProductosPropios';
 import { PROJECTS_DATA } from './PortfolioSection';
 import { irA, useRuta, type Ruta } from '../rutas';
-import { BotonFondo } from './FondoColor';
 
 interface NavbarProps {
   onNavigate?: (sectionId: string) => void;
@@ -43,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const ruta = useRuta();
   const SECCION_DE_PAGINA: Record<string, string> = {
     '/servicios': 'servicios', '/productos': 'productos', '/robotica': 'robotica-3d', '/proyectos': 'proyectos', '/contacto': 'contacto',
-    '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros',
+    '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros', '/blog': 'blog',
   };
   const activeSection = ruta === '/' ? seccionInicio : SECCION_DE_PAGINA[ruta];
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -153,6 +152,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Cómo Trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
     { label: 'Presupuesto', href: '#facturacion', id: 'facturacion' },
     { label: 'Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
+    { label: 'Blog', href: '#blog', id: 'blog' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -281,7 +281,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
           {/* Zone 3: 1-2 primary actions */}
           <div className="hidden lg:flex items-center gap-2 2xl:gap-3 shrink-0">
-            <BotonFondo />
             <a
               href="#contacto"
               onClick={(e) => handleLinkClick(e, '#contacto')}
@@ -301,7 +300,6 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
           {/* Mobile menu trigger */}
           <div className="flex items-center gap-1.5 xl:hidden">
-            <BotonFondo className="lg:hidden" />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
