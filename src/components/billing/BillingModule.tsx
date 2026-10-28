@@ -37,10 +37,11 @@ export const BillingModule: React.FC = () => {
   const [cantidadChaja, setCantidadChaja] = useState(1);
   const [cantidadVoz, setCantidadVoz] = useState(0);
   const [planVoz, setPlanVoz] = useState<'esencial' | 'profesional' | 'industrial'>('profesional');
-  const planesVoz = { esencial: { usd: 9, alertas: 500 }, profesional: { usd: 19, alertas: 2000 }, industrial: { usd: 39, alertas: 5000 } };
+  // Precios en pesos (solo TERO Security se cotiza en dólares)
+  const planesVoz = { esencial: { ars: 10_800, alertas: 500 }, profesional: { ars: 22_800, alertas: 2000 }, industrial: { ars: 46_800, alertas: 5000 } };
   const chajaSeleccionado = hardwareElegidos.includes('dispositivo-chaja');
   const precioVoz = planesVoz[planVoz];
-  const vozMensualUsd = cantidadVoz * precioVoz.usd;
+  const vozMensual = cantidadVoz * precioVoz.ars;
 
   // Toggle selection
   const alternarHardware = (id: string) => {
@@ -94,17 +95,17 @@ export const BillingModule: React.FC = () => {
     itemsMensaje.push('📦 DISPOSITIVOS FÍSICOS (Hardware único):');
     seleccionHardware.forEach((h) => {
       const unidades = h.id === 'dispositivo-chaja' ? cantidadChaja : 1;
-      itemsMensaje.push(`  • ${h.servicio} (${unidades} unidad/es): ${h.id === 'dispositivo-chaja' ? 'Precio del equipo a confirmar' : `${h.precioUsd ? dolares(h.precioUsd * unidades) : ''} (~${pesos(h.min * unidades)})`}`);
+      itemsMensaje.push(`  • ${h.servicio} (${unidades} unidad/es): ${h.id === 'dispositivo-chaja' ? 'Precio del equipo a confirmar' : `${pesos(h.min * unidades)}`}`);
     });
     if (aplicarFilamento) {
-      itemsMensaje.push(`  • Carcasa en color a medida: +${pesos(OPCION_FILAMENTO_HARDWARE.min)} (~${dolares(OPCION_FILAMENTO_HARDWARE.usd)})`);
+      itemsMensaje.push(`  • Carcasa en color a medida: +${pesos(OPCION_FILAMENTO_HARDWARE.min)}`);
     } else {
       itemsMensaje.push(`  • Carcasa: Color Negro Mate industrial de serie (incluido)`);
     }
   }
 
   if (cantidadVoz > 0) {
-    itemsMensaje.push(`🔊 CHAJÁ Voz Inteligente: ${cantidadVoz} licencia/s (${planVoz}, hasta ${precioVoz.alertas} alertas mensuales por equipo): USD ${vozMensualUsd}/mes. Requiere activación y servicio Azure configurado.`);
+    itemsMensaje.push(`🔊 CHAJÁ Voz Inteligente: ${cantidadVoz} licencia/s (${planVoz}, hasta ${precioVoz.alertas} alertas mensuales por equipo): ${pesos(vozMensual)}/mes. Requiere activación y servicio Azure configurado.`);
   }
 
   if (seleccionSoftware.length > 0) {
@@ -122,13 +123,10 @@ export const BillingModule: React.FC = () => {
   }
 
   const resumenInversion: string[] = [];
-  if (totalUsdHardware > 0) {
-    resumenInversion.push(`Hardware: ${dolares(totalUsdHardware)}`);
-  }
   if (totalPagoUnicoArs.max > 0) {
     resumenInversion.push(`Total inicial estimado: ${pesos(totalPagoUnicoArs.min)} a ${pesos(totalPagoUnicoArs.max)}`);
   }
-  if (vozMensualUsd > 0) resumenInversion.push(`Voz CHAJÁ: USD ${vozMensualUsd}/mes (${cantidadVoz} equipo/s)`);
+  if (vozMensual > 0) resumenInversion.push(`Voz CHAJÁ: ${pesos(vozMensual)}/mes (${cantidadVoz} equipo/s)`);
   if (mensualTotal > 0) {
     resumenInversion.push(`Abono recurrente: ${pesos(mensualTotal)}/mes`);
   }
@@ -202,7 +200,7 @@ export const BillingModule: React.FC = () => {
                     nombre: 'Golondrina Automatización',
                     estado: 'Disponible a demanda',
                     color: 'emerald',
-                    equipo: `${dolares(190)} (~${pesos(228_000)})`,
+                    equipo: pesos(228_000),
                     extra: 'Puesta en marcha: $120.000 a $250.000 (una vez)',
                     servicio: '$80.000 a $120.000 por mes',
                   },
@@ -263,7 +261,7 @@ export const BillingModule: React.FC = () => {
                                 className={`text-left p-3 rounded-xl border transition-colors cursor-pointer ${elegido && cantidadVoz > 0 ? 'bg-cyan-950/60 border-cyan-400 ring-1 ring-cyan-400' : 'bg-slate-900 border-slate-700 hover:border-slate-500'}`}
                               >
                                 <span className="block text-sm font-bold text-white">{pl.nombre}</span>
-                                <span className="block mt-0.5 text-lg font-extrabold text-cyan-300">{dolares(planesVoz[pl.id].usd)}<span className="text-xs font-semibold text-slate-400">/mes</span></span>
+                                <span className="block mt-0.5 text-lg font-extrabold text-cyan-300">{pesos(planesVoz[pl.id].ars)}<span className="text-xs font-semibold text-slate-400">/mes</span></span>
                                 <span className="block text-xs text-slate-400">Hasta {planesVoz[pl.id].alertas.toLocaleString('es-AR')} alertas por mes</span>
                               </button>
                             );
@@ -282,7 +280,7 @@ export const BillingModule: React.FC = () => {
                           />
                         </label>
                         {cantidadVoz > 0 && (
-                          <p className="mt-2 text-sm font-semibold text-cyan-300">Voz: {dolares(vozMensualUsd)} por mes · {cantidadVoz} equipo{cantidadVoz > 1 ? 's' : ''}</p>
+                          <p className="mt-2 text-sm font-semibold text-cyan-300">Voz: {pesos(vozMensual)} por mes · {cantidadVoz} equipo{cantidadVoz > 1 ? 's' : ''}</p>
                         )}
                         <p className="mt-1 text-xs text-slate-500">Servicio opcional, no incluido en el equipo. El límite de alertas es por equipo.</p>
                       </div>
@@ -447,8 +445,7 @@ export const BillingModule: React.FC = () => {
                       <div key={h.id} className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
                         <span className="truncate">{h.servicio.replace(' (Hardware Appliance)', '').replace(' (Hardware Riel DIN)', '')}</span>
                         <div className="text-right shrink-0">
-                          <span className="font-bold text-white font-mono">{h.precioUsd ? dolares(h.precioUsd * (h.id === 'dispositivo-chaja' ? cantidadChaja : 1)) : ''}</span>
-                          <span className="block text-[10px] text-slate-400">(~{pesos(h.min * (h.id === 'dispositivo-chaja' ? cantidadChaja : 1))})</span>
+                          <span className="font-bold text-white font-mono">{pesos(h.min * (h.id === 'dispositivo-chaja' ? cantidadChaja : 1))}</span>
                         </div>
                       </div>
                     ))}
@@ -461,7 +458,7 @@ export const BillingModule: React.FC = () => {
                   </div>
                 )}
 
-                {cantidadVoz > 0 && <div className="text-xs text-cyan-300 border-t border-slate-700 pt-2">CHAJÁ Voz Inteligente · {cantidadVoz} licencia/s · USD {vozMensualUsd}/mes ({planVoz})</div>}
+                {cantidadVoz > 0 && <div className="text-xs text-cyan-300 border-t border-slate-700 pt-2">CHAJÁ Voz Inteligente · {cantidadVoz} licencia/s · {pesos(vozMensual)}/mes ({planVoz})</div>}
 
                 {/* Desglose Software */}
                 {seleccionSoftware.length > 0 && (
@@ -508,11 +505,6 @@ export const BillingModule: React.FC = () => {
                           <span className="text-slate-400 text-base font-semibold"> a {pesos(totalPagoUnicoArs.max)}</span>
                         )}
                       </div>
-                      {totalUsdHardware > 0 && (
-                        <div className="text-xs text-cyan-300 font-mono mt-0.5 font-semibold">
-                          (Incluye {dolares(totalUsdHardware)} en dispositivos físicos de hardware)
-                        </div>
-                      )}
                     </div>
                   )}
 

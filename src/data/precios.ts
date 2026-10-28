@@ -1,5 +1,5 @@
 // Precios de referencia para el presupuestador.
-// Hardware físico cotizado en USD con conversión de referencia en ARS (tipo de cambio ref: ~$1.200/USD).
+// Precios en pesos argentinos. Solo TERO Security se cotiza en dólares.
 // Los abonos mensuales son servicios recurrentes opcionales y NO incluyen el aparato físico.
 
 export interface Precio {
@@ -38,12 +38,12 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   {
     id: 'dispositivo-golondrina',
     servicio: 'Controlador Físico Golondrina (Hardware Riel DIN)',
-    incluye: 'Compra única del aparato físico (190 USD): Controlador para tablero eléctrico en Riel DIN, 8 salidas a relé industrial, bus RS-485 Modbus, entradas 4-20mA y pantalla OLED de diagnóstico. Fabricado en filamento Negro Mate de serie.',
+    incluye: 'Compra única del aparato físico ($228.000): Controlador para tablero eléctrico en Riel DIN, 8 salidas a relé industrial, bus RS-485 Modbus, entradas 4-20mA y pantalla OLED de diagnóstico. Fabricado en filamento Negro Mate de serie.',
     min: 228_000,
     max: 228_000,
     precioUsd: 190,
     tipo: 'hardware',
-    badge: 'Dispositivo Físico · 190 USD',
+    badge: 'Dispositivo Físico · $228.000',
     notaHardware: 'Equipo físico para montaje en tablero. Funciona de manera local e independiente.',
   },
 ];

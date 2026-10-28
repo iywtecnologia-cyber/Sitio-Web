@@ -32,7 +32,7 @@ export const SimulatorWhatsAppBot: React.FC = () => {
 
     if (q.includes('cuesta') || q.includes('precio') || q.includes('presupuesto') || q.includes('cotiz')) {
       return {
-        text: 'Nuestros desarrollos a medida parten desde los $850.000 ARS (o USD 750) según la complejidad y módulos requeridos (panel web, backend, base de datos y pasarelas). Podés probar nuestro cotizador interactivo más abajo en esta misma web para calcular el valor exacto con IVA y retenciones en tiempo real.',
+        text: 'Nuestros desarrollos a medida parten desde los $850.000 ARS según la complejidad y módulos requeridos (panel web, backend, base de datos y pasarelas). Podés probar nuestro cotizador interactivo más abajo en esta misma web para calcular el valor exacto con IVA y retenciones en tiempo real.',
         quickReplies: ['Ir al cotizador en pantalla', '¿Cuánto demora el desarrollo?']
       };
     }

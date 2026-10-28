@@ -61,7 +61,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     priceArs: 228000,
     category: 'Software & Automatización Contextual',
     specs: [
-      'Setup inicial: $120.000 a $250.000 ARS ($150 a $250 USD) por única vez',
+      'Setup inicial: $120.000 a $250.000 ARS por única vez',
       'Abono mensual SaaS: $80.000 a $120.000 ARS/mes por máquina monitoreada',
       'Automatización contextual (Zero-Click): detecta anomalías y actúa sola',
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
@@ -519,7 +519,7 @@ export const ProductosPropios: React.FC = () => {
                     $120.000 a $250.000 ARS
                   </span>
                   <span className="text-xs text-slate-400 font-mono">
-                    (o $150 a $250 USD) por única vez
+                    por única vez
                   </span>
                 </div>
 
