@@ -103,7 +103,7 @@ export const BillingModule: React.FC = () => {
     }
   }
 
-  if (cantidadVoz > 0 && chajaSeleccionado) {
+  if (cantidadVoz > 0) {
     itemsMensaje.push(`🔊 CHAJÁ Voz Inteligente: ${cantidadVoz} licencia/s (${planVoz}, hasta ${precioVoz.alertas} alertas mensuales por equipo): USD ${vozMensualUsd}/mes. Requiere activación y servicio Azure configurado.`);
   }
 
@@ -144,7 +144,7 @@ export const BillingModule: React.FC = () => {
     'Quiero solicitar el diagnóstico inicial y recibir un presupuesto formal.',
   ].join('\n');
 
-  const tieneSeleccion = seleccionHardware.length > 0 || seleccionSoftware.length > 0 || seleccionAbonos.length > 0;
+  const tieneSeleccion = seleccionHardware.length > 0 || seleccionSoftware.length > 0 || seleccionAbonos.length > 0 || cantidadVoz > 0;
 
   return (
     <section id="facturacion" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden scroll-mt-20">
@@ -219,7 +219,7 @@ export const BillingModule: React.FC = () => {
                     estado: 'Disponible a demanda',
                     color: 'cyan',
                     equipo: 'A consultar (se confirma después del diagnóstico)',
-                    extra: 'Voz hablada opcional por equipo: USD 9, 19 o 39 por mes',
+                    extra: 'Voz hablada opcional: elegí un plan abajo.',
                     servicio: 'A consultar',
                   },
                 ].map((pr) => (
@@ -243,6 +243,50 @@ export const BillingModule: React.FC = () => {
                       </div>
                     </dl>
                     <p className="mt-2 text-xs text-slate-400">{pr.extra}</p>
+                    {pr.nombre === 'CHAJÁ' && (
+                      <div className="mt-4 pt-4 border-t border-slate-800">
+                        <h5 className="text-sm font-bold text-white">Planes de voz hablada (opcional, por equipo)</h5>
+                        <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2" role="radiogroup" aria-label="Plan de voz de CHAJÁ">
+                          {([
+                            { id: 'esencial', nombre: 'Esencial' },
+                            { id: 'profesional', nombre: 'Profesional' },
+                            { id: 'industrial', nombre: 'Industrial' },
+                          ] as const).map((pl) => {
+                            const elegido = planVoz === pl.id;
+                            return (
+                              <button
+                                key={pl.id}
+                                type="button"
+                                role="radio"
+                                aria-checked={elegido}
+                                onClick={() => { setPlanVoz(pl.id); if (cantidadVoz === 0) setCantidadVoz(1); }}
+                                className={`text-left p-3 rounded-xl border transition-colors cursor-pointer ${elegido && cantidadVoz > 0 ? 'bg-cyan-950/60 border-cyan-400 ring-1 ring-cyan-400' : 'bg-slate-900 border-slate-700 hover:border-slate-500'}`}
+                              >
+                                <span className="block text-sm font-bold text-white">{pl.nombre}</span>
+                                <span className="block mt-0.5 text-lg font-extrabold text-cyan-300">{dolares(planesVoz[pl.id].usd)}<span className="text-xs font-semibold text-slate-400">/mes</span></span>
+                                <span className="block text-xs text-slate-400">Hasta {planesVoz[pl.id].alertas.toLocaleString('es-AR')} alertas por mes</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <label className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-300">
+                          ¿En cuántos equipos? (0 = sin voz)
+                          <input
+                            aria-label="Equipos CHAJÁ con voz"
+                            type="number"
+                            min={0}
+                            max={100}
+                            value={cantidadVoz}
+                            onChange={(e) => setCantidadVoz(Math.max(0, Math.min(100, Number(e.target.value) || 0)))}
+                            className="w-20 bg-slate-900 border border-slate-600 rounded-lg p-1.5 text-white"
+                          />
+                        </label>
+                        {cantidadVoz > 0 && (
+                          <p className="mt-2 text-sm font-semibold text-cyan-300">Voz: {dolares(vozMensualUsd)} por mes · {cantidadVoz} equipo{cantidadVoz > 1 ? 's' : ''}</p>
+                        )}
+                        <p className="mt-1 text-xs text-slate-500">Servicio opcional, no incluido en el equipo. El límite de alertas es por equipo.</p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -417,7 +461,7 @@ export const BillingModule: React.FC = () => {
                   </div>
                 )}
 
-                {cantidadVoz > 0 && chajaSeleccionado && <div className="text-xs text-cyan-300 border-t border-slate-700 pt-2">CHAJÁ Voz Inteligente · {cantidadVoz} licencia/s · USD {vozMensualUsd}/mes ({planVoz})</div>}
+                {cantidadVoz > 0 && <div className="text-xs text-cyan-300 border-t border-slate-700 pt-2">CHAJÁ Voz Inteligente · {cantidadVoz} licencia/s · USD {vozMensualUsd}/mes ({planVoz})</div>}
 
                 {/* Desglose Software */}
                 {seleccionSoftware.length > 0 && (
