@@ -6,7 +6,7 @@ import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
-import { whatsappLink, gmailLink, VENTAS_EMAIL, REDES } from '../../data/contact';
+import { whatsappLink, gmailLink, VENTAS_EMAIL } from '../../data/contact';
 import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
@@ -106,7 +106,7 @@ export const JarDestacado: React.FC = () => (
             Sobre el torneo <ExternalLink className="w-4 h-4" />
           </a>
           <a
-            href={REDES.instagram}
+            href="https://www.instagram.com/p/DfR6YLWpZU7/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-950/60 border border-violet-400/40 text-violet-100 font-semibold hover:border-violet-300"
