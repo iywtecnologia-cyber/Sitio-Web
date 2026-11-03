@@ -38,6 +38,13 @@ export const FOUNDERS: Founder[] = [
     badge: 'Electrónica & Desarrollo',
     linkedin: 'https://www.linkedin.com/in/sebastinsosa/',
   },
+  {
+    name: 'Iván Pieretto',
+    role: 'Equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/ivanpieretto',
+  },
 ];
 
 export const AboutSection: React.FC = () => {
@@ -86,7 +93,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Fichas de los Fundadores */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 mb-10">
           {FOUNDERS.map((founder) => (
             <div
               key={founder.name}

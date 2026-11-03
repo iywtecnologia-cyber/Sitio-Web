@@ -261,7 +261,7 @@ export const EquipoCorto: React.FC = () => (
         titulo="Un equipo de Rosario"
         bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
       />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {FOUNDERS.map((f) => (
           <li key={f.name} className="min-w-0">
             <a
