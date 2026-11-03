@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
@@ -44,7 +44,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos un equipo de Rosario: automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Somos una agencia remota con base en Rosario. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -259,7 +259,7 @@ export const EquipoCorto: React.FC = () => (
       <Titulo
         chip="Quiénes somos"
         titulo="Un equipo de Rosario"
-        bajada="Ciberseguridad, QA, automatización, electrónica y machine learning, en un mismo equipo."
+        bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
       />
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {FOUNDERS.map((f) => (
@@ -295,7 +295,6 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
-  { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
   { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
 ];
 

@@ -65,12 +65,24 @@ export const AboutSection: React.FC = () => {
           
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-4">
             <MapPin className="w-4 h-4 text-cyan-400" />
-            <span>Rosario, Santa Fe, Argentina</span>
+            <span>Agencia remota con base en Rosario, Santa Fe, Argentina</span>
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
             Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica.
           </p>
+        </div>
+
+        <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <p className="text-sm sm:text-base text-slate-300">¿Te interesa sumarte al equipo?</p>
+          <a
+            href="https://docs.google.com/forms/d/14fCeZQQUTWNRL49S7M3b43FPkncQ5XzUzvOhABXoVTg/edit#responses"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-slate-600 hover:bg-slate-800"
+          >
+            Trabajá con nosotros <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
 
         {/* Fichas de los Fundadores */}
