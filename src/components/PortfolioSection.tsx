@@ -219,7 +219,7 @@ export const PortfolioSection: React.FC = () => {
               >
                 Tu navegador no puede reproducir el video.
               </video>
-              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido con datos ficticios · Voz: Piper (OpenSLR 61, CC BY-SA 4.0)</figcaption>
+              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido del sistema con datos ficticios.</figcaption>
             </figure>
           )}
 
