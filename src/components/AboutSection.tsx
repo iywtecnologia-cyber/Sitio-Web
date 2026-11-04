@@ -45,6 +45,13 @@ export const FOUNDERS: Founder[] = [
     badge: 'Backend Developer',
     linkedin: 'https://www.linkedin.com/in/ivanpieretto',
   },
+  {
+    name: 'Mariano Candalaft',
+    role: 'Equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220/',
+  },
 ];
 
 export const AboutSection: React.FC = () => {

@@ -3,6 +3,7 @@ import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { irA } from '../rutas';
 import { BotonesRedes } from './Redes';
+import { FOUNDERS } from './AboutSection';
 
 const NAV_LINKS = [
   { id: 'servicios', label: 'Servicios' },
@@ -15,13 +16,6 @@ const NAV_LINKS = [
   { id: 'stack', label: 'Tecnologías' },
   { id: 'blog', label: 'Blog' },
   { id: 'contacto', label: 'Contacto' },
-];
-
-const LINKEDIN_LINKS = [
-  { href: 'https://www.linkedin.com/in/manuel-angiulli/', label: 'Manuel A.' },
-  { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'María Sofía Genta' },
-  { href: 'https://www.linkedin.com/in/esteban-menin-31928a259/', label: 'Esteban José Menin' },
-  { href: 'https://www.linkedin.com/in/sebastinsosa/', label: 'Sebastián Gabriel Sosa' },
 ];
 
 export const Footer: React.FC = () => {
@@ -77,16 +71,16 @@ export const Footer: React.FC = () => {
         <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Equipo</span>
           <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {LINKEDIN_LINKS.map((link) => (
+            {FOUNDERS.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
+                key={link.linkedin}
+                href={link.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-cyan-300 hover:border-[#0A66C2]/60 transition-colors text-[13px] whitespace-nowrap"
               >
                 <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
-                <span>{link.label}</span>
+                <span>{link.name}</span>
               </a>
             ))}
           </div>

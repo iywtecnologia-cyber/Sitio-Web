@@ -68,7 +68,7 @@ export const PROJECTS_DATA: ProjectCase[] = [
       {
         numero: '3',
         titulo: 'Solución implementada',
-        descripcion: 'Desarrollé un sistema de gestión integral de contactos con obra social, recordatorios de llamadas, adjuntos y accesos directos a WhatsApp, correo y compartir.',
+        descripcion: 'Desarrollamos un sistema de gestión integral de contactos con obra social, recordatorios de llamadas, adjuntos y accesos directos a WhatsApp, correo y compartir.',
         icon: Cpu,
         badgeClass: 'text-cyan-400',
         cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
