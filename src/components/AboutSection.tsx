@@ -6,7 +6,8 @@ interface Founder {
   role: string;
   specialty: string;
   badge: string;
-  linkedin: string;
+  /** Opcional: sin LinkedIn la ficha se muestra igual, sin los links. */
+  linkedin?: string;
 }
 
 export const FOUNDERS: Founder[] = [
@@ -37,6 +38,12 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Técnico Electrónico',
     badge: 'Electrónica & Desarrollo',
     linkedin: 'https://www.linkedin.com/in/sebastinsosa/',
+  },
+  {
+    name: 'Ulises Pan',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Desarrollo Full Stack',
   },
 ];
 
@@ -69,12 +76,12 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica.
+            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica, y <strong className="text-white">Ulises Pan</strong>, en desarrollo de software.
           </p>
         </div>
 
         {/* Fichas de los Fundadores */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 mb-10">
           {FOUNDERS.map((founder) => (
             <div
               key={founder.name}
@@ -85,15 +92,17 @@ export const AboutSection: React.FC = () => {
                   <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
                     {founder.role}
                   </span>
-                  <a
-                    href={founder.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 hover:bg-slate-700 transition-all cursor-pointer"
-                    title={`Ver perfil de LinkedIn de ${founder.name}`}
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
+                  {founder.linkedin && (
+                    <a
+                      href={founder.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 hover:bg-slate-700 transition-all cursor-pointer"
+                      title={`Ver perfil de LinkedIn de ${founder.name}`}
+                    >
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                  )}
                 </div>
 
                 <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
@@ -106,15 +115,17 @@ export const AboutSection: React.FC = () => {
 
               <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
                 <span>{founder.badge}</span>
-                <a
-                  href={founder.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
-                >
-                  <span>LinkedIn</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                {founder.linkedin && (
+                  <a
+                    href={founder.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    <span>LinkedIn</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
               </div>
             </div>
           ))}
