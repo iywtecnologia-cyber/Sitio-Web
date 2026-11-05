@@ -17,6 +17,10 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      // El asistente con IA corre en un servidor aparte (npm run server); en desarrollo Vite le pasa /api.
+      proxy: {
+        '/api': 'http://localhost:3001',
+      },
     },
   };
 });
