@@ -93,7 +93,7 @@ export const JarDestacado: React.FC = () => (
             Participamos con nuestro robot autónomo
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl">
-            Lo diseñamos y programamos en Rosario para competir en el torneo. Mirá cómo fue todo el proceso en nuestras redes.
+            Lo diseñamos y programamos en Rosario y terminamos 7°. Ya estamos pensando en la próxima edición.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2.5 shrink-0">
