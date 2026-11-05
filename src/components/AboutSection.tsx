@@ -44,6 +44,7 @@ export const FOUNDERS: Founder[] = [
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
     badge: 'Desarrollo Full Stack',
+    linkedin: 'https://www.linkedin.com/in/ulises-pan',
   },
 ];
 
