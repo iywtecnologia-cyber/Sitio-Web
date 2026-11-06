@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
+import { TecnorosLogo } from '../TecnorosLogo';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
@@ -120,40 +121,78 @@ export const JarDestacado: React.FC = () => (
 );
 
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
-const SERVICIOS_CORTOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
-  { icon: Target, titulo: 'Diagnóstico inicial gratuito', linea: 'Te decimos qué conviene hacer.', ir: 'servicio-analisis-qa' },
-  { icon: Workflow, titulo: 'Automatizaciones', linea: 'Lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
-  { icon: ShieldCheck, titulo: 'Ciberseguridad', linea: 'Tus datos, protegidos.', ir: 'servicio-ciberseguridad' },
-  { icon: ShoppingCart, titulo: 'E-commerce', linea: 'Tu tienda online.', ir: 'servicio-ecommerce' },
-  { icon: Smartphone, titulo: 'Aplicaciones móviles', linea: 'Tu negocio en el celular.', ir: 'servicio-aplicaciones-moviles' },
-  { icon: Contact, titulo: 'CRM', linea: 'Tus clientes en un solo lugar.', ir: 'servicio-crm' },
-  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Responde solo, a toda hora.', ir: 'servicio-bots-whatsapp' },
-  { icon: Bot, titulo: 'Asistentes animados', linea: 'Un personaje que guía a tus clientes.', ir: 'servicio-asistentes' },
-  { icon: Cpu, titulo: 'Robótica', linea: 'Cerebro digital y cuerpo físico.', ir: 'servicio-robotica-a-medida' },
-  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Que te encuentren.', ir: 'servicio-campanas-ads' },
-  { icon: Compass, titulo: 'Estrategia de marca', linea: 'Qué decir y a quién.', ir: 'servicio-estrategia-marca' },
-  { icon: Palette, titulo: 'Identidad visual', linea: 'Logo, colores y estilo.', ir: 'servicio-identidad-marca' },
+// Los siete de la remera, en el mismo orden (4 arriba y 3 abajo).
+const SERVICIOS_REMERA: { icon: React.ElementType; titulo: string; ir: string }[] = [
+  { icon: Search, titulo: 'Diagnóstico gratuito', ir: 'servicio-analisis-qa' },
+  { icon: Workflow, titulo: 'Automatizaciones', ir: 'servicio-automatizacion' },
+  { icon: MessageCircle, titulo: 'Bots de WhatsApp', ir: 'servicio-bots-whatsapp' },
+  { icon: Lock, titulo: 'Ciberseguridad', ir: 'servicio-ciberseguridad' },
+  { icon: Code2, titulo: 'Software a medida', ir: 'servicio-software-a-medida' },
+  { icon: Bot, titulo: 'Asistentes', ir: 'servicio-asistentes' },
+  { icon: Globe, titulo: 'Páginas web', ir: 'servicio-paginas-web' },
+];
+
+// Lo demás que hacemos, más chico: sigue estando, pero no compite con los siete principales.
+const SERVICIOS_ADEMAS: { icon: React.ElementType; titulo: string; ir: string }[] = [
+  { icon: ShoppingCart, titulo: 'E-commerce', ir: 'servicio-ecommerce' },
+  { icon: Smartphone, titulo: 'Apps móviles', ir: 'servicio-aplicaciones-moviles' },
+  { icon: Contact, titulo: 'CRM', ir: 'servicio-crm' },
+  { icon: Cpu, titulo: 'Robótica', ir: 'servicio-robotica-a-medida' },
+  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', ir: 'servicio-campanas-ads' },
+  { icon: Compass, titulo: 'Estrategia de marca', ir: 'servicio-estrategia-marca' },
+  { icon: Palette, titulo: 'Identidad visual', ir: 'servicio-identidad-marca' },
 ];
 
 export const QueHacemos: React.FC = () => (
   <section id="que-hacemos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Qué hacemos" titulo="Lo que ofrecemos" bajada="Tocá lo que te interese para ver el detalle." />
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        {SERVICIOS_CORTOS.map(({ icon: Icon, titulo, linea, ir }) => (
-          <button
-            key={titulo}
-            type="button"
-            onClick={() => irA(ir, true)}
-            className="flex flex-col items-start justify-start text-left p-4 sm:p-6 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors cursor-pointer group"
-          >
-            <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 mb-3">
-              <Icon className="w-5 h-5" />
-            </span>
-            <span className="block font-bold text-white">{titulo}</span>
-            <span className="block mt-1 text-xs sm:text-sm text-slate-400 leading-snug">{linea}</span>
-          </button>
-        ))}
+      {/* Mismo look que la remera: fondo negro, íconos en círculos de línea celeste y "con vos" resaltado. */}
+      <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-black px-4 py-10 sm:px-10 sm:py-14 text-center">
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[260px] bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" />
+        <div className="relative">
+          <TecnorosLogo className="w-12 h-14 sm:w-14 sm:h-16 mx-auto" />
+          <span className="mt-4 block text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Qué hacemos</span>
+
+          <ul className="mt-8 mx-auto max-w-3xl flex flex-wrap justify-center gap-y-7 sm:gap-y-9">
+            {SERVICIOS_REMERA.map(({ icon: Icon, titulo, ir }) => (
+              <li key={titulo} className="w-1/3 sm:w-1/4 px-1">
+                <button
+                  type="button"
+                  onClick={() => irA(ir, true)}
+                  className="group w-full flex flex-col items-center gap-3 cursor-pointer"
+                >
+                  <span className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-cyan-400/80 flex items-center justify-center text-cyan-300 transition-all group-hover:bg-cyan-400/10 group-hover:shadow-[0_0_24px_rgba(34,211,238,0.35)]">
+                    <Icon className="w-7 h-7 sm:w-8 sm:h-8" strokeWidth={1.75} />
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-white leading-tight max-w-[7.5rem]">{titulo}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <p className="mt-10 text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            Todo para tu negocio<br />
+            que crece <span className="text-cyan-400">con vos</span>
+          </p>
+          <p className="mt-3 font-mono text-sm text-slate-400">tecnoros.ar</p>
+        </div>
+      </div>
+
+      <div className="mt-6 sm:mt-8">
+        <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400">Y además</span>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {SERVICIOS_ADEMAS.map(({ icon: Icon, titulo, ir }) => (
+            <li key={titulo}>
+              <button
+                type="button"
+                onClick={() => irA(ir, true)}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 text-sm text-slate-200 cursor-pointer transition-colors"
+              >
+                <Icon className="w-4 h-4 text-cyan-300" /> {titulo}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
       <VerMas onClick={() => navegar('/servicios')}>Ver todos los servicios</VerMas>
     </div>
@@ -248,7 +287,8 @@ export const ProductosInicio: React.FC = () => (
 );
 
 // "María Sofía Genta" → "Sofía Genta", "Esteban José Menin" → "Esteban Menin"
-const nombreCorto = (n: string) => {
+const nombreCorto = (n: string, corto?: string) => {
+  if (corto) return corto;
   const p = n.split(' ');
   if (p.length <= 2) return n;
   return n.startsWith('María') ? `${p[1]} ${p[2]}` : `${p[0]} ${p[p.length - 1]}`;
@@ -272,7 +312,7 @@ export const EquipoCorto: React.FC = () => (
               </span>
               <span className="min-w-0 flex-1">
                 {/* Nombre corto: en 5 columnas los nombres completos partían en dos líneas y las fichas quedaban desparejas */}
-                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name)}</span>
+                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
                 <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
               </span>
               {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}

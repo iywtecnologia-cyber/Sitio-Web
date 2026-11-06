@@ -74,6 +74,30 @@ export const SERVICES: ServiceItem[] = [
     ]
   },
   {
+    id: 'software-a-medida',
+    icon: Code2,
+    badge: 'Software',
+    badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
+    title: 'Software a medida',
+    description: 'El sistema que tu negocio necesita, hecho para cómo trabajás.',
+    bullets: [
+      'Gestión, stock, turnos o lo que haga falta',
+      'Te lo mostramos funcionando antes de seguir'
+    ]
+  },
+  {
+    id: 'paginas-web',
+    icon: Globe,
+    badge: 'Web',
+    badgeColor: 'border-sky-500/40 text-sky-300 bg-sky-950/30',
+    title: 'Páginas web',
+    description: 'Tu web rápida, clara y lista para que te encuentren.',
+    bullets: [
+      'Se ve bien en el celular',
+      'Pensada para que el visitante te escriba'
+    ]
+  },
+  {
     id: 'ecommerce',
     icon: ShoppingCart,
     badge: 'E-commerce',
