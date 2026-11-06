@@ -12,8 +12,7 @@ import {
   Sparkles, 
   ArrowRight,
   Clock,
-  ExternalLink,
-  Github
+  ExternalLink
 } from 'lucide-react';
 
 export interface ProjectStep {
@@ -34,7 +33,6 @@ export interface ProjectCase {
   icon: React.ElementType;
   badgeColor: string;
   demoUrl?: string;
-  githubUrl?: string;
   pasos: ProjectStep[];
   // Video demo con datos ficticios (public/proyectos)
   video?: { src: string; poster: string };
@@ -103,7 +101,6 @@ export const PROJECTS_DATA: ProjectCase[] = [
     icon: Bot,
     badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
     demoUrl: 'https://mostrador-axj3.onrender.com',
-    githubUrl: 'https://github.com/Ivan-rgb-ops/Mostrador',
     video: { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg' },
     pasos: [
       {
@@ -244,18 +241,6 @@ export const PortfolioSection: React.FC = () => {
                       <ExternalLink className="w-3.5 h-3.5 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </a>
                   )}
-                  {activeProject.githubUrl && (
-                    <a
-                      href={activeProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:bg-slate-800 hover:border-slate-500 hover:text-white transition-all group"
-                    >
-                      <Github className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors" />
-                      <span>Ver código en GitHub</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </a>
-                  )}
                 </div>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-snug lg:whitespace-nowrap">
                   {activeProject.title}
@@ -323,34 +308,18 @@ export const PortfolioSection: React.FC = () => {
                       {paso.descripcion}
                     </p>
 
-                    {paso.numero === '5' && (activeProject.demoUrl || activeProject.githubUrl) && (
+                    {paso.numero === '5' && activeProject.demoUrl && (
                       <div className="mt-4 pt-3 border-t border-emerald-500/20 flex flex-wrap items-center justify-between gap-2">
                         <span className="text-xs text-emerald-300/80">Disponible en vivo:</span>
-                        <div className="flex flex-wrap items-center gap-3">
-                          {activeProject.demoUrl && (
-                            <a
-                              href={activeProject.demoUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 underline underline-offset-4 group"
-                            >
-                              <span>Abrir sistema en el navegador</span>
-                              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                            </a>
-                          )}
-                          {activeProject.githubUrl && (
-                            <a
-                              href={activeProject.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white underline underline-offset-4 group"
-                            >
-                              <Github className="w-3.5 h-3.5 text-slate-400 group-hover:text-white" />
-                              <span>Código en GitHub</span>
-                              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                            </a>
-                          )}
-                        </div>
+                        <a
+                          href={activeProject.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 underline underline-offset-4 group"
+                        >
+                          <span>Abrir sistema en el navegador</span>
+                          <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </a>
                       </div>
                     )}
                   </div>
