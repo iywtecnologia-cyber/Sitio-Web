@@ -231,7 +231,7 @@ export const RobotStudioSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-sm font-semibold transition-colors"
           >
             <span aria-hidden="true">🏁</span>
-            <span>Rumbo al Challenge JAR 2026: estamos desarrollando nuestro robot para participar</span>
+            <span>Challenge JAR 2026: participamos con nuestro robot autónomo y terminamos 7°</span>
           </a>
         </div>
 

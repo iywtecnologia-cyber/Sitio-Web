@@ -11,7 +11,7 @@ export const whatsappLink = (message: string): string => {
 // Redes de tecnoros.ar
 export const REDES = {
   linkedin: 'https://www.linkedin.com/in/tecnoros-ar-794698445/',
-  instagram: 'https://www.instagram.com/tecnorosar/',
+  instagram: 'https://www.instagram.com/tecnoros.arok/',
   tiktok: 'https://www.tiktok.com/@tecnorosar',
 };
 

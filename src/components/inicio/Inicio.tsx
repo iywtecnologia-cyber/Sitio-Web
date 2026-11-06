@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, Users, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Boxes, FolderKanban, Calculator, ChevronRight,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { FOUNDERS } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
-import { whatsappLink, gmailLink, VENTAS_EMAIL, REDES } from '../../data/contact';
+import { whatsappLink, gmailLink, VENTAS_EMAIL } from '../../data/contact';
 import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
@@ -44,7 +44,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos un equipo de Rosario: automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Somos una agencia remota con base en Rosario. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -75,7 +75,7 @@ export const HeroCorto: React.FC = () => (
   </section>
 );
 
-/* ── JAR 2026: bien visible en celular y compu ─────────────────────────── */
+/* ── JAR 2026: participación (evento finalizado) ───────────────────────── */
 export const JarDestacado: React.FC = () => (
   <section id="jar-2026" className="scroll-mt-24 px-5 sm:px-8 lg:px-12">
     <div className="max-w-7xl mx-auto relative overflow-hidden rounded-3xl border border-violet-400/50 bg-gradient-to-br from-violet-950/70 via-slate-900 to-cyan-950/50 p-5 sm:p-8 lg:p-10 shadow-2xl shadow-violet-900/30">
@@ -86,14 +86,14 @@ export const JarDestacado: React.FC = () => (
         </span>
         <div className="flex-1 min-w-0">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/15 border border-violet-400/50 text-xs sm:text-sm font-semibold text-violet-200">
-            <span aria-hidden="true">🏁</span> Rumbo al Challenge JAR 2026
+            <span aria-hidden="true">🏁</span> Challenge JAR 2026
           </span>
-          <span className="block mt-2 text-[11px] font-mono uppercase tracking-[0.18em] text-violet-300">Rosario · 3 al 6 de noviembre</span>
+          <span className="block mt-2 text-[11px] font-mono uppercase tracking-[0.18em] text-violet-300">Rosario · 3 al 6 de noviembre de 2026</span>
           <h2 className="mt-1.5 text-xl sm:text-3xl font-extrabold text-white leading-tight">
-            Estamos desarrollando nuestro robot autónomo para participar
+            Participamos con nuestro robot autónomo
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl">
-            Lo estamos diseñando y programando en Rosario. Seguí el avance en nuestras redes.
+            Lo diseñamos y programamos en Rosario y terminamos 7°. Ya estamos pensando en la próxima edición.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2.5 shrink-0">
@@ -106,12 +106,12 @@ export const JarDestacado: React.FC = () => (
             Sobre el torneo <ExternalLink className="w-4 h-4" />
           </a>
           <a
-            href={REDES.instagram}
+            href="https://www.instagram.com/p/DfXMB7vG_RP/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-950/60 border border-violet-400/40 text-violet-100 font-semibold hover:border-violet-300"
           >
-            <Instagram className="w-4 h-4" /> Seguí el avance
+            <Instagram className="w-4 h-4" /> Ver el recorrido
           </a>
         </div>
       </div>
@@ -259,12 +259,18 @@ export const EquipoCorto: React.FC = () => (
       <Titulo
         chip="Quiénes somos"
         titulo="Un equipo de Rosario"
-        bajada="Ciberseguridad, QA, automatización, electrónica y machine learning, en un mismo equipo."
+        bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
       />
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-        {FOUNDERS.map((f) => {
-          const contenido = (
-            <>
+        {FOUNDERS.map((f) => (
+          <li key={f.name} className="min-w-0">
+            <a
+              href={f.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`LinkedIn de ${f.name}`}
+              className="h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-[#0A66C2]/60 transition-colors min-w-0 group"
+            >
               <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
                 {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
               </span>
@@ -302,7 +308,6 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
-  { icon: Users, titulo: 'Nosotros', linea: 'Nuestra historia y el equipo', ruta: '/nosotros' },
   { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
 ];
 

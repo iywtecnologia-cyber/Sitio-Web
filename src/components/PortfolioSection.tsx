@@ -3,6 +3,7 @@ import { irA } from '../rutas';
 import { consultarPor } from '../consulta';
 import { 
   Activity,
+  Bot,
   CheckCircle2, 
   AlertCircle, 
   Cpu, 
@@ -11,7 +12,8 @@ import {
   Sparkles, 
   ArrowRight,
   Clock,
-  ExternalLink
+  ExternalLink,
+  Github
 } from 'lucide-react';
 
 export interface ProjectStep {
@@ -32,6 +34,7 @@ export interface ProjectCase {
   icon: React.ElementType;
   badgeColor: string;
   demoUrl?: string;
+  githubUrl?: string;
   pasos: ProjectStep[];
   // Video demo con datos ficticios (public/proyectos)
   video?: { src: string; poster: string };
@@ -68,7 +71,7 @@ export const PROJECTS_DATA: ProjectCase[] = [
       {
         numero: '3',
         titulo: 'Solución implementada',
-        descripcion: 'Desarrollé un sistema de gestión integral de contactos con obra social, recordatorios de llamadas, adjuntos y accesos directos a WhatsApp, correo y compartir.',
+        descripcion: 'Desarrollamos un sistema de gestión integral de contactos con obra social, recordatorios de llamadas, adjuntos y accesos directos a WhatsApp, correo y compartir.',
         icon: Cpu,
         badgeClass: 'text-cyan-400',
         cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
@@ -85,6 +88,60 @@ export const PROJECTS_DATA: ProjectCase[] = [
         numero: '5',
         titulo: 'El Resultado tangible',
         descripcion: 'Toda la información de cada paciente —obra social, contacto y adjuntos— accesible desde una sola ficha, con contacto directo en un clic.',
+        icon: CheckCircle2,
+        badgeClass: 'text-emerald-400',
+        cardClass: 'bg-gradient-to-b from-slate-950/80 to-emerald-950/20 border-emerald-500/30 hover:border-emerald-500/50'
+      }
+    ]
+  },
+  {
+    id: 'mostrador',
+    category: 'Chatbots con IA & Atención Comercial',
+    title: 'Mostrador: Chatbot con IA para tu Negocio',
+    highlightNumber: 'Respuestas 24/7',
+    highlightText: 'Atención automática con la información real de tu negocio',
+    icon: Bot,
+    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
+    demoUrl: 'https://mostrador-axj3.onrender.com',
+    githubUrl: 'https://github.com/Ivan-rgb-ops/Mostrador',
+    video: { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg' },
+    pasos: [
+      {
+        numero: '1',
+        titulo: 'Situación inicial & Dolor',
+        descripcion: 'Los negocios atienden las mismas consultas todos los días (horarios, precios, envíos). Responder a mano consume horas del equipo y deja clientes esperando fuera de horario.',
+        icon: AlertCircle,
+        badgeClass: 'text-rose-400',
+        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
+      },
+      {
+        numero: '2',
+        titulo: 'El Análisis de fondo',
+        descripcion: 'Un chatbot genérico no sirve si inventa respuestas o se desvía del tema. Se necesitaba un asistente estricto que responda únicamente en base a los datos verificados del negocio.',
+        icon: Search,
+        badgeClass: 'text-amber-400',
+        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
+      },
+      {
+        numero: '3',
+        titulo: 'Solución implementada',
+        descripcion: 'Desarrollamos Mostrador: plataforma con panel para cargar conocimiento, configurar el tono y generar un widget incrustable en cualquier web con una sola línea de código.',
+        icon: Cpu,
+        badgeClass: 'text-cyan-400',
+        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
+      },
+      {
+        numero: '4',
+        titulo: 'Validación y pruebas rigurosas',
+        descripcion: 'Pruebas exhaustivas con preguntas ambiguas, fuera de catálogo y de casos límite para garantizar respuestas breves, amables y sin alucinaciones, manteniendo siempre la derivación humana.',
+        icon: ShieldCheck,
+        badgeClass: 'text-sky-400',
+        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
+      },
+      {
+        numero: '5',
+        titulo: 'El Resultado tangible',
+        descripcion: 'Chatbot con IA listo para instalar en cualquier sitio web, respondiendo 24/7 y resolviendo consultas frecuentes al instante.',
         icon: CheckCircle2,
         badgeClass: 'text-emerald-400',
         cardClass: 'bg-gradient-to-b from-slate-950/80 to-emerald-950/20 border-emerald-500/30 hover:border-emerald-500/50'
@@ -187,6 +244,18 @@ export const PortfolioSection: React.FC = () => {
                       <ExternalLink className="w-3.5 h-3.5 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </a>
                   )}
+                  {activeProject.githubUrl && (
+                    <a
+                      href={activeProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:bg-slate-800 hover:border-slate-500 hover:text-white transition-all group"
+                    >
+                      <Github className="w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-colors" />
+                      <span>Ver código en GitHub</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </a>
+                  )}
                 </div>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white leading-snug lg:whitespace-nowrap">
                   {activeProject.title}
@@ -219,7 +288,7 @@ export const PortfolioSection: React.FC = () => {
               >
                 Tu navegador no puede reproducir el video.
               </video>
-              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido con datos ficticios · Voz: Piper (OpenSLR 61, CC BY-SA 4.0)</figcaption>
+              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido del sistema con datos ficticios.</figcaption>
             </figure>
           )}
 
@@ -254,18 +323,34 @@ export const PortfolioSection: React.FC = () => {
                       {paso.descripcion}
                     </p>
 
-                    {paso.numero === '5' && activeProject.demoUrl && (
+                    {paso.numero === '5' && (activeProject.demoUrl || activeProject.githubUrl) && (
                       <div className="mt-4 pt-3 border-t border-emerald-500/20 flex flex-wrap items-center justify-between gap-2">
                         <span className="text-xs text-emerald-300/80">Disponible en vivo:</span>
-                        <a
-                          href={activeProject.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 underline underline-offset-4 group"
-                        >
-                          <span>Abrir sistema en el navegador</span>
-                          <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        </a>
+                        <div className="flex flex-wrap items-center gap-3">
+                          {activeProject.demoUrl && (
+                            <a
+                              href={activeProject.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 hover:text-emerald-200 underline underline-offset-4 group"
+                            >
+                              <span>Abrir sistema en el navegador</span>
+                              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                            </a>
+                          )}
+                          {activeProject.githubUrl && (
+                            <a
+                              href={activeProject.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white underline underline-offset-4 group"
+                            >
+                              <Github className="w-3.5 h-3.5 text-slate-400 group-hover:text-white" />
+                              <span>Código en GitHub</span>
+                              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                            </a>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>

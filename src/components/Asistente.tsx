@@ -359,9 +359,9 @@ export const Asistente: React.FC = () => {
               </span>
             </span>
           </button>
-          <div className="relative max-h-[calc(100dvh-17rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
+          <div className="assistant-panel-enter relative max-h-[calc(100dvh-17rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
-            <TecnorosContactIcon className="w-9 h-9 shrink-0" />
+            <TecnorosContactIcon className="assistant-avatar-breathe w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
               <div className="text-sm font-bold text-white">Asistente</div>
               <div className="flex items-center gap-1.5 text-xs text-emerald-300">
@@ -381,7 +381,7 @@ export const Asistente: React.FC = () => {
 
           <div ref={listaRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
             {mensajes.map((m) => (
-              <div key={m.id} className={m.de === 'persona' ? 'flex justify-end' : 'flex flex-col items-start gap-2'}>
+              <div key={m.id} className={`assistant-message-enter ${m.de === 'persona' ? 'flex justify-end' : 'flex flex-col items-start gap-2'}`}>
                 <div
                   className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     m.de === 'persona'

@@ -52,14 +52,14 @@ export default function App() {
       <main className="flex-1">
         {ruta === '/' ? (
           <>
-            {/* Orden: quiénes somos → JAR → qué hacemos → qué ofrecemos → a dónde ir para saber más → contacto */}
+            {/* Orden: hero → combos → JAR → quiénes somos → servicios → productos → más información → contacto */}
             <HeroCorto />
+            <Combos id="combos-inicio" />
             <JarDestacado />
             <EquipoCorto />
             <QueHacemos />
             <PorQueElegirnos />
             <ProductosInicio />
-            <Combos id="combos-inicio" />
             <SaberMas />
             <ContactoRapido />
           </>
