@@ -106,7 +106,7 @@ export const JarDestacado: React.FC = () => (
             Sobre el torneo <ExternalLink className="w-4 h-4" />
           </a>
           <a
-            href="https://www.instagram.com/p/DfR6YLWpZU7/"
+            href="https://www.instagram.com/p/DfXMB7vG_RP/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-950/60 border border-violet-400/40 text-violet-100 font-semibold hover:border-violet-300"
