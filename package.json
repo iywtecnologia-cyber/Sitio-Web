@@ -10,7 +10,9 @@
     "start": "vite preview --port ${PORT:-3000} --host 0.0.0.0",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "golondrina:demo": "tsx src/implementaciones/golondrina_frio_seguro.ts"
+    "golondrina:demo": "tsx src/implementaciones/golondrina_frio_seguro.ts",
+    "server": "tsx server/index.ts",
+    "asistente:probar": "tsx scripts/probar-asistente.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

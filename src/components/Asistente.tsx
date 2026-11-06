@@ -4,140 +4,78 @@ import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
 import { whatsappLink, gmailLink } from '../data/contact';
+import { responder, respuestaDeTema, esModificador, temasDeGrilla, hayProveedorIA, type Respuesta, type Tema, type Turno } from '../asistente';
 
-// Asistente guiado de tecnoros.ar: responde con textos preparados (sin IA ni servicios externos),
-// no guarda nada y deriva a WhatsApp con el mensaje armado según el tema.
-
-interface Tema {
-  id: string;
-  boton: string;
-  palabras: string[];
-  respuesta: string;
-  seccion?: string;
-  whatsapp: string;
-}
-
-const TEMAS: Tema[] = [
-  {
-    id: 'automatizacion',
-    boton: 'Automatizaciones',
-    palabras: ['automatiz', 'planilla', 'excel', 'proceso', 'tarea', 'recordatorio', 'reporte', 'n8n', 'carga', 'manual'],
-    respuesta:
-      'Conectamos tus planillas, sistemas y procesos para que las tareas repetitivas se hagan solas: datos que se cargan solos, recordatorios automáticos y reportes sin hacerlos a mano.',
-    seccion: 'servicio-automatizacion',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por automatizaciones para mi negocio.',
-  },
-  {
-    id: 'bots',
-    boton: 'Bots de WhatsApp',
-    palabras: ['bot', 'whatsapp', 'wpp', 'whats', 'mensaje', 'pedido', 'responder', 'atencion'],
-    respuesta:
-      'Armamos bots de WhatsApp que responden las consultas de siempre, toman pedidos y turnos a toda hora, y te pasan el chat cuando hace falta una persona.',
-    seccion: 'servicio-bots-whatsapp',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por un bot de WhatsApp.',
-  },
-  {
-    id: 'ciberseguridad',
-    boton: 'Ciberseguridad',
-    palabras: ['segur', 'ciber', 'hacke', 'virus', 'contrasena', 'clave', 'proteg', 'riesgo', 'datos'],
-    respuesta:
-      'Revisamos tus sistemas y te decimos qué riesgos tienen, ordenamos quién accede a qué y protegemos los datos de tu negocio y de tus clientes.',
-    seccion: 'servicio-ciberseguridad',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por ciberseguridad para mi negocio.',
-  },
-  {
-    id: 'ecommerce',
-    boton: 'E-commerce',
-    palabras: ['tienda', 'ecommerce', 'e-commerce', 'vender online', 'carrito', 'catalogo', 'venta online', 'shop'],
-    respuesta:
-      'Armamos tu tienda online: catálogo, carrito y cobros, conectada con tu stock y con tu WhatsApp para que no se te pase ningún pedido.',
-    seccion: 'servicio-ecommerce',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por una tienda online.',
-  },
-  {
-    id: 'apps-crm',
-    boton: 'Apps móviles y CRM',
-    palabras: ['app', 'aplicacion', 'celular', 'movil', 'crm', 'cliente', 'seguimiento', 'turno', 'agenda'],
-    respuesta:
-      'Hacemos aplicaciones móviles a medida de tu negocio y CRM para tener a todos tus clientes, ventas y seguimientos en un solo lugar.',
-    seccion: 'servicio-aplicaciones-moviles',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por una aplicación móvil o un CRM.',
-  },
-  {
-    id: 'asistentes',
-    boton: 'Asistentes animados',
-    palabras: ['asistente', 'chat', 'chatbot', 'ia', 'inteligencia', 'personaje', 'mascota', 'animacion'],
-    respuesta:
-      '¡Como yo! 😄 Creamos un personaje ilustrado y animado para tu web, que saluda, guía a tus clientes y los pasa con una persona cuando hace falta.',
-    seccion: 'servicio-asistentes',
-    whatsapp: 'Hola tecnoros.ar, quiero un asistente para mi web o sistema.',
-  },
-  {
-    id: 'marketing',
-    boton: 'Campañas y marca',
-    palabras: ['campaña', 'campana', 'publicidad', 'meta', 'google', 'ads', 'instagram', 'facebook', 'marca', 'marketing', 'estrategia', 'redes', 'logo', 'identidad', 'colores'],
-    respuesta:
-      'Armamos campañas en Meta (Instagram y Facebook) y Google Ads, hacemos el análisis y la estrategia de tu marca, y su identidad: logo, colores y estilo.',
-    seccion: 'servicio-campanas-ads',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por campañas y estrategia de marca.',
-  },
-  {
-    id: 'precio',
-    boton: '¿Cuánto cuesta?',
-    palabras: ['precio', 'cuesta', 'cuanto', 'costo', 'presupuesto', 'valor', 'cobran', 'sale', 'gratis', 'diagnostico'],
-    respuesta:
-      'Depende de lo que necesites. En la sección Presupuestador podés marcar los servicios y ver un rango estimado. El diagnóstico es 100% gratuito y después te pasamos un presupuesto cerrado.',
-    seccion: 'facturacion',
-    whatsapp: 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.',
-  },
-  {
-    id: 'proyectos',
-    boton: 'Ver proyectos',
-    palabras: ['proyecto', 'ejemplo', 'trabajo', 'hicieron', 'portfolio', 'demo', 'caso'],
-    respuesta:
-      'Mirá nuestro desarrollo para consultorios: agenda odontológica con fichas de pacientes, obra social, adjuntos y contacto directo en un clic. Podés probarla en vivo ingresando a: agendaodontologica-9is7.onrender.com.',
-    seccion: 'proyectos',
-    whatsapp: 'Hola tecnoros.ar, vi sus proyectos y quiero hacer una consulta.',
-  },
-  {
-    id: 'persona',
-    boton: 'Hablar con una persona',
-    palabras: ['persona', 'humano', 'hablar', 'contacto', 'telefono', 'llamar', 'mail', 'email', 'correo'],
-    respuesta: '¡Claro! Escribinos por WhatsApp o por e-mail y te responde una persona del equipo. Tu consulta no molesta 😉',
-    seccion: 'contacto',
-    whatsapp: 'Hola tecnoros.ar, quiero hacerles una consulta.',
-  },
-];
+// Asistente guiado de tecnoros.ar. La inteligencia vive en src/asistente:
+// hoy responde con la base de conocimiento local (sin IA ni servicios externos) y
+// ese módulo es el único lugar donde se enchufaría una IA más adelante.
+// Acá sólo queda la pantalla: no guarda nada y deriva a WhatsApp o e-mail.
 
 const SALUDO =
-  '¡Hola! 👋 Soy el asistente de tecnoros.ar. Contame qué necesitás o elegí una opción:';
+  '¡Hola! 👋 Soy Marcio, el asistente de tecnoros.ar. Contame qué querés resolver en tu negocio, o elegí una opción:';
 
 interface Mensaje {
   id: number;
   de: 'bot' | 'persona';
   texto: string;
   tema?: Tema;
+  sugerencias?: Tema[];
   opciones?: boolean;
+  /** Se calculan una sola vez al crear el mensaje: whatsappLink reparte al azar
+   *  entre los dos números de ventas y no queremos que cambie en cada re-render. */
+  enlaces?: { wa: string; mail: string };
 }
 
-const normalizar = (t: string) =>
-  t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-
-const buscarTema = (texto: string): Tema | undefined => {
-  const t = normalizar(texto);
-  let mejor: Tema | undefined;
-  let puntos = 0;
-  for (const tema of TEMAS) {
-    const p = tema.palabras.filter((w) => t.includes(w)).length;
-    if (p > puntos) {
-      mejor = tema;
-      puntos = p;
-    }
-  }
-  return mejor;
-};
-
 let siguienteId = 1;
+
+const enlacesDe = (tema: Tema) => ({
+  wa: whatsappLink(tema.whatsapp),
+  mail: gmailLink('Consulta desde la web - tecnoros.ar', tema.whatsapp),
+});
+
+const mensajeDeRespuesta = (r: Respuesta): Mensaje => ({
+  id: siguienteId++,
+  de: 'bot',
+  texto: r.texto,
+  tema: r.tema,
+  sugerencias: r.sugerencias,
+  opciones: r.opciones,
+  enlaces: r.tema ? enlacesDe(r.tema) : undefined,
+});
+
+// Las respuestas pueden traer saltos de línea y alguna URL (la demo de la agenda, por ejemplo).
+// El de split lleva /g; para preguntar "¿esto es una URL?" va uno sin /g aparte,
+// porque un regex global arrastra lastIndex entre llamadas a test() y alterna el resultado.
+const RE_URL = /(https?:\/\/[^\s]+)/g;
+const ES_URL = /^https?:\/\//;
+
+const TextoDelBot: React.FC<{ texto: string }> = ({ texto }) => (
+  <>
+    {texto.split('\n').map((linea, i) => (
+      <React.Fragment key={i}>
+        {i > 0 && <span className="block h-2" aria-hidden="true" />}
+        {linea.split(RE_URL).map((parte, j) => {
+          if (!ES_URL.test(parte)) return parte;
+          // Un punto o paréntesis final es puntuación de la frase, no parte del link.
+          const limpia = parte.replace(/[.,;:)\]]+$/, '');
+          return (
+            <React.Fragment key={j}>
+              <a
+                href={limpia}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-cyan-300 underline decoration-cyan-400/50 hover:decoration-cyan-300 break-all"
+              >
+                {limpia.replace(/^https?:\/\//, '')}
+              </a>
+              {parte.slice(limpia.length)}
+            </React.Fragment>
+          );
+        })}
+      </React.Fragment>
+    ))}
+  </>
+);
 
 // Arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
 // Si se mueve menos de 6px cuenta como clic.
@@ -301,43 +239,61 @@ export const Asistente: React.FC = () => {
   const [mensajes, setMensajes] = useState<Mensaje[]>([
     { id: siguienteId++, de: 'bot', texto: SALUDO, opciones: true },
   ]);
+  // Mientras Marcio "piensa" se muestran los tres puntitos y el campo queda bloqueado,
+  // así no se encolan preguntas ni llegan respuestas fuera de orden.
+  const [pensando, setPensando] = useState(false);
+  // De qué se habló último: deja entender mensajes cortos como "¿y cuánto sale?".
+  const temaPrevio = useRef<string | undefined>(undefined);
   const listaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     listaRef.current?.scrollTo({ top: listaRef.current.scrollHeight, behavior: 'smooth' });
-  }, [mensajes, abierto]);
+  }, [mensajes, abierto, pensando]);
 
   useEffect(() => {
-    if (!abierto) return;
+    // Al terminar de responder el foco vuelve al campo, así se puede seguir escribiendo.
+    if (!abierto || pensando) return;
     inputRef.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setAbierto(false);
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [abierto]);
+  }, [abierto, pensando]);
 
-  const responder = (pregunta: string, tema?: Tema) => {
-    const encontrado = tema ?? buscarTema(pregunta);
-    const respuesta: Mensaje = encontrado
-      ? { id: siguienteId++, de: 'bot', texto: encontrado.respuesta, tema: encontrado }
-      : {
-          id: siguienteId++,
-          de: 'bot',
-          texto: 'No estoy seguro de haberte entendido 🙂. Elegí una opción o escribinos por WhatsApp o e-mail y te responde una persona.',
-          tema: TEMAS.find((t) => t.id === 'persona'),
-          opciones: true,
-        };
-    setMensajes((m) => [...m, { id: siguienteId++, de: 'persona', texto: pregunta }, respuesta]);
+  // Una pausa corta antes de contestar: instantáneo se siente a máquina y se lee peor.
+  const PAUSA_MS = 450;
+
+  const preguntar = async (pregunta: string, tema?: Tema) => {
+    if (pensando) return;
+    // El id se pide en orden de aparición: primero el mensaje de la persona, después la respuesta.
+    const mio: Mensaje = { id: siguienteId++, de: 'persona', texto: pregunta };
+    const historial: Turno[] = [...mensajes, mio].map((m) => ({ de: m.de, texto: m.texto }));
+    setMensajes((m) => [...m, mio]);
+    setPensando(true);
+    try {
+      // Si el tema vino de un botón no hay nada que adivinar y se contesta directo.
+      // La excepción es "¿Cuánto cuesta?" / "¿Cuánto tarda?": esos califican al tema
+      // anterior, así que pasan por el motor para que responda sobre ESE servicio.
+      const directo = tema && !(esModificador(tema.id) && temaPrevio.current);
+      const [r] = await Promise.all([
+        directo ? Promise.resolve(respuestaDeTema(tema!)) : responder(pregunta, { temaPrevio: temaPrevio.current }, historial),
+        new Promise((listo) => window.setTimeout(listo, PAUSA_MS)),
+      ]);
+      temaPrevio.current = r.temaContexto;
+      setMensajes((m) => [...m, mensajeDeRespuesta(r)]);
+    } finally {
+      setPensando(false);
+    }
   };
 
   const enviar = (e: React.FormEvent) => {
     e.preventDefault();
     const t = texto.trim();
-    if (!t) return;
+    if (!t || pensando) return;
     setTexto('');
-    responder(t);
+    void preguntar(t);
   };
 
   const irA = (id: string) => {
@@ -345,8 +301,14 @@ export const Asistente: React.FC = () => {
     irASeccion(id);
   };
 
-  const verOpciones = () =>
+  const verOpciones = () => {
+    temaPrevio.current = undefined;
     setMensajes((m) => [...m, { id: siguienteId++, de: 'bot', texto: '¿Sobre qué más te puedo contar?', opciones: true }]);
+  };
+
+  // Lo último que dijo Marcio, para que el lector de pantalla anuncie sólo eso
+  // y no relea toda la conversación cada vez que llega un mensaje.
+  const ultimoDelBot = [...mensajes].reverse().find((m) => m.de === 'bot');
 
   return (
     <>
@@ -358,14 +320,7 @@ export const Asistente: React.FC = () => {
             @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
             @keyframes marcio-globo { from { transform: translate(-50%, 8px) scale(.6); opacity: 0; } to { transform: translate(-50%, 0) scale(1); opacity: 1; } }
             @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
-            @keyframes assistant-panel-enter { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
-            @keyframes assistant-message-enter { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-            @keyframes assistant-avatar-breathe { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-1px) scale(1.035); } }
-            @media (prefers-reduced-motion: no-preference) {
-              .assistant-panel-enter { animation: assistant-panel-enter 240ms cubic-bezier(.2,.8,.2,1) both; }
-              .assistant-message-enter { animation: assistant-message-enter 220ms ease-out both; }
-              .assistant-avatar-breathe { animation: assistant-avatar-breathe 3.8s ease-in-out infinite; }
-            }
+            @keyframes marcio-puntito { 0%,60%,100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
       `}</style>
       {abierto && (
         <div
@@ -424,7 +379,7 @@ export const Asistente: React.FC = () => {
             </button>
           </div>
 
-          <div ref={listaRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3" aria-live="polite">
+          <div ref={listaRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
             {mensajes.map((m) => (
               <div key={m.id} className={`assistant-message-enter ${m.de === 'persona' ? 'flex justify-end' : 'flex flex-col items-start gap-2'}`}>
                 <div
@@ -434,13 +389,13 @@ export const Asistente: React.FC = () => {
                       : 'bg-slate-800/80 text-slate-100 rounded-bl-md'
                   }`}
                 >
-                  {m.texto}
+                  {m.de === 'bot' ? <TextoDelBot texto={m.texto} /> : m.texto}
                 </div>
 
-                {m.tema && (
+                {m.tema && m.enlaces && (
                   <div className="flex flex-wrap gap-2">
                     <a
-                      href={whatsappLink(m.tema.whatsapp)}
+                      href={m.enlaces.wa}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold transition-colors"
@@ -449,7 +404,7 @@ export const Asistente: React.FC = () => {
                       WhatsApp
                     </a>
                     <a
-                      href={gmailLink('Consulta desde la web - tecnoros.ar', m.tema.whatsapp)}
+                      href={m.enlaces.mail}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-colors"
@@ -479,14 +434,32 @@ export const Asistente: React.FC = () => {
                   </div>
                 )}
 
-                {m.opciones && (
+                {/* Temas relacionados: para que la charla pueda seguir sin tener que escribir. */}
+                {!!m.sugerencias?.length && (
                   <div className="flex flex-wrap gap-2">
-                    {TEMAS.map((t) => (
+                    {m.sugerencias.map((t) => (
                       <button
                         key={t.id}
                         type="button"
-                        onClick={() => responder(t.boton, t)}
-                        className="px-3 py-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-200 text-xs font-semibold transition-colors cursor-pointer"
+                        disabled={pensando}
+                        onClick={() => void preguntar(t.boton, t)}
+                        className="px-3 py-1.5 rounded-full border border-slate-600 bg-slate-800/60 hover:border-cyan-400 hover:text-white text-slate-300 text-xs font-semibold transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default"
+                      >
+                        {t.boton}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {m.opciones && (
+                  <div className="flex flex-wrap gap-2">
+                    {temasDeGrilla().map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        disabled={pensando}
+                        onClick={() => void preguntar(t.boton, t)}
+                        className="px-3 py-1.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-200 text-xs font-semibold transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default"
                       >
                         {t.boton}
                       </button>
@@ -495,7 +468,24 @@ export const Asistente: React.FC = () => {
                 )}
               </div>
             ))}
+
+            {pensando && (
+              <div className="flex items-center gap-1.5 px-3.5 py-3 w-fit rounded-2xl rounded-bl-md bg-slate-800/80" aria-hidden="true">
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-slate-400 motion-safe:animate-[marcio-puntito_1.2s_ease-in-out_infinite]"
+                    style={{ animationDelay: `${i * 0.15}s` }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
+
+          {/* Región para lectores de pantalla: anuncia sólo la última respuesta. */}
+          <p className="sr-only" aria-live="polite" aria-atomic="true">
+            {pensando ? 'Marcio está escribiendo…' : (ultimoDelBot?.texto ?? '')}
+          </p>
 
           <form onSubmit={enviar} className="flex items-center gap-2 px-3 py-3 border-t border-slate-800">
             <label htmlFor="asistente-texto" className="sr-only">
@@ -507,19 +497,25 @@ export const Asistente: React.FC = () => {
               type="text"
               value={texto}
               onChange={(e) => setTexto(e.target.value)}
-              placeholder="Escribí tu pregunta…"
+              placeholder={pensando ? 'Marcio está escribiendo…' : 'Escribí tu pregunta…'}
               autoComplete="off"
-              className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+              disabled={pensando}
+              className="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
             />
             <button
               type="submit"
               aria-label="Enviar pregunta"
-              className="p-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors cursor-pointer"
+              disabled={pensando || !texto.trim()}
+              className="p-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default"
             >
               <Send className="w-4 h-4" />
             </button>
           </form>
-          <div className="px-4 pb-2.5 text-[11px] text-slate-500">Asistente automático · no guardamos tus mensajes</div>
+          <div className="px-4 pb-2.5 text-[11px] text-slate-500">
+            {hayProveedorIA()
+              ? 'Asistente automático · algunas respuestas usan IA de Google · no compartas datos personales'
+              : 'Asistente automático · no guardamos tus mensajes'}
+          </div>
           </div>
         </div>
       )}

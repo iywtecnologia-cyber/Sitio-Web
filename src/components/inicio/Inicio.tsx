@@ -278,10 +278,23 @@ export const EquipoCorto: React.FC = () => (
                 <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200">{f.name}</span>
                 <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
               </span>
-              <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />
-            </a>
-          </li>
-        ))}
+              {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
+            </>
+          );
+          const clases = 'h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 transition-colors min-w-0 group';
+          // Sin LinkedIn la ficha no es un link: un <a> sin destino confunde al teclado y al lector de pantalla.
+          return (
+            <li key={f.name} className="min-w-0">
+              {f.linkedin ? (
+                <a href={f.linkedin} target="_blank" rel="noopener noreferrer" title={`LinkedIn de ${f.name}`} className={`${clases} hover:border-[#0A66C2]/60`}>
+                  {contenido}
+                </a>
+              ) : (
+                <div className={clases}>{contenido}</div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   </section>

@@ -8,3 +8,7 @@ coverage/
 !.env.example
 .aistudio/
 *.zip
+
+# Notas locales para Claude Code
+claude.md
+CLAUDE.md
