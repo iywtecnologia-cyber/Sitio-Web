@@ -261,16 +261,10 @@ export const EquipoCorto: React.FC = () => (
         titulo="Un equipo de Rosario"
         bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
       />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-        {FOUNDERS.map((f) => (
-          <li key={f.name} className="min-w-0">
-            <a
-              href={f.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={`LinkedIn de ${f.name}`}
-              className="h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-[#0A66C2]/60 transition-colors min-w-0 group"
-            >
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {FOUNDERS.map((f) => {
+          const contenido = (
+            <>
               <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
                 {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
               </span>

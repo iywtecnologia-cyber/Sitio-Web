@@ -46,6 +46,20 @@ export const FOUNDERS: Founder[] = [
     badge: 'Desarrollo Full Stack',
     linkedin: 'https://www.linkedin.com/in/ulises-pan',
   },
+  {
+    name: 'Iván Pieretto',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/ivanpieretto',
+  },
+  {
+    name: 'Mariano Candalaft',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220',
+  },
 ];
 
 export const AboutSection: React.FC = () => {
@@ -77,7 +91,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica, y <strong className="text-white">Ulises Pan</strong>, en desarrollo de software.
+            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend.
           </p>
         </div>
 
@@ -94,7 +108,8 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Fichas de los Fundadores */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 mb-10">
+        {/* Somos 7: en 4 columnas quedan dos filas parejas (4 + 3); con 5 quedaban dos fichas sueltas abajo */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-10">
           {FOUNDERS.map((founder) => (
             <div
               key={founder.name}

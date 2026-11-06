@@ -18,14 +18,6 @@ const NAV_LINKS = [
   { id: 'contacto', label: 'Contacto' },
 ];
 
-const LINKEDIN_LINKS = [
-  { href: 'https://www.linkedin.com/in/manuel-angiulli/', label: 'Manuel A.' },
-  { href: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/', label: 'María Sofía Genta' },
-  { href: 'https://www.linkedin.com/in/esteban-menin-31928a259/', label: 'Esteban José Menin' },
-  { href: 'https://www.linkedin.com/in/sebastinsosa/', label: 'Sebastián Gabriel Sosa' },
-  { href: 'https://www.linkedin.com/in/ulises-pan', label: 'Ulises Pan' },
-];
-
 export const Footer: React.FC = () => {
   const scrollTo = (id: string) => {
     irA(id);
