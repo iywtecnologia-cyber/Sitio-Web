@@ -12,7 +12,7 @@ export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
       <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Juntos te salen menos</h2>
       <p className="mt-2 text-base sm:text-lg text-slate-400 max-w-2xl"><span className="sm:hidden">Deslizá para ver los 4. </span>Elegí un combo. El precio final lo confirmamos en el diagnóstico gratuito.</p>
 
-      <ul className="mt-8 -mx-5 px-5 sm:mx-0 sm:px-0 pt-3 flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory no-scrollbar">
+      <ul className="mt-8 -mx-5 px-5 scroll-px-5 sm:mx-0 sm:px-0 sm:scroll-px-0 pt-3 flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory no-scrollbar">
         {COMBOS.map((c) => (
           <li
             key={c.id}

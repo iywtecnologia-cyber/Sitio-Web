@@ -8,7 +8,8 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        // import.meta.dirname y no __dirname: Vite avisa que __dirname deja de andar con su cargador nativo.
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     server: {

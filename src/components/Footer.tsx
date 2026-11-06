@@ -1,28 +1,25 @@
 import React from 'react';
 import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
-import { irA } from '../rutas';
 import { BotonesRedes } from './Redes';
 import { FOUNDERS } from './AboutSection';
 
+// Links reales (no botones): se pueden abrir en otra pestaña y los buscadores los siguen.
+// El clic lo intercepta rutas.ts, así que la navegación sigue siendo sin recargar.
 const NAV_LINKS = [
-  { id: 'servicios', label: 'Servicios' },
-  { id: 'productos', label: 'Productos' },
-  { id: 'robotica-3d', label: 'Diseñá tu robot' },
-  { id: 'proyectos', label: 'Proyectos' },
-  { id: 'como-trabajamos', label: 'Cómo Trabajamos' },
-  { id: 'facturacion', label: 'Presupuestos' },
-  { id: 'sobre-nosotros', label: 'Nosotros' },
-  { id: 'stack', label: 'Tecnologías' },
-  { id: 'blog', label: 'Blog' },
-  { id: 'contacto', label: 'Contacto' },
+  { href: '/servicios', label: 'Servicios' },
+  { href: '/productos', label: 'Productos' },
+  { href: '/robotica', label: 'Diseñá tu robot' },
+  { href: '/proyectos', label: 'Proyectos' },
+  { href: '/servicios#como-trabajamos', label: 'Cómo trabajamos' },
+  { href: '/presupuesto', label: 'Presupuesto' },
+  { href: '/nosotros', label: 'Nosotros' },
+  { href: '/tecnologias', label: 'Tecnologías' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contacto', label: 'Contacto' },
 ];
 
 export const Footer: React.FC = () => {
-  const scrollTo = (id: string) => {
-    irA(id);
-  };
-
   return (
     // pb extra en celular para que el botón flotante de contacto no tape el contenido
     <footer className="bg-[#05070D]/85 backdrop-blur-sm border-t border-slate-800/80 text-slate-400 text-xs pt-14 pb-28 sm:pt-16 sm:pb-16">
@@ -44,13 +41,13 @@ export const Footer: React.FC = () => {
             className="grid grid-cols-2 sm:flex sm:flex-wrap lg:flex-nowrap items-center justify-center lg:justify-end gap-x-8 gap-y-1 sm:gap-x-4 xl:gap-x-5 text-[13px] text-slate-400 text-center"
           >
             {NAV_LINKS.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollTo(link.id)}
+              <a
+                key={link.href}
+                href={link.href}
                 className="hover:text-cyan-400 transition-colors cursor-pointer py-2 whitespace-nowrap"
               >
                 {link.label}
-              </button>
+              </a>
             ))}
           </nav>
         </div>

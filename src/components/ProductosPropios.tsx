@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { irA } from '../rutas';
 import { tomarEquipo3D, EVENTO_EQUIPO_3D, type Equipo3D } from '../equipo3d';
 import { 
@@ -25,13 +25,24 @@ import {
   Terminal,
   Play
 } from 'lucide-react';
-import { HardwareSystemCanvas3D } from './systems/HardwareSystemCanvas3D';
 import { GolondrinaAplicacionesShowcase } from './systems/GolondrinaAplicacionesShowcase';
 import { whatsappLink } from '../data/contact';
 import { GolondrinaLogo } from './LogosProductos';
 import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
 import { PlegableMovil } from './PlegableMovil';
 import { dolares, pesos } from '../data/precios';
+
+// three.js pesa ~600 kB: el visor se descarga recién cuando se dibuja. Como el Navbar importa
+// PRODUCTOS de este archivo, un import directo metía three.js en la carga del inicio.
+const HardwareSystemCanvas3D = lazy(() => import('./systems/HardwareSystemCanvas3D').then((m) => ({ default: m.HardwareSystemCanvas3D })));
+
+// Mismo alto que el visor para que la página no salte cuando termina de cargar.
+const VisorCargando: React.FC = () => (
+  <div className="w-full h-[340px] sm:h-[520px] rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center" role="status">
+    <span className="w-8 h-8 rounded-full border-2 border-cyan-400/30 border-t-cyan-400 animate-spin" aria-hidden="true" />
+    <span className="sr-only">Cargando el visor 3D…</span>
+  </div>
+);
 
 export interface ProductoPropio {
   id: string;
@@ -656,12 +667,14 @@ export const ProductosPropios: React.FC = () => {
             
             {/* Columna Izquierda: Visor 3D Interactivo */}
             <div className="lg:col-span-8 flex flex-col gap-3">
-              <HardwareSystemCanvas3D
-                systemType={selectedSystem}
-                filamentColor={customFilament ? filamentColorHex : '#18181b'}
-                colibriMode={colibriMode}
-                explodedAmount={explodedAmount}
-              />
+              <Suspense fallback={<VisorCargando />}>
+                <HardwareSystemCanvas3D
+                  systemType={selectedSystem}
+                  filamentColor={customFilament ? filamentColorHex : '#18181b'}
+                  colibriMode={colibriMode}
+                  explodedAmount={explodedAmount}
+                />
+              </Suspense>
 
               {/* Simulación segura de los controles representados sobre las carcasas 3D. */}
               {(selectedSystem === 'colibri' || selectedSystem === 'golondrina') && (

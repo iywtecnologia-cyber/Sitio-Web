@@ -33,6 +33,8 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
   { ruta: '/proyectos', titulo: 'Proyectos', linea: 'Sistemas funcionando' },
   { ruta: '/presupuesto', titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta' },
   { ruta: '/nosotros', titulo: 'Nosotros', linea: 'Historia y equipo' },
+  // Estaba en el menú de compu pero no en el del celular
+  { ruta: '/blog', titulo: 'Blog', linea: 'Ideas cortas para tu negocio' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = () => {
@@ -70,7 +72,8 @@ export const Navbar: React.FC<NavbarProps> = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // al recargar a mitad de página el header tiene que aparecer ya con fondo
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -90,6 +93,22 @@ export const Navbar: React.FC<NavbarProps> = () => {
       document.removeEventListener('keydown', onKey);
     };
   }, [openMenu]);
+
+  // Menú del celular: se cierra con Escape y al cambiar de página por cualquier vía
+  // (botón Atrás, links del asistente…), no sólo tocando una opción del menú.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setOpenMenu(null);
+  }, [ruta]);
 
   const closeAll = () => {
     setOpenMenu(null);
@@ -149,7 +168,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
         },
       })),
     },
-    { label: 'Cómo Trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
+    { label: 'Cómo trabajamos', href: '#como-trabajamos', id: 'como-trabajamos' },
     { label: 'Presupuesto', href: '#facturacion', id: 'facturacion' },
     { label: 'Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
     { label: 'Blog', href: '#blog', id: 'blog' },
@@ -301,9 +320,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
           {/* Mobile menu trigger */}
           <div className="flex items-center gap-1.5 xl:hidden">
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="menu-movil"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -313,7 +335,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
       {/* Menú del celular: una lista simple de páginas, cada una con una línea que dice qué hay */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#0B1120] border-b border-slate-800 px-4 pt-3 pb-6 max-h-[calc(100dvh-5rem)] overflow-y-auto">
+        <nav id="menu-movil" aria-label="Menú principal" className="xl:hidden bg-[#0B1120] border-b border-slate-800 px-4 pt-3 pb-6 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain">
           <ul className="space-y-1">
             {MENU_MOVIL.map(({ ruta: r, titulo, linea }) => (
               <li key={r}>
@@ -339,7 +361,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
           >
             Contactanos
           </a>
-        </div>
+        </nav>
       )}
     </header>
   );

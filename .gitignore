@@ -8,6 +8,8 @@ coverage/
 !.env.example
 .aistudio/
 *.zip
+# Capturas y logs de las pruebas con Playwright
+.playwright-mcp/
 
 # Notas locales para Claude Code
 claude.md

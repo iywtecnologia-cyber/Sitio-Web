@@ -40,18 +40,28 @@ const EVENTO = 'cambio-de-ruta';
 
 export const rutaActual = (): Ruta => (typeof window === 'undefined' ? '/' : normalizar(window.location.pathname));
 
+// /servicios/ o /cualquier-cosa mostraban la página sin corregir la barra de direcciones:
+// links rotos compartidos quedaban "funcionando" y Google veía el inicio duplicado en otra URL.
+const corregirURL = () => {
+  const { pathname, search, hash } = window.location;
+  const ruta = rutaActual();
+  if (pathname !== ruta) window.history.replaceState(window.history.state, '', ruta + search + hash);
+};
+
 export const navegar = (ruta: Ruta, hash = '') => {
   const destino = ruta + (hash ? `#${hash}` : '');
   if (window.location.pathname + window.location.hash !== destino) {
     window.history.pushState({}, '', destino);
   }
   window.dispatchEvent(new Event(EVENTO));
-  if (!hash) window.scrollTo({ top: 0 });
+  // 'instant' a propósito: con scroll-smooth en <html>, la página nueva se veía "pasar" de abajo hacia arriba.
+  if (!hash) window.scrollTo({ top: 0, behavior: 'instant' });
 };
 
 export const useRuta = (): Ruta => {
   const [ruta, setRuta] = useState<Ruta>(rutaActual());
   useEffect(() => {
+    corregirURL();
     const actualizar = () => setRuta(rutaActual());
     window.addEventListener('popstate', actualizar);
     window.addEventListener(EVENTO, actualizar);
@@ -73,17 +83,32 @@ const resaltarEl = (el: Element) => {
   }, 500);
 };
 
+// Margen para que el header fijo no tape el título de la sección. Se calcula acá y no con
+// scroll-mt-* en cada sección: había valores distintos y algunas quedaban debajo del header.
+const MARGEN_SOBRE_SECCION = 16;
+
+const scrollearA = (el: Element, bloque: ScrollLogicalPosition) => {
+  if (bloque !== 'start') {
+    el.scrollIntoView({ behavior: 'smooth', block: bloque });
+    return;
+  }
+  const alturaHeader = document.querySelector('header')?.getBoundingClientRect().height ?? 80;
+  const top = el.getBoundingClientRect().top + window.scrollY - alturaHeader - MARGEN_SOBRE_SECCION;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+};
+
 // Espera a que el elemento exista (la página nueva tarda un instante en dibujarse) y scrollea hasta él.
 const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalPosition) => {
   let intentos = 0;
   const probar = () => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: bloque });
+      scrollearA(el, bloque);
       if (resaltar) resaltarEl(el);
       return;
     }
-    if (++intentos < 40) window.setTimeout(probar, 50);
+    // Hasta 5 s: las páginas pesadas se descargan aparte y en un celular con 3G tardan.
+    if (++intentos < 100) window.setTimeout(probar, 50);
   };
   probar();
 };

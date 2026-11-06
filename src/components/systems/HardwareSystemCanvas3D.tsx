@@ -224,7 +224,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap; // PCFSoft ya no existe en three r18x (caía a PCF con un aviso)
 
     container.appendChild(renderer.domElement);
 
@@ -389,7 +389,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     setIsLoading(false);
 
     let frameId = 0;
-    const clock = new THREE.Clock();
+    const clock = new THREE.Timer(); // Clock está deprecado
 
     function afterDraw(cb: () => void) {
       const gl = renderer.getContext() as WebGL2RenderingContext;
@@ -408,6 +408,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     }
 
     const animate = () => {
+      clock.update();
       const delta = clock.getDelta();
       controls.update();
       renderer.render(scene, camera);

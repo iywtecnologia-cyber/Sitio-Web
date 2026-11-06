@@ -12,7 +12,7 @@ import type { Ruta } from '../../rutas';
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
 // Lo pesado (simuladores, 3D, presupuestador, tecnologías) vive en su propia página.
 
-const Titulo: React.FC<{ chip: string; titulo: string; bajada?: string }> = ({ chip, titulo, bajada }) => (
+const Titulo: React.FC<{ chip: string; titulo: string; bajada?: React.ReactNode }> = ({ chip, titulo, bajada }) => (
   <div className="mb-6 sm:mb-8">
     <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">{chip}</span>
     <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">{titulo}</h2>
@@ -211,11 +211,13 @@ const CHIP: Record<string, string> = {
 export const ProductosInicio: React.FC = () => (
   <section id="productos-inicio" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="Productos propios" titulo="Nuestros productos" bajada="Deslizá para ver cada uno y probalo." />
+      {/* En compu se ven los cuatro juntos: "Deslizá" sólo tiene sentido en el carrusel */}
+      <Titulo chip="Productos propios" titulo="Nuestros productos" bajada={<><span className="lg:hidden">Deslizá para ver cada uno y probalo.</span><span className="hidden lg:inline">Elegí uno y probalo.</span></>} />
     </div>
-    {/* En celular se desliza de costado; en compu se ven los cuatro */}
+    {/* En celular se desliza de costado; en compu se ven los cuatro.
+        scroll-px: sin esto el snap alinea la tarjeta contra el borde y se "come" el padding. */}
     <div className="max-w-7xl mx-auto lg:px-12">
-      <ul className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-5 sm:px-8 lg:px-0 pb-3 no-scrollbar">
+      <ul className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-5 sm:px-8 lg:px-0 scroll-px-5 sm:scroll-px-8 lg:scroll-px-0 pb-3 no-scrollbar">
         {PRODUCTOS_CORTOS.map(({ logo: Logo, nombre, linea, boton, ir, equipo, estado, color }) => (
           <li key={nombre} className="snap-start shrink-0 w-[80%] sm:w-[45%] lg:w-auto">
             <div className="h-full p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 flex flex-col">
@@ -269,7 +271,8 @@ export const EquipoCorto: React.FC = () => (
                 {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200">{f.name}</span>
+                {/* Nombre corto: en 5 columnas los nombres completos partían en dos líneas y las fichas quedaban desparejas */}
+                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name)}</span>
                 <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
               </span>
               {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
@@ -348,8 +351,11 @@ export const ContactoRapido: React.FC = () => (
         >
           <MessageCircle className="w-4 h-4" /> WhatsApp
         </a>
+        {/* Gmail web como en el resto de la web: un mailto: en una compu sin programa de correo no hace nada. */}
         <a
-          href={`mailto:${VENTAS_EMAIL}`}
+          href={gmailLink('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
           <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}

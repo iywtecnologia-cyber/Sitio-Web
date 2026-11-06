@@ -239,7 +239,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap; // PCFSoft ya no existe en three r18x (caía a PCF con un aviso)
 
     container.appendChild(renderer.domElement);
 
@@ -406,7 +406,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
     setIsLoading(false);
 
     let frameId = 0;
-    const clock = new THREE.Clock();
+    const clock = new THREE.Timer(); // Clock está deprecado
 
     function afterDraw(cb: () => void) {
       const gl = renderer.getContext() as WebGL2RenderingContext;
@@ -428,8 +428,9 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
     // Bucle de animación cinemática y física hiperrealista
     const animate = () => {
+      clock.update();
       const delta = clock.getDelta();
-      const elapsed = clock.getElapsedTime();
+      const elapsed = clock.getElapsed();
 
       const targetExp = configRef.current.explodedAmount;
       currentExploded.value = THREE.MathUtils.damp(currentExploded.value, targetExp, 8, delta);

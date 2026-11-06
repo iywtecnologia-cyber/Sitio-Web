@@ -17,6 +17,17 @@
   code, pre, .font-mono, [class*="font-mono"] {
     font-family: var(--font-mono);
   }
+  /* Quien navega con teclado tiene que ver dónde está parado: casi ningún botón o link lo marcaba. */
+  :where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid #22D3EE;
+    outline-offset: 2px;
+  }
+  /* Quien pidió menos movimiento en su sistema no recibe scroll animado. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* Custom scrollbar */
