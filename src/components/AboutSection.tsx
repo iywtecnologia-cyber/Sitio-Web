@@ -8,6 +8,8 @@ interface Founder {
   badge: string;
   /** Opcional: sin LinkedIn la ficha se muestra igual, sin los links. */
   linkedin?: string;
+  /** Opcional: nombre para las fichas angostas de la landing, cuando sacar el primero y el último no alcanza. */
+  corto?: string;
 }
 
 export const FOUNDERS: Founder[] = [
@@ -60,6 +62,122 @@ export const FOUNDERS: Founder[] = [
     badge: 'Backend Developer',
     linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220',
   },
+  {
+    name: 'Santiago Senn',
+    role: 'Se sumó al equipo',
+    specialty: 'Operations Manager',
+    badge: 'Operations Manager',
+    linkedin: 'https://www.linkedin.com/in/santiago-senn-67310b329',
+  },
+  {
+    name: 'Jordi Sanchez Correa',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    corto: 'Jordi Sanchez Correa',
+    linkedin: 'https://www.linkedin.com/in/jordi-sanchez-correa/',
+  },
+  {
+    name: 'Cindy Otto',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    linkedin: 'https://www.linkedin.com/in/cindy-ailyn-otto-75a701371',
+  },
+  {
+    name: 'Nicolas Oriti Tizio',
+    role: 'Se sumó al equipo',
+    specialty: 'Líder Backend Developer',
+    badge: 'Líder Backend',
+    corto: 'Nicolas Oriti',
+    linkedin: 'https://www.linkedin.com/in/nicolas-oriti-tizio',
+  },
+  {
+    name: 'Agustín Albónico',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/agustinalbonico/',
+  },
+  {
+    name: 'Abel Alarcon',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/abelalarc%C3%B3n/',
+  },
+  {
+    name: 'Matias Aguero',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer (Full Stack)',
+    badge: 'Backend & Full Stack',
+    linkedin: 'https://www.linkedin.com/in/matias-aguero-ventrice',
+  },
+  {
+    name: 'Lucas Caño',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    linkedin: 'https://www.linkedin.com/in/lucas-ca%C3%B1o-0a5406223',
+  },
+  {
+    name: 'Ignacio Ibaigorria',
+    role: 'Se sumó al equipo',
+    specialty: 'Full Stack Developer (foco en frontend)',
+    badge: 'Full Stack · Frontend',
+    linkedin: 'https://linkedin.com/in/ignacio-ibaigorria',
+  },
+  {
+    name: 'Rodrigo Pinto',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Desarrollo Full Stack',
+    linkedin: 'https://www.linkedin.com/in/rodrigopinto30/',
+  },
+  {
+    name: 'Miguel Pistan',
+    role: 'Se sumó al equipo',
+    specialty: 'Tester QA manual',
+    badge: 'QA Manual',
+    linkedin: 'https://www.linkedin.com/in/miguel-pistan/',
+  },
+  {
+    name: 'Ayelén Tolay',
+    role: 'Se sumó al equipo',
+    specialty: 'Analista QA Tester',
+    badge: 'Analista QA',
+    linkedin: 'https://www.linkedin.com/in/ayelen-tolay',
+  },
+  {
+    name: 'Fernando Barrionuevo',
+    role: 'Se sumó al equipo',
+    specialty: 'QA Manual',
+    badge: 'QA Manual',
+    linkedin: 'https://www.linkedin.com/in/fernandobarrionuevoqa',
+  },
+  {
+    name: 'Pamela Calafate',
+    role: 'Se sumó al equipo',
+    specialty: 'QA manual y automation · Abogada',
+    badge: 'QA & Legal',
+    linkedin: 'https://www.linkedin.com/in/pamelacalafate/',
+  },
+  {
+    // Pidió que le avisemos qué rol le ponemos: este es el que ella/él mismo propuso, a confirmar.
+    name: 'Leandro José Luis Trapine',
+    role: 'Se sumó al equipo',
+    specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
+    badge: 'QA & Technology Consultant',
+    corto: 'Leandro Trapine',
+    linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
+  },
+  {
+    name: 'Santiago Pereira',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244',
+  }
 ];
 
 export const AboutSection: React.FC = () => {
@@ -91,7 +209,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend.
+            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend. Hoy somos {FOUNDERS.length} personas: desarrollo backend y frontend, QA, recursos humanos, operaciones, electrónica y asesoría legal en tecnología.
           </p>
         </div>
 
@@ -108,7 +226,7 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Fichas de los Fundadores */}
-        {/* Somos 7: en 4 columnas quedan dos filas parejas (4 + 3); con 5 quedaban dos fichas sueltas abajo */}
+        {/* El equipo crece seguido: la grilla se acomoda sola, no depende de cuántos somos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-10">
           {FOUNDERS.map((founder) => (
             <div

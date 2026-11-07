@@ -129,7 +129,7 @@ export const TEMAS: Tema[] = [
     ],
     respuesta:
       'Hacemos tu web desde cero: una página rápida, que se ve bien en el celular, pensada para que te encuentren en Google y para que el visitante termine escribiéndote. Si además querés vender, se arma como tienda online.',
-    seccion: 'servicio-ecommerce',
+    seccion: 'servicio-paginas-web',
     whatsapp: 'Hola tecnoros.ar, quiero consultar por una página web para mi negocio.',
     precioId: 'ecommerce',
     relacionados: ['ecommerce', 'marketing', 'identidad'],
