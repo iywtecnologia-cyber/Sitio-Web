@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { TecnorosLogo } from '../TecnorosLogo';
-import { FOUNDERS } from '../AboutSection';
+import { equipoPorArea } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
 import { whatsappLink, gmailLink, VENTAS_EMAIL } from '../../data/contact';
@@ -45,7 +45,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos una agencia remota con base en Rosario. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Somos una agencia remota nacida en Rosario, con equipo en distintos lugares del mundo. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -174,7 +174,7 @@ export const QueHacemos: React.FC = () => (
             Todo para tu negocio<br />
             que crece <span className="text-cyan-400">con vos</span>
           </p>
-          <p className="mt-3 font-mono text-sm text-slate-400">tecnoros.ar</p>
+          <p className="mt-3 font-mono text-sm text-slate-400">tecnoros<span className="text-cyan-400">.ar</span></p>
         </div>
       </div>
 
@@ -300,39 +300,50 @@ export const EquipoCorto: React.FC = () => (
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo
         chip="Quiénes somos"
-        titulo="Un equipo de Rosario"
-        bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
+        titulo="Nuestro equipo"
+        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares del mundo. Así estamos organizados:"
       />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {FOUNDERS.map((f) => {
-          const contenido = (
-            <>
-              <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
-                {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
-              </span>
-              <span className="min-w-0 flex-1">
-                {/* Nombre corto: en 5 columnas los nombres completos partían en dos líneas y las fichas quedaban desparejas */}
-                <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
-                <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
-              </span>
-              {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
-            </>
-          );
-          const clases = 'h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 transition-colors min-w-0 group';
-          // Sin LinkedIn la ficha no es un link: un <a> sin destino confunde al teclado y al lector de pantalla.
-          return (
-            <li key={f.name} className="min-w-0">
-              {f.linkedin ? (
-                <a href={f.linkedin} target="_blank" rel="noopener noreferrer" title={`LinkedIn de ${f.name}`} className={`${clases} hover:border-[#0A66C2]/60`}>
-                  {contenido}
-                </a>
-              ) : (
-                <div className={clases}>{contenido}</div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+      {/* Por área; en compu, las áreas se acomodan en columnas como un mosaico */}
+      <div className="columns-1 md:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
+        {equipoPorArea().map((area) => (
+          <section key={area.id} aria-label={area.nombre} className="break-inside-avoid mb-4 p-4 rounded-2xl bg-slate-900/50 border border-slate-800">
+            <h3 className="mb-3 flex items-baseline justify-between gap-2 text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">
+              <span>{area.nombre}</span>
+              <span className="text-slate-500">{area.integrantes.length}</span>
+            </h3>
+            <ul className="space-y-2">
+              {area.integrantes.map((f) => {
+                const contenido = (
+                  <>
+                    <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
+                      {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      {/* Nombre corto: así cada ficha entra en una línea y quedan parejas */}
+                      <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
+                      <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
+                    </span>
+                    {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
+                  </>
+                );
+                const clases = 'h-full flex items-center gap-3 p-2.5 sm:p-3 rounded-xl bg-slate-900/70 border border-slate-800 transition-colors min-w-0 group';
+                // Sin LinkedIn la ficha no es un link: un <a> sin destino confunde al teclado y al lector de pantalla.
+                return (
+                  <li key={f.name} className="min-w-0">
+                    {f.linkedin ? (
+                      <a href={f.linkedin} target="_blank" rel="noopener noreferrer" title={`LinkedIn de ${f.name}`} className={`${clases} hover:border-[#0A66C2]/60`}>
+                        {contenido}
+                      </a>
+                    ) : (
+                      <div className={clases}>{contenido}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
+      </div>
     </div>
   </section>
 );

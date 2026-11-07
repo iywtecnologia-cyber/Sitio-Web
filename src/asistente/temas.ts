@@ -283,7 +283,7 @@ export const TEMAS: Tema[] = [
       fr('que tecnologias', 5),
     ],
     respuesta:
-      'Somos un equipo de Rosario, Santa Fe. Trabajamos automatización, ciberseguridad, robótica, electrónica y machine learning. En Nosotros está el equipo y en Tecnologías, con qué trabajamos.',
+      'Nacimos en Rosario, Santa Fe, y hoy somos un equipo remoto con gente de distintos lugares del mundo. Trabajamos automatización, ciberseguridad, robótica, electrónica y machine learning. En Nosotros está el equipo y en Tecnologías, con qué trabajamos.',
     seccion: 'sobre-nosotros',
     whatsapp: 'Hola tecnoros.ar, quiero saber más sobre ustedes y su equipo.',
     relacionados: ['proyectos', 'diagnostico', 'persona'],

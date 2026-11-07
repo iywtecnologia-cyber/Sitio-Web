@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, Linkedin } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { BotonesRedes } from './Redes';
-import { FOUNDERS } from './AboutSection';
+import { equipoPorArea } from './AboutSection';
 
 // Links reales (no botones): se pueden abrir en otra pestaña y los buscadores los siguen.
 // El clic lo intercepta rutas.ts, así que la navegación sigue siendo sin recargar.
@@ -68,9 +68,9 @@ export const Footer: React.FC = () => {
         <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
           <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Equipo</span>
           <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {FOUNDERS.map((link) => (
+            {equipoPorArea().flatMap((a) => a.integrantes).map((link) => (
               <a
-                key={link.linkedin}
+                key={link.name}
                 href={link.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -87,7 +87,7 @@ export const Footer: React.FC = () => {
 
         {/* Créditos */}
         <div className="mt-8 pt-6 border-t border-slate-800/70 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 text-center font-mono text-[11px] sm:text-xs text-slate-500">
-          <span>© {new Date().getFullYear()} tecnoros.ar · Todos los derechos reservados</span>
+          <span>© {new Date().getFullYear()} tecnoros<span className="text-cyan-400">.ar</span> · Todos los derechos reservados</span>
           <span className="hidden sm:inline text-slate-700" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">
             Hecho con
