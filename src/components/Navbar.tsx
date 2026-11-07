@@ -259,9 +259,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
                   {isOpen && (
                     <div
                       id={panelId}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[340px] rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/50 p-2"
+                      // Con muchas opciones (Servicios) el panel va en dos columnas, así entra entero sin tener que alejar el zoom.
+                      // Si igual la pantalla es baja, el panel se desplaza por dentro en vez de quedar cortado.
+                      className={`absolute top-full mt-4 rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/50 p-2 max-h-[calc(100vh-6.5rem)] overflow-y-auto overscroll-contain ${
+                        link.items.length > 8 ? 'left-0 w-[640px]' : 'left-1/2 -translate-x-1/2 w-[340px]'
+                      }`}
                     >
-                      <ul className="flex flex-col">
+                      <ul className={link.items.length > 8 ? 'grid grid-cols-2 gap-x-1' : 'flex flex-col'}>
                         {link.items.map((item) => {
                           const Icon = item.icon;
                           return (

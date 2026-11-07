@@ -140,7 +140,7 @@ export const FOUNDERS: Founder[] = [
     area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer (Full Stack)',
-    badge: 'Backend & Full Stack',
+    badge: 'Backend Developer',
     linkedin: 'https://www.linkedin.com/in/matias-aguero-ventrice',
   },
   {
@@ -156,7 +156,7 @@ export const FOUNDERS: Founder[] = [
     area: 'frontend',
     role: 'Se sumó al equipo',
     specialty: 'Full Stack Developer (foco en frontend)',
-    badge: 'Full Stack · Frontend',
+    badge: 'Frontend Developer',
     linkedin: 'https://linkedin.com/in/ignacio-ibaigorria',
   },
   {
@@ -172,7 +172,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'Tester QA manual',
-    badge: 'QA Manual',
+    badge: 'QA Analyst',
     linkedin: 'https://www.linkedin.com/in/miguel-pistan/',
   },
   {
@@ -180,7 +180,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'Analista QA Tester',
-    badge: 'Analista QA',
+    badge: 'QA Analyst',
     linkedin: 'https://www.linkedin.com/in/ayelen-tolay',
   },
   {
@@ -188,7 +188,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA Manual',
-    badge: 'QA Manual',
+    badge: 'QA Analyst',
     linkedin: 'https://www.linkedin.com/in/fernandobarrionuevoqa',
   },
   {
@@ -196,7 +196,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA manual y automation · Abogada',
-    badge: 'QA Manual & Automation | Abogada',
+    badge: 'QA Analyst | Abogada',
     linkedin: 'https://www.linkedin.com/in/pamelacalafate/',
   },
   {
@@ -205,7 +205,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
-    badge: 'QA & Technology Consultant | Lawyer | Legal Tech',
+    badge: 'QA Analyst | Lawyer | Legal Tech',
     corto: 'Leandro Trapine',
     linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
   },
@@ -239,7 +239,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA',
-    badge: 'QA',
+    badge: 'QA Analyst',
     corto: 'Daniel Hernández Anaya',
     linkedin: 'https://www.linkedin.com/in/daniel-hernandez-anaya/',
   },
@@ -265,7 +265,7 @@ export const FOUNDERS: Founder[] = [
     area: 'diseno',
     role: 'Se sumó al equipo',
     specialty: 'Diseñadora UX/UI · Diseñadora Industrial',
-    badge: 'Diseño UX/UI · Diseño Industrial',
+    badge: 'UX/UI Designer',
     linkedin: 'https://www.linkedin.com/in/victoria-cavagnaro/',
   },
   {
@@ -273,8 +273,17 @@ export const FOUNDERS: Founder[] = [
     area: 'diseno',
     role: 'Se sumó al equipo',
     specialty: 'Diseño UX/UI & Diseño web',
-    badge: 'Diseño UX/UI & Diseño web',
+    badge: 'UX/UI Designer',
     linkedin: 'https://www.linkedin.com/in/lucilagabriele/',
+  },
+  {
+    name: 'Jonathan Javier Guglielmo',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño UX/UI',
+    badge: 'UX/UI Designer',
+    corto: 'Jonathan Guglielmo',
+    linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
   },
 ];
 
