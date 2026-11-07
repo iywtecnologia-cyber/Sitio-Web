@@ -1,8 +1,23 @@
 import React from 'react';
 import { Users, Sparkles, ShieldCheck, MapPin, Layers, Linkedin, ExternalLink, Cpu } from 'lucide-react';
 
+// Áreas del equipo, en el orden en que se muestran.
+export const AREAS_EQUIPO = [
+  { id: 'cofundadores', nombre: 'Co-founders' },
+  { id: 'ciberseguridad', nombre: 'Ciberseguridad' },
+  { id: 'qa', nombre: 'QA y análisis funcional' },
+  { id: 'backend', nombre: 'Backend' },
+  { id: 'fullstack', nombre: 'Full Stack' },
+  { id: 'frontend', nombre: 'Frontend' },
+  { id: 'electronica', nombre: 'Electrónica y robótica' },
+  { id: 'operaciones', nombre: 'Operaciones y Recursos Humanos' },
+] as const;
+
+export type AreaEquipo = (typeof AREAS_EQUIPO)[number]['id'];
+
 interface Founder {
   name: string;
+  area: AreaEquipo;
   role: string;
   specialty: string;
   badge: string;
@@ -15,6 +30,7 @@ interface Founder {
 export const FOUNDERS: Founder[] = [
   {
     name: 'Manuel A.',
+    area: 'cofundadores',
     role: 'Co-Fundador',
     specialty: 'Técnico Superior en Seguridad Informática & QA',
     badge: 'Ciberseguridad & QA',
@@ -22,6 +38,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'María Sofía Genta',
+    area: 'cofundadores',
     role: 'Co-Fundadora',
     specialty: 'Técnica Superior en Análisis Funcional de Sistemas Informáticos & QA',
     badge: 'Análisis Funcional & QA',
@@ -29,6 +46,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Esteban José Menin',
+    area: 'electronica',
     role: 'Se sumó al equipo',
     specialty: 'Bachiller en Electrónica & Machine Learning',
     badge: 'Electrónica & Machine Learning',
@@ -36,6 +54,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Sebastián Gabriel Sosa',
+    area: 'electronica',
     role: 'Se sumó al equipo',
     specialty: 'Técnico Electrónico',
     badge: 'Electrónica & Desarrollo',
@@ -43,6 +62,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Ulises Pan',
+    area: 'fullstack',
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
     badge: 'Desarrollo Full Stack',
@@ -50,6 +70,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Iván Pieretto',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer',
     badge: 'Backend Developer',
@@ -57,6 +78,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Mariano Candalaft',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer',
     badge: 'Backend Developer',
@@ -64,6 +86,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Santiago Senn',
+    area: 'operaciones',
     role: 'Se sumó al equipo',
     specialty: 'Operations Manager',
     badge: 'Operations Manager',
@@ -71,6 +94,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Jordi Sanchez Correa',
+    area: 'operaciones',
     role: 'Se sumó al equipo',
     specialty: 'Recursos Humanos (RRHH)',
     badge: 'Recursos Humanos',
@@ -79,6 +103,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Cindy Otto',
+    area: 'operaciones',
     role: 'Se sumó al equipo',
     specialty: 'Recursos Humanos (RRHH)',
     badge: 'Recursos Humanos',
@@ -86,6 +111,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Nicolas Oriti Tizio',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Líder Backend Developer',
     badge: 'Líder Backend',
@@ -94,6 +120,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Agustín Albónico',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer',
     badge: 'Backend Developer',
@@ -101,6 +128,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Abel Alarcon',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer',
     badge: 'Backend Developer',
@@ -108,6 +136,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Matias Aguero',
+    area: 'backend',
     role: 'Se sumó al equipo',
     specialty: 'Backend Developer (Full Stack)',
     badge: 'Backend & Full Stack',
@@ -115,6 +144,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Lucas Caño',
+    area: 'frontend',
     role: 'Se sumó al equipo',
     specialty: 'Frontend Developer',
     badge: 'Frontend Developer',
@@ -122,6 +152,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Ignacio Ibaigorria',
+    area: 'frontend',
     role: 'Se sumó al equipo',
     specialty: 'Full Stack Developer (foco en frontend)',
     badge: 'Full Stack · Frontend',
@@ -129,6 +160,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Rodrigo Pinto',
+    area: 'fullstack',
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
     badge: 'Desarrollo Full Stack',
@@ -136,6 +168,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Miguel Pistan',
+    area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'Tester QA manual',
     badge: 'QA Manual',
@@ -143,6 +176,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Ayelén Tolay',
+    area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'Analista QA Tester',
     badge: 'Analista QA',
@@ -150,6 +184,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Fernando Barrionuevo',
+    area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA Manual',
     badge: 'QA Manual',
@@ -157,6 +192,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Pamela Calafate',
+    area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA manual y automation · Abogada',
     badge: 'QA & Legal',
@@ -165,6 +201,7 @@ export const FOUNDERS: Founder[] = [
   {
     // Pidió que le avisemos qué rol le ponemos: este es el que ella/él mismo propuso, a confirmar.
     name: 'Leandro José Luis Trapine',
+    area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
     badge: 'QA & Technology Consultant',
@@ -173,12 +210,20 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Santiago Pereira',
+    area: 'fullstack',
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
     badge: 'Full Stack Developer',
     linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244',
   }
 ];
+
+// El equipo agrupado por área. Dentro de cada área, primero quien la lidera y después en el orden de la lista.
+export const equipoPorArea = () =>
+  AREAS_EQUIPO.map((a) => ({
+    ...a,
+    integrantes: FOUNDERS.filter((f) => f.area === a.id).sort((x, y) => Number(/l[ií]der/i.test(y.badge)) - Number(/l[ií]der/i.test(x.badge))),
+  })).filter((a) => a.integrantes.length > 0);
 
 export const AboutSection: React.FC = () => {
   return (
@@ -192,7 +237,7 @@ export const AboutSection: React.FC = () => {
         <div className="mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
             <Users className="w-3.5 h-3.5" />
-            <span>Equipo Fundador · tecnoros.ar</span>
+            <span><span className="text-slate-200">Equipo · tecnoros</span>.ar</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Quiénes somos y qué hacemos
@@ -205,18 +250,18 @@ export const AboutSection: React.FC = () => {
           
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-4">
             <MapPin className="w-4 h-4 text-cyan-400" />
-            <span>Agencia remota con base en Rosario, Santa Fe, Argentina</span>
+            <span>Nacimos en Rosario · equipo remoto en distintos lugares del mundo</span>
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Somos rosarinos. Nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend. Hoy somos {FOUNDERS.length} personas: desarrollo backend y frontend, QA, recursos humanos, operaciones, electrónica y asesoría legal en tecnología.
+            Nacimos en Rosario: los fundadores nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend. Hoy somos {FOUNDERS.length} personas trabajando en remoto desde distintos lugares del mundo: desarrollo backend y frontend, QA, recursos humanos, operaciones, electrónica y asesoría legal en tecnología.
           </p>
         </div>
 
         <div className="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
           <p className="text-sm sm:text-base text-slate-300">¿Te interesa sumarte al equipo?</p>
           <a
-            href="https://docs.google.com/forms/d/14fCeZQQUTWNRL49S7M3b43FPkncQ5XzUzvOhABXoVTg/edit#responses"
+            href="https://docs.google.com/forms/d/14fCeZQQUTWNRL49S7M3b43FPkncQ5XzUzvOhABXoVTg/viewform"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-slate-600 hover:bg-slate-800"
@@ -225,53 +270,62 @@ export const AboutSection: React.FC = () => {
           </a>
         </div>
 
-        {/* Fichas de los Fundadores */}
-        {/* El equipo crece seguido: la grilla se acomoda sola, no depende de cuántos somos */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-10">
-          {FOUNDERS.map((founder) => (
-            <div
-              key={founder.name}
-              className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800/90 hover:border-cyan-500/40 transition-all flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
-                    {founder.role}
-                  </span>
-                  {founder.linkedin && (
-                    <a
-                      href={founder.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 hover:bg-slate-700 transition-all cursor-pointer"
-                      title={`Ver perfil de LinkedIn de ${founder.name}`}
-                    >
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                  )}
+        {/* El equipo, ordenado por área. Las grillas se acomodan solas a cuántos somos. */}
+        <div className="mb-10 space-y-8">
+          {equipoPorArea().map((area) => (
+            <div key={area.id}>
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-mono uppercase tracking-[0.14em] text-cyan-300">
+                {area.nombre}
+                <span className="text-slate-500 normal-case tracking-normal">· {area.integrantes.length}</span>
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {area.integrantes.map((founder) => (
+                <div
+                  key={founder.name}
+                  className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800/90 hover:border-cyan-500/40 transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                        {founder.role}
+                      </span>
+                      {founder.linkedin && (
+                        <a
+                          href={founder.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 hover:bg-slate-700 transition-all cursor-pointer"
+                          title={`Ver perfil de LinkedIn de ${founder.name}`}
+                        >
+                          <Linkedin className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+
+                    <h4 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                      {founder.name}
+                    </h4>
+                    <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      {founder.specialty}
+                    </p>
+                  </div>
+
+                  <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                    <span>{founder.badge}</span>
+                    {founder.linkedin && (
+                      <a
+                        href={founder.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        <span>LinkedIn</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
                 </div>
-
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  {founder.name}
-                </h3>
-                <p className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  {founder.specialty}
-                </p>
-              </div>
-
-              <div className="mt-5 pt-3 border-t border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <span>{founder.badge}</span>
-                {founder.linkedin && (
-                  <a
-                    href={founder.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
-                  >
-                    <span>LinkedIn</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                )}
+                ))}
               </div>
             </div>
           ))}

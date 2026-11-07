@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { TecnorosLogo } from '../TecnorosLogo';
-import { FOUNDERS } from '../AboutSection';
+import { equipoPorArea } from '../AboutSection';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
 import { whatsappLink, gmailLink, VENTAS_EMAIL } from '../../data/contact';
@@ -45,7 +45,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos una agencia remota con base en Rosario. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Somos una agencia remota nacida en Rosario, con equipo en distintos lugares del mundo. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -174,7 +174,7 @@ export const QueHacemos: React.FC = () => (
             Todo para tu negocio<br />
             que crece <span className="text-cyan-400">con vos</span>
           </p>
-          <p className="mt-3 font-mono text-sm text-slate-400">tecnoros.ar</p>
+          <p className="mt-4 text-lg sm:text-xl font-extrabold tracking-tight text-white">tecnoros<span className="text-cyan-400">.ar</span></p>
         </div>
       </div>
 
@@ -294,31 +294,50 @@ const nombreCorto = (n: string, corto?: string) => {
   return n.startsWith('María') ? `${p[1]} ${p[2]}` : `${p[0]} ${p[p.length - 1]}`;
 };
 
-/* ── 4. Quiénes somos ────────────────────────────────────────────────── */
-export const EquipoCorto: React.FC = () => (
-  <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo
-        chip="Quiénes somos"
-        titulo="Un equipo de Rosario"
-        bajada="Agencia remota con base en Rosario: ciberseguridad, QA, automatización, electrónica y machine learning para negocios de todo el país."
-      />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {FOUNDERS.map((f) => {
+type Area = ReturnType<typeof equipoPorArea>[number];
+const AREAS = equipoPorArea();
+
+// Reparte las áreas en n columnas sin cambiar el orden, buscando que las columnas queden lo más parejas posible
+// (un título de área cuenta como una persona y media).
+const repartir = (areas: Area[], n: number): Area[][] => {
+  const alto = (a: Area) => a.integrantes.length + 1.5;
+  let mejor: Area[][] = [areas];
+  let mejorMax = Infinity;
+  const probar = (desde: number, quedan: number, armadas: Area[][]) => {
+    if (quedan === 1) {
+      const cols = [...armadas, areas.slice(desde)];
+      const max = Math.max(...cols.map((c) => c.reduce((t, a) => t + alto(a), 0)));
+      if (max < mejorMax) { mejorMax = max; mejor = cols; }
+      return;
+    }
+    for (let h = desde + 1; h <= areas.length - quedan + 1; h++) probar(h, quedan - 1, [...armadas, areas.slice(desde, h)]);
+  };
+  if (areas.length >= n) probar(0, n, []);
+  return mejor;
+};
+
+const TarjetaArea: React.FC<{ area: Area; className?: string }> = ({ area, className = '' }) => (
+    <section aria-label={area.nombre} className={`p-3.5 sm:p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${className}`}>
+      <h3 className="mb-2.5 flex items-baseline justify-between gap-2 text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">
+        <span>{area.nombre}</span>
+        <span className="text-slate-500">{area.integrantes.length}</span>
+      </h3>
+      <ul className="space-y-1.5">
+        {area.integrantes.map((f) => {
           const contenido = (
             <>
-              <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-sm font-bold text-white shrink-0">
+              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-[11px] font-bold text-white shrink-0">
                 {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
               </span>
               <span className="min-w-0 flex-1">
-                {/* Nombre corto: en 5 columnas los nombres completos partían en dos líneas y las fichas quedaban desparejas */}
+                {/* Nombre corto: así cada ficha entra en una línea y quedan parejas */}
                 <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
                 <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
               </span>
               {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
             </>
           );
-          const clases = 'h-full flex items-center gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/70 border border-slate-800 transition-colors min-w-0 group';
+          const clases = 'h-full flex items-center gap-2.5 px-2.5 py-2 rounded-xl bg-slate-900/70 border border-slate-800 transition-colors min-w-0 group';
           // Sin LinkedIn la ficha no es un link: un <a> sin destino confunde al teclado y al lector de pantalla.
           return (
             <li key={f.name} className="min-w-0">
@@ -333,6 +352,34 @@ export const EquipoCorto: React.FC = () => (
           );
         })}
       </ul>
+    </section>
+);
+
+/* ── 4. Quiénes somos ────────────────────────────────────────────────── */
+export const EquipoCorto: React.FC = () => (
+  <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <Titulo
+        chip="Quiénes somos"
+        titulo="Nuestro equipo"
+        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
+      />
+      {/* Celu: una debajo de la otra. Tablet: dos columnas. Compu: tres columnas que terminan a la misma altura
+          (la última tarjeta de cada columna se estira), así nada queda colgando más abajo que el resto. */}
+      <div className="lg:hidden columns-1 md:columns-2 gap-4">
+        {AREAS.map((area) => (
+          <TarjetaArea key={area.id} area={area} className="break-inside-avoid mb-4" />
+        ))}
+      </div>
+      <div className="hidden lg:grid grid-cols-3 gap-4 items-stretch">
+        {repartir(AREAS, 3).map((columna, c) => (
+          <div key={c} className="flex flex-col gap-4">
+            {columna.map((area, k) => (
+              <TarjetaArea key={area.id} area={area} className={k === columna.length - 1 ? 'flex-1' : ''} />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 );
