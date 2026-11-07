@@ -18,6 +18,7 @@ import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
 import { Combos } from './components/extra/Combos';
 import { Blog } from './components/extra/Blog';
+import { Encuentros } from './components/extra/Encuentros';
 import { FondoColor } from './components/FondoColor';
 import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { useRuta, type Ruta } from './rutas';
@@ -47,6 +48,7 @@ const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; descripcion: string;
   '/tecnologias': { titulo: 'Tecnologías', descripcion: 'Las tecnologías con las que trabajamos.', contenido: <StackSection /> },
   '/nosotros': { titulo: 'Nosotros', descripcion: 'Nacimos en Rosario y trabajamos en remoto con gente de distintos lugares del mundo: ciberseguridad, QA, automatización, electrónica y machine learning.', contenido: <AboutSection /> },
   '/contacto': { titulo: 'Contacto', descripcion: 'Contanos qué necesitás por WhatsApp o e-mail. El diagnóstico es sin costo.', contenido: <ContactSection /> },
+  '/encuentros': { titulo: 'Encuentros', descripcion: 'Nuestra historia en fotos: cómo empezamos, el equipo y las jornadas y eventos a los que vamos.', contenido: <Encuentros /> },
   '/blog': { titulo: 'Blog', descripcion: 'Notas cortas y prácticas para tu negocio: automatización, ciberseguridad y más.', contenido: <Blog /> },
 };
 

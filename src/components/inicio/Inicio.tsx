@@ -1,6 +1,7 @@
 import React from 'react';
+import { Carrusel } from './Carrusel';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight, Camera,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { TecnorosLogo } from '../TecnorosLogo';
@@ -121,80 +122,90 @@ export const JarDestacado: React.FC = () => (
 );
 
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
-// Los siete de la remera, en el mismo orden (4 arriba y 3 abajo).
-const SERVICIOS_REMERA: { icon: React.ElementType; titulo: string; ir: string }[] = [
-  { icon: Search, titulo: 'Diagnóstico gratuito', ir: 'servicio-analisis-qa' },
-  { icon: Workflow, titulo: 'Automatizaciones', ir: 'servicio-automatizacion' },
-  { icon: MessageCircle, titulo: 'Bots de WhatsApp', ir: 'servicio-bots-whatsapp' },
-  { icon: Lock, titulo: 'Ciberseguridad', ir: 'servicio-ciberseguridad' },
-  { icon: Code2, titulo: 'Software a medida', ir: 'servicio-software-a-medida' },
-  { icon: Bot, titulo: 'Asistentes', ir: 'servicio-asistentes' },
-  { icon: Globe, titulo: 'Páginas web', ir: 'servicio-paginas-web' },
+// Todos los servicios en una sola fila deslizable. Primero los siete de la remera, en el mismo orden.
+// La descripción aparece al pasar el mouse o tocar la tarjeta (en celular se ve siempre, porque no hay "pasar el mouse").
+const SERVICIOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
+  { icon: Search, titulo: 'Diagnóstico gratuito', linea: 'Miramos tu negocio y te decimos qué conviene hacer primero. Sin costo.', ir: 'servicio-analisis-qa' },
+  { icon: Workflow, titulo: 'Automatizaciones', linea: 'Turnos, consultas y tareas administrativas: lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
+  { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Responde consultas y toma pedidos a toda hora, con el tono de tu negocio.', ir: 'servicio-bots-whatsapp' },
+  { icon: Lock, titulo: 'Ciberseguridad', linea: 'Protegemos tus datos, cuentas y equipos antes de que pase algo.', ir: 'servicio-ciberseguridad' },
+  { icon: Code2, titulo: 'Software a medida', linea: 'Sistemas hechos para cómo trabajás vos, no al revés.', ir: 'servicio-software-a-medida' },
+  { icon: Bot, titulo: 'Asistentes', linea: 'Un personaje animado que recibe y guía a tus clientes en tu web.', ir: 'servicio-asistentes' },
+  { icon: Globe, titulo: 'Páginas web', linea: 'Tu web rápida, clara y pensada para que te escriban.', ir: 'servicio-paginas-web' },
+  { icon: ShoppingCart, titulo: 'E-commerce', linea: 'Tu tienda online con pagos y stock, abierta las 24 horas.', ir: 'servicio-ecommerce' },
+  { icon: Smartphone, titulo: 'Apps móviles', linea: 'Tu negocio en el celular de tus clientes.', ir: 'servicio-aplicaciones-moviles' },
+  { icon: Contact, titulo: 'CRM', linea: 'Todos tus clientes, consultas y ventas en un solo lugar.', ir: 'servicio-crm' },
+  { icon: Cpu, titulo: 'Robótica', linea: 'Cerebro digital y cuerpo físico para las tareas repetitivas.', ir: 'servicio-robotica-a-medida' },
+  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', linea: 'Anuncios que llegan a quien ya está buscando lo que vendés.', ir: 'servicio-campanas-ads' },
+  { icon: Compass, titulo: 'Estrategia de marca', linea: 'Qué decir, a quién y cómo, para que te elijan.', ir: 'servicio-estrategia-marca' },
+  { icon: Palette, titulo: 'Identidad visual', linea: 'Logo, colores y estilo para que te reconozcan al toque.', ir: 'servicio-identidad-marca' },
 ];
 
-// Lo demás que hacemos, más chico: sigue estando, pero no compite con los siete principales.
-const SERVICIOS_ADEMAS: { icon: React.ElementType; titulo: string; ir: string }[] = [
-  { icon: ShoppingCart, titulo: 'E-commerce', ir: 'servicio-ecommerce' },
-  { icon: Smartphone, titulo: 'Apps móviles', ir: 'servicio-aplicaciones-moviles' },
-  { icon: Contact, titulo: 'CRM', ir: 'servicio-crm' },
-  { icon: Cpu, titulo: 'Robótica', ir: 'servicio-robotica-a-medida' },
-  { icon: Megaphone, titulo: 'Campañas en Meta y Google Ads', ir: 'servicio-campanas-ads' },
-  { icon: Compass, titulo: 'Estrategia de marca', ir: 'servicio-estrategia-marca' },
-  { icon: Palette, titulo: 'Identidad visual', ir: 'servicio-identidad-marca' },
-];
+// Con mouse, la descripción aparece al pasar por encima o al enfocar con el teclado; sin mouse (celu) se ve siempre.
+const OCULTA_HASTA_INTERACTUAR =
+  'transition-all duration-200 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:translate-y-1 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-focus-visible:opacity-100 [@media(hover:hover)]:group-focus-visible:translate-y-0';
 
 export const QueHacemos: React.FC = () => (
-  <section id="que-hacemos" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+  <section id="que-hacemos" className="py-12 sm:py-16 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      {/* Mismo look que la remera: fondo negro, íconos en círculos de línea celeste y "con vos" resaltado. */}
-      <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-black px-4 py-10 sm:px-10 sm:py-14 text-center">
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[260px] bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" />
+      {/* Mismo look que la remera: fondo negro, íconos con línea celeste y "con vos" resaltado. */}
+      <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-black px-4 py-7 sm:px-8 sm:py-9">
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[220px] bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" />
         <div className="relative">
-          <TecnorosLogo className="w-12 h-14 sm:w-14 sm:h-16 mx-auto" />
-          <span className="mt-4 block text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Qué hacemos</span>
+          <div className="flex items-center gap-3 px-1">
+            <TecnorosLogo className="w-8 h-9 shrink-0" />
+            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Qué hacemos</span>
+            <span className="ml-auto hidden sm:block text-xs text-slate-500">Pasá el mouse por una tarjeta para ver de qué se trata</span>
+          </div>
 
-          <ul className="mt-8 mx-auto max-w-3xl flex flex-wrap justify-center gap-y-7 sm:gap-y-9">
-            {SERVICIOS_REMERA.map(({ icon: Icon, titulo, ir }) => (
-              <li key={titulo} className="w-1/3 sm:w-1/4 px-1">
+          <div className="mt-5">
+            <Carrusel etiqueta="Servicios" anchoItem="w-[78%] sm:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-3rem)/4)]">
+              {SERVICIOS.map(({ icon: Icon, titulo, linea, ir }) => (
                 <button
+                  key={titulo}
                   type="button"
                   onClick={() => irA(ir, true)}
-                  className="group w-full flex flex-col items-center gap-3 cursor-pointer"
+                  className="group h-full w-full text-left p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-400/60 focus-visible:border-cyan-400/60 focus:outline-none transition-colors cursor-pointer flex flex-col"
                 >
-                  <span className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-cyan-400/80 flex items-center justify-center text-cyan-300 transition-all group-hover:bg-cyan-400/10 group-hover:shadow-[0_0_24px_rgba(34,211,238,0.35)]">
-                    <Icon className="w-7 h-7 sm:w-8 sm:h-8" strokeWidth={1.75} />
+                  <span className="flex items-center gap-3">
+                    <span className="w-11 h-11 rounded-full border-2 border-cyan-400/80 flex items-center justify-center text-cyan-300 shrink-0 transition-all group-hover:bg-cyan-400/10 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.35)]">
+                      <Icon className="w-5 h-5" strokeWidth={1.75} />
+                    </span>
+                    <span className="text-sm sm:text-base font-bold text-white leading-tight">{titulo}</span>
                   </span>
-                  <span className="text-xs sm:text-sm font-semibold text-white leading-tight max-w-[7.5rem]">{titulo}</span>
+                  <span className={`mt-3 block text-sm text-slate-400 leading-snug min-h-[2.6rem] ${OCULTA_HASTA_INTERACTUAR}`}>{linea}</span>
+                  <span className={`mt-2 inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 ${OCULTA_HASTA_INTERACTUAR}`}>
+                    Ver más <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
                 </button>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </Carrusel>
+          </div>
 
-          <p className="mt-10 text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-            Todo para tu negocio<br />
-            que crece <span className="text-cyan-400">con vos</span>
-          </p>
-          <p className="mt-4 text-lg sm:text-xl font-extrabold tracking-tight text-white">tecnoros<span className="text-cyan-400">.ar</span></p>
+          <div className="mt-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 px-1">
+            <div>
+              <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                Todo para que tu negocio <span className="text-cyan-400">crezca con vos</span>
+              </p>
+              <p className="mt-1 text-base sm:text-lg font-extrabold tracking-tight text-white">tecnoros<span className="text-cyan-400">.ar</span></p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/presupuesto"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-cyan-400 text-slate-950 font-bold shadow-lg shadow-cyan-500/25 hover:bg-cyan-300 transition-colors"
+              >
+                Cotizá ahora <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="/servicios"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-700 text-white font-semibold hover:border-cyan-400/60 transition-colors"
+              >
+                Ver todos los servicios
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="mt-6 sm:mt-8">
-        <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400">Y además</span>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {SERVICIOS_ADEMAS.map(({ icon: Icon, titulo, ir }) => (
-            <li key={titulo}>
-              <button
-                type="button"
-                onClick={() => irA(ir, true)}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 text-sm text-slate-200 cursor-pointer transition-colors"
-              >
-                <Icon className="w-4 h-4 text-cyan-300" /> {titulo}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <VerMas onClick={() => navegar('/servicios')}>Ver todos los servicios</VerMas>
     </div>
   </section>
 );
@@ -297,32 +308,13 @@ const nombreCorto = (n: string, corto?: string) => {
 type Area = ReturnType<typeof equipoPorArea>[number];
 const AREAS = equipoPorArea();
 
-// Reparte las áreas en n columnas sin cambiar el orden, buscando que las columnas queden lo más parejas posible
-// (un título de área cuenta como una persona y media).
-const repartir = (areas: Area[], n: number): Area[][] => {
-  const alto = (a: Area) => a.integrantes.length + 1.5;
-  let mejor: Area[][] = [areas];
-  let mejorMax = Infinity;
-  const probar = (desde: number, quedan: number, armadas: Area[][]) => {
-    if (quedan === 1) {
-      const cols = [...armadas, areas.slice(desde)];
-      const max = Math.max(...cols.map((c) => c.reduce((t, a) => t + alto(a), 0)));
-      if (max < mejorMax) { mejorMax = max; mejor = cols; }
-      return;
-    }
-    for (let h = desde + 1; h <= areas.length - quedan + 1; h++) probar(h, quedan - 1, [...armadas, areas.slice(desde, h)]);
-  };
-  if (areas.length >= n) probar(0, n, []);
-  return mejor;
-};
-
 const TarjetaArea: React.FC<{ area: Area; className?: string }> = ({ area, className = '' }) => (
-    <section aria-label={area.nombre} className={`p-3.5 sm:p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${className}`}>
+    <section aria-label={area.nombre} className={`flex flex-col p-3.5 sm:p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${className}`}>
       <h3 className="mb-2.5 flex items-baseline justify-between gap-2 text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">
         <span>{area.nombre}</span>
         <span className="text-slate-500">{area.integrantes.length}</span>
       </h3>
-      <ul className="space-y-1.5">
+      <ul className="flex flex-col gap-1.5">
         {area.integrantes.map((f) => {
           const contenido = (
             <>
@@ -356,6 +348,7 @@ const TarjetaArea: React.FC<{ area: Area; className?: string }> = ({ area, class
 );
 
 /* ── 4. Quiénes somos ────────────────────────────────────────────────── */
+// Carrusel de áreas: en compu se ven 4 tarjetas, en tablet 2 y en el celu 1 (y un pedacito de la siguiente).
 export const EquipoCorto: React.FC = () => (
   <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
@@ -364,22 +357,12 @@ export const EquipoCorto: React.FC = () => (
         titulo="Nuestro equipo"
         bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
       />
-      {/* Celu: una debajo de la otra. Tablet: dos columnas. Compu: tres columnas que terminan a la misma altura
-          (la última tarjeta de cada columna se estira), así nada queda colgando más abajo que el resto. */}
-      <div className="lg:hidden columns-1 md:columns-2 gap-4">
+      <Carrusel etiqueta="Áreas del equipo" anchoItem="w-[86%] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]">
         {AREAS.map((area) => (
-          <TarjetaArea key={area.id} area={area} className="break-inside-avoid mb-4" />
+          <TarjetaArea key={area.id} area={area} className="h-full" />
         ))}
-      </div>
-      <div className="hidden lg:grid grid-cols-3 gap-4 items-stretch">
-        {repartir(AREAS, 3).map((columna, c) => (
-          <div key={c} className="flex flex-col gap-4">
-            {columna.map((area, k) => (
-              <TarjetaArea key={area.id} area={area} className={k === columna.length - 1 ? 'flex-1' : ''} />
-            ))}
-          </div>
-        ))}
-      </div>
+      </Carrusel>
+      <p className="mt-3 text-xs text-slate-500">{AREAS.reduce((t, a) => t + a.integrantes.length, 0)} personas en {AREAS.length} áreas · deslizá o usá las flechas</p>
     </div>
   </section>
 );
@@ -393,6 +376,7 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
   { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
+  { icon: Camera, titulo: 'Encuentros', linea: 'Nuestra historia en fotos', ruta: '/encuentros' },
 ];
 
 export const SaberMas: React.FC = () => (
