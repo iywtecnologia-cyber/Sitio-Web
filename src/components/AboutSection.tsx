@@ -3,11 +3,13 @@ import { Users, Sparkles, ShieldCheck, MapPin, Layers, Linkedin, ExternalLink, C
 
 // Áreas del equipo, en el orden en que se muestran.
 export const AREAS_EQUIPO = [
+  { id: 'cofundadores', nombre: 'Co-founders' },
   { id: 'ciberseguridad', nombre: 'Ciberseguridad' },
   { id: 'qa', nombre: 'QA y análisis funcional' },
   { id: 'backend', nombre: 'Backend' },
+  { id: 'fullstack', nombre: 'Full Stack' },
+  { id: 'frontend', nombre: 'Frontend' },
   { id: 'electronica', nombre: 'Electrónica y robótica' },
-  { id: 'fullstack', nombre: 'Full Stack y Frontend' },
   { id: 'operaciones', nombre: 'Operaciones y Recursos Humanos' },
 ] as const;
 
@@ -28,7 +30,7 @@ interface Founder {
 export const FOUNDERS: Founder[] = [
   {
     name: 'Manuel A.',
-    area: 'ciberseguridad',
+    area: 'cofundadores',
     role: 'Co-Fundador',
     specialty: 'Técnico Superior en Seguridad Informática & QA',
     badge: 'Ciberseguridad & QA',
@@ -36,7 +38,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'María Sofía Genta',
-    area: 'qa',
+    area: 'cofundadores',
     role: 'Co-Fundadora',
     specialty: 'Técnica Superior en Análisis Funcional de Sistemas Informáticos & QA',
     badge: 'Análisis Funcional & QA',
@@ -142,7 +144,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Lucas Caño',
-    area: 'fullstack',
+    area: 'frontend',
     role: 'Se sumó al equipo',
     specialty: 'Frontend Developer',
     badge: 'Frontend Developer',
@@ -150,7 +152,7 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Ignacio Ibaigorria',
-    area: 'fullstack',
+    area: 'frontend',
     role: 'Se sumó al equipo',
     specialty: 'Full Stack Developer (foco en frontend)',
     badge: 'Full Stack · Frontend',
