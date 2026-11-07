@@ -174,7 +174,7 @@ export const QueHacemos: React.FC = () => (
             Todo para tu negocio<br />
             que crece <span className="text-cyan-400">con vos</span>
           </p>
-          <p className="mt-3 font-mono text-sm text-slate-400">tecnoros<span className="text-cyan-400">.ar</span></p>
+          <p className="mt-4 text-lg sm:text-xl font-extrabold tracking-tight text-white">tecnoros<span className="text-cyan-400">.ar</span></p>
         </div>
       </div>
 
@@ -362,7 +362,7 @@ export const EquipoCorto: React.FC = () => (
       <Titulo
         chip="Quiénes somos"
         titulo="Nuestro equipo"
-        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares del mundo. Así estamos organizados:"
+        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
       />
       {/* Celu: una debajo de la otra. Tablet: dos columnas. Compu: tres columnas que terminan a la misma altura
           (la última tarjeta de cada columna se estira), así nada queda colgando más abajo que el resto. */}

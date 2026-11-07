@@ -423,7 +423,7 @@ export const BillingModule: React.FC = () => {
                 <span>Ticket de Presupuesto</span>
               </div>
               <span className="text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800">
-                tecnoros.ar
+                tecnoros<span className="text-cyan-400">.ar</span>
               </span>
             </div>
 

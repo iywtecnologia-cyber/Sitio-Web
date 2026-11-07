@@ -237,7 +237,7 @@ export const AboutSection: React.FC = () => {
         <div className="mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
             <Users className="w-3.5 h-3.5" />
-            <span>Equipo Fundador · tecnoros.ar</span>
+            <span><span className="text-slate-200">Equipo · tecnoros</span>.ar</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Quiénes somos y qué hacemos
