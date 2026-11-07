@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight, ChevronLeft, Camera,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { TecnorosLogo } from '../TecnorosLogo';
@@ -297,33 +297,13 @@ const nombreCorto = (n: string, corto?: string) => {
 type Area = ReturnType<typeof equipoPorArea>[number];
 const AREAS = equipoPorArea();
 
-// Reparte las áreas en n columnas para que queden lo más parejas posible (un título cuenta como una persona y media).
-// Prueba todas las combinaciones (son pocas áreas); la columna con Co-founders va primera y dentro de cada
-// columna se respeta el orden de las áreas.
-const repartir = (areas: Area[], n: number): Area[][] => {
-  const alto = (a: Area) => a.integrantes.length + 1.5;
-  let mejor: Area[][] = [areas];
-  let mejorDif = Infinity;
-  const total = n ** areas.length;
-  for (let m = 0; m < total; m++) {
-    const cols: Area[][] = Array.from({ length: n }, () => []);
-    let x = m;
-    areas.forEach((a) => { cols[x % n].push(a); x = Math.floor(x / n); });
-    if (cols.some((c) => c.length === 0) || !cols[0].includes(areas[0])) continue;
-    const altos = cols.map((c) => c.reduce((t, a) => t + alto(a), 0));
-    const dif = Math.max(...altos) - Math.min(...altos);
-    if (dif < mejorDif) { mejorDif = dif; mejor = cols; }
-  }
-  return mejor;
-};
-
-const TarjetaArea: React.FC<{ area: Area; className?: string; style?: React.CSSProperties }> = ({ area, className = '', style }) => (
-    <section aria-label={area.nombre} style={style} className={`flex flex-col p-3.5 sm:p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${className}`}>
+const TarjetaArea: React.FC<{ area: Area; className?: string }> = ({ area, className = '' }) => (
+    <section aria-label={area.nombre} className={`flex flex-col p-3.5 sm:p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${className}`}>
       <h3 className="mb-2.5 flex items-baseline justify-between gap-2 text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">
         <span>{area.nombre}</span>
         <span className="text-slate-500">{area.integrantes.length}</span>
       </h3>
-      <ul className="flex-1 flex flex-col justify-between gap-1.5">
+      <ul className="flex flex-col gap-1.5">
         {area.integrantes.map((f) => {
           const contenido = (
             <>
@@ -357,33 +337,73 @@ const TarjetaArea: React.FC<{ area: Area; className?: string; style?: React.CSSP
 );
 
 /* ── 4. Quiénes somos ────────────────────────────────────────────────── */
-export const EquipoCorto: React.FC = () => (
-  <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo
-        chip="Quiénes somos"
-        titulo="Nuestro equipo"
-        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
-      />
-      {/* Celu: una debajo de la otra. Tablet: dos columnas. Compu: tres columnas que terminan a la misma altura
-          (si a una columna le sobra lugar, se reparte entre sus fichas en vez de quedar un hueco). */}
-      <div className="lg:hidden columns-1 md:columns-2 gap-4">
-        {AREAS.map((area) => (
-          <TarjetaArea key={area.id} area={area} className="break-inside-avoid mb-4" />
-        ))}
-      </div>
-      <div className="hidden lg:grid grid-cols-3 gap-4 items-stretch">
-        {repartir(AREAS, 3).map((columna, c) => (
-          <div key={c} className="flex flex-col gap-4">
-            {columna.map((area) => (
-              <TarjetaArea key={area.id} area={area} style={{ flexGrow: area.integrantes.length }} />
+// Carrusel de áreas: en compu se ven 4 tarjetas, en tablet 2 y en el celu 1 (y un pedacito de la siguiente).
+// Se mueve con las flechas, deslizando con el dedo o con el teclado; las flechas se apagan en los extremos.
+export const EquipoCorto: React.FC = () => {
+  const pista = useRef<HTMLUListElement>(null);
+  const [puedeIzq, setPuedeIzq] = useState(false);
+  const [puedeDer, setPuedeDer] = useState(true);
+
+  const medir = useCallback(() => {
+    const el = pista.current;
+    if (!el) return;
+    setPuedeIzq(el.scrollLeft > 4);
+    setPuedeDer(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    medir();
+    window.addEventListener('resize', medir);
+    return () => window.removeEventListener('resize', medir);
+  }, [medir]);
+
+  const mover = (dir: 1 | -1) => {
+    const el = pista.current;
+    if (!el) return;
+    const tarjeta = el.querySelector('li');
+    const paso = tarjeta ? tarjeta.getBoundingClientRect().width + 16 : el.clientWidth;
+    el.scrollBy({ left: dir * paso, behavior: 'smooth' });
+  };
+
+  const flecha = 'absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 border border-slate-700 text-white flex items-center justify-center shadow-lg transition-opacity hover:border-cyan-400/70 hover:text-cyan-300 disabled:opacity-0 disabled:pointer-events-none';
+
+  return (
+    <section id="equipo" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <Titulo
+          chip="Quiénes somos"
+          titulo="Nuestro equipo"
+          bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
+        />
+        <div className="relative" role="region" aria-roledescription="carrusel" aria-label="Áreas del equipo">
+          <button type="button" onClick={() => mover(-1)} disabled={!puedeIzq} aria-label="Ver áreas anteriores" className={`${flecha} -left-3 sm:-left-5`}>
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <ul
+            ref={pista}
+            onScroll={medir}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') { e.preventDefault(); mover(1); }
+              if (e.key === 'ArrowLeft') { e.preventDefault(); mover(-1); }
+            }}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 rounded-2xl"
+          >
+            {AREAS.map((area) => (
+              <li key={area.id} className="snap-start shrink-0 w-[86%] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]">
+                <TarjetaArea area={area} className="h-full" />
+              </li>
             ))}
-          </div>
-        ))}
+          </ul>
+          <button type="button" onClick={() => mover(1)} disabled={!puedeDer} aria-label="Ver más áreas" className={`${flecha} -right-3 sm:-right-5`}>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+        <p className="mt-3 text-xs text-slate-500">{AREAS.reduce((t, a) => t + a.integrantes.length, 0)} personas en {AREAS.length} áreas · deslizá o usá las flechas</p>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 /* ── 5. ¿Querés saber más? ─────────────────────────────────────────────── */
 const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: string }[] = [
@@ -394,6 +414,7 @@ const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta:
   { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
   { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
   { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
+  { icon: Camera, titulo: 'Encuentros', linea: 'Nuestra historia en fotos', ruta: '/encuentros' },
 ];
 
 export const SaberMas: React.FC = () => (

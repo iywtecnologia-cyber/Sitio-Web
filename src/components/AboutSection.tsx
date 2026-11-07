@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Sparkles, ShieldCheck, MapPin, Layers, Linkedin, ExternalLink, Cpu } from 'lucide-react';
+import { Users, Sparkles, ShieldCheck, MapPin, Layers, Linkedin, ExternalLink, Cpu, ArrowRight } from 'lucide-react';
 
 // Áreas del equipo, en el orden en que se muestran.
 export const AREAS_EQUIPO = [
@@ -10,7 +10,8 @@ export const AREAS_EQUIPO = [
   { id: 'fullstack', nombre: 'Full Stack' },
   { id: 'frontend', nombre: 'Frontend' },
   { id: 'electronica', nombre: 'Electrónica y robótica' },
-  { id: 'operaciones', nombre: 'Operaciones y Recursos Humanos' },
+  { id: 'diseno', nombre: 'Diseño UX/UI' },
+  { id: 'operaciones', nombre: 'Operaciones, RR. HH. y Administración' },
 ] as const;
 
 export type AreaEquipo = (typeof AREAS_EQUIPO)[number]['id'];
@@ -195,7 +196,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA manual y automation · Abogada',
-    badge: 'QA & Legal',
+    badge: 'QA Manual & Automation | Abogada',
     linkedin: 'https://www.linkedin.com/in/pamelacalafate/',
   },
   {
@@ -214,7 +215,7 @@ export const FOUNDERS: Founder[] = [
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
     badge: 'Full Stack Developer',
-    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244',
+    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244/',
   },
   {
     name: 'Manuel Alexandro Legra Crespo',
@@ -224,6 +225,56 @@ export const FOUNDERS: Founder[] = [
     badge: 'Frontend Developer',
     corto: 'Manuel Legra Crespo',
     linkedin: 'https://www.linkedin.com/in/manuel-alexandro-legra-crespo-0769bb410/',
+  },
+  {
+    name: 'Celina Jara',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Administración',
+    badge: 'Administración',
+    linkedin: 'https://www.linkedin.com/in/celina-jara-23b03373/',
+  },
+  {
+    name: 'Daniel Hernández Anaya',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA',
+    badge: 'QA',
+    corto: 'Daniel Hernández Anaya',
+    linkedin: 'https://www.linkedin.com/in/daniel-hernandez-anaya/',
+  },
+  {
+    name: 'Lucas Greco',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/lucasggreco/',
+  },
+  {
+    name: 'Oliver Dos Anjos',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    corto: 'Oliver Dos Anjos',
+    linkedin: 'https://www.linkedin.com/in/oliverdosanjos-dev/',
+  },
+  {
+    name: 'Victoria Cavagnaro',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseñadora UX/UI · Diseñadora Industrial',
+    badge: 'Diseño UX/UI · Diseño Industrial',
+    linkedin: 'https://www.linkedin.com/in/victoria-cavagnaro/',
+  },
+  {
+    name: 'Lucila Gabriele',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño UX/UI & Diseño web',
+    badge: 'Diseño UX/UI & Diseño web',
+    linkedin: 'https://www.linkedin.com/in/lucilagabriele/',
   },
 ];
 
@@ -263,7 +314,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Nacimos en Rosario: los fundadores nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Después se sumaron <strong className="text-white">Esteban José Menin</strong> y <strong className="text-white">Sebastián Gabriel Sosa</strong>, en electrónica y robótica; <strong className="text-white">Ulises Pan</strong>, en desarrollo de software; e <strong className="text-white">Iván Pieretto</strong> y <strong className="text-white">Mariano Candalaft</strong>, en backend. Hoy somos {FOUNDERS.length} personas trabajando en remoto desde distintos lugares del mundo: desarrollo backend y frontend, QA, recursos humanos, operaciones, electrónica y asesoría legal en tecnología.
+            Nacimos en Rosario: los fundadores nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Desde entonces se fue sumando gente de distintos lugares del mundo, y hoy somos <strong className="text-white">{FOUNDERS.length} personas</strong> trabajando en remoto: desarrollo backend, frontend y full stack, QA, diseño UX/UI, electrónica y robótica, operaciones, recursos humanos, administración y asesoría legal en tecnología.
           </p>
         </div>
 
@@ -278,6 +329,10 @@ export const AboutSection: React.FC = () => {
             Trabajá con nosotros <ExternalLink className="w-4 h-4" />
           </a>
         </div>
+
+        <a href="/encuentros" className="mb-10 -mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">
+          Mirá nuestra historia en fotos: comienzos, equipo y jornadas <ArrowRight className="w-4 h-4" />
+        </a>
 
         {/* El equipo, ordenado por área. Las grillas se acomodan solas a cuántos somos. */}
         <div className="mb-10 space-y-8">

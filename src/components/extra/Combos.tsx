@@ -27,6 +27,7 @@ export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
             )}
             <h3 className="text-lg font-extrabold text-white">{c.nombre}</h3>
             <p className="mt-1 text-sm text-slate-400">{c.para}</p>
+            <p className="mt-3 text-sm text-cyan-100/90 leading-snug border-l-2 border-cyan-400/60 pl-3">{c.siTe}</p>
             <ul className="mt-4 space-y-1.5 flex-1">
               {c.incluye.map((i) =>
                 i === 'Diagnóstico gratuito' ? (
