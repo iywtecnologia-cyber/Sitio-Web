@@ -65,7 +65,7 @@ export const FOUNDERS: Founder[] = [
     area: 'fullstack',
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
-    badge: 'Desarrollo Full Stack',
+    badge: 'Full Stack Developer',
     linkedin: 'https://www.linkedin.com/in/ulises-pan',
   },
   {
@@ -163,7 +163,7 @@ export const FOUNDERS: Founder[] = [
     area: 'fullstack',
     role: 'Se sumó al equipo',
     specialty: 'Desarrollador Full Stack',
-    badge: 'Desarrollo Full Stack',
+    badge: 'Full Stack Developer',
     linkedin: 'https://www.linkedin.com/in/rodrigopinto30/',
   },
   {
@@ -204,7 +204,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
-    badge: 'QA & Technology Consultant',
+    badge: 'QA & Technology Consultant | Lawyer | Legal Tech',
     corto: 'Leandro Trapine',
     linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
   },
@@ -215,7 +215,16 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Desarrollador Full Stack',
     badge: 'Full Stack Developer',
     linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244',
-  }
+  },
+  {
+    name: 'Manuel Alexandro Legra Crespo',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    corto: 'Manuel Legra Crespo',
+    linkedin: 'https://www.linkedin.com/in/manuel-alexandro-legra-crespo-0769bb410/',
+  },
 ];
 
 // El equipo agrupado por área. Dentro de cada área, primero quien la lidera y después en el orden de la lista.
