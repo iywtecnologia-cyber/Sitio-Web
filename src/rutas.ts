@@ -87,23 +87,26 @@ const resaltarEl = (el: Element) => {
 // scroll-mt-* en cada sección: había valores distintos y algunas quedaban debajo del header.
 const MARGEN_SOBRE_SECCION = 16;
 
-const scrollearA = (el: Element, bloque: ScrollLogicalPosition) => {
+// suave = true: desliza (dentro de la misma página). false: aparece directo ahí (al cambiar de página),
+// para que no se vea la página nueva deslizándose desde arriba.
+const scrollearA = (el: Element, bloque: ScrollLogicalPosition, suave: boolean) => {
+  const behavior: ScrollBehavior = suave ? 'smooth' : 'instant';
   if (bloque !== 'start') {
-    el.scrollIntoView({ behavior: 'smooth', block: bloque });
+    el.scrollIntoView({ behavior, block: bloque });
     return;
   }
   const alturaHeader = document.querySelector('header')?.getBoundingClientRect().height ?? 80;
   const top = el.getBoundingClientRect().top + window.scrollY - alturaHeader - MARGEN_SOBRE_SECCION;
-  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  window.scrollTo({ top: Math.max(0, top), behavior });
 };
 
 // Espera a que el elemento exista (la página nueva tarda un instante en dibujarse) y scrollea hasta él.
-const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalPosition) => {
+const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalPosition, suave = true) => {
   let intentos = 0;
   const probar = () => {
     const el = document.getElementById(id);
     if (el) {
-      scrollearA(el, bloque);
+      scrollearA(el, bloque, suave);
       if (resaltar) resaltarEl(el);
       return;
     }
@@ -119,7 +122,7 @@ export const irA = (id: string, resaltar = false, bloque: ScrollLogicalPosition 
   const actual = rutaActual();
   if (destino && destino !== actual) {
     navegar(destino, id === 'inicio' ? '' : id);
-    if (id !== 'inicio') esperarYScrollear(id, resaltar, bloque);
+    if (id !== 'inicio') esperarYScrollear(id, resaltar, bloque, false);
     return;
   }
   if (id === 'inicio') {
@@ -156,6 +159,6 @@ if (typeof window !== 'undefined' && !(window as unknown as { __rutasListas?: bo
   // Al entrar directo con /productos#hardware-studio-3d, ir a esa parte.
   window.addEventListener('load', () => {
     const h = window.location.hash.slice(1);
-    if (h && h !== 'arrepentimiento' && h !== 'baja') esperarYScrollear(h, false, 'start');
+    if (h && h !== 'arrepentimiento' && h !== 'baja') esperarYScrollear(h, false, 'start', false);
   });
 }
