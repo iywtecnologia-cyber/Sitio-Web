@@ -74,7 +74,7 @@ export const FOUNDERS: Founder[] = [
     role: 'Se sumó al equipo',
     specialty: 'Recursos Humanos (RRHH)',
     badge: 'Recursos Humanos',
-    corto: 'Jordi Sanchez',
+    corto: 'Jordi Sanchez Correa',
     linkedin: 'https://www.linkedin.com/in/jordi-sanchez-correa/',
   },
   {
@@ -167,10 +167,17 @@ export const FOUNDERS: Founder[] = [
     name: 'Leandro José Luis Trapine',
     role: 'Se sumó al equipo',
     specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
-    badge: 'QA & Legal Tech',
+    badge: 'QA & Technology Consultant',
     corto: 'Leandro Trapine',
     linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
   },
+  {
+    name: 'Santiago Pereira',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244',
+  }
 ];
 
 export const AboutSection: React.FC = () => {
