@@ -259,9 +259,9 @@ export const Navbar: React.FC<NavbarProps> = () => {
                   {isOpen && (
                     <div
                       id={panelId}
-                      className="absolute left-1/2 -translate-x-1/2 top-full mt-4 w-[340px] rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/50 p-2"
+                      className={`absolute left-1/2 -translate-x-1/2 top-full mt-4 ${link.items.length > 7 ? 'w-[640px]' : 'w-[340px]'} max-h-[calc(100vh-6rem)] overflow-y-auto overscroll-contain rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/50 p-2`}
                     >
-                      <ul className="flex flex-col">
+                      <ul className={link.items.length > 7 ? 'grid grid-cols-2 gap-x-1' : 'flex flex-col'}>
                         {link.items.map((item) => {
                           const Icon = item.icon;
                           return (

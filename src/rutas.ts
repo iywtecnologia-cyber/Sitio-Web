@@ -87,23 +87,23 @@ const resaltarEl = (el: Element) => {
 // scroll-mt-* en cada sección: había valores distintos y algunas quedaban debajo del header.
 const MARGEN_SOBRE_SECCION = 16;
 
-const scrollearA = (el: Element, bloque: ScrollLogicalPosition) => {
+const scrollearA = (el: Element, bloque: ScrollLogicalPosition, suave = true) => {
   if (bloque !== 'start') {
-    el.scrollIntoView({ behavior: 'smooth', block: bloque });
+    el.scrollIntoView({ behavior: suave ? 'smooth' : 'instant', block: bloque });
     return;
   }
   const alturaHeader = document.querySelector('header')?.getBoundingClientRect().height ?? 80;
   const top = el.getBoundingClientRect().top + window.scrollY - alturaHeader - MARGEN_SOBRE_SECCION;
-  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  window.scrollTo({ top: Math.max(0, top), behavior: suave ? 'smooth' : 'instant' });
 };
 
 // Espera a que el elemento exista (la página nueva tarda un instante en dibujarse) y scrollea hasta él.
-const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalPosition) => {
+const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalPosition, suave = true) => {
   let intentos = 0;
   const probar = () => {
     const el = document.getElementById(id);
     if (el) {
-      scrollearA(el, bloque);
+      scrollearA(el, bloque, suave);
       if (resaltar) resaltarEl(el);
       return;
     }
@@ -114,19 +114,20 @@ const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalP
 };
 
 // Lleva a una sección esté en la página que esté.
-export const irA = (id: string, resaltar = false, bloque: ScrollLogicalPosition = 'start') => {
+// suave=false: salta directo a la sección, sin el deslizamiento (se usa cuando se cambia de página).
+export const irA = (id: string, resaltar = false, bloque: ScrollLogicalPosition = 'start', suave = true) => {
   const destino = paginaDe(id);
   const actual = rutaActual();
   if (destino && destino !== actual) {
     navegar(destino, id === 'inicio' ? '' : id);
-    if (id !== 'inicio') esperarYScrollear(id, resaltar, bloque);
+    if (id !== 'inicio') esperarYScrollear(id, resaltar, bloque, suave);
     return;
   }
   if (id === 'inicio') {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
-  esperarYScrollear(id, resaltar, bloque);
+  esperarYScrollear(id, resaltar, bloque, suave);
 };
 
 // Links <a href="/productos"> o <a href="#contacto"> en cualquier parte de la web pasan por acá.

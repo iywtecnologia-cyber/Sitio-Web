@@ -164,7 +164,7 @@ export const QueHacemos: React.FC = () => (
                 <button
                   key={titulo}
                   type="button"
-                  onClick={() => irA(ir, true)}
+                  onClick={() => irA(ir, true, 'start', false)}
                   className="group h-full w-full text-left p-4 sm:p-5 rounded-2xl bg-slate-950 border border-slate-800 hover:border-cyan-400/60 focus-visible:border-cyan-400/60 focus:outline-none transition-colors cursor-pointer flex flex-col"
                 >
                   <span className="flex items-center gap-3">
