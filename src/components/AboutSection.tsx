@@ -227,6 +227,14 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://www.linkedin.com/in/manuel-alexandro-legra-crespo-0769bb410/',
   },
   {
+    name: 'Luis P. Majul',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    linkedin: 'https://www.linkedin.com/in/lookym/',
+  },
+  {
     name: 'Celina Jara',
     area: 'operaciones',
     role: 'Se sumó al equipo',
