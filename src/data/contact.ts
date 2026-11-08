@@ -16,6 +16,14 @@ export const REDES = {
 
 export const VENTAS_EMAIL = 'ventas@tecnoros.ar';
 export const SOPORTE_EMAIL = 'soporte@tecnoros.ar';
+
+// Soporte para quienes ya son clientes: va aparte de ventas.
+// Por ahora usa los mismos números; si hay un número exclusivo de soporte, va acá.
+export const SOPORTE_WHATSAPP = WHATSAPP_NUMBERS[0];
+export const soporteWhatsappLink = (mensaje = 'Hola tecnoros.ar, soy cliente y necesito soporte técnico.'): string =>
+  `https://wa.me/${SOPORTE_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+export const soporteGmailLink = (asunto = 'Soporte técnico - tecnoros.ar', cuerpo = 'Hola, soy cliente de tecnoros.ar y necesito ayuda con:\n\n'): string =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SOPORTE_EMAIL)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
 // Consultas y presupuestos van a ventas.
 export const CONTACT_EMAIL = VENTAS_EMAIL;
 

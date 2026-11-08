@@ -95,7 +95,7 @@ export const BillingModule: React.FC = () => {
     itemsMensaje.push('📦 DISPOSITIVOS FÍSICOS (Hardware único):');
     seleccionHardware.forEach((h) => {
       const unidades = h.id === 'dispositivo-chaja' ? cantidadChaja : 1;
-      itemsMensaje.push(`  • ${h.servicio} (${unidades} unidad/es): ${h.id === 'dispositivo-chaja' ? 'Precio del equipo a confirmar' : `${pesos(h.min * unidades)}`}`);
+      itemsMensaje.push(`  • ${h.servicio} (${unidades} unidad/es): ${pesos(h.min * unidades)}`);
     });
     if (aplicarFilamento) {
       itemsMensaje.push(`  • Carcasa en color a medida: +${pesos(OPCION_FILAMENTO_HARDWARE.min)}`);
@@ -216,9 +216,9 @@ export const BillingModule: React.FC = () => {
                     nombre: 'CHAJÁ',
                     estado: 'Disponible a demanda',
                     color: 'cyan',
-                    equipo: 'A consultar (se confirma después del diagnóstico)',
+                    equipo: `${pesos(280_000)} por equipo`,
                     extra: 'Voz hablada opcional: elegí un plan abajo.',
-                    servicio: 'A consultar',
+                    servicio: 'Voz hablada desde $35.000 por mes (opcional)',
                   },
                 ].map((pr) => (
                   <li key={pr.nombre} className="p-4 sm:p-5 rounded-2xl bg-slate-950/70 border border-slate-800">

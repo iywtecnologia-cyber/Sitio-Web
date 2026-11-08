@@ -42,6 +42,7 @@ export const FOUNDERS: Founder[] = [
     role: 'Co-Fundadora',
     specialty: 'Técnica Superior en Análisis Funcional de Sistemas Informáticos & QA',
     badge: 'Análisis Funcional & QA',
+    corto: 'María Sofía Genta',
     linkedin: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/',
   },
   {
