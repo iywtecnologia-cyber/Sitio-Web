@@ -292,6 +292,32 @@ export const FOUNDERS: Founder[] = [
     corto: 'Jonathan Guglielmo',
     linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
   },
+  {
+    name: 'Tavita Ines Vasquez Anticona',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrolladora Full Stack',
+    badge: 'Full Stack Developer',
+    corto: 'Tavita Vasquez',
+    linkedin: 'https://www.linkedin.com/in/tiva26/',
+  },
+  {
+    name: 'María Belén Fernández Morales',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseñadora UX/UI',
+    badge: 'UX/UI Designer',
+    linkedin: 'https://www.linkedin.com/in/belen-fernandez-morales/',
+  },
+  {
+    name: 'Juan Pablo Bortol',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Engineer',
+    badge: 'Backend Developer',
+    corto: 'Juan Pablo Bortol',
+    linkedin: 'https://www.linkedin.com/in/juan-pablo-bortol/',
+  },
 ];
 
 // El equipo agrupado por área. Dentro de cada área, primero quien la lidera y después en el orden de la lista.
