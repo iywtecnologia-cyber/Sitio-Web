@@ -25,7 +25,7 @@ interface NavLink {
   items?: SubItem[];
 }
 
-const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
+const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string; hash?: string }[] = [
   { ruta: '/', titulo: 'Inicio', linea: 'Quiénes somos y qué hacemos' },
   { ruta: '/servicios', titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos' },
   { ruta: '/productos', titulo: 'Productos y demos', linea: 'Golondrina, CHAJÁ y TERO' },
@@ -36,6 +36,8 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
   // Estaba en el menú de compu pero no en el del celular
   { ruta: '/blog', titulo: 'Blog', linea: 'Ideas cortas para tu negocio' },
   { ruta: '/encuentros', titulo: 'Encuentros', linea: 'Nuestra historia en fotos' },
+  // Soporte para quienes ya son clientes: lleva directo al formulario de soporte
+  { ruta: '/contacto', hash: 'soporte', titulo: 'Soporte técnico', linea: '¿Ya sos cliente? Escribinos acá' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = () => {
@@ -343,13 +345,13 @@ export const Navbar: React.FC<NavbarProps> = () => {
       {mobileMenuOpen && (
         <nav id="menu-movil" aria-label="Menú principal" className="xl:hidden bg-[#0B1120] border-b border-slate-800 px-4 pt-3 pb-6 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain">
           <ul className="space-y-1">
-            {MENU_MOVIL.map(({ ruta: r, titulo, linea }) => (
-              <li key={r}>
+            {MENU_MOVIL.map(({ ruta: r, titulo, linea, hash }) => (
+              <li key={r + (hash ?? '')}>
                 <a
-                  href={r}
+                  href={hash ? `${r}#${hash}` : r}
                   onClick={closeAll}
-                  aria-current={ruta === r ? 'page' : undefined}
-                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-colors ${ruta === r ? 'bg-cyan-500/10 text-cyan-300' : 'text-slate-200 hover:bg-slate-800/50'}`}
+                  aria-current={ruta === r && !hash ? 'page' : undefined}
+                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-colors ${hash ? 'text-emerald-300 hover:bg-emerald-500/10' : ruta === r ? 'bg-cyan-500/10 text-cyan-300' : 'text-slate-200 hover:bg-slate-800/50'}`}
                 >
                   <span className="min-w-0">
                     <span className="block text-base font-semibold">{titulo}</span>

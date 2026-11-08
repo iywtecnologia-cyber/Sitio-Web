@@ -467,42 +467,15 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         // SIMULACIÓN DE MOVIMIENTO: ESTRICTAMENTE CONTENIDO EN EL CÍRCULO CENTRAL
         // =====================================================================
         if (modelTypeRef.current === 'robot' && cfg.isSimulatingMotion && !cfg.isEmergencyStop) {
-          pathLine.visible = true;
-
-          // Velocidad angular suave de demostración
-          const patrolSpeed = 0.55;
-          const t = elapsed * patrolSpeed;
-
-          // Radio de trayectoria circular: 0.28m (estrictamente dentro de la plataforma de 0.85m)
-          const targetX = Math.sin(t) * patrolRadius;
-          const targetZ = Math.cos(t) * patrolRadius;
-
-          // Vector de dirección tangencial (Yaw)
-          const dx = Math.cos(t) * patrolRadius;
-          const dz = -Math.sin(t) * patrolRadius;
-          const targetYaw = Math.atan2(dx, dz);
-
-          // Posicionamiento amortiguado sin derivas
-          p.rootGroup.position.x = THREE.MathUtils.damp(p.rootGroup.position.x, targetX, 12, delta);
-          p.rootGroup.position.z = THREE.MathUtils.damp(p.rootGroup.position.z, targetZ, 12, delta);
-
-          // Micro-vibración mecánica de motor de banco
-          const motorVibe = Math.sin(elapsed * 28) * 0.001;
-          p.rootGroup.position.y = motorVibe;
-
-          // Giro de orientación (Yaw) con inclinación física de carrocería en curvas (Roll)
-          let diffYaw = targetYaw - p.rootGroup.rotation.y;
-          diffYaw = Math.atan2(Math.sin(diffYaw), Math.cos(diffYaw));
-          p.rootGroup.rotation.y += diffYaw * Math.min(1, delta * 12);
-
-          // Inclinación lateral realista en curvas
-          p.rootGroup.rotation.z = THREE.MathUtils.damp(p.rootGroup.rotation.z, -diffYaw * 0.12, 8, delta);
-
-          // Inclinación longitudinal (Pitch)
-          const pitch = Math.sin(elapsed * 2.5) * 0.01;
-          p.rootGroup.rotation.x = THREE.MathUtils.damp(p.rootGroup.rotation.x, pitch, 8, delta);
-
-          // Sombra de contacto sigue exactamente al robot sobre la plataforma
+          // Ensayo en banco: el robot queda quieto en el centro (como sobre un banco de pruebas)
+          // y solo giran las ruedas y vibra el motor. Antes daba vueltas y "se iba para cualquier lado".
+          pathLine.visible = false;
+          p.rootGroup.position.x = THREE.MathUtils.damp(p.rootGroup.position.x, 0, 8, delta);
+          p.rootGroup.position.z = THREE.MathUtils.damp(p.rootGroup.position.z, 0, 8, delta);
+          p.rootGroup.position.y = Math.sin(elapsed * 28) * 0.001;
+          p.rootGroup.rotation.y = THREE.MathUtils.damp(p.rootGroup.rotation.y, 0, 8, delta);
+          p.rootGroup.rotation.z = THREE.MathUtils.damp(p.rootGroup.rotation.z, 0, 8, delta);
+          p.rootGroup.rotation.x = THREE.MathUtils.damp(p.rootGroup.rotation.x, 0, 8, delta);
           shadowMesh.position.x = p.rootGroup.position.x;
           shadowMesh.position.z = p.rootGroup.position.z;
 
