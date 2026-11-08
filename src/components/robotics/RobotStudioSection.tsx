@@ -195,7 +195,7 @@ export const RobotStudioSection: React.FC = () => {
     return text;
   };
 
-  // Cotizar por WhatsApp a cualquiera de los dos números de ventas.
+  // Cotizar por WhatsApp: se elige al azar uno de los dos números de ventas.
   const cotizarPor = (numero: string) => {
     window.open(`https://wa.me/${numero}?text=${encodeURIComponent(handleQuoteClick())}`, '_blank', 'noopener');
   };
@@ -212,8 +212,8 @@ export const RobotStudioSection: React.FC = () => {
       const r = el.getBoundingClientRect();
       const header = document.querySelector('header')?.getBoundingClientRect().height ?? 70;
       if (r.top >= header && r.bottom <= window.innerHeight) return;
-      window.scrollTo({ top: r.top + window.scrollY - header - 8, behavior: 'smooth' });
-    }, 60);
+      window.scrollTo({ top: r.top + window.scrollY - header - 8, behavior: 'instant' });
+    }, 30);
   };
 
   return (
@@ -257,8 +257,8 @@ export const RobotStudioSection: React.FC = () => {
           </a>
         </div>
 
-        {/* Model Selector Carousel / Bar */}
-        <div className="mb-6 space-y-2">
+        {/* Model Selector Carousel / Bar: al tocar un robot, la vista va directo al robot */}
+        <div className="mb-6 space-y-2" onClickCapture={mostrarRobot}>
           <div className="flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
             <span className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -915,24 +915,15 @@ export const RobotStudioSection: React.FC = () => {
               <p className="text-sm text-slate-300">
                 Empezamos por el cerebro y lo ves en 3D antes de gastar en materiales.
               </p>
-              <p className="pt-1 text-xs font-semibold text-white">Cotizar mi robot por WhatsApp</p>
-              <div className="grid grid-cols-1 gap-2">
-                {[
-                  { numero: WHATSAPP_NUMBERS[0], texto: '+54 9 341 313-0336' },
-                  { numero: WHATSAPP_NUMBERS[1], texto: '+54 9 11 2507-9568' },
-                ].map(({ numero, texto }) => (
-                  <button
-                    key={numero}
-                    type="button"
-                    data-sin-ir
-                    onClick={(e) => { e.stopPropagation(); cotizarPor(numero); }}
-                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  >
-                    <Send className="w-4 h-4 text-slate-950" />
-                    <span>Cotizar al {texto}</span>
-                  </button>
-                ))}
-              </div>
+              <button
+                type="button"
+                data-sin-ir
+                onClick={() => cotizarPor(WHATSAPP_NUMBERS[Math.floor(Math.random() * WHATSAPP_NUMBERS.length)])}
+                className="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              >
+                <Send className="w-4 h-4 text-slate-950" />
+                <span>Cotizar mi robot</span>
+              </button>
             </div>
 
           </div>

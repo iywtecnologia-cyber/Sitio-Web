@@ -7,10 +7,10 @@ import {
   Check, 
   Sparkles,
   CornerRightDown,
-  Linkedin,
-  LifeBuoy
+  Linkedin
 } from 'lucide-react';
-import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL, soporteWhatsappLink, soporteGmailLink } from '../data/contact';
+import { CONTACT_EMAIL, VENTAS_EMAIL } from '../data/contact';
+import { SoporteForm } from './SoporteForm';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
 
@@ -298,26 +298,8 @@ export const ContactSection: React.FC = () => {
           </form>
         </div>
 
-        {/* Soporte va aparte de ventas: es para quienes ya son clientes */}
-        <div id="soporte" className="mt-8 max-w-3xl mx-auto rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 sm:p-7 scroll-mt-24">
-          <div className="flex items-start gap-3">
-            <span className="w-10 h-10 rounded-xl bg-emerald-400/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shrink-0">
-              <LifeBuoy className="w-5 h-5" />
-            </span>
-            <div className="min-w-0">
-              <h3 className="text-lg sm:text-xl font-bold text-white">¿Ya sos cliente? Soporte técnico</h3>
-              <p className="mt-1 text-sm text-slate-400">Si algo de lo que te hicimos no anda o necesitás un cambio, escribinos por acá. Las consultas nuevas van por el formulario de arriba.</p>
-            </div>
-          </div>
-          <div className="mt-5 flex flex-col sm:flex-row gap-3">
-            <a href={soporteWhatsappLink()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-colors">
-              <MessageCircle className="w-4 h-4" /> Soporte por WhatsApp
-            </a>
-            <a href={soporteGmailLink()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-emerald-500/40 text-emerald-200 hover:bg-emerald-500/10 font-semibold text-sm transition-colors">
-              <Mail className="w-4 h-4" /> {SOPORTE_EMAIL}
-            </a>
-          </div>
-        </div>
+        {/* Soporte va aparte de ventas (es para quienes ya son clientes), con el mismo formato */}
+        <SoporteForm />
 
       </div>
     </section>

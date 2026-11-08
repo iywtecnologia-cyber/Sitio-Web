@@ -171,7 +171,19 @@ export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
   // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
   const [marcioVisible, setMarcioVisible] = useState(false);
-  const [marcioOculto, setMarcioOculto] = useState(false);
+  // Si la persona cierra el chat o el globo, Marcio no vuelve a aparecer solo (en esta visita):
+  // vuelve únicamente si ella toca el botón del asistente.
+  const [marcioOculto, setMarcioOcultoEstado] = useState(() => {
+    try { return sessionStorage.getItem('marcio_oculto') === '1'; } catch { return false; }
+  });
+  const setMarcioOculto = (v: boolean) => {
+    setMarcioOcultoEstado(v);
+    try { if (v) sessionStorage.setItem('marcio_oculto', '1'); } catch { /* sin almacenamiento: queda oculto en esta pantalla */ }
+  };
+  const cerrarChat = () => {
+    setAbierto(false);
+    setMarcioOculto(true);
+  };
   const [ocultoPor3D, setOcultoPor3D] = useState(false);
   const [ocultoPorDemo, setOcultoPorDemo] = useState(false);
   const [truco, setTruco] = useState<{ nombre: string; n: number }>({ nombre: '', n: 0 });
@@ -272,6 +284,11 @@ export const Asistente: React.FC = () => {
   useEffect(() => {
     const lista = listaRef.current;
     if (!lista) return;
+    // Recién abierto (todavía sin preguntas): arriba, para que se lea "Hola, soy Marcio" desde el principio.
+    if (!mensajes.some((m) => m.de === 'persona')) {
+      lista.scrollTo({ top: 0 });
+      return;
+    }
     const ultimo = mensajes[mensajes.length - 1];
     const pregunta = mensajes[mensajes.length - 2];
     if (!pensando && ultimo?.de === 'bot' && pregunta?.de === 'persona') {
@@ -290,7 +307,7 @@ export const Asistente: React.FC = () => {
     if (!abierto || pensando) return;
     inputRef.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setAbierto(false);
+      if (e.key === 'Escape') cerrarChat();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
@@ -331,7 +348,7 @@ export const Asistente: React.FC = () => {
   };
 
   const irA = (id: string) => {
-    setAbierto(false);
+    cerrarChat();
     irASeccion(id);
   };
 
@@ -396,7 +413,7 @@ export const Asistente: React.FC = () => {
           </button>
           <div
             style={teclado ? { maxHeight: teclado.alto } : undefined}
-            className="assistant-panel-enter relative max-h-[calc(100dvh-17rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
+            className="assistant-panel-enter relative max-h-[calc(100dvh-18.5rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <TecnorosContactIcon className="assistant-avatar-breathe w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
@@ -408,7 +425,7 @@ export const Asistente: React.FC = () => {
             </div>
             <button
               type="button"
-              onClick={() => setAbierto(false)}
+              onClick={cerrarChat}
               aria-label="Cerrar asistente"
               className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
             >
@@ -623,7 +640,7 @@ export const Asistente: React.FC = () => {
 
       <button
         type="button"
-        onClick={() => setAbierto((a) => !a)}
+        onClick={() => (abierto ? cerrarChat() : setAbierto(true))}
         aria-expanded={abierto}
         aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"
