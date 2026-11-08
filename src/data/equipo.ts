@@ -1,0 +1,302 @@
+// Equipo de tecnoros.ar: áreas e integrantes. Para sumar a alguien, agregarlo en FOUNDERS con su área.
+
+// Áreas del equipo, en el orden en que se muestran.
+export const AREAS_EQUIPO = [
+  { id: 'cofundadores', nombre: 'Co-founders' },
+  { id: 'ciberseguridad', nombre: 'Ciberseguridad' },
+  { id: 'qa', nombre: 'QA y análisis funcional' },
+  { id: 'backend', nombre: 'Backend' },
+  { id: 'fullstack', nombre: 'Full Stack' },
+  { id: 'frontend', nombre: 'Frontend' },
+  { id: 'electronica', nombre: 'Electrónica y robótica' },
+  { id: 'diseno', nombre: 'Diseño UX/UI' },
+  { id: 'operaciones', nombre: 'Operaciones, RR. HH. y Administración' },
+] as const;
+
+export type AreaEquipo = (typeof AREAS_EQUIPO)[number]['id'];
+
+export interface Founder {
+  name: string;
+  area: AreaEquipo;
+  role: string;
+  specialty: string;
+  badge: string;
+  /** Opcional: sin LinkedIn la ficha se muestra igual, sin los links. */
+  linkedin?: string;
+  /** Opcional: nombre para las fichas angostas de la landing, cuando sacar el primero y el último no alcanza. */
+  corto?: string;
+}
+
+export const FOUNDERS: Founder[] = [
+  {
+    name: 'Manuel A.',
+    area: 'cofundadores',
+    role: 'Co-Fundador',
+    specialty: 'Técnico Superior en Seguridad Informática & QA',
+    badge: 'Ciberseguridad & QA',
+    linkedin: 'https://www.linkedin.com/in/manuel-angiulli/',
+  },
+  {
+    name: 'María Sofía Genta',
+    area: 'cofundadores',
+    role: 'Co-Fundadora',
+    specialty: 'Técnica Superior en Análisis Funcional de Sistemas Informáticos & QA',
+    badge: 'Análisis Funcional & QA',
+    linkedin: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/',
+  },
+  {
+    name: 'Esteban José Menin',
+    area: 'electronica',
+    role: 'Se sumó al equipo',
+    specialty: 'Bachiller en Electrónica & Machine Learning',
+    badge: 'Electrónica & Machine Learning',
+    linkedin: 'https://www.linkedin.com/in/esteban-menin-31928a259/',
+  },
+  {
+    name: 'Sebastián Gabriel Sosa',
+    area: 'electronica',
+    role: 'Se sumó al equipo',
+    specialty: 'Técnico Electrónico',
+    badge: 'Electrónica & Desarrollo',
+    linkedin: 'https://www.linkedin.com/in/sebastinsosa/',
+  },
+  {
+    name: 'Ulises Pan',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/ulises-pan',
+  },
+  {
+    name: 'Iván Pieretto',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/ivanpieretto',
+  },
+  {
+    name: 'Mariano Candalaft',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220',
+  },
+  {
+    name: 'Santiago Senn',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Operations Manager',
+    badge: 'Operations Manager',
+    linkedin: 'https://www.linkedin.com/in/santiago-senn-67310b329',
+  },
+  {
+    name: 'Jordi Sanchez Correa',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    corto: 'Jordi Sanchez Correa',
+    linkedin: 'https://www.linkedin.com/in/jordi-sanchez-correa/',
+  },
+  {
+    name: 'Cindy Otto',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    linkedin: 'https://www.linkedin.com/in/cindy-ailyn-otto-75a701371',
+  },
+  {
+    name: 'Nicolas Oriti Tizio',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Líder Backend Developer',
+    badge: 'Líder Backend',
+    corto: 'Nicolas Oriti',
+    linkedin: 'https://www.linkedin.com/in/nicolas-oriti-tizio',
+  },
+  {
+    name: 'Agustín Albónico',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/agustinalbonico/',
+  },
+  {
+    name: 'Abel Alarcon',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/abelalarc%C3%B3n/',
+  },
+  {
+    name: 'Matias Aguero',
+    area: 'backend',
+    role: 'Se sumó al equipo',
+    specialty: 'Backend Developer (Full Stack)',
+    badge: 'Backend Developer',
+    linkedin: 'https://www.linkedin.com/in/matias-aguero-ventrice',
+  },
+  {
+    name: 'Lucas Caño',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    linkedin: 'https://www.linkedin.com/in/lucas-ca%C3%B1o-0a5406223',
+  },
+  {
+    name: 'Ignacio Ibaigorria',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Full Stack Developer (foco en frontend)',
+    badge: 'Frontend Developer',
+    linkedin: 'https://linkedin.com/in/ignacio-ibaigorria',
+  },
+  {
+    name: 'Rodrigo Pinto',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/rodrigopinto30/',
+  },
+  {
+    name: 'Miguel Pistan',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'Tester QA manual',
+    badge: 'QA Analyst',
+    linkedin: 'https://www.linkedin.com/in/miguel-pistan/',
+  },
+  {
+    name: 'Ayelén Tolay',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'Analista QA Tester',
+    badge: 'QA Analyst',
+    linkedin: 'https://www.linkedin.com/in/ayelen-tolay',
+  },
+  {
+    name: 'Fernando Barrionuevo',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA Manual',
+    badge: 'QA Analyst',
+    linkedin: 'https://www.linkedin.com/in/fernandobarrionuevoqa',
+  },
+  {
+    name: 'Pamela Calafate',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA manual y automation · Abogada',
+    badge: 'QA Analyst | Abogada',
+    linkedin: 'https://www.linkedin.com/in/pamelacalafate/',
+  },
+  {
+    // Pidió que le avisemos qué rol le ponemos: este es el que ella/él mismo propuso, a confirmar.
+    name: 'Leandro José Luis Trapine',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA & Technology Consultant · Lawyer · Legal Tech',
+    badge: 'QA Analyst | Lawyer | Legal Tech',
+    corto: 'Leandro Trapine',
+    linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
+  },
+  {
+    name: 'Santiago Pereira',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244/',
+  },
+  {
+    name: 'Manuel Alexandro Legra Crespo',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    corto: 'Manuel Legra Crespo',
+    linkedin: 'https://www.linkedin.com/in/manuel-alexandro-legra-crespo-0769bb410/',
+  },
+  {
+    name: 'Luis P. Majul',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Frontend Developer',
+    badge: 'Frontend Developer',
+    linkedin: 'https://www.linkedin.com/in/lookym/',
+  },
+  {
+    name: 'Celina Jara',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Administración',
+    badge: 'Administración',
+    linkedin: 'https://www.linkedin.com/in/celina-jara-23b03373/',
+  },
+  {
+    name: 'Daniel Hernández Anaya',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA',
+    badge: 'QA Analyst',
+    corto: 'Daniel Hernández Anaya',
+    linkedin: 'https://www.linkedin.com/in/daniel-hernandez-anaya/',
+  },
+  {
+    name: 'Lucas Greco',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/lucasggreco/',
+  },
+  {
+    name: 'Oliver Dos Anjos',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    corto: 'Oliver Dos Anjos',
+    linkedin: 'https://www.linkedin.com/in/oliverdosanjos-dev/',
+  },
+  {
+    name: 'Victoria Cavagnaro',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseñadora UX/UI · Diseñadora Industrial',
+    badge: 'UX/UI Designer',
+    linkedin: 'https://www.linkedin.com/in/victoria-cavagnaro/',
+  },
+  {
+    name: 'Lucila Gabriele',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño UX/UI & Diseño web',
+    badge: 'UX/UI Designer',
+    linkedin: 'https://www.linkedin.com/in/lucilagabriele/',
+  },
+  {
+    name: 'Jonathan Javier Guglielmo',
+    area: 'diseno',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño UX/UI',
+    badge: 'UX/UI Designer',
+    corto: 'Jonathan Guglielmo',
+    linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
+  },
+];
+
+// El equipo agrupado por área. Dentro de cada área, primero quien la lidera y después en el orden de la lista.
+export const equipoPorArea = () =>
+  AREAS_EQUIPO.map((a) => ({
+    ...a,
+    integrantes: FOUNDERS.filter((f) => f.area === a.id).sort((x, y) => Number(/l[ií]der/i.test(y.badge)) - Number(/l[ií]der/i.test(x.badge))),
+  })).filter((a) => a.integrantes.length > 0);
