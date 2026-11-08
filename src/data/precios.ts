@@ -19,10 +19,10 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   {
     id: 'dispositivo-chaja',
     servicio: 'CHAJÁ Micro-Hub · Edge AI y Ciberseguridad',
-    incluye: 'Micro-Hub industrial. Alertas visuales. Voz hablada neuronal opcional por cada equipo, con suscripción separada. Precio del hardware a confirmar en presupuesto formal.',
-    min: 0, max: 0, precioUsd: 0, tipo: 'hardware',
-    badge: 'Precio del equipo a consultar',
-    notaHardware: 'No incluye voz hablada. El precio del hardware se confirma luego del diagnóstico técnico.',
+    incluye: 'Micro-Hub industrial. Alertas visuales. Voz hablada neuronal opcional por cada equipo, con suscripción separada.',
+    min: 280_000, max: 280_000, precioUsd: 230, tipo: 'hardware',
+    badge: 'Dispositivo Físico · $280.000',
+    notaHardware: 'No incluye voz hablada (es un plan mensual opcional). Precio de referencia por equipo.',
   },
   {
     id: 'dispositivo-tero',
@@ -49,20 +49,20 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
 ];
 
 // Mismos servicios y orden que la remera y la web.
-// consultar: el precio se pasa después del diagnóstico (todavía no hay rango publicado).
+// Todos con precio de referencia (promedio de mercado en pesos argentinos). El precio final se confirma en el diagnóstico.
 export const SERVICIOS_SOFTWARE: Precio[] = [
   { id: 'diagnostico', servicio: 'Diagnóstico inicial gratuito', incluye: 'Analizamos tu problema y te decimos cómo lo resolveríamos, sin compromiso', min: 0, max: 0, tipo: 'software' },
   { id: 'automatizacion', servicio: 'Automatizaciones', incluye: 'Turnos y reservas, consultas comerciales, tareas administrativas, integración de sistemas y asistentes web', min: 500_000, max: 1_000_000, tipo: 'software' },
   { id: 'ciberseguridad', servicio: 'Ciberseguridad', incluye: 'Revisamos tus sistemas y equipos, cerramos los puntos débiles y te damos un informe', min: 500_000, max: 1_200_000, tipo: 'software' },
   { id: 'ecommerce', servicio: 'E-commerce', incluye: 'Tu tienda online con catálogo, carrito y cobros, conectada con tu stock', min: 650_000, max: 1_500_000, tipo: 'software' },
-  { id: 'aplicaciones-moviles', servicio: 'Aplicaciones móviles', incluye: 'Una app a medida de tu negocio para tus clientes o tu equipo', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'aplicaciones-moviles', servicio: 'Aplicaciones móviles', incluye: 'Una app a medida de tu negocio para tus clientes o tu equipo (Android y iPhone)', min: 1_500_000, max: 3_500_000, tipo: 'software' },
   { id: 'crm', servicio: 'CRM', incluye: 'Tus clientes, ventas y seguimientos en un solo lugar', min: 1_000_000, max: 2_000_000, tipo: 'software' },
   { id: 'bots-whatsapp', servicio: 'Bots de WhatsApp', incluye: 'Tu WhatsApp responde solo: pedidos, turnos y consultas, y te pasa a una persona cuando hace falta', min: 600_000, max: 850_000, tipo: 'software' },
   { id: 'asistentes', servicio: 'Asistentes ilustrados y animados', incluye: 'Un personaje dibujado y animado para tu web que guía a tus clientes', min: 500_000, max: 1_200_000, tipo: 'software' },
   { id: 'robotica-a-medida', servicio: 'Robótica a medida', incluye: 'Robots de tamaño chico: primero el cerebro y la simulación 3D; el cuerpo físico, si es viable', min: 1_200_000, max: 3_500_000, tipo: 'software', badge: 'Robots chicos' },
-  { id: 'campanas-ads', servicio: 'Campañas en Meta y Google Ads', incluye: 'Campañas en Instagram, Facebook y Google, con informes de resultados', min: 0, max: 0, consultar: true, tipo: 'software' },
-  { id: 'estrategia-marca', servicio: 'Estrategia y análisis de marca', incluye: 'Análisis de tu marca y un plan para redes, web y campañas', min: 0, max: 0, consultar: true, tipo: 'software' },
-  { id: 'identidad-marca', servicio: 'Identidad visual', incluye: 'Logo, colores, tipografías y manual de marca', min: 0, max: 0, consultar: true, tipo: 'software' },
+  { id: 'campanas-ads', servicio: 'Campañas en Meta y Google Ads', incluye: 'Gestión mensual de campañas en Instagram, Facebook y Google, con informes. La inversión en publicidad va aparte', min: 250_000, max: 450_000, tipo: 'software', badge: 'Por mes' },
+  { id: 'estrategia-marca', servicio: 'Estrategia y análisis de marca', incluye: 'Análisis de tu marca y un plan para redes, web y campañas', min: 350_000, max: 700_000, tipo: 'software' },
+  { id: 'identidad-marca', servicio: 'Identidad visual', incluye: 'Logo, colores, tipografías y manual de marca', min: 400_000, max: 900_000, tipo: 'software' },
 ];
 
 // Lista completa combinada para compatibilidad
@@ -109,8 +109,8 @@ export const ABONOS: Abono[] = [
   {
     id: 'carancho',
     nombre: 'Robótica a medida (robots de tamaño chico)',
-    detalle: 'Desarrollamos el cerebro del robot y lo probás en 3D. Si es viable, cotizamos aparte la fabricación del cuerpo físico.',
-    mensual: null,
+    detalle: 'Mantenimiento, ajustes y actualizaciones del cerebro del robot una vez entregado.',
+    mensual: 120_000,
   },
 ];
 

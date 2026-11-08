@@ -7,9 +7,10 @@ import {
   Check, 
   Sparkles,
   CornerRightDown,
-  Linkedin
+  Linkedin,
+  LifeBuoy
 } from 'lucide-react';
-import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
+import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL, soporteWhatsappLink, soporteGmailLink } from '../data/contact';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
 
@@ -275,24 +276,17 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
-              <span>O escribinos a</span>
-              {[
-                { etiqueta: 'Ventas', email: VENTAS_EMAIL },
-                { etiqueta: 'Soporte', email: SOPORTE_EMAIL },
-              ].map(({ etiqueta, email }) => (
-                <a
-                  key={email}
-                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(`Consulta para ${etiqueta.toLowerCase()} - tecnoros.ar`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
-                  title={`Escribir un e-mail a ${etiqueta.toLowerCase()}`}
-                >
-                  <Mail className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-sans text-slate-400">{etiqueta}:</span>
-                  <span>{email}</span>
-                </a>
-              ))}
+              <span>O escribile directo a ventas:</span>
+              <a
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(VENTAS_EMAIL)}&su=${encodeURIComponent('Consulta para ventas - tecnoros.ar')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
+                title="Escribir un e-mail a ventas"
+              >
+                <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{VENTAS_EMAIL}</span>
+              </a>
             </div>
 
             {sentSuccess && (
@@ -302,6 +296,27 @@ export const ContactSection: React.FC = () => {
               </div>
             )}
           </form>
+        </div>
+
+        {/* Soporte va aparte de ventas: es para quienes ya son clientes */}
+        <div id="soporte" className="mt-8 max-w-3xl mx-auto rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-6 sm:p-7 scroll-mt-24">
+          <div className="flex items-start gap-3">
+            <span className="w-10 h-10 rounded-xl bg-emerald-400/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shrink-0">
+              <LifeBuoy className="w-5 h-5" />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold text-white">¿Ya sos cliente? Soporte técnico</h3>
+              <p className="mt-1 text-sm text-slate-400">Si algo de lo que te hicimos no anda o necesitás un cambio, escribinos por acá. Las consultas nuevas van por el formulario de arriba.</p>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-col sm:flex-row gap-3">
+            <a href={soporteWhatsappLink()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-colors">
+              <MessageCircle className="w-4 h-4" /> Soporte por WhatsApp
+            </a>
+            <a href={soporteGmailLink()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-emerald-500/40 text-emerald-200 hover:bg-emerald-500/10 font-semibold text-sm transition-colors">
+              <Mail className="w-4 h-4" /> {SOPORTE_EMAIL}
+            </a>
+          </div>
         </div>
 
       </div>

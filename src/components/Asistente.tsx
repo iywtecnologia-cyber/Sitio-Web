@@ -244,6 +244,25 @@ export const Asistente: React.FC = () => {
   const [pensando, setPensando] = useState(false);
   // De qué se habló último: deja entender mensajes cortos como "¿y cuánto sale?".
   const temaPrevio = useRef<string | undefined>(undefined);
+  // En el celular, cuando aparece el teclado el chat sube y se achica para quedar entero arriba del teclado
+  // (si no, el campo de texto queda tapado). visualViewport dice cuánto lugar deja el teclado.
+  const [teclado, setTeclado] = useState<{ abajo: number; alto: number } | null>(null);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!abierto || !vv) return;
+    const medir = () => {
+      const tapado = window.innerHeight - vv.height - vv.offsetTop;
+      setTeclado(tapado > 120 ? { abajo: tapado + 8, alto: vv.height - 16 } : null);
+    };
+    medir();
+    vv.addEventListener('resize', medir);
+    vv.addEventListener('scroll', medir);
+    return () => {
+      vv.removeEventListener('resize', medir);
+      vv.removeEventListener('scroll', medir);
+      setTeclado(null);
+    };
+  }, [abierto]);
   const listaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -342,6 +361,7 @@ export const Asistente: React.FC = () => {
           role="dialog"
           aria-label="Asistente de tecnoros.ar"
           className="fixed z-[70] bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
+          style={teclado ? { bottom: teclado.abajo } : undefined}
         >
           {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
           <button
@@ -351,7 +371,7 @@ export const Asistente: React.FC = () => {
             }}
             {...delChat.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`${delChat.pos ? 'fixed' : 'absolute -top-[5.75rem] right-2 sm:right-auto sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
+            className={`${teclado ? 'hidden' : ''} ${delChat.pos ? 'fixed' : 'absolute -top-[5.75rem] right-2 sm:right-auto sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
             {delChat.agarrado && (
@@ -374,7 +394,9 @@ export const Asistente: React.FC = () => {
               </span>
             </span>
           </button>
-          <div className="assistant-panel-enter relative max-h-[calc(100dvh-17rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
+          <div
+            style={teclado ? { maxHeight: teclado.alto } : undefined}
+            className="assistant-panel-enter relative max-h-[calc(100dvh-17rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <TecnorosContactIcon className="assistant-avatar-breathe w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">

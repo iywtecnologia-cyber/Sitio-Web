@@ -338,12 +338,12 @@ export const ProductosPropios: React.FC = () => {
       : '';
 
     const text = selectedSystem === 'colibri'
-      ? `¡Hola TecnoRosario! Quiero cotizar el micro-dispositivo *CHAJÁ Micro-Hub • Edge AI & Ciberseguridad* (Dispositivo diminuto con pantalla para reemplazar PC en planta):${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
+      ? `¡Hola tecnoros.ar! Quiero cotizar el micro-dispositivo *CHAJÁ Micro-Hub • Edge AI & Ciberseguridad* (Dispositivo diminuto con pantalla para reemplazar PC en planta):${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
       : selectedSystem === 'golondrina'
-      ? `¡Hola TecnoRosario! Quiero cotizar el módulo físico y software *Golondrina Automatización* (Setup inicial y abono mensual SaaS):${filamentoMsg}\n\n¿Podemos coordinar una reunión de diagnóstico para aplicarlo en nuestra empresa?`
-      : `¡Hola TecnoRosario! Me interesa conocer más sobre el próximo sistema de ciberseguridad *TERO Security* (En fase I+D):\n\n¿Tienen una lista de espera o novedades de avance técnico para cuando esté disponible la prueba de concepto?`;
+      ? `¡Hola tecnoros.ar! Quiero cotizar el módulo físico y software *Golondrina Automatización* (Setup inicial y abono mensual SaaS):${filamentoMsg}\n\n¿Podemos coordinar una reunión de diagnóstico para aplicarlo en nuestra empresa?`
+      : `¡Hola tecnoros.ar! Me interesa conocer más sobre el próximo sistema de ciberseguridad *TERO Security* (En fase I+D):\n\n¿Tienen una lista de espera o novedades de avance técnico para cuando esté disponible la prueba de concepto?`;
 
-    window.open(`https://wa.me/5493415112000?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(whatsappLink(text), '_blank', 'noopener');
   };
 
   return (
@@ -725,7 +725,7 @@ export const ProductosPropios: React.FC = () => {
                   {activeCapability && (
                     <div role="status" aria-live="polite" className="p-3 rounded-xl border border-slate-700 bg-slate-950/80 text-xs text-slate-300">
                       {activeCapability==='voice' ? 'Voz: alertas habladas mediante servicio pago por equipo; no hay voz de prueba.' : activeCapability==='text' ? 'WhatsApp: notificaciones de eventos, previa configuración.' : 'Ciberseguridad: protección y segmentación de red, sujeta a evaluación.'}
-                      {activeCapability==='voice' && <button type="button" onClick={() => window.open('https://wa.me/5493415112000?text='+encodeURIComponent('Hola, quiero cotizar voz premium por CHAJÁ.'),'_blank','noopener,noreferrer')} className="ml-2 underline text-cyan-300">Consultar precio</button>}
+                      {activeCapability==='voice' && <button type="button" onClick={() => window.open(whatsappLink('Hola, quiero cotizar voz premium por CHAJÁ.'),'_blank','noopener,noreferrer')} className="ml-2 underline text-cyan-300">Consultar precio</button>}
                     </div>
                   )}
                 </div>

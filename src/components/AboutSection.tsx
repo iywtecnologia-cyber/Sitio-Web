@@ -1,5 +1,6 @@
 import React from 'react';
-import { Users, Sparkles, ShieldCheck, MapPin, Layers, ExternalLink, ArrowRight } from 'lucide-react';
+import { Users, ShieldCheck, MapPin, Layers, ExternalLink, ArrowRight, ChevronDown } from 'lucide-react';
+import { RAZONES, SERVICIOS } from './inicio/Inicio';
 
 import { FOUNDERS } from '../data/equipo';
 import { EquipoAreas } from './EquipoAreas';
@@ -62,47 +63,60 @@ export const AboutSection: React.FC = () => {
           <EquipoAreas />
         </div>
 
-        {/* Grilla con las dos preguntas con diseño moderno */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tarjeta: ¿Qué ofrecemos? */}
-          <div className="p-7 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800/90 hover:border-cyan-500/40 transition-all duration-300 group relative flex flex-col justify-between">
-            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-            <div>
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 mb-5 group-hover:scale-105 transition-transform">
+        {/* Las dos preguntas como desplegables: se ven igual en el celular y en la compu */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <details className="group rounded-2xl bg-slate-900/60 border border-slate-800/90 open:border-cyan-500/40 transition-colors">
+            <summary className="list-none cursor-pointer p-5 sm:p-6 flex items-center gap-3">
+              <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 shrink-0">
                 <Layers className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 flex items-center gap-2">
-                ¿Qué ofrecemos?
-              </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Hacemos automatizaciones a medida y tenemos productos propios de ciberseguridad, robótica e inteligencia artificial.
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg sm:text-xl font-bold text-white">¿Qué ofrecemos?</span>
+                <span className="block text-sm text-slate-400">Servicios a medida y productos propios</span>
+              </span>
+              <ChevronDown className="w-5 h-5 text-cyan-300 shrink-0 transition-transform group-open:rotate-180" />
+            </summary>
+            <div className="px-5 sm:px-6 pb-6">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {SERVICIOS.map(({ icon: Icon, titulo, ir }) => (
+                  <li key={titulo}>
+                    <a href={`/servicios#${ir}`} className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-cyan-500/50 text-sm text-slate-200 transition-colors">
+                      <Icon className="w-4 h-4 text-cyan-300 shrink-0" /> {titulo}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-sm text-slate-300">
+                Y productos propios: <a href="/productos" className="text-cyan-300 underline underline-offset-4">Golondrina, CHAJÁ y TERO Security</a>.
               </p>
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-cyan-400/80">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Automatizaciones & Proyectos Propios</span>
-            </div>
-          </div>
+          </details>
 
-          {/* Tarjeta: ¿Qué nos diferencia? */}
-          <div className="p-7 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800/90 hover:border-violet-500/40 transition-all duration-300 group relative flex flex-col justify-between">
-            <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
-            <div>
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400 mb-5 group-hover:scale-105 transition-transform">
+          <details className="group rounded-2xl bg-slate-900/60 border border-slate-800/90 open:border-violet-500/40 transition-colors">
+            <summary className="list-none cursor-pointer p-5 sm:p-6 flex items-center gap-3">
+              <span className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400 shrink-0">
                 <ShieldCheck className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 flex items-center gap-2">
-                ¿Qué nos diferencia?
-              </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Entendemos cada problema a fondo y lo resolvemos sin intermediarios.
-              </p>
-            </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center gap-2 text-xs font-mono text-violet-400/80">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Análisis Funcional, Electrónica & Ciberseguridad</span>
-            </div>
-          </div>
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg sm:text-xl font-bold text-white">¿Qué nos diferencia?</span>
+                <span className="block text-sm text-slate-400">Por qué trabajar con nosotros</span>
+              </span>
+              <ChevronDown className="w-5 h-5 text-violet-300 shrink-0 transition-transform group-open:rotate-180" />
+            </summary>
+            <ul className="px-5 sm:px-6 pb-6 space-y-3">
+              {RAZONES.map(({ icon: Icon, titulo, linea }) => (
+                <li key={titulo} className="flex items-start gap-3">
+                  <span className="w-8 h-8 rounded-lg bg-emerald-400/15 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
+                    <Icon className="w-4 h-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-white">{titulo}</span>
+                    <span className="block text-sm text-slate-400 leading-snug">{linea}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </details>
         </div>
       </div>
     </section>
