@@ -35,6 +35,7 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string }[] = [
   { ruta: '/nosotros', titulo: 'Nosotros', linea: 'Historia y equipo' },
   // Estaba en el menú de compu pero no en el del celular
   { ruta: '/blog', titulo: 'Blog', linea: 'Ideas cortas para tu negocio' },
+  { ruta: '/encuentros', titulo: 'Encuentros', linea: 'Nuestra historia en fotos' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = () => {
@@ -44,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
   const ruta = useRuta();
   const SECCION_DE_PAGINA: Record<string, string> = {
     '/servicios': 'servicios', '/productos': 'productos', '/robotica': 'robotica-3d', '/proyectos': 'proyectos', '/contacto': 'contacto',
-    '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros', '/blog': 'blog',
+    '/presupuesto': 'facturacion', '/tecnologias': 'stack', '/nosotros': 'sobre-nosotros', '/blog': 'blog', '/encuentros': 'encuentros',
   };
   const activeSection = ruta === '/' ? seccionInicio : SECCION_DE_PAGINA[ruta];
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -172,6 +173,7 @@ export const Navbar: React.FC<NavbarProps> = () => {
     { label: 'Presupuesto', href: '#facturacion', id: 'facturacion' },
     { label: 'Nosotros', href: '#sobre-nosotros', id: 'sobre-nosotros' },
     { label: 'Blog', href: '#blog', id: 'blog' },
+    { label: 'Encuentros', href: '#encuentros', id: 'encuentros' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
