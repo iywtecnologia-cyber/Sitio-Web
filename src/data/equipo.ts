@@ -294,9 +294,9 @@ export const FOUNDERS: Founder[] = [
   },
 ];
 
-// El equipo agrupado por área. Dentro de cada área, primero quien la lidera y después en el orden de la lista.
+// El equipo agrupado por área. Dentro de cada área, en orden alfabético por nombre.
 export const equipoPorArea = () =>
   AREAS_EQUIPO.map((a) => ({
     ...a,
-    integrantes: FOUNDERS.filter((f) => f.area === a.id).sort((x, y) => Number(/l[ií]der/i.test(y.badge)) - Number(/l[ií]der/i.test(x.badge))),
+    integrantes: FOUNDERS.filter((f) => f.area === a.id).sort((x, y) => x.name.localeCompare(y.name, 'es', { sensitivity: 'base' })),
   })).filter((a) => a.integrantes.length > 0);
