@@ -1,8 +1,7 @@
 import React from 'react';
-import { Heart, Linkedin } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { BotonesRedes } from './Redes';
-import { equipoPorArea } from './AboutSection';
 
 // Links reales (no botones): se pueden abrir en otra pestaña y los buscadores los siguen.
 // El clic lo intercepta rutas.ts, así que la navegación sigue siendo sin recargar.
@@ -64,24 +63,9 @@ export const Footer: React.FC = () => {
           <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
         </div>
 
-        {/* Equipo (LinkedIn de cada integrante) y, abajo, las redes de tecnoros.ar */}
+        {/* Redes de tecnoros.ar */}
         <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Equipo</span>
-          <div className="flex flex-wrap items-center justify-center gap-2.5">
-            {equipoPorArea().flatMap((a) => a.integrantes).map((link) => (
-              <a
-                key={link.name}
-                href={link.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-cyan-300 hover:border-[#0A66C2]/60 transition-colors text-[13px] whitespace-nowrap"
-              >
-                <Linkedin className="w-3.5 h-3.5 text-[#0A66C2] shrink-0" />
-                <span>{link.name}</span>
-              </a>
-            ))}
-          </div>
-          <span className="mt-4 text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Seguinos</span>
+          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Seguinos</span>
           <BotonesRedes />
         </div>
 
