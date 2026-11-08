@@ -323,7 +323,7 @@ export const FOUNDERS: Founder[] = [
     area: 'qa',
     role: 'Se sumó al equipo',
     specialty: 'Ingeniero en Telecomunicaciones · QA Automation y DevOps',
-    badge: 'QA Analyst | DevOps',
+    badge: 'QA Analyst | DevOps | Ing. en Telecomunicaciones',
     linkedin: 'https://www.linkedin.com/in/guillermoadriancuenya/',
   },
 ];
