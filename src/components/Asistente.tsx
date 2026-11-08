@@ -247,8 +247,23 @@ export const Asistente: React.FC = () => {
   const listaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Cuando llega la respuesta, la lista se acomoda para que arriba quede la pregunta y debajo
+  // el comienzo de la respuesta: así se lee desde el principio, sin tener que subir.
+  // Mientras escribís o Marcio piensa, se muestra lo último (tu mensaje y los tres puntitos).
   useEffect(() => {
-    listaRef.current?.scrollTo({ top: listaRef.current.scrollHeight, behavior: 'smooth' });
+    const lista = listaRef.current;
+    if (!lista) return;
+    const ultimo = mensajes[mensajes.length - 1];
+    const pregunta = mensajes[mensajes.length - 2];
+    if (!pensando && ultimo?.de === 'bot' && pregunta?.de === 'persona') {
+      const el = lista.querySelector<HTMLElement>(`[data-mensaje="${pregunta.id}"]`);
+      if (el) {
+        const top = el.getBoundingClientRect().top - lista.getBoundingClientRect().top + lista.scrollTop - 12;
+        lista.scrollTo({ top, behavior: 'smooth' });
+        return;
+      }
+    }
+    lista.scrollTo({ top: lista.scrollHeight, behavior: 'smooth' });
   }, [mensajes, abierto, pensando]);
 
   useEffect(() => {
@@ -381,7 +396,7 @@ export const Asistente: React.FC = () => {
 
           <div ref={listaRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
             {mensajes.map((m) => (
-              <div key={m.id} className={`assistant-message-enter ${m.de === 'persona' ? 'flex justify-end' : 'flex flex-col items-start gap-2'}`}>
+              <div key={m.id} data-mensaje={m.id} className={`assistant-message-enter ${m.de === 'persona' ? 'flex justify-end' : 'flex flex-col items-start gap-2'}`}>
                 <div
                   className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
                     m.de === 'persona'
