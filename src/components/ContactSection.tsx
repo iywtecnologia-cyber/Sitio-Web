@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
+import { SelectorTema } from './SelectorTema';
 
 // Palabras que ayudan a elegir el tema solo, mientras la persona escribe
 const PALABRAS_TEMA: [string, string[]][] = [
@@ -222,21 +223,13 @@ export const ContactSection: React.FC = () => {
                 ¿Sobre qué querés consultar?
                 {temaAuto && <span className="font-sans px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300">Lo elegimos según tu mensaje</span>}
               </label>
-              <select
+              <SelectorTema
                 id="contacto-tema"
-                value={tema}
-                onChange={(e) => elegirTema(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white text-sm focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
-              >
-                <option value="">Elegí un tema (opcional)</option>
-                {Object.entries(grupos).map(([grupo, lista]) => (
-                  <optgroup key={grupo} label={grupo}>
-                    {lista.map((t) => (
-                      <option key={t.id} value={t.id}>{t.etiqueta}</option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
+                valor={tema}
+                vacio="Elegí un tema (opcional)"
+                grupos={Object.entries(grupos)}
+                onElegir={elegirTema}
+              />
             </div>
 
             <div>
