@@ -318,6 +318,14 @@ export const FOUNDERS: Founder[] = [
     corto: 'Juan Pablo Bortol',
     linkedin: 'https://www.linkedin.com/in/juan-pablo-bortol/',
   },
+  {
+    name: 'Guillermo Cuenya',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'Ingeniero en Telecomunicaciones · QA Automation y DevOps',
+    badge: 'QA Analyst | DevOps',
+    linkedin: 'https://www.linkedin.com/in/guillermoadriancuenya/',
+  },
 ];
 
 // El equipo agrupado por área. Dentro de cada área, en orden alfabético por nombre.
