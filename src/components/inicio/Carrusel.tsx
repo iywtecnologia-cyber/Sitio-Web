@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Carrusel horizontal: flechas a los dos lados (se apagan en los extremos), deslizable con el dedo
+// Carrusel horizontal: flechas arriba a la derecha (se apagan en los extremos), deslizable con el dedo
 // y con las flechas del teclado. Cada hijo es una tarjeta; el ancho de cada una lo define `anchoItem`.
 export const Carrusel: React.FC<{
   etiqueta: string;
@@ -34,13 +34,19 @@ export const Carrusel: React.FC<{
     el.scrollBy({ left: dir * paso, behavior: 'smooth' });
   };
 
-  const flecha = `absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/95 border border-slate-700 text-white flex items-center justify-center shadow-lg transition-opacity hover:border-cyan-400/70 hover:text-cyan-300 disabled:opacity-0 disabled:pointer-events-none ${claseFlecha}`;
+  const flecha = `w-10 h-10 rounded-full bg-slate-900/95 border border-slate-700 text-white flex items-center justify-center transition-opacity hover:border-cyan-400/70 hover:text-cyan-300 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer ${claseFlecha}`;
 
+  // Las flechas van arriba, a la derecha, fuera de las tarjetas: así no tapan el contenido.
   return (
-    <div className="relative" role="region" aria-roledescription="carrusel" aria-label={etiqueta}>
-      <button type="button" onClick={() => mover(-1)} disabled={!puedeIzq} aria-label="Ver anteriores" className={`${flecha} -left-3 sm:-left-5`}>
-        <ChevronLeft className="w-5 h-5" />
-      </button>
+    <div role="region" aria-roledescription="carrusel" aria-label={etiqueta}>
+      <div className="flex justify-end gap-2 mb-3">
+        <button type="button" onClick={() => mover(-1)} disabled={!puedeIzq} aria-label="Ver anteriores" className={flecha}>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button type="button" onClick={() => mover(1)} disabled={!puedeDer} aria-label="Ver más" className={flecha}>
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
       <ul
         ref={pista}
         onScroll={medir}
@@ -56,9 +62,6 @@ export const Carrusel: React.FC<{
           <li className={`snap-start shrink-0 ${anchoItem}`}>{hijo}</li>
         ))}
       </ul>
-      <button type="button" onClick={() => mover(1)} disabled={!puedeDer} aria-label="Ver más" className={`${flecha} -right-3 sm:-right-5`}>
-        <ChevronRight className="w-5 h-5" />
-      </button>
     </div>
   );
 };

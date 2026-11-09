@@ -9,7 +9,8 @@ import {
   CornerRightDown,
   Linkedin
 } from 'lucide-react';
-import { CONTACT_EMAIL, VENTAS_EMAIL, SOPORTE_EMAIL } from '../data/contact';
+import { CONTACT_EMAIL, VENTAS_EMAIL } from '../data/contact';
+import { SoporteForm } from './SoporteForm';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
 
@@ -275,24 +276,17 @@ export const ContactSection: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
-              <span>O escribinos a</span>
-              {[
-                { etiqueta: 'Ventas', email: VENTAS_EMAIL },
-                { etiqueta: 'Soporte', email: SOPORTE_EMAIL },
-              ].map(({ etiqueta, email }) => (
-                <a
-                  key={email}
-                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(`Consulta para ${etiqueta.toLowerCase()} - tecnoros.ar`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
-                  title={`Escribir un e-mail a ${etiqueta.toLowerCase()}`}
-                >
-                  <Mail className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-sans text-slate-400">{etiqueta}:</span>
-                  <span>{email}</span>
-                </a>
-              ))}
+              <span>O escribile directo a ventas:</span>
+              <a
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(VENTAS_EMAIL)}&su=${encodeURIComponent('Consulta para ventas - tecnoros.ar')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
+                title="Escribir un e-mail a ventas"
+              >
+                <Mail className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{VENTAS_EMAIL}</span>
+              </a>
             </div>
 
             {sentSuccess && (
@@ -303,6 +297,9 @@ export const ContactSection: React.FC = () => {
             )}
           </form>
         </div>
+
+        {/* Soporte va aparte de ventas (es para quienes ya son clientes), con el mismo formato */}
+        <SoporteForm />
 
       </div>
     </section>

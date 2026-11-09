@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
+import { WHATSAPP_NUMBERS } from '../../data/contact';
 import { 
   Cpu, 
   Layers, 
@@ -189,9 +190,30 @@ export const RobotStudioSection: React.FC = () => {
     };
 
     const userNeed = customNeedText ? `\n- Necesidad del software / algoritmo: "${customNeedText}"` : '';
-    const text = `¡Hola TecnoRosario! Probé el simulador 3D del cerebro robótico en la web:\n\n- Arquitectura de Simulación: ${robotConfig.robotName} (${robotConfig.robotModelId})\n- Cinemática / Tracción simulada: ${chassisLabels[robotConfig.chassisType]}\n- Tarea del software: ${moduleLabels[robotConfig.missionModule]}\n- Módulos de percepción: LiDAR (${robotConfig.hasLidar ? 'Sí' : 'No'}), Láser SIL2 (${robotConfig.hasSafetyLaser ? 'Sí' : 'No'}), Visión Estéreo (${robotConfig.hasStereoVision ? 'Sí' : 'No'}), Telemetría (${robotConfig.hasTelemetry5G ? 'Sí' : 'No'})${userNeed}\n\n¿Podemos coordinar una reunión para evaluar primero el desarrollo del cerebro/software robótico y la viabilidad técnica para incorporar y fabricar el cuerpo físico para nuestra empresa?`;
+    const text = `¡Hola tecnoros.ar! Probé el simulador 3D del cerebro robótico en la web:\n\n- Arquitectura de Simulación: ${robotConfig.robotName} (${robotConfig.robotModelId})\n- Cinemática / Tracción simulada: ${chassisLabels[robotConfig.chassisType]}\n- Tarea del software: ${moduleLabels[robotConfig.missionModule]}\n- Módulos de percepción: LiDAR (${robotConfig.hasLidar ? 'Sí' : 'No'}), Láser SIL2 (${robotConfig.hasSafetyLaser ? 'Sí' : 'No'}), Visión Estéreo (${robotConfig.hasStereoVision ? 'Sí' : 'No'}), Telemetría (${robotConfig.hasTelemetry5G ? 'Sí' : 'No'})${userNeed}\n\n¿Podemos coordinar una reunión para evaluar primero el desarrollo del cerebro/software robótico y la viabilidad técnica para incorporar y fabricar el cuerpo físico para nuestra empresa?`;
 
-    window.open(`https://wa.me/5493415112000?text=${encodeURIComponent(text)}`, '_blank');
+    return text;
+  };
+
+  // Cotizar por WhatsApp: se elige al azar uno de los dos números de ventas.
+  const cotizarPor = (numero: string) => {
+    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(handleQuoteClick())}`, '_blank', 'noopener');
+  };
+
+  // En el celular el robot está arriba y las opciones abajo: al elegir algo, la vista vuelve al robot
+  // para ver el cambio al instante (si el robot ya está a la vista, no se mueve nada).
+  const vistaRobot = useRef<HTMLDivElement>(null);
+  const mostrarRobot = (e: React.MouseEvent) => {
+    const boton = (e.target as HTMLElement).closest('button');
+    if (!boton || boton.hasAttribute('data-sin-ir')) return;
+    const el = vistaRobot.current;
+    if (!el) return;
+    window.setTimeout(() => {
+      const r = el.getBoundingClientRect();
+      const header = document.querySelector('header')?.getBoundingClientRect().height ?? 70;
+      if (r.top >= header && r.bottom <= window.innerHeight) return;
+      window.scrollTo({ top: r.top + window.scrollY - header - 8, behavior: 'instant' });
+    }, 30);
   };
 
   return (
@@ -235,8 +257,8 @@ export const RobotStudioSection: React.FC = () => {
           </a>
         </div>
 
-        {/* Model Selector Carousel / Bar */}
-        <div className="mb-6 space-y-2">
+        {/* Model Selector Carousel / Bar: al tocar un robot, la vista va directo al robot */}
+        <div className="mb-6 space-y-2" onClickCapture={mostrarRobot}>
           <div className="flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
             <span className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -371,7 +393,8 @@ export const RobotStudioSection: React.FC = () => {
               </div>
             </div>
 
-            {/* 3D Canvas */}
+            {/* 3D Canvas. En el celular, una franja a la derecha deja deslizar la página con el dedo sin girar el robot. */}
+            <div ref={vistaRobot} className="relative scroll-mt-24">
             <RobotCanvas3D
               modelType="robot"
               config={robotConfig}
@@ -383,6 +406,14 @@ export const RobotStudioSection: React.FC = () => {
                 }))
               }
             />
+            <div
+              className="lg:hidden absolute top-0 right-0 bottom-0 w-11 z-10 flex items-center justify-center rounded-r-2xl bg-slate-950/50 border-l border-slate-700/60"
+              style={{ touchAction: 'pan-y' }}
+              aria-hidden="true"
+            >
+              <span className="text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
+            </div>
+            </div>
 
             {/* Exploded View Slider */}
             <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2">
@@ -544,7 +575,7 @@ export const RobotStudioSection: React.FC = () => {
           </div>
 
           {/* Right Sidebar: 100% Customization Controls */}
-          <div className="lg:col-span-4 flex flex-col gap-4">
+          <div className="lg:col-span-4 flex flex-col gap-4" onClickCapture={mostrarRobot}>
             
             {activeTab === 'use-case' ? (
               /* USE CASE ASSISTANT */
@@ -885,7 +916,9 @@ export const RobotStudioSection: React.FC = () => {
                 Empezamos por el cerebro y lo ves en 3D antes de gastar en materiales.
               </p>
               <button
-                onClick={handleQuoteClick}
+                type="button"
+                data-sin-ir
+                onClick={() => cotizarPor(WHATSAPP_NUMBERS[Math.floor(Math.random() * WHATSAPP_NUMBERS.length)])}
                 className="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <Send className="w-4 h-4 text-slate-950" />

@@ -8,6 +8,29 @@ export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos
 
 export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto', '/blog', '/encuentros'];
 
+// Direcciones cortas para compartir por WhatsApp, Instagram o un QR (tecnoros.ar/golondrina, etc.).
+// Al entrar se cambian por la página real y se baja a la sección.
+const ATAJOS: Record<string, [Ruta, string]> = {
+  '/golondrina': ['/productos', 'aplicaciones-golondrina'],
+  '/probar-golondrina': ['/productos', 'aplicaciones-golondrina'],
+  '/golondrina-personal': ['/productos', 'golondrina-personal-demo'],
+  '/equipos-3d': ['/productos', 'hardware-studio-3d'],
+  '/chaja': ['/productos', 'hardware-studio-3d'],
+  '/tero': ['/productos', 'tero-proximamente'],
+  '/robot': ['/robotica', ''],
+  '/disena-tu-robot': ['/robotica', ''],
+  '/soporte': ['/contacto', 'soporte'],
+  '/combos': ['/presupuesto', 'combos'],
+  '/precios': ['/presupuesto', ''],
+  '/fotos': ['/encuentros', ''],
+  '/equipo': ['/nosotros', ''],
+};
+
+if (typeof window !== 'undefined') {
+  const atajo = ATAJOS[window.location.pathname.replace(/\/+$/, '').toLowerCase()];
+  if (atajo) window.history.replaceState({}, '', atajo[0] + (atajo[1] ? `#${atajo[1]}` : ''));
+}
+
 const normalizar = (p: string): Ruta => {
   const limpio = (p.replace(/\/+$/, '') || '/') as Ruta;
   return RUTAS.includes(limpio) ? limpio : '/';
@@ -18,7 +41,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'saber-mas': '/', 'contacto-rapido': '/',
   servicios: '/servicios', 'como-trabajamos': '/servicios',
   proyectos: '/proyectos',
-  contacto: '/contacto', 'consulta-directa': '/contacto',
+  contacto: '/contacto', 'consulta-directa': '/contacto', soporte: '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',
@@ -90,6 +113,14 @@ const MARGEN_SOBRE_SECCION = 16;
 // suave = true: desliza (dentro de la misma página). false: aparece directo ahí (al cambiar de página),
 // para que no se vea la página nueva deslizándose desde arriba.
 const scrollearA = (el: Element, bloque: ScrollLogicalPosition, suave: boolean) => {
+  // Si el destino está dentro de un bloque plegado del celular (PlegableMovil), primero se abre
+  // y después se scrollea: si no, el elemento está oculto y el botón "no lleva a ningún lado".
+  const plegado = el.closest('[data-plegable="cerrado"]');
+  if (plegado) {
+    plegado.dispatchEvent(new CustomEvent('abrir-plegable'));
+    window.setTimeout(() => requestAnimationFrame(() => scrollearA(el, bloque, suave)), 150);
+    return;
+  }
   const behavior: ScrollBehavior = suave ? 'smooth' : 'instant';
   if (bloque !== 'start') {
     el.scrollIntoView({ behavior, block: bloque });

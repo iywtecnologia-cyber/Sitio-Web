@@ -124,7 +124,7 @@ export const JarDestacado: React.FC = () => (
 /* ── 2. Qué hacemos ────────────────────────────────────────────────────── */
 // Todos los servicios en una sola fila deslizable. Primero los siete de la remera, en el mismo orden.
 // La descripción aparece al pasar el mouse o tocar la tarjeta (en celular se ve siempre, porque no hay "pasar el mouse").
-const SERVICIOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
+export const SERVICIOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
   { icon: Search, titulo: 'Diagnóstico gratuito', linea: 'Miramos tu negocio y te decimos qué conviene hacer primero. Sin costo.', ir: 'servicio-analisis-qa' },
   { icon: Workflow, titulo: 'Automatizaciones', linea: 'Turnos, consultas y tareas administrativas: lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
   { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Responde consultas y toma pedidos a toda hora, con el tono de tu negocio.', ir: 'servicio-bots-whatsapp' },
@@ -211,7 +211,7 @@ export const QueHacemos: React.FC = () => (
 );
 
 /* ── Por qué elegirnos ─────────────────────────────────────────────── */
-const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
+export const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
   { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
   { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Una vez pagado, lo desarrollado a medida es tuyo. Y tus datos son siempre tuyos.' },
