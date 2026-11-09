@@ -82,16 +82,22 @@ export const Encuentros: React.FC = () => {
                 ))}
               </div>
             )}
-            <ul className="mt-6 columns-1 sm:columns-2 lg:columns-3 gap-4">
+            <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {fotos.map((f, i) => (
-                <li key={f.src} className="break-inside-avoid mb-4">
+                <li key={f.src} className="h-full" >
                   <button
                     type="button"
-                    onClick={() => setAbierta(i)}
-                    className="group block w-full text-left rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors"
+                    onClick={() => setAbierta(fotos.indexOf(f))}
+                    className="group flex flex-col h-full w-full text-left rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors"
                   >
-                    <img src={f.src} alt={f.alt} loading="lazy" decoding="async" className="w-full h-auto block transition-transform duration-300 group-hover:scale-[1.02]" />
-                    <span className="block p-4">
+                    <img
+                      src={f.src}
+                      alt={f.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full aspect-[2/2] object-cover block transition-transform duration-300 group-hover:scale-[1.02]"
+                    />
+                    <span className="block p-4 flex-1">
                       <span className="block font-semibold text-white">{f.titulo}</span>
                       {(f.fecha || f.lugar) && (
                         <span className="mt-1 flex items-center gap-1.5 text-xs text-slate-400">

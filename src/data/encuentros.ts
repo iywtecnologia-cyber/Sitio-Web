@@ -36,4 +36,42 @@ export const FOTOS_ENCUENTROS: FotoEncuentro[] = [
   //   fecha: '2026-09',
   //   lugar: 'Rosario',
   // },
+     {
+    src: '/public/assets/equipo.webp',
+    alt: 'Los fundadores de tecnoros.ar junto a Capibara, la mascota donde todo empezó',
+    titulo: 'Los fundadores con capibara, quien fue la mascota protagonista donde todo esto se origino',
+    tipo: 'comienzos',
+    },
+  {
+    src: '/public/assets/manu.webp',
+    alt: 'Voluntarios de tecnoros.ar en los Juegos Suramericanos',
+    titulo: 'Voluntariado - XIII Juegos Suramericanos',
+    tipo: 'jornadas',
+    lugar: 'Rosario, Santa Fe · 12 al 26 de septiembre de 2026',
+  },
+  {
+    src: '/public/assets/sofi.jpg',
+    alt: 'Equipo de tecnoros.ar en el Foro Rosario Emprende 2026',
+    titulo: 'Foro Rosario Emprende 2026',
+    tipo: 'jornadas',
+    fecha: '2026-10-27',
+    lugar: 'Terminal Fluvial de Rosario, Santa Fe',
+  },
+   {
+    src: '/public/assets/challenge.webp',
+    alt: 'Equipo de tecnoros.ar en el Challenge JAR 2026',
+    titulo: 'Challenge JAR 2026 · organizado por AIR Club UdeSa',
+    tipo: 'jornadas',
+    fecha: '2026-11-05',
+    lugar: 'Rosario',
+  },
+
+  {
+    src: '/public/assets/trabajo.webp',
+    alt: 'El equipo de tecnoros.ar trabajando juntos durante una jornada',
+    titulo: 'Un día trabajando juntos',
+    tipo: 'equipo',
+  },
+  
 ];
+
