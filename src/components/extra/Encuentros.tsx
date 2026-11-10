@@ -41,8 +41,8 @@ export const Encuentros: React.FC = () => {
   return (
     <section id="encuentros" className="scroll-mt-24 py-14 sm:py-20">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-        <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Encuentros</span>
-        <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Nuestra historia en fotos</h2>
+        <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Encuentros</span>
+        <h1 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Nuestra historia en fotos</h1>
         <p className="mt-2 max-w-2xl text-base text-slate-400">
           Acá van los comienzos, el equipo y las jornadas y eventos en los que participamos.
         </p>

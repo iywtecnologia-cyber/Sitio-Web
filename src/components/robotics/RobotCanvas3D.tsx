@@ -662,7 +662,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className={`w-2.5 h-2.5 rounded-full ${config.isEmergencyStop ? 'bg-red-500 animate-ping' : config.isSimulatingMotion ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-              <span className="font-bold text-white text-[11px] sm:text-xs">
+              <span className="font-bold text-white text-xs sm:text-xs">
                 {config.isEmergencyStop
                   ? 'PARADA SIL2 ACTIVADA'
                   : config.isSimulatingMotion
@@ -673,7 +673,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
             {onToggleMotion && (
               <button
                 onClick={onToggleMotion}
-                className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                className={`px-2 py-1 sm:py-0.5 rounded text-xs sm:text-[10px] font-bold transition-all cursor-pointer ${
                   config.isSimulatingMotion
                     ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30'
                     : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-500/30'
@@ -685,7 +685,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
           </div>
 
           {config.isSimulatingMotion && !config.isEmergencyStop && (
-            <div className="grid grid-cols-2 gap-x-2 gap-y-1 pt-1.5 border-t border-slate-800 text-[10px] text-slate-300">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 pt-1.5 border-t border-slate-800 text-xs sm:text-[10px] text-slate-300">
               <div>
                 <span className="text-slate-500 block">Velocidad:</span>
                 <span className="text-cyan-300 font-semibold">0.85 m/s (3.0 km/h)</span>
@@ -762,7 +762,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
       </div>
 
       {/* Touch & Scroll Interaction Tip */}
-      <div className="absolute bottom-4 left-4 z-10 pointer-events-none hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/85 border border-slate-800/80 text-[11px] font-mono text-slate-300 shadow-md backdrop-blur-md">
+      <div className="absolute bottom-4 left-4 z-10 pointer-events-none hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/85 border border-slate-800/80 text-xs sm:text-[11px] font-mono text-slate-300 shadow-md backdrop-blur-md">
         <RotateCcw className="w-3 h-3 text-cyan-400" />
         <span>Arrastrá para girarlo</span>
       </div>

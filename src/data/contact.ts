@@ -22,11 +22,18 @@ export const SOPORTE_EMAIL = 'soporte@tecnoros.ar';
 export const SOPORTE_WHATSAPP = WHATSAPP_NUMBERS[0];
 export const soporteWhatsappLink = (mensaje = 'Hola tecnoros.ar, soy cliente y necesito soporte técnico.'): string =>
   `https://wa.me/${SOPORTE_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
-export const soporteGmailLink = (asunto = 'Soporte técnico - tecnoros.ar', cuerpo = 'Hola, soy cliente de tecnoros.ar y necesito ayuda con:\n\n'): string =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SOPORTE_EMAIL)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
 // Consultas y presupuestos van a ventas.
 export const CONTACT_EMAIL = VENTAS_EMAIL;
 
-// Abre la redacción de Gmail en una pestaña del mismo navegador, con asunto y texto cargados.
-export const gmailLink = (subject: string, body: string): string =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+// El e-mail abre primero el programa de correo de la persona (mailto:): antes todo iba a Gmail web
+// y no le servía a quien usa Outlook, Apple Mail o el correo del celular. Como en una compu sin
+// programa de correo el mailto: no hace nada, siempre se ofrece Gmail web al lado como respaldo.
+export const mailtoLink = (para: string, asunto: string, cuerpo: string): string =>
+  `mailto:${para}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+
+// Redacción de Gmail web en una pestaña nueva, con asunto y texto cargados.
+export const gmailPara = (para: string, asunto: string, cuerpo: string): string =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(para)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+
+export const gmailLink = (subject: string, body: string): string => gmailPara(CONTACT_EMAIL, subject, body);
+export const ventasMailto = (subject: string, body: string): string => mailtoLink(CONTACT_EMAIL, subject, body);

@@ -26,13 +26,13 @@ const TarjetaArea: React.FC<{ area: Area; className?: string }> = ({ area, class
         {area.integrantes.map((f) => {
           const contenido = (
             <>
-              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-[11px] font-bold text-white shrink-0">
+              <span className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-xs sm:text-[11px] font-bold text-white shrink-0">
                 {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
               </span>
               <span className="min-w-0 flex-1">
                 {/* Nombre corto: así cada ficha entra en una línea y quedan parejas */}
                 <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
-                <span className="block text-[11px] sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
+                <span className="block text-xs sm:text-xs text-slate-400 leading-tight mt-0.5">{f.badge}</span>
               </span>
               {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
             </>

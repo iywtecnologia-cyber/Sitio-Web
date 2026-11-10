@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
 
 // Navegación simple entre páginas sin librerías: el inicio es un resumen corto y lo pesado
-// (simuladores, 3D, presupuestador, tecnologías) vive en páginas propias.
-// Render ya reescribe cualquier ruta a index.html, así que /productos, /robotica, etc. funcionan al recargar.
+// (simuladores, 3D, presupuesto, tecnologías) vive en páginas propias.
+// Cada ruta tiene su propio HTML generado al compilar (scripts/generar-paginas.ts) para que el
+// servidor responda 200; cualquier otra dirección cae en 404.html y acá se muestra "no encontrada".
 
 export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto' | '/blog' | '/encuentros';
 
 export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto', '/blog', '/encuentros'];
 
+// Una dirección que no existe. Antes se mostraba la portada y la URL pasaba a "/",
+// así que un link roto parecía andar y nadie se enteraba.
+export const NO_ENCONTRADA = 'no-encontrada';
+export type RutaVista = Ruta | typeof NO_ENCONTRADA;
+
 // Direcciones cortas para compartir por WhatsApp, Instagram o un QR (tecnoros.ar/golondrina, etc.).
 // Al entrar se cambian por la página real y se baja a la sección.
-const ATAJOS: Record<string, [Ruta, string]> = {
+export const ATAJOS: Record<string, [Ruta, string]> = {
   '/golondrina': ['/productos', 'aplicaciones-golondrina'],
   '/probar-golondrina': ['/productos', 'aplicaciones-golondrina'],
   '/golondrina-personal': ['/productos', 'golondrina-personal-demo'],
@@ -31,9 +37,9 @@ if (typeof window !== 'undefined') {
   if (atajo) window.history.replaceState({}, '', atajo[0] + (atajo[1] ? `#${atajo[1]}` : ''));
 }
 
-const normalizar = (p: string): Ruta => {
+const normalizar = (p: string): RutaVista => {
   const limpio = (p.replace(/\/+$/, '') || '/') as Ruta;
-  return RUTAS.includes(limpio) ? limpio : '/';
+  return RUTAS.includes(limpio) ? limpio : NO_ENCONTRADA;
 };
 
 // En qué página vive cada sección (id del elemento). Lo que no está acá se busca en la página actual o en el inicio.
@@ -61,14 +67,14 @@ const paginaDe = (id: string): Ruta | undefined => {
 
 const EVENTO = 'cambio-de-ruta';
 
-export const rutaActual = (): Ruta => (typeof window === 'undefined' ? '/' : normalizar(window.location.pathname));
+export const rutaActual = (): RutaVista => (typeof window === 'undefined' ? '/' : normalizar(window.location.pathname));
 
-// /servicios/ o /cualquier-cosa mostraban la página sin corregir la barra de direcciones:
-// links rotos compartidos quedaban "funcionando" y Google veía el inicio duplicado en otra URL.
+// /servicios/ se corrige a /servicios para que Google no vea la misma página en dos URLs.
+// Una dirección inexistente se deja como está: se ve el aviso de "no encontrada" con la URL que escribió.
 const corregirURL = () => {
   const { pathname, search, hash } = window.location;
   const ruta = rutaActual();
-  if (pathname !== ruta) window.history.replaceState(window.history.state, '', ruta + search + hash);
+  if (ruta !== NO_ENCONTRADA && pathname !== ruta) window.history.replaceState(window.history.state, '', ruta + search + hash);
 };
 
 export const navegar = (ruta: Ruta, hash = '') => {
@@ -81,8 +87,8 @@ export const navegar = (ruta: Ruta, hash = '') => {
   if (!hash) window.scrollTo({ top: 0, behavior: 'instant' });
 };
 
-export const useRuta = (): Ruta => {
-  const [ruta, setRuta] = useState<Ruta>(rutaActual());
+export const useRuta = (): RutaVista => {
+  const [ruta, setRuta] = useState<RutaVista>(rutaActual());
   useEffect(() => {
     corregirURL();
     const actualizar = () => setRuta(rutaActual());

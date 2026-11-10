@@ -551,7 +551,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           placeholder="Ej: Mi Empresa SRL"
           className="flex-1 min-w-[200px] px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-emerald-400"
         />
-        <span className="text-[11px] text-slate-400 hidden sm:inline">
+        <span className="text-xs sm:text-[11px] text-slate-400 hidden sm:inline">
           (Aparece en el mensaje de WhatsApp a la derecha)
         </span>
       </div>
@@ -589,7 +589,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="text-[11px] font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
+                className="py-1.5 text-xs sm:text-[11px] font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>Reiniciar</span>
@@ -620,7 +620,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                     <span>-25°C (Óptimo)</span>
                     <span className="text-amber-400">-15°C (Alerta)</span>
                     <span className="text-red-400">-5°C (Descongelado)</span>
@@ -658,12 +658,12 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block">PIEZAS PRODUCIDAS</span>
+                    <span className="text-xs sm:text-[10px] font-mono text-slate-400 block">PIEZAS PRODUCIDAS</span>
                     <span className="text-3xl font-black font-mono text-white mt-1 block">{contadorPiezas}</span>
-                    <span className="text-[10px] text-emerald-400 font-mono">Meta: 1.000 (84%)</span>
+                    <span className="text-xs sm:text-[10px] text-emerald-400 font-mono">Meta: 1.000 (84%)</span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block">ESTADO DE LÍNEA</span>
+                    <span className="text-xs sm:text-[10px] font-mono text-slate-400 block">ESTADO DE LÍNEA</span>
                     <span className={`text-xl font-black font-mono mt-2 block ${lineaParada ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
                       {lineaParada ? `PARADA (${tiempoParadaMin || 8} min)` : 'ACTIVA (12s/ciclo)'}
                     </span>
@@ -716,7 +716,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-400 pt-1">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-400 pt-1">
                     <span>Consumo: {tasaConsumoTonH} ton/h</span>
                     <span className="text-amber-300 font-bold">
                       Autonomía: ~{horasRestantesSilo.toFixed(1)} hs (Quiebre: 02:40 AM)
@@ -758,7 +758,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                     <span>1.5 mm/s (Excelente)</span>
                     <span className="text-amber-400">3.5 mm/s (Alerta)</span>
                     <span className="text-red-400">&gt;4.5 mm/s (Peligro de rotura)</span>
@@ -783,7 +783,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                       {tempLecheC.toFixed(1)}°C
                     </span>
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-slate-400">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-400">
                     <span>Límite reglamentario: 4.0°C</span>
                     <span className={tempLecheC > 5 ? 'text-red-400 font-bold' : 'text-emerald-400'}>
                       {tempLecheC > 5 ? '⚠️ RIESGO DE ACIDIFICACIÓN' : '✓ Enfriamiento Óptimo'}
@@ -831,7 +831,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                     <span>24°C (Confort aves)</span>
                     <span className="text-amber-400">30°C (Estrés térmico)</span>
                     <span className="text-red-400">&gt;35°C (Letal en 35 min)</span>
@@ -879,7 +879,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                     <span className="text-red-400">1.0 bar (Rotura / Fuga)</span>
                     <span className="text-emerald-400">4.2 bar (Óptimo)</span>
                     <span className="text-amber-400">6.0 bar (Sobrepresión)</span>
@@ -913,7 +913,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                       {tempFermentadorC.toFixed(1)}°C
                     </span>
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-slate-400">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-400">
                     <span>Rango fijado: 18.0°C ± 0.5°C</span>
                     <span className={tempFermentadorC > 21 ? 'text-red-400 font-bold' : 'text-emerald-400'}>
                       {tempFermentadorC > 21 ? '⚠️ RIESGO DE OFF-FLAVORS' : '✓ Fermentación Estable'}
@@ -948,7 +948,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                       {ciclosCompresorHora} ciclos/hora
                     </span>
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-slate-400">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-400">
                     <span>Normal en reposo: 2-3 ciclos</span>
                     <span className={ciclosCompresorHora > 10 ? 'text-red-400 font-bold' : 'text-emerald-400'}>
                       {ciclosCompresorHora > 10 ? '⚠️ FUGA NEUMÁTICA DETECTADA' : '✓ Cañería Estanca'}
@@ -978,13 +978,13 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 grid grid-cols-2 gap-3 text-center">
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block">BATERÍA ARRANQUE</span>
+                    <span className="text-xs sm:text-[10px] font-mono text-slate-400 block">BATERÍA ARRANQUE</span>
                     <span className={`text-2xl font-black font-mono mt-1 block ${bateriaVolts < 11.5 ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
                       {bateriaVolts.toFixed(1)}V
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block">TANQUE GASOIL</span>
+                    <span className="text-xs sm:text-[10px] font-mono text-slate-400 block">TANQUE GASOIL</span>
                     <span className="text-2xl font-black font-mono text-white mt-1 block">{nivelDieselPct}%</span>
                   </div>
                 </div>
@@ -1014,7 +1014,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                       {tempVacunasC.toFixed(1)}°C
                     </span>
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-slate-400">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-400">
                     <span>Norma ANMAT: 2°C a 8°C</span>
                     <span className={tempVacunasC > 8 ? 'text-red-400 font-bold' : 'text-emerald-400'}>
                       {tempVacunasC > 8 ? '🚨 ROTURA DE CADENA DE FRÍO' : '✓ Rango Seguro'}
@@ -1062,7 +1062,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     }}
                     className="w-full accent-emerald-400 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                     <span className="text-red-400">10% (Sin agua)</span>
                     <span className="text-amber-400">20% (Alerta previa)</span>
                     <span className="text-emerald-400">80% (Óptimo)</span>
@@ -1098,12 +1098,12 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             COLUMNA DERECHA: TELÉFONO WHATSAPP EN VIVO (5 COLS)
             ========================================================= */}
         <div id="celular-golondrina" className="lg:col-span-5 scroll-mt-28">
-          <div className="text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <div className="text-xs sm:text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>LO QUE RECIBÍS EN TU CELULAR:</span>
             </span>
-            <span className="text-[10px] text-slate-500">1 Clic para resolver</span>
+            <span className="text-xs sm:text-[10px] text-slate-500">1 Clic para resolver</span>
           </div>
 
           <div className={`p-4 sm:p-5 rounded-3xl bg-[#0b141a] border ${alertPulse ? 'border-red-400 shadow-red-500/30' : 'border-[#202c33]'} shadow-2xl relative transition-all duration-300`}>
@@ -1115,24 +1115,24 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 </div>
                 <div>
                   <div className="font-bold text-white leading-none">Golondrina Telemetría</div>
-                  <div className="text-[10px] text-emerald-400 font-mono mt-0.5">En línea • Sistema Activo</div>
+                  <div className="text-xs sm:text-[10px] text-emerald-400 font-mono mt-0.5">En línea • Sistema Activo</div>
                 </div>
               </div>
-              <span className="text-[10px] font-mono text-slate-400">Hoy</span>
+              <span className="text-xs sm:text-[10px] font-mono text-slate-400">Hoy</span>
             </div>
 
             {/* Mensaje de WhatsApp Recibido según el modo */}
             <div className="space-y-3">
               <div className="p-3.5 rounded-2xl bg-[#1f2c34] text-slate-100 shadow-md text-xs space-y-2 border border-[#2a3942]">
-                <div className="flex items-center justify-between text-[11px] text-cyan-300 font-mono font-bold">
+                <div className="flex items-center justify-between text-xs sm:text-[11px] text-cyan-300 font-mono font-bold">
                   <span>[{companyName || 'Tu Empresa'}]</span>
-                  <span className="text-[10px] text-slate-400">02:18 AM</span>
+                  <span className="text-xs sm:text-[10px] text-slate-400">02:18 AM</span>
                 </div>
 
                 {activeTab === 'frio' && (
                   <>
                     <div className="font-bold text-amber-300">🚨 ALERTA: CURVA ANÓMALA DE CALENTAMIENTO</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Temperatura subió a <strong className="text-white">{tempC.toFixed(1)}°C</strong> (+2.3°C/h). Corte de energía detectado en horario no operativo. Tiempo de rescate antes de desfrío: <strong className="text-red-300">1h 40m</strong>.
                     </p>
                   </>
@@ -1141,7 +1141,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'oee' && (
                   <>
                     <div className="font-bold text-amber-300">⚠️ DETECCIÓN DE PARADA EN LÍNEA</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Línea detenida por <strong className="text-white">{tiempoParadaMin || 8} minutos</strong> continuos en turno activo. Retraso proyectado: ~140 piezas.
                     </p>
                   </>
@@ -1150,7 +1150,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'silos' && (
                   <>
                     <div className="font-bold text-amber-300">🔔 AVISO PREDICTIVO DE STOCK</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Nivel en <strong className="text-white">{nivelSiloPct}%</strong>. Al ritmo actual el silo alcanzará nivel crítico a las <strong className="text-amber-300">02:40 AM</strong>. Pedir camión antes del cierre logístico.
                     </p>
                   </>
@@ -1159,7 +1159,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'vibracion' && (
                   <>
                     <div className="font-bold text-amber-300">⚙️ MANTENIMIENTO PREDICTIVO: VIBRACIÓN</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Vibración en rodamiento superó umbral con <strong className="text-white">{vibracionMmS.toFixed(1)} mm/s</strong> y temp en carcasa a <strong className="text-amber-300">{tempMotorC}°C</strong>. Detección temprana de rozamiento (riesgo de clavado en ~15 días).
                     </p>
                   </>
@@ -1168,7 +1168,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'lacteos' && (
                   <>
                     <div className="font-bold text-amber-300">🥛 ALERTA CRÍTICA EN TANQUE DE LECHE</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       {!agitadorActivo 
                         ? 'Se detectó detención del motor agitador con temperatura subiendo a 6.8°C. Riesgo de acidificación de la partida.' 
                         : 'Temperatura en 3.8°C y agitación normal. Próximo retiro estimado por cisterna: 06:00 AM.'}
@@ -1179,7 +1179,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'avicola' && (
                   <>
                     <div className="font-bold text-amber-300">🚨 ALERTA: CAÍDA DE VENTILACIÓN EN TÚNEL</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Temperatura en galpón alcanzó <strong className="text-white">{tempGalponC.toFixed(1)}°C</strong> por desconexión en fase de extractores. Riesgo de asfixia o mortandad en menos de 40 minutos.
                     </p>
                   </>
@@ -1188,7 +1188,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'riego' && (
                   <>
                     <div className="font-bold text-amber-300">💥 CAÍDA ANÓMALA DE PRESIÓN EN MATRIZ</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Presión descendió a <strong className="text-white">{presionBar.toFixed(1)} bar</strong> con bomba encendida a plena potencia. Caudal disparado: rotura de caño troncal o válvula abierta.
                     </p>
                   </>
@@ -1197,7 +1197,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'fermentador' && (
                   <>
                     <div className="font-bold text-amber-300">❄️ DESVÍO TÉRMICO EN FERMENTACIÓN</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Fermentador subió a <strong className="text-white">{tempFermentadorC.toFixed(1)}°C</strong> (+2.5°C sobre la receta). Glicol sin retorno: levadura en estrés.
                     </p>
                   </>
@@ -1206,7 +1206,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'compresor' && (
                   <>
                     <div className="font-bold text-amber-300">💨 FUGA DE AIRE COMPRIMIDO FUERA DE TURNO</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Compresor encendió <strong className="text-white">{ciclosCompresorHora} veces</strong> en la última hora con la planta cerrada. Fuga estimada: ~350 L/min (~$180.000 ARS/mes).
                     </p>
                   </>
@@ -1215,7 +1215,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'generador' && (
                   <>
                     <div className="font-bold text-amber-300">🔋 BATERÍA DE ARRANQUE EN NIVEL CRÍTICO</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Tensión en batería de arranque cayó a <strong className="text-white">{bateriaVolts.toFixed(1)}V</strong>. El grupo electrógeno no podrá encender automáticamente en el próximo corte.
                     </p>
                   </>
@@ -1224,7 +1224,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'vacunas' && (
                   <>
                     <div className="font-bold text-amber-300">🚨 PUERTA DE HELADERA DE VACUNAS ABIERTA</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Sensor magnético detecta puerta abierta hace 14 minutos. Sonda subió a <strong className="text-white">{tempVacunasC.toFixed(1)}°C</strong>. Riesgo para biológicos sensibles.
                     </p>
                   </>
@@ -1233,7 +1233,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                 {activeTab === 'cisterna' && (
                   <>
                     <div className="font-bold text-amber-300">💧 NIVEL DE CISTERNA CRÍTICO ANTES DE PICO</div>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                    <p className="text-xs sm:text-[11px] text-slate-300 leading-relaxed">
                       Nivel en cisterna al <strong className="text-white">{nivelCisternaPct}%</strong>. Al ritmo actual no cubrirá la demanda de las 07:00 AM. Bomba elevadora con retardo.
                     </p>
                   </>
@@ -1242,7 +1242,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
 
               {/* Botones de Respuesta de 1 Clic */}
               <div className="space-y-1.5 pt-1">
-                <span className="text-[10px] font-mono text-slate-400 block">
+                <span className="text-xs sm:text-[10px] font-mono text-slate-400 block">
                   👉 TOCÁ UN BOTÓN PARA RESOLVER (Cero esfuerzo):
                 </span>
 
@@ -1272,7 +1272,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                       }`}
                     >
                       <span>{idx + 1}. {motivo}</span>
-                      <span className="text-[10px] opacity-75">1 clic</span>
+                      <span className="text-xs sm:text-[10px] opacity-75">1 clic</span>
                     </button>
                   ))}
                 </div>
@@ -1285,7 +1285,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     <span>✓ Confirmado: "{whatsappResponse}"</span>
                   </div>
-                  <p className="text-[10px] text-emerald-300">
+                  <p className="text-xs sm:text-[10px] text-emerald-300">
                     Resuelto en 1 segundo por el operador. Cero planillas, cero esfuerzo físico.
                   </p>
                 </div>
@@ -1375,7 +1375,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
                     <div className="w-11 h-11 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[10.5px] font-mono px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700 text-slate-300">
+                    <span className="text-xs sm:text-[10.5px] font-mono px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700 text-slate-300">
                       {item.categoryLabel}
                     </span>
                   </div>

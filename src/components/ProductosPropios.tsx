@@ -230,7 +230,7 @@ const CartelProximamente: React.FC = () => {
           backgroundSize: '28px 28px',
         }}
       />
-      <span aria-hidden="true" className="relative inline-flex items-center gap-2 text-[11px] font-mono tracking-widest text-violet-300">
+      <span aria-hidden="true" className="relative inline-flex items-center gap-2 text-xs sm:text-[11px] font-mono tracking-widest text-violet-300">
         <span className="relative flex w-2 h-2">
           <span className="absolute inline-flex w-full h-full rounded-full bg-violet-400 opacity-75 animate-ping motion-reduce:animate-none" />
           <span className="relative inline-flex w-2 h-2 rounded-full bg-violet-400" />
@@ -359,12 +359,12 @@ export const ProductosPropios: React.FC = () => {
             <FlaskConical className="w-3.5 h-3.5" />
             <span>Sistemas Propios & Hardware a Medida</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Nuestros{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               sistemas propios
             </span>
-          </h2>
+          </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
             Software listo para usar y equipos que fabricamos a pedido para tu máquina o tablero.
           </p>
@@ -403,21 +403,21 @@ export const ProductosPropios: React.FC = () => {
                       <Icon className="w-6 h-6" />
                     </div>
                     {isColibri ? (
-                      <span className="text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
+                      <span className="text-xs sm:text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <Sparkles className="w-3 h-3 text-cyan-400" />
                         <span>A demanda • Vigente</span>
                       </span>
                     ) : isGolondrina ? (
-                      <span className="text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
+                      <span className="text-xs sm:text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <span>A demanda • Vigente</span>
                       </span>
                     ) : id === 'software-ciberseguridad' ? (
-                      <span className="text-[11px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                      <span className="text-xs sm:text-[11px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1">
                         <span className="w-2 h-2 rounded-full bg-amber-400" />
                         <span>Próximamente I+D</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
+                      <span className="text-xs sm:text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
                         A demanda • Vigente
                       </span>
                     )}
@@ -426,8 +426,8 @@ export const ProductosPropios: React.FC = () => {
                   <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">{title}</h3>
                   {queEs ? (
                     <dl className="mt-3 space-y-2 text-sm leading-snug">
-                      <div><dt className="text-[11px] font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{queEs}</dd></div>
-                      <div><dt className="text-[11px] font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{queHace}</dd></div>
+                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{queEs}</dd></div>
+                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{queHace}</dd></div>
                     </dl>
                   ) : tagline && (
                     <p className="mt-2 text-sm text-cyan-300 font-semibold leading-relaxed">
@@ -517,7 +517,7 @@ export const ProductosPropios: React.FC = () => {
             <div className="p-6 rounded-2xl bg-slate-950/90 border border-emerald-500/30 flex flex-col justify-between shadow-lg">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
+                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
                     Pago Único Inicial
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Puesta en Marcha en Planta</span>
@@ -555,7 +555,7 @@ export const ProductosPropios: React.FC = () => {
             <div className="p-6 rounded-2xl bg-slate-950/90 border border-cyan-500/30 flex flex-col justify-between shadow-lg">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold uppercase tracking-wider">
+                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold uppercase tracking-wider">
                     Abono Mensual Recurrente (SaaS)
                   </span>
                   <span className="text-xs text-slate-400 font-mono">Sin Permanencia Forzada</span>
@@ -694,7 +694,7 @@ export const ProductosPropios: React.FC = () => {
                       <button key={control.label} type="button" title={control.desc}
                         onClick={() => {setPhysicalDemo({label:control.label,message:control.message});setDemoCount(n=>n+1);}}
                         className="text-left rounded-lg border border-cyan-700/50 bg-slate-900 hover:bg-cyan-950/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 p-3 transition-colors">
-                        <span className="flex items-center gap-2"><span className="font-bold text-white text-sm">{control.nombre}</span><span className="text-[10px] font-mono text-cyan-300 border border-cyan-700/60 rounded px-1.5">{control.label}</span></span>
+                        <span className="flex items-center gap-2"><span className="font-bold text-white text-sm">{control.nombre}</span><span className="text-xs sm:text-[10px] font-mono text-cyan-300 border border-cyan-700/60 rounded px-1.5">{control.label}</span></span>
                       </button>
                     ))}
                   </div>
@@ -706,7 +706,7 @@ export const ProductosPropios: React.FC = () => {
               {selectedSystem === 'colibri' && (
                 <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/40 space-y-4">
                   <div>
-                    <span className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-bold">CHAJÁ · Demo interactiva</span>
+                    <span className="text-xs sm:text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-bold">CHAJÁ · Demo interactiva</span>
                     <h4 className="text-sm font-bold text-white">Elegí una función para conocerla</h4>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2" aria-label="Funciones de CHAJÁ">
@@ -771,7 +771,7 @@ export const ProductosPropios: React.FC = () => {
 
                     {customFilament && (
                       <div className="mt-2.5 pl-6 flex items-center gap-3">
-                        <span className="text-[11px] text-slate-400 font-mono">Elegir color:</span>
+                        <span className="text-xs sm:text-[11px] text-slate-400 font-mono">Elegir color:</span>
                         <input
                           type="color"
                           value={filamentColorHex}

@@ -149,14 +149,14 @@ export const SimulatorWhatsAppBot: React.FC = () => {
             <div>
               <div className="text-xs font-bold text-white flex items-center gap-1.5">
                 <span>TecnoRosario Bot Oficial</span>
-                <span className="text-[10px] text-cyan-400 font-mono">IA v2.4</span>
+                <span className="text-xs sm:text-[10px] text-cyan-400 font-mono">IA v2.4</span>
               </div>
-              <div className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
+              <div className="text-xs sm:text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
                 <span>● En línea · Responde al instante</span>
               </div>
             </div>
           </div>
-          <div className="text-[11px] font-mono text-slate-400 hidden sm:block">
+          <div className="text-xs sm:text-[11px] font-mono text-slate-400 hidden sm:block">
             Rosario, AR
           </div>
         </div>
@@ -180,7 +180,7 @@ export const SimulatorWhatsAppBot: React.FC = () => {
                 >
                   <p>{msg.text}</p>
                   <div
-                    className={`mt-1 text-[10px] font-mono flex items-center justify-end gap-1 ${
+                    className={`mt-1 text-xs sm:text-[10px] font-mono flex items-center justify-end gap-1 ${
                       isBot ? 'text-slate-400' : 'text-cyan-100'
                     }`}
                   >
@@ -196,7 +196,7 @@ export const SimulatorWhatsAppBot: React.FC = () => {
                       <button
                         key={i}
                         onClick={() => handleSend(reply)}
-                        className="px-2.5 py-1 text-[11px] font-medium bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border border-slate-700/80 rounded-lg transition-colors text-left"
+                        className="px-2.5 py-1 text-xs sm:text-[11px] font-medium bg-slate-900/90 hover:bg-slate-800 text-cyan-300 border border-slate-700/80 rounded-lg transition-colors text-left"
                       >
                         {reply}
                       </button>

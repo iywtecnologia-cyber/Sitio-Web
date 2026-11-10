@@ -176,13 +176,13 @@ export const SimulatorPOS: React.FC = () => {
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <span className="text-[11px] font-mono text-slate-400">
+                      <span className="text-xs sm:text-[11px] font-mono text-slate-400">
                         {product.category}
                       </span>
                       <h4 className="text-xs sm:text-sm font-semibold text-white line-clamp-1 mt-0.5">
                         {product.name}
                       </h4>
-                      <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
+                      <span className="text-xs sm:text-[11px] font-mono text-slate-400 block mt-0.5">
                         Cód: {product.code}
                       </span>
                     </div>
@@ -193,7 +193,7 @@ export const SimulatorPOS: React.FC = () => {
                       <div className="text-sm font-bold text-cyan-300 font-mono tabular-nums">
                         ${product.price.toLocaleString('es-AR')}
                       </div>
-                      <div className="text-[11px] font-mono">
+                      <div className="text-xs sm:text-[11px] font-mono">
                         {isOutOfStock ? (
                           <span className="text-rose-400">Sin stock</span>
                         ) : isLowStock ? (
@@ -245,7 +245,7 @@ export const SimulatorPOS: React.FC = () => {
                       <div className="text-white font-medium truncate">
                         {item.product.name}
                       </div>
-                      <div className="text-slate-400 font-mono text-[11px]">
+                      <div className="text-slate-400 font-mono text-xs sm:text-[11px]">
                         ${item.product.price.toLocaleString('es-AR')} x {item.quantity} = ${(item.product.price * item.quantity).toLocaleString('es-AR')}
                       </div>
                     </div>
@@ -283,7 +283,7 @@ export const SimulatorPOS: React.FC = () => {
           <div className="mt-4 pt-3 border-t border-slate-800">
             {/* Payment Method Selector */}
             <div className="mb-3">
-              <label className="text-[11px] font-mono text-slate-400 block mb-1.5">
+              <label className="text-xs sm:text-[11px] font-mono text-slate-400 block mb-1.5">
                 MÉTODO DE COBRO
               </label>
               <div className="grid grid-cols-3 gap-1.5 text-xs">
@@ -292,7 +292,7 @@ export const SimulatorPOS: React.FC = () => {
                     <button
                       key={method}
                       onClick={() => setPaymentMethod(method)}
-                      className={`px-2 py-1.5 rounded-lg border text-center text-[11px] font-medium transition-colors ${
+                      className={`px-2 py-1.5 rounded-lg border text-center text-xs sm:text-[11px] font-medium transition-colors ${
                         paymentMethod === method
                           ? 'bg-cyan-500/20 border-cyan-500 text-cyan-300 font-semibold'
                           : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
@@ -353,7 +353,7 @@ export const SimulatorPOS: React.FC = () => {
             </div>
 
             {/* Physical Receipt Simulation */}
-            <div className="mt-4 bg-white text-slate-950 p-4 rounded-lg font-mono text-[11px] leading-tight printable-area shadow-inner">
+            <div className="mt-4 bg-white text-slate-950 p-4 rounded-lg font-mono text-xs sm:text-[11px] leading-tight printable-area shadow-inner">
               <div className="text-center pb-2 border-b border-dashed border-slate-400">
                 <div className="font-extrabold text-xs">TECNOROSARIO AR S.R.L.</div>
                 <div>CUIT: {issuedTicket.cuitEmisor}</div>
@@ -389,15 +389,15 @@ export const SimulatorPOS: React.FC = () => {
                   <span>TOTAL FINAL:</span>
                   <span className="tabular-nums">${issuedTicket.total.toLocaleString('es-AR')}</span>
                 </div>
-                <div className="text-[10px] text-slate-600 mt-1">
+                <div className="text-xs sm:text-[10px] text-slate-600 mt-1">
                   Forma de pago: {issuedTicket.paymentMethod}
                 </div>
               </div>
 
-              <div className="pt-2 text-center text-[10px] text-slate-700">
+              <div className="pt-2 text-center text-xs sm:text-[10px] text-slate-700">
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <QrCode className="w-8 h-8 text-black" />
-                  <div className="text-left font-mono text-[9px] leading-none">
+                  <div className="text-left font-mono text-xs sm:text-[9px] leading-none">
                     <div>CAE: {issuedTicket.caeSimulado}</div>
                     <div>Vto CAE: 10 días</div>
                     <div>Comprobante Autorizado AFIP</div>

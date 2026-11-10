@@ -213,7 +213,7 @@ export const GolondrinaPersonalDemo: React.FC = () => {
                 key={ej}
                 type="button"
                 onClick={() => agregarRegla(ej)}
-                className="px-2.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-[11px] text-slate-300 hover:border-emerald-500/50 cursor-pointer text-left"
+                className="px-2.5 py-1 rounded-full bg-slate-950 border border-slate-700 text-xs sm:text-[11px] text-slate-300 hover:border-emerald-500/50 cursor-pointer text-left"
               >
                 {ej}
               </button>
@@ -221,12 +221,12 @@ export const GolondrinaPersonalDemo: React.FC = () => {
           </div>
 
           <div className="mt-3 p-3 rounded-xl bg-slate-950/80 border border-cyan-500/30 min-h-[64px]" aria-live="polite">
-            <p className="text-[11px] font-mono text-cyan-300 mb-1">TRANSCRIPCIÓN EN VIVO</p>
+            <p className="text-xs sm:text-[11px] font-mono text-cyan-300 mb-1">TRANSCRIPCIÓN EN VIVO</p>
             <p className="text-sm text-slate-200">{transcripcion || (escuchando ? 'Escuchando…' : 'Tocá el micrófono y hablá: lo que digas aparece acá escrito.')}</p>
           </div>
 
           <div className="mt-3 flex-1">
-            <p className="text-[11px] font-mono text-slate-400 mb-2">LO QUE GOLONDRINA VA A HACER</p>
+            <p className="text-xs sm:text-[11px] font-mono text-slate-400 mb-2">LO QUE GOLONDRINA VA A HACER</p>
             {reglas.length === 0 ? (
               <p className="text-sm text-slate-500">Todavía nada. Escribilo o decilo.</p>
             ) : (
@@ -247,7 +247,7 @@ export const GolondrinaPersonalDemo: React.FC = () => {
             {/* Así te va a llegar: vista del aviso en el celular */}
             {reglas.length > 0 && mostrarAviso && (
               <div className="mt-3" aria-live="polite">
-                <p className="text-[11px] font-mono text-slate-400 mb-1.5">ASÍ TE VA A LLEGAR {permisos.whatsapp ? 'POR WHATSAPP' : 'AL CELULAR'}</p>
+                <p className="text-xs sm:text-[11px] font-mono text-slate-400 mb-1.5">ASÍ TE VA A LLEGAR {permisos.whatsapp ? 'POR WHATSAPP' : 'AL CELULAR'}</p>
                 <div className="flex items-start gap-3 p-3 rounded-2xl bg-white/95 text-slate-900 shadow-xl animate-[aparecer_0.4s_ease-out]">
                   <GolondrinaLogo className="w-8 h-9 shrink-0" />
                   <span className="min-w-0">

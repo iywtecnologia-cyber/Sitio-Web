@@ -558,7 +558,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
         {/* Indicador de Estado Contextual de la Ruedita */}
         <div className="flex items-center gap-2">
           <div
-            className={`px-2.5 py-1 rounded-lg border text-[11px] font-mono flex items-center gap-2 transition-all backdrop-blur-md shadow-md ${
+            className={`px-2.5 py-1 rounded-lg border text-xs sm:text-[11px] font-mono flex items-center gap-2 transition-all backdrop-blur-md shadow-md ${
               wheelMode === 'zoom' || (wheelMode === 'contextual' && is3DActive)
                 ? 'bg-cyan-950/85 border-cyan-400/60 text-cyan-300'
                 : 'bg-slate-950/85 border-slate-800/80 text-slate-400'
@@ -591,7 +591,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                 setIs3DActive(false);
               }}
               title="Volver a permitir scroll normal de la página web"
-              className="pointer-events-auto px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-[10px] font-mono text-slate-300 border border-slate-700 shadow transition-colors cursor-pointer"
+              className="pointer-events-auto px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-xs sm:text-[10px] font-mono text-slate-300 border border-slate-700 shadow transition-colors cursor-pointer"
             >
               Liberar Scroll
             </button>
@@ -602,7 +602,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
       {/* Controles interactivos HUD flotantes inferiores */}
       <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
         {/* Guía contextual de control */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/85 border border-slate-800 text-[11px] font-mono text-slate-300 pointer-events-auto shadow-md backdrop-blur-md">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/85 border border-slate-800 text-xs sm:text-[11px] font-mono text-slate-300 pointer-events-auto shadow-md backdrop-blur-md">
           <Compass className="w-3.5 h-3.5 text-cyan-400" />
           <span>Rotación 360° total (arriba, costados y abajo) • Clic para foco • Ctrl+Rueda para zoom</span>
         </div>
@@ -618,7 +618,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                 setIs3DActive(true);
               }}
               title="Fijar la ruedita en modo Zoom 3D"
-              className={`px-2 py-1 rounded-md text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-2 py-1 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
                 wheelMode === 'zoom' || (wheelMode === 'contextual' && is3DActive)
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
                   : 'text-slate-400 hover:text-white'
@@ -635,7 +635,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                 setIs3DActive(false);
               }}
               title="Fijar la ruedita para scrollear libremente la página"
-              className={`px-2 py-1 rounded-md text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-2 py-1 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
                 wheelMode === 'scroll'
                   ? 'bg-slate-800 text-white font-bold'
                   : 'text-slate-400 hover:text-white'

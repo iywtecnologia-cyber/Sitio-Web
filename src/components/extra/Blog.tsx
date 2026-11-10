@@ -9,8 +9,8 @@ const fechaLinda = (f: string) =>
 export const Blog: React.FC = () => (
   <section id="blog" className="scroll-mt-24 py-14 sm:py-20">
     <div className="max-w-3xl mx-auto px-5 sm:px-8">
-      <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Blog</span>
-      <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Ideas para tu negocio</h2>
+      <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Blog</span>
+      <h1 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Ideas para tu negocio</h1>
       <p className="mt-2 text-base text-slate-400">Notas cortas y prácticas. Tocá una para leerla.</p>
       <div className="mt-8 space-y-4">
         {NOTAS.map((n) => (

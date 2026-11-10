@@ -8,7 +8,7 @@ import { consultarPor } from '../../consulta';
 export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
   <section id={id} className="scroll-mt-24 py-14 sm:py-20 border-t border-slate-800/50">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Combos</span>
+      <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Combos</span>
       <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Juntos te salen menos</h2>
       <p className="mt-2 text-base sm:text-lg text-slate-400 max-w-2xl"><span className="sm:hidden">Deslizá para ver los 4. </span>Elegí un combo. El precio final lo confirmamos en el diagnóstico gratuito.</p>
 
@@ -21,7 +21,7 @@ export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
             }`}
           >
             {c.destacado && (
-              <span className="absolute -top-3 left-5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-400 text-slate-950 text-[11px] font-bold">
+              <span className="absolute -top-3 left-5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-cyan-400 text-slate-950 text-xs sm:text-[11px] font-bold">
                 <Sparkles className="w-3 h-3" /> Recomendado para empezar
               </span>
             )}

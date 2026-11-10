@@ -100,7 +100,7 @@ export const SimulatorLogistics: React.FC = () => {
                     {s.trackingCode}
                   </span>
                   <span
-                    className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded ${
+                    className={`text-xs sm:text-[10px] font-mono font-medium px-2 py-0.5 rounded ${
                       s.status === 'Entregado'
                         ? 'bg-emerald-500/20 text-emerald-300'
                         : s.status === 'En Circunvalación'
@@ -116,7 +116,7 @@ export const SimulatorLogistics: React.FC = () => {
                   {s.client}
                 </div>
 
-                <div className="mt-2 text-[11px] text-slate-400 font-mono truncate">
+                <div className="mt-2 text-xs sm:text-[11px] text-slate-400 font-mono truncate">
                   Destino: {s.destination}
                 </div>
 
@@ -172,18 +172,18 @@ export const SimulatorLogistics: React.FC = () => {
               </div>
 
               {/* Waypoints */}
-              <div className="mt-3 grid grid-cols-3 text-[11px] font-mono text-slate-400">
+              <div className="mt-3 grid grid-cols-3 text-xs sm:text-[11px] font-mono text-slate-400">
                 <div className="text-left">
                   <div className="text-slate-300 font-medium truncate">Origen: {selectedShipment.origin}</div>
-                  <div className="text-[10px] text-slate-500">Salida verificada</div>
+                  <div className="text-xs sm:text-[10px] text-slate-500">Salida verificada</div>
                 </div>
                 <div className="text-center">
                   <div className="text-cyan-400 font-medium">Checkpoint Actual</div>
-                  <div className="text-[10px] text-slate-400">{selectedShipment.telemetry.lastCheckpoint}</div>
+                  <div className="text-xs sm:text-[10px] text-slate-400">{selectedShipment.telemetry.lastCheckpoint}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-slate-300 font-medium truncate">Destino: {selectedShipment.destination}</div>
-                  <div className="text-[10px] text-slate-500">Muelle de descarga</div>
+                  <div className="text-xs sm:text-[10px] text-slate-500">Muelle de descarga</div>
                 </div>
               </div>
             </div>
@@ -196,7 +196,7 @@ export const SimulatorLogistics: React.FC = () => {
                     <Gauge className="w-3.5 h-3.5 text-cyan-400" />
                     Velocidad
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-400">GPS Activo</span>
+                  <span className="text-xs sm:text-[10px] font-mono text-emerald-400">GPS Activo</span>
                 </div>
                 <div className="text-2xl font-extrabold text-white font-mono tabular-nums">
                   {selectedShipment.telemetry.speedKmH}{' '}
@@ -210,7 +210,7 @@ export const SimulatorLogistics: React.FC = () => {
                     <Thermometer className="w-3.5 h-3.5 text-violet-400" />
                     Temp. Carga
                   </span>
-                  <span className="text-[10px] font-mono text-emerald-400">En Rango</span>
+                  <span className="text-xs sm:text-[10px] font-mono text-emerald-400">En Rango</span>
                 </div>
                 <div className="text-2xl font-extrabold text-white font-mono tabular-nums">
                   {selectedShipment.telemetry.cargoTempC}{' '}
@@ -224,7 +224,7 @@ export const SimulatorLogistics: React.FC = () => {
                     <BatteryCharging className="w-3.5 h-3.5 text-sky-400" />
                     Batería Tracker
                   </span>
-                  <span className="text-[10px] font-mono text-cyan-400">Óptimo</span>
+                  <span className="text-xs sm:text-[10px] font-mono text-cyan-400">Óptimo</span>
                 </div>
                 <div className="text-2xl font-extrabold text-white font-mono tabular-nums">
                   {selectedShipment.telemetry.batteryPct}{' '}

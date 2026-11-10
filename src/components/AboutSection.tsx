@@ -23,9 +23,9 @@ export const AboutSection: React.FC = () => {
             <Users className="w-3.5 h-3.5" />
             <span><span className="text-slate-200">Equipo · tecnoros</span>.ar</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Quiénes somos y qué hacemos
-          </h2>
+          </h1>
         </div>
 
         {/* Tarjeta Principal: Historia / Presentación */}

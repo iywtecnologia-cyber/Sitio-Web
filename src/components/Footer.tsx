@@ -66,12 +66,12 @@ export const Footer: React.FC = () => {
 
         {/* Redes de tecnoros.ar */}
         <div className="mt-8 pt-8 border-t border-slate-800/70 flex flex-col items-center gap-4">
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Seguinos</span>
+          <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">Seguinos</span>
           <BotonesRedes />
         </div>
 
         {/* Créditos */}
-        <div className="mt-8 pt-6 border-t border-slate-800/70 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 text-center font-mono text-[11px] sm:text-xs text-slate-500">
+        <div className="mt-8 pt-6 border-t border-slate-800/70 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 text-center font-mono text-xs sm:text-xs text-slate-500">
           <span>© {new Date().getFullYear()} tecnoros<span className="text-cyan-400">.ar</span> · Todos los derechos reservados</span>
           <span className="hidden sm:inline text-slate-700" aria-hidden="true">·</span>
           <span className="inline-flex items-center gap-1.5">

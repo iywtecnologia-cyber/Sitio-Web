@@ -8,7 +8,8 @@ import { TecnorosLogo } from '../TecnorosLogo';
 import { EquipoAreas } from '../EquipoAreas';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
-import { whatsappLink, gmailLink, VENTAS_EMAIL } from '../../data/contact';
+import { whatsappLink, gmailLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
+import { EnlaceGmail } from '../EnlaceGmail';
 import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
@@ -16,7 +17,7 @@ import type { Ruta } from '../../rutas';
 
 const Titulo: React.FC<{ chip: string; titulo: string; bajada?: React.ReactNode }> = ({ chip, titulo, bajada }) => (
   <div className="mb-6 sm:mb-8">
-    <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">{chip}</span>
+    <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">{chip}</span>
     <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">{titulo}</h2>
     {bajada && <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl">{bajada}</p>}
   </div>
@@ -26,7 +27,7 @@ const VerMas: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
   <button
     type="button"
     onClick={onClick}
-    className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:text-cyan-200 cursor-pointer group"
+    className="mt-5 py-1 inline-flex items-center gap-1.5 text-sm font-semibold text-cyan-300 hover:text-cyan-200 cursor-pointer group"
   >
     {children}
     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -69,7 +70,7 @@ export const HeroCorto: React.FC = () => (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
           <Unlock className="w-3.5 h-3.5" /> Sin permanencia
         </span>
-        <a href="#arrepentimiento" className="text-slate-400 hover:text-cyan-300 underline underline-offset-4">
+        <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
           Botón de arrepentimiento
         </a>
       </div>
@@ -90,7 +91,7 @@ export const JarDestacado: React.FC = () => (
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/15 border border-violet-400/50 text-xs sm:text-sm font-semibold text-violet-200">
             <span aria-hidden="true">🏁</span> Challenge JAR 2026
           </span>
-          <span className="block mt-2 text-[11px] font-mono uppercase tracking-[0.18em] text-violet-300">Rosario · 3 al 6 de noviembre de 2026</span>
+          <span className="block mt-2 text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-violet-300">Rosario · 3 al 6 de noviembre de 2026</span>
           <h2 className="mt-1.5 text-xl sm:text-3xl font-extrabold text-white leading-tight">
             Participamos con nuestro robot autónomo
           </h2>
@@ -154,7 +155,7 @@ export const QueHacemos: React.FC = () => (
         <div className="relative">
           <div className="flex items-center gap-3 px-1">
             <TecnorosLogo className="w-8 h-9 shrink-0" />
-            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Qué hacemos</span>
+            <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Qué hacemos</span>
             <span className="ml-auto hidden sm:block text-xs text-slate-500">Pasá el mouse por una tarjeta para ver de qué se trata</span>
           </div>
 
@@ -275,7 +276,7 @@ export const ProductosInicio: React.FC = () => (
                 <span className="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-cyan-300">
                   <Logo className="w-7 h-7" />
                 </span>
-                <span className={`text-[11px] font-mono px-2 py-0.5 rounded-full border ${CHIP[color]}`}>{estado}</span>
+                <span className={`text-xs sm:text-[11px] font-mono px-2 py-0.5 rounded-full border ${CHIP[color]}`}>{estado}</span>
               </div>
               <h3 className="mt-4 text-lg font-extrabold text-white">{nombre}</h3>
               <p className="mt-1 text-sm text-slate-400 leading-snug flex-1">{linea}</p>
@@ -354,7 +355,7 @@ export const SaberMas: React.FC = () => (
 export const ContactoRapido: React.FC = () => (
   <section id="contacto-rapido" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-3xl mx-auto px-5 text-center">
-      <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Contacto</span>
+      <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Contacto</span>
       <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white">Contanos qué necesitás</h2>
       <p className="mt-2 text-sm sm:text-base text-slate-400">El diagnóstico es sin costo. Te respondemos en el día.</p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
@@ -366,17 +367,18 @@ export const ContactoRapido: React.FC = () => (
         >
           <MessageCircle className="w-4 h-4" /> WhatsApp
         </a>
-        {/* Gmail web como en el resto de la web: un mailto: en una compu sin programa de correo no hace nada. */}
+        {/* mailto: abre el programa de correo de cada uno; Gmail web queda abajo como respaldo. */}
         <a
-          href={gmailLink('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={ventasMailto('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
           <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}
         </a>
       </div>
-      <a href="/contacto" className="mt-4 inline-block text-sm text-cyan-300 underline underline-offset-4">Prefiero personalizar mi mensaje en el formulario</a>
+      <div className="mt-2">
+        <EnlaceGmail href={gmailLink('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')} />
+      </div>
+      <a href="/contacto" className="mt-3 py-1 inline-block text-sm text-cyan-300 underline underline-offset-4">Prefiero personalizar mi mensaje en el formulario</a>
     </div>
   </section>
 );

@@ -223,12 +223,12 @@ export const ServicesSection: React.FC = () => {
             <Layers className="w-3.5 h-3.5" />
             <span>Servicios</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Qué podemos hacer{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               por tu negocio
             </span>
-          </h2>
+          </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
             Entendemos cómo trabajás y armamos lo justo para vos.
           </p>

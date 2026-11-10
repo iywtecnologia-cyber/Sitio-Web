@@ -174,7 +174,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
                     <div className="text-xs font-bold text-white group-hover:text-cyan-300 transition-colors whitespace-nowrap">
                       {node.title}
                     </div>
-                    <div className="text-[10px] font-mono text-slate-400 mt-0.5 whitespace-nowrap">
+                    <div className="text-xs sm:text-[10px] font-mono text-slate-400 mt-0.5 whitespace-nowrap">
                       {node.status}
                     </div>
                   </div>
@@ -205,7 +205,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
                     </div>
                     <div>
                       <div className="text-xs font-bold text-white whitespace-nowrap">{node.title}</div>
-                      <div className="text-[10px] font-mono text-slate-400">{node.status}</div>
+                      <div className="text-xs sm:text-[10px] font-mono text-slate-400">{node.status}</div>
                     </div>
                   </button>
                 </React.Fragment>
@@ -240,7 +240,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
                       <span className="text-2xl font-black font-mono text-slate-600 group-hover:text-cyan-400 transition-colors">
                         {step.number}
                       </span>
-                      <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded border tracking-wider ${step.badgeColor}`}>
+                      <span className={`text-xs sm:text-[10px] font-mono uppercase px-2 py-0.5 rounded border tracking-wider ${step.badgeColor}`}>
                         {step.badge}
                       </span>
                     </div>
@@ -264,7 +264,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-end gap-3 text-xs font-mono text-slate-400">
-                  <span className="text-slate-500 font-mono text-[11px] shrink-0">
+                  <span className="text-slate-500 font-mono text-xs sm:text-[11px] shrink-0">
                     Fase {step.number}/06
                   </span>
                 </div>
