@@ -57,14 +57,7 @@ export const FOTOS_ENCUENTROS: FotoEncuentro[] = [
     fecha: '2026-10-27',
     lugar: 'Terminal Fluvial de Rosario, Santa Fe',
   },
-  {
-    src: '/assets/encuentros/challenge.webp',
-    alt: 'Equipo de tecnoros.ar en el Challenge JAR 2026',
-    titulo: 'Challenge JAR 2026 · organizado por AIR Club UdeSa',
-    tipo: 'jornadas',
-    fecha: '2026-11-05',
-    lugar: 'Rosario',
-  },
+
   {
     src: '/assets/encuentros/trabajo.webp',
     alt: 'El equipo de tecnoros.ar trabajando juntos durante una jornada',
