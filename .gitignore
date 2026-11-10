@@ -14,3 +14,5 @@ coverage/
 # Notas locales para Claude Code
 claude.md
 CLAUDE.md
+package-lock.json
+.gitignore
