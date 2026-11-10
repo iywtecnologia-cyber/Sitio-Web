@@ -38,8 +38,8 @@ export const FOTOS_ENCUENTROS: FotoEncuentro[] = [
   // },
   {
     src: '/assets/encuentros/equipo.webp',
-    alt: 'Los fundadores de tecnoros.ar junto a Capibara, la mascota donde todo empezó',
-    titulo: 'Los fundadores con capibara, quien fue la mascota protagonista donde todo esto se origino',
+    alt: 'Los fundadores de tecnoros.ar con "Capi", la mascota donde todo empezó',
+    titulo: 'Los fundadores con "Capi", quien fue la mascota protagonista donde todo esto se origino',
     tipo: 'comienzos',
   },
   {
@@ -56,6 +56,14 @@ export const FOTOS_ENCUENTROS: FotoEncuentro[] = [
     tipo: 'jornadas',
     fecha: '2026-10-27',
     lugar: 'Terminal Fluvial de Rosario, Santa Fe',
+  },
+    {
+    src: '/assets/encuentros/challenge.webp',
+    alt: 'Equipo de tecnoros.ar en el Challenge JAR 2026',
+    titulo: 'Challenge JAR 2026 · organizado por AIR Club UdeSa',
+    tipo: 'jornadas',
+    fecha: '2026-11-05',
+    lugar: 'Rosario',
   },
 
   {
