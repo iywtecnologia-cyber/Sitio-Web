@@ -25,7 +25,8 @@ import {
   dolares,
   Precio 
 } from '../../data/precios';
-import { whatsappLink, gmailLink } from '../../data/contact';
+import { whatsappLink, gmailLink, ventasMailto } from '../../data/contact';
+import { EnlaceGmail } from '../EnlaceGmail';
 
 // Presupuestador: separa con total claridad la compra de DISPOSITIVOS FÍSICOS (Hardware pago único),
 // DESARROLLO DE SOFTWARE y los ABONOS MENSUALES (servicios recurrentes opcionales de nube y soporte).
@@ -155,12 +156,12 @@ export const BillingModule: React.FC = () => {
             <Calculator className="w-3.5 h-3.5" />
             <span>Presupuestador Transparente</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Calculá cuánto{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               invertirías en tu solución
             </span>
-          </h2>
+          </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
             Marcá lo que necesitás y mirá el total al instante.
           </p>
@@ -332,7 +333,7 @@ export const BillingModule: React.FC = () => {
                         <div className="flex items-start justify-between gap-2">
                           <span className="block font-bold text-white text-sm sm:text-base">{s.servicio}</span>
                           {s.badge && (
-                            <span className="shrink-0 text-[10px] font-mono px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30 font-semibold">
+                            <span className="shrink-0 text-xs sm:text-[10px] font-mono px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30 font-semibold">
                               {s.badge}
                             </span>
                           )}
@@ -393,7 +394,7 @@ export const BillingModule: React.FC = () => {
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-bold text-white text-sm sm:text-base">{a.nombre}</span>
                             {a.esServicioParaHardware && (
-                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
+                              <span className="text-xs sm:text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
                                 Servicio Cloud para Hardware
                               </span>
                             )}
@@ -416,13 +417,14 @@ export const BillingModule: React.FC = () => {
           </div>
 
           {/* Columna Derecha: Ticket de Inversión Fijo */}
-          <div className="lg:sticky lg:top-28 p-6 rounded-3xl bg-gradient-to-br from-[#0B1220] via-slate-900 to-cyan-950/50 border border-cyan-500/40 shadow-2xl">
+          {/* data-sin-asistente: Marcio se corre si queda encima del ticket (tapaba el botón de pedir presupuesto) */}
+          <div data-sin-asistente className="lg:sticky lg:top-28 p-6 rounded-3xl bg-gradient-to-br from-[#0B1220] via-slate-900 to-cyan-950/50 border border-cyan-500/40 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
                 <Sparkles className="w-4 h-4" />
                 <span>Ticket de Presupuesto</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800">
+              <span className="text-xs sm:text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800">
                 tecnoros<span className="text-cyan-400">.ar</span>
               </span>
             </div>
@@ -437,7 +439,7 @@ export const BillingModule: React.FC = () => {
                 {/* Desglose Hardware */}
                 {seleccionHardware.length > 0 && (
                   <div className="space-y-1.5">
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
+                    <div className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
                       <Cpu className="w-3.5 h-3.5" />
                       <span>Hardware Físico (Pago Único)</span>
                     </div>
@@ -463,14 +465,14 @@ export const BillingModule: React.FC = () => {
                 {/* Desglose Software */}
                 {seleccionSoftware.length > 0 && (
                   <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-violet-400 font-bold flex items-center gap-1.5">
+                    <div className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-violet-400 font-bold flex items-center gap-1.5">
                       <Workflow className="w-3.5 h-3.5" />
                       <span>Software & Automatización (Pago Único)</span>
                     </div>
                     {seleccionSoftware.map((s) => (
                       <div key={s.id} className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
                         <span className="truncate">{s.servicio}</span>
-                        <span className="text-slate-400 shrink-0 text-[11px]">{s.consultar ? 'A consultar' : s.max === 0 ? 'Gratis' : `desde ${pesos(s.min)}`}</span>
+                        <span className="text-slate-400 shrink-0 text-xs sm:text-[11px]">{s.consultar ? 'A consultar' : s.max === 0 ? 'Gratis' : `desde ${pesos(s.min)}`}</span>
                       </div>
                     ))}
                   </div>
@@ -479,7 +481,7 @@ export const BillingModule: React.FC = () => {
                 {/* Desglose Abonos */}
                 {seleccionAbonos.length > 0 && (
                   <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-sky-400 font-bold flex items-center gap-1.5">
+                    <div className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-sky-400 font-bold flex items-center gap-1.5">
                       <HardDrive className="w-3.5 h-3.5" />
                       <span>Abonos Cloud & Soporte (Mensual)</span>
                     </div>
@@ -531,17 +533,18 @@ export const BillingModule: React.FC = () => {
                 Pedir presupuesto formal por WhatsApp
               </a>
               <a
-                href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={ventasMailto('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')}
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-200 font-semibold text-sm transition-colors cursor-pointer hover:bg-slate-800/50"
               >
                 <Mail className="w-4 h-4" />
                 Pedir por e-mail
               </a>
+              <div className="text-center">
+                <EnlaceGmail href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')} />
+              </div>
             </div>
 
-            <p className="mt-4 text-[11px] leading-relaxed text-slate-400">
+            <p className="mt-4 text-xs sm:text-[11px] leading-relaxed text-slate-400">
               Precio orientativo. Después del diagnóstico gratuito te pasamos un presupuesto cerrado.
             </p>
           </div>

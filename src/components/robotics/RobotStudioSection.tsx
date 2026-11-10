@@ -230,9 +230,9 @@ export const RobotStudioSection: React.FC = () => {
             <Cpu className="w-3.5 h-3.5 text-cyan-400" />
             Robótica a medida
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
             Desarrollo del cerebro robótico y fabricación física a medida
-          </h2>
+          </h1>
           <p className="text-base sm:text-lg text-slate-300 max-w-3xl">
             Primero programamos el cerebro del robot y lo probás en 3D. Si funciona, fabricamos el cuerpo.
           </p>
@@ -264,7 +264,7 @@ export const RobotStudioSection: React.FC = () => {
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
               <strong className="text-white">Modelos Base en Miniatura Disponibles</strong> (Elegí uno para inspeccionar su diseño):
             </span>
-            <span className="text-[11px] text-cyan-300 hidden sm:inline">
+            <span className="text-xs sm:text-[11px] text-cyan-300 hidden sm:inline">
               Todos de escala compacta para banco, laboratorio o ductos
             </span>
           </div>
@@ -284,16 +284,16 @@ export const RobotStudioSection: React.FC = () => {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-1 mb-1">
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-cyan-300">
+                      <span className="text-xs sm:text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-cyan-300">
                         {m.badge}
                       </span>
                       {isSelected && <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0" />}
                     </div>
                     <div className="text-xs font-bold text-white line-clamp-1">{m.name}</div>
-                    <div className="text-[10px] text-slate-400 line-clamp-1 mt-0.5">{m.category}</div>
+                    <div className="text-xs sm:text-[10px] text-slate-400 line-clamp-1 mt-0.5">{m.category}</div>
                   </div>
 
-                  <div className="mt-2 pt-2 border-t border-slate-800/80 text-[10px] font-mono text-cyan-400/90">
+                  <div className="mt-2 pt-2 border-t border-slate-800/80 text-xs sm:text-[10px] font-mono text-cyan-400/90">
                     {m.dimensionsMm.split('×')[0]} mm • {m.weightKg}
                   </div>
                 </button>
@@ -366,7 +366,7 @@ export const RobotStudioSection: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setAutoRotate(!autoRotate)}
-                  className={`px-2.5 py-1 rounded-md text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
                     autoRotate
                       ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
                       : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
@@ -381,7 +381,7 @@ export const RobotStudioSection: React.FC = () => {
                   onClick={() =>
                     setRobotConfig((prev) => ({ ...prev, lightsOn: !prev.lightsOn }))
                   }
-                  className={`px-2.5 py-1 rounded-md text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
                     robotConfig.lightsOn
                       ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
                       : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
@@ -411,7 +411,7 @@ export const RobotStudioSection: React.FC = () => {
               style={{ touchAction: 'pan-y' }}
               aria-hidden="true"
             >
-              <span className="text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
+              <span className="text-xs sm:text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
             </div>
             </div>
 
@@ -442,7 +442,7 @@ export const RobotStudioSection: React.FC = () => {
                 className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg appearance-none"
               />
 
-              <div className="flex justify-between text-[10px] font-mono text-slate-500">
+              <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
                 <span>0% Ensamblado Completo</span>
                 <span>50% Separación Parcial</span>
                 <span>100% Despiece Total de Placas</span>
@@ -456,7 +456,7 @@ export const RobotStudioSection: React.FC = () => {
                     <Crosshair className="w-4 h-4" />
                     <span className="font-semibold">Simulador de Ensayo en Banco (Vida Real)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400">Trayectoria 100% contenida en el banco</span>
+                  <span className="text-xs sm:text-[11px] font-mono text-slate-400">Trayectoria 100% contenida en el banco</span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -537,7 +537,7 @@ export const RobotStudioSection: React.FC = () => {
                   <Maximize2 className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] text-slate-400 font-mono">Dimensiones Reales</div>
+                  <div className="text-xs sm:text-[11px] text-slate-400 font-mono">Dimensiones Reales</div>
                   <div className="text-xs sm:text-sm font-bold text-white font-mono">{currentSpecs.dimensions}</div>
                 </div>
               </div>
@@ -547,7 +547,7 @@ export const RobotStudioSection: React.FC = () => {
                   <Weight className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] text-slate-400 font-mono">Peso / Carga Útil</div>
+                  <div className="text-xs sm:text-[11px] text-slate-400 font-mono">Peso / Carga Útil</div>
                   <div className="text-xs sm:text-sm font-bold text-white font-mono">{currentSpecs.weightKg} kg / {currentSpecs.maxPayloadKg} kg</div>
                 </div>
               </div>
@@ -557,7 +557,7 @@ export const RobotStudioSection: React.FC = () => {
                   <BatteryCharging className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] text-slate-400 font-mono">Autonomía</div>
+                  <div className="text-xs sm:text-[11px] text-slate-400 font-mono">Autonomía</div>
                   <div className="text-xs sm:text-sm font-bold text-white font-mono">{currentSpecs.batteryHours} horas</div>
                 </div>
               </div>
@@ -567,7 +567,7 @@ export const RobotStudioSection: React.FC = () => {
                   <Shield className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[11px] text-slate-400 font-mono">Protección IP</div>
+                  <div className="text-xs sm:text-[11px] text-slate-400 font-mono">Protección IP</div>
                   <div className="text-xs sm:text-sm font-bold text-white font-mono">{robotConfig.ipRating.toUpperCase()}</div>
                 </div>
               </div>
@@ -603,12 +603,12 @@ export const RobotStudioSection: React.FC = () => {
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
                             <span className="text-xs font-bold text-white">{tmpl.title}</span>
-                            <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
+                            <span className="text-xs sm:text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30">
                               {tmpl.badge}
                             </span>
                           </div>
-                          <p className="text-[11px] text-slate-400 leading-tight mb-2">{tmpl.description}</p>
-                          <div className="text-[10px] font-mono text-cyan-300">
+                          <p className="text-xs sm:text-[11px] text-slate-400 leading-tight mb-2">{tmpl.description}</p>
+                          <div className="text-xs sm:text-[10px] font-mono text-cyan-300">
                             ✦ {tmpl.specsSummary}
                           </div>
                         </div>
@@ -659,14 +659,14 @@ export const RobotStudioSection: React.FC = () => {
                         <button
                           key={sc.id}
                           onClick={() => setRobotConfig((prev) => ({ ...prev, robotScale: sc.id }))}
-                          className={`p-1.5 rounded-lg border font-mono text-[11px] transition-colors cursor-pointer ${
+                          className={`p-1.5 rounded-lg border font-mono text-xs sm:text-[11px] transition-colors cursor-pointer ${
                             robotConfig.robotScale === sc.id
                               ? 'bg-cyan-500/20 border-cyan-400 text-white font-bold'
                               : 'bg-slate-800/60 border-slate-700 text-slate-400'
                           }`}
                         >
                           <div>{sc.label}</div>
-                          <div className="text-[9px] text-cyan-400/80">{sc.sub}</div>
+                          <div className="text-xs sm:text-[9px] text-cyan-400/80">{sc.sub}</div>
                         </button>
                       ))}
                     </div>
@@ -698,7 +698,7 @@ export const RobotStudioSection: React.FC = () => {
                         }`}
                       >
                         <div className="text-xs font-bold">{item.label}</div>
-                        <div className="text-[10px] text-slate-400">{item.sub}</div>
+                        <div className="text-xs sm:text-[10px] text-slate-400">{item.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -730,7 +730,7 @@ export const RobotStudioSection: React.FC = () => {
                         }`}
                       >
                         <div className="text-xs font-bold">{mod.label}</div>
-                        <div className="text-[10px] text-slate-400 truncate">{mod.sub}</div>
+                        <div className="text-xs sm:text-[10px] text-slate-400 truncate">{mod.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -776,7 +776,7 @@ export const RobotStudioSection: React.FC = () => {
 
                   {/* Quick Color Presets */}
                   <div className="space-y-2 pt-1">
-                    <span className="text-[11px] font-mono text-slate-400">Paletas Industriales de Referencia:</span>
+                    <span className="text-xs sm:text-[11px] font-mono text-slate-400">Paletas Industriales de Referencia:</span>
                     <div className="grid grid-cols-4 gap-1.5">
                       {COLOR_PALETTES[0].colors.map((c) => (
                         <button
@@ -793,7 +793,7 @@ export const RobotStudioSection: React.FC = () => {
                           title={c.name}
                         >
                           <div className="w-5 h-5 rounded-full" style={{ backgroundColor: c.hex }} />
-                          <span className="text-[9px] font-mono text-slate-300 truncate w-full text-center">
+                          <span className="text-xs sm:text-[9px] font-mono text-slate-300 truncate w-full text-center">
                             {c.name.split(' ')[0]}
                           </span>
                         </button>
@@ -817,14 +817,14 @@ export const RobotStudioSection: React.FC = () => {
                         <button
                           key={b.id}
                           onClick={() => setRobotConfig((prev) => ({ ...prev, batteryType: b.id }))}
-                          className={`p-2 rounded-lg border text-center font-mono text-[11px] transition-all cursor-pointer ${
+                          className={`p-2 rounded-lg border text-center font-mono text-xs sm:text-[11px] transition-all cursor-pointer ${
                             robotConfig.batteryType === b.id
                               ? 'bg-cyan-500/20 border-cyan-400 text-white font-bold'
                               : 'bg-slate-800/60 border-slate-700 text-slate-400'
                           }`}
                         >
                           <div>{b.label}</div>
-                          <div className="text-[9px] text-cyan-400/80">{b.sub}</div>
+                          <div className="text-xs sm:text-[9px] text-cyan-400/80">{b.sub}</div>
                         </button>
                       ))}
                     </div>
@@ -843,7 +843,7 @@ export const RobotStudioSection: React.FC = () => {
                         <button
                           key={ip.id}
                           onClick={() => setRobotConfig((prev) => ({ ...prev, ipRating: ip.id }))}
-                          className={`p-2 rounded-lg border text-center font-mono text-[11px] transition-all cursor-pointer ${
+                          className={`p-2 rounded-lg border text-center font-mono text-xs sm:text-[11px] transition-all cursor-pointer ${
                             robotConfig.ipRating === ip.id
                               ? 'bg-cyan-500/20 border-cyan-400 text-white font-bold'
                               : 'bg-slate-800/60 border-slate-700 text-slate-400'

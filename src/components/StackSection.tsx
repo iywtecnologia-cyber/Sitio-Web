@@ -183,12 +183,12 @@ export const StackSection: React.FC = () => {
               <Cpu className="w-3.5 h-3.5" />
               <span>Tecnologías & Estándares</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
               Nuestro Stack{' '}
               <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
                 Tecnológico
               </span>
-            </h2>
+            </h1>
             <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
               Herramientas probadas en producción que garantizan velocidad de carga, escalabilidad y ciberseguridad.
             </p>
@@ -224,7 +224,7 @@ export const StackSection: React.FC = () => {
                 <Icon className={`w-4 h-4 ${isSelected ? 'text-cyan-400' : 'text-slate-500'}`} />
                 <span>{cat.label}</span>
                 {isSelected && (
-                  <span className="ml-1 px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-[10px] text-cyan-300 font-mono">
+                  <span className="ml-1 px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-xs sm:text-[10px] text-cyan-300 font-mono">
                     {filteredTechs.length}
                   </span>
                 )}
@@ -245,7 +245,7 @@ export const StackSection: React.FC = () => {
                   <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug">
                     {tech.name}
                   </h3>
-                  <span className={`text-[8px] sm:text-[8.5px] font-mono uppercase px-1.5 py-0.5 rounded border tracking-tight sm:tracking-normal whitespace-nowrap shrink-0 mt-0.5 ${tech.badgeColor}`}>
+                  <span className={`text-xs sm:text-[8.5px] font-mono uppercase px-1.5 py-0.5 rounded border tracking-tight sm:tracking-normal whitespace-nowrap shrink-0 mt-0.5 ${tech.badgeColor}`}>
                     {tech.badge}
                   </span>
                 </div>

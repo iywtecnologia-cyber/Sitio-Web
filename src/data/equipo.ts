@@ -269,14 +269,6 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://www.linkedin.com/in/oliverdosanjos-dev/',
   },
   {
-    name: 'Victoria Cavagnaro',
-    area: 'diseno',
-    role: 'Se sumó al equipo',
-    specialty: 'Diseñadora UX/UI · Diseñadora Industrial',
-    badge: 'UX/UI Designer',
-    linkedin: 'https://www.linkedin.com/in/victoria-cavagnaro/',
-  },
-  {
     name: 'Lucila Gabriele',
     area: 'diseno',
     role: 'Se sumó al equipo',

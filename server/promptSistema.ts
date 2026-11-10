@@ -47,7 +47,7 @@ ${abonos}
 - WhatsApp de ventas: ${WHATSAPP_NUMBERS.map(telefono).join(' y ')}
 - E-mail: ${CONTACT_EMAIL}
 - Ubicación: Rosario, Santa Fe, Argentina. Trabajan con empresas de todo el país.
-- Web: https://www.tecnoros.ar (secciones: Servicios, Productos, Robótica, Proyectos, Presupuesto, Tecnologías, Nosotros, Contacto, Blog).
+- Web: https://tecnoros.ar (secciones: Servicios, Productos, Robótica, Proyectos, Presupuesto, Tecnologías, Nosotros, Contacto, Blog).
 - Demo en vivo de un proyecto (agenda odontológica): https://agendaodontologica-9is7.onrender.com`;
 };
 

@@ -21,7 +21,9 @@ import { Blog } from './components/extra/Blog';
 import { Encuentros } from './components/extra/Encuentros';
 import { FondoColor } from './components/FondoColor';
 import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
-import { useRuta, type Ruta } from './rutas';
+import { NoEncontrada } from './components/NoEncontrada';
+import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
+import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
 
 // El estudio de robótica arrastra three.js: se descarga sólo al entrar a /robotica
 // para que el inicio cargue rápido en el celular.
@@ -34,26 +36,38 @@ const Cargando: React.FC = () => (
   </div>
 );
 
-const SITIO = 'https://www.tecnoros.ar';
-const TITULO_INICIO = 'tecnoros.ar | Automatización | Ciberseguridad | Robótica | Electrónica | Machine Learning';
-const DESCRIPCION_INICIO = 'Automatización inteligente, ciberseguridad, robótica a medida, electrónica y machine learning para empresas y la agroindustria. Diagnóstico gratuito.';
-
 // El inicio es un resumen corto; cada tema largo tiene su propia página.
-const PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; descripcion: string; contenido: React.ReactNode }> = {
-  '/servicios': { titulo: 'Servicios', descripcion: 'Automatizaciones, ciberseguridad, e-commerce, apps, CRM, bots de WhatsApp y robótica. Mirá qué hacemos y cómo trabajamos.', contenido: <><ServicesSection /><HowWeWorkSection /></> },
-  '/productos': { titulo: 'Productos propios', descripcion: 'Golondrina, CHAJÁ y TERO: nuestros sistemas y equipos propios. Probá las demos y miralos en 3D.', contenido: <ProductosPropios /> },
-  '/robotica': { titulo: 'Diseñá tu robot', descripcion: 'Armá tu robot a medida y probalo en 3D. Primero programamos el cerebro; si funciona, fabricamos el cuerpo.', contenido: <RobotStudioSection /> },
-  '/proyectos': { titulo: 'Proyectos', descripcion: 'Sistemas reales que hicimos y que ya están funcionando en negocios.', contenido: <PortfolioSection /> },
-  '/presupuesto': { titulo: 'Presupuesto', descripcion: 'Calculá cuánto cuesta lo que necesitás, con precios de referencia y combos.', contenido: <><BillingModule /><Combos /></> },
-  '/tecnologias': { titulo: 'Tecnologías', descripcion: 'Las tecnologías con las que trabajamos.', contenido: <StackSection /> },
-  '/nosotros': { titulo: 'Nosotros', descripcion: 'Nacimos en Rosario y trabajamos en remoto con gente de distintos lugares del mundo: ciberseguridad, QA, automatización, electrónica y machine learning.', contenido: <AboutSection /> },
-  '/contacto': { titulo: 'Contacto', descripcion: 'Contanos qué necesitás por WhatsApp o e-mail. El diagnóstico es sin costo.', contenido: <ContactSection /> },
-  '/encuentros': { titulo: 'Encuentros', descripcion: 'Nuestra historia en fotos: cómo empezamos, el equipo y las jornadas y eventos a los que vamos.', contenido: <Encuentros /> },
-  '/blog': { titulo: 'Blog', descripcion: 'Notas cortas y prácticas para tu negocio: automatización, ciberseguridad y más.', contenido: <Blog /> },
+// Títulos y descripciones viven en data/paginas.ts (los usa también el build).
+const CONTENIDO: Record<Exclude<Ruta, '/'>, React.ReactNode> = {
+  '/servicios': <><ServicesSection /><HowWeWorkSection /></>,
+  '/productos': <ProductosPropios />,
+  '/robotica': <RobotStudioSection />,
+  '/proyectos': <PortfolioSection />,
+  '/presupuesto': <><BillingModule /><Combos /></>,
+  '/tecnologias': <StackSection />,
+  '/nosotros': <AboutSection />,
+  '/contacto': <ContactSection />,
+  '/encuentros': <Encuentros />,
+  '/blog': <Blog />,
 };
 
 const ponerMeta = (selector: string, atributo: 'content' | 'href', valor: string) => {
   document.querySelector(selector)?.setAttribute(atributo, valor);
+};
+
+// Una página inexistente no tiene que aparecer en Google: noindex mientras se ve el aviso.
+const ponerNoIndex = (activo: boolean) => {
+  let meta = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+  if (!activo) {
+    meta?.remove();
+    return;
+  }
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.name = 'robots';
+    document.head.appendChild(meta);
+  }
+  meta.content = 'noindex';
 };
 
 export default function App() {
@@ -61,11 +75,16 @@ export default function App() {
 
   // Título, descripción y canonical por página: sin esto todas apuntaban al inicio
   // y Google trataba /servicios, /productos, etc. como duplicados.
+  // El HTML de cada ruta ya trae estos datos desde el build; esto los actualiza al navegar sin recargar.
   React.useEffect(() => {
-    const pagina = ruta === '/' ? null : PAGINAS[ruta];
-    const titulo = pagina ? `${pagina.titulo} · tecnoros.ar` : TITULO_INICIO;
-    const descripcion = pagina?.descripcion ?? DESCRIPCION_INICIO;
-    const url = SITIO + (ruta === '/' ? '/' : ruta);
+    ponerNoIndex(ruta === NO_ENCONTRADA);
+    if (ruta === NO_ENCONTRADA) {
+      document.title = TITULO_NO_ENCONTRADA;
+      return;
+    }
+    const titulo = tituloDe(ruta);
+    const descripcion = descripcionDe(ruta);
+    const url = urlDe(ruta);
     document.title = titulo;
     ponerMeta('meta[name="description"]', 'content', descripcion);
     ponerMeta('meta[property="og:title"]', 'content', titulo);
@@ -94,10 +113,14 @@ export default function App() {
             <SaberMas />
             <ContactoRapido />
           </>
+        ) : ruta === NO_ENCONTRADA ? (
+          <div className="pt-20 sm:pt-[84px]">
+            <NoEncontrada />
+          </div>
         ) : (
           <div key={ruta} className="pt-20 sm:pt-[84px]">
             <Suspense fallback={<Cargando />}>
-              {PAGINAS[ruta].contenido}
+              {CONTENIDO[ruta]}
             </Suspense>
             {ruta !== '/contacto' && <CierrePagina />}
           </div>

@@ -137,7 +137,7 @@ export const SelectorTema: React.FC<{
           {opcion(planas[0])}
           {grupos.map(([grupo, lista]) => (
             <li key={grupo} role="presentation">
-              <span className="block px-3 pt-3 pb-1 text-[11px] font-mono uppercase tracking-[0.14em] text-cyan-400">{grupo}</span>
+              <span className="block px-3 pt-3 pb-1 text-xs sm:text-[11px] font-mono uppercase tracking-[0.14em] text-cyan-400">{grupo}</span>
               <ul role="group" aria-label={grupo}>{lista.map(opcion)}</ul>
             </li>
           ))}

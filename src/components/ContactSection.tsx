@@ -9,10 +9,12 @@ import {
   CornerRightDown,
   Linkedin
 } from 'lucide-react';
-import { CONTACT_EMAIL, VENTAS_EMAIL } from '../data/contact';
+import { CONTACT_EMAIL, VENTAS_EMAIL, gmailPara, mailtoLink } from '../data/contact';
+import { EnlaceGmail } from './EnlaceGmail';
 import { SoporteForm } from './SoporteForm';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
+import { emailValido, enfocarPrimero, MENSAJE_EMAIL_INVALIDO } from '../validacion';
 
 // Palabras que ayudan a elegir el tema solo, mientras la persona escribe
 const PALABRAS_TEMA: [string, string[]][] = [
@@ -92,12 +94,8 @@ export const ContactSection: React.FC = () => {
     (acc[t.grupo] ||= []).push(t);
     return acc;
   }, {});
-  const [sentSuccess, setSentSuccess] = useState(false);
-
-  // El e-mail se redacta en Gmail web, en una pestaña nueva del mismo navegador
-  // que está usando la persona (mailto: abriría el programa de correo del sistema).
-  const gmailUrl = (subject: string, body: string) =>
-    `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Después de enviar queda el aviso con el respaldo de Gmail (por si no hay programa de correo).
+  const [gmailRespaldo, setGmailRespaldo] = useState<string | null>(null);
 
   const handleCopyEmail = (email: string) => {
     navigator.clipboard.writeText(email);
@@ -116,8 +114,22 @@ export const ContactSection: React.FC = () => {
     return { nombre, email };
   };
 
+  // El mensaje es obligatorio; nombre y e-mail no (por WhatsApp ya llega el número),
+  // pero si escribe un e-mail tiene que ser válido para poder responderle.
+  const [errores, setErrores] = useState<{ email?: string; mensaje?: string }>({});
+  const validar = () => {
+    const { email } = camposLimpios();
+    const nuevos: typeof errores = {};
+    if (email && !emailValido(email)) nuevos.email = MENSAJE_EMAIL_INVALIDO;
+    if (!formData.mensaje.trim()) nuevos.mensaje = 'Contanos qué necesitás para poder enviar la consulta.';
+    setErrores(nuevos);
+    enfocarPrimero([nuevos.email && 'contacto-email', nuevos.mensaje && 'contacto-mensaje'].filter(Boolean) as string[]);
+    return Object.keys(nuevos).length === 0;
+  };
+
   const handleSendFormWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!validar()) return;
     const targetNumber = getRandomWhatsAppNumber();
     const { nombre, email } = camposLimpios();
     const nameStr = nombre ? `• *Nombre o Negocio:* ${nombre}\n` : '';
@@ -131,6 +143,7 @@ export const ContactSection: React.FC = () => {
 
   const handleSendFormEmail = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
+    if (!validar()) return;
     const { nombre, email } = camposLimpios();
     const messageText = formData.mensaje.trim() || DEFAULT_MESSAGE;
 
@@ -140,9 +153,8 @@ export const ContactSection: React.FC = () => {
     const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `Email de contacto: ${email}`].filter(Boolean).join('\n');
     const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
-    window.open(gmailUrl(subject, bodyText), '_blank', 'noopener');
-    setSentSuccess(true);
-    setTimeout(() => setSentSuccess(false), 5000);
+    window.location.href = mailtoLink(CONTACT_EMAIL, subject, bodyText);
+    setGmailRespaldo(gmailPara(CONTACT_EMAIL, subject, bodyText));
   };
 
   return (
@@ -159,7 +171,7 @@ export const ContactSection: React.FC = () => {
             <Mail className="w-3.5 h-3.5" />
             <span>Canales de Contacto Directo</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             ¿Tenés un problema en tu negocio?{' '}
             <span className="inline-flex items-center gap-2">
               <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent font-extrabold tracking-tight">
@@ -167,7 +179,7 @@ export const ContactSection: React.FC = () => {
               </span>
               <CornerRightDown className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 stroke-[2.5] animate-bounce drop-shadow-[0_0_12px_rgba(0,210,243,0.8)] inline-block ml-1 translate-y-1.5 sm:translate-y-2" />
             </span>
-          </h2>
+          </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
             Escribinos directamente para contarnos qué situación querés resolver. Te orientamos sin costo en el diseño y arquitectura de la solución adecuada.
           </p>
@@ -184,7 +196,9 @@ export const ContactSection: React.FC = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSendFormEmail} className="space-y-5">
+          {/* method="post" + noValidate: el envío es sólo por JS (validar() en cada botón). Con GET,
+              si el JS fallara, nombre, e-mail y mensaje quedarían en la URL, el historial y los logs. */}
+          <form method="post" noValidate onSubmit={handleSendFormEmail} className="space-y-5" data-sin-asistente>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label htmlFor="contacto-nombre" className="block text-xs font-mono text-slate-300 mb-2">
@@ -213,9 +227,15 @@ export const ContactSection: React.FC = () => {
                   autoComplete="email"
                   placeholder="nombre@negocio.com"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
+                  onChange={(e) => {
+                    setFormData({ ...formData, email: e.target.value });
+                    if (errores.email) setErrores((er) => ({ ...er, email: undefined }));
+                  }}
+                  aria-invalid={errores.email ? true : undefined}
+                  aria-describedby={errores.email ? 'contacto-email-error' : undefined}
+                  className={`w-full px-4 py-3 rounded-xl bg-slate-950/90 border ${errores.email ? 'border-rose-500' : 'border-slate-800'} text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition-colors`}
                 />
+                {errores.email && <p id="contacto-email-error" className="mt-1.5 text-xs text-rose-300">{errores.email}</p>}
               </div>
             </div>
 
@@ -244,11 +264,17 @@ export const ContactSection: React.FC = () => {
                 name="mensaje"
                 rows={4}
                 value={formData.mensaje}
-                onChange={(e) => escribirMensaje(e.target.value)}
+                onChange={(e) => {
+                  escribirMensaje(e.target.value);
+                  if (errores.mensaje) setErrores((er) => ({ ...er, mensaje: undefined }));
+                }}
                 placeholder="Contanos qué situación o proceso necesitás resolver en tu negocio..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition-colors leading-relaxed"
+                aria-invalid={errores.mensaje ? true : undefined}
+                aria-describedby={errores.mensaje ? 'contacto-mensaje-error' : undefined}
+                className={`w-full px-4 py-3 rounded-xl bg-slate-950/90 border ${errores.mensaje ? 'border-rose-500' : 'border-slate-800'} text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-500 transition-colors leading-relaxed`}
                 required
               />
+              {errores.mensaje && <p id="contacto-mensaje-error" className="mt-1.5 text-xs text-rose-300">{errores.mensaje}</p>}
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2">
@@ -267,7 +293,7 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleSendFormEmail}
                   className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Abre Gmail en una pestaña nueva con tu nombre, email y consulta pre-cargados"
+                  title="Abre tu programa de correo con tu nombre, email y consulta pre-cargados"
                 >
                   <Send className="w-4 h-4 fill-slate-950" />
                   <span>Enviar por E-mail</span>
@@ -278,21 +304,21 @@ export const ContactSection: React.FC = () => {
             <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
               <span>O escribile directo a ventas:</span>
               <a
-                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(VENTAS_EMAIL)}&su=${encodeURIComponent('Consulta para ventas - tecnoros.ar')}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={mailtoLink(VENTAS_EMAIL, 'Consulta para ventas - tecnoros.ar', '')}
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
                 title="Escribir un e-mail a ventas"
               >
                 <Mail className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{VENTAS_EMAIL}</span>
               </a>
+              <EnlaceGmail href={gmailPara(VENTAS_EMAIL, 'Consulta para ventas - tecnoros.ar', '')} texto="(abrir en Gmail)" />
             </div>
 
-            {sentSuccess && (
-              <div className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex items-center gap-2">
+            {gmailRespaldo && (
+              <div role="status" className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Sparkles className="w-4 h-4" />
-                <span>¡Se abrió Gmail en una pestaña nueva con tu mensaje listo para enviar a {CONTACT_EMAIL}!</span>
+                <span>Se abrió tu programa de correo con el mensaje listo para enviar a {CONTACT_EMAIL}.</span>
+                <EnlaceGmail href={gmailRespaldo} texto="¿No se abrió? Abrilo en Gmail" className="text-cyan-200" />
               </div>
             )}
           </form>

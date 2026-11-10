@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { LifeBuoy, Mail, MessageCircle, Send } from 'lucide-react';
-import { SOPORTE_EMAIL, SOPORTE_WHATSAPP } from '../data/contact';
+import { SOPORTE_EMAIL, SOPORTE_WHATSAPP, gmailPara, mailtoLink } from '../data/contact';
+import { EnlaceGmail } from './EnlaceGmail';
+import { emailValido, enfocarPrimero, MENSAJE_EMAIL_INVALIDO } from '../validacion';
 
 // Soporte técnico para quienes ya son clientes. Mismo formato que el formulario de ventas,
 // pero los mensajes van a soporte (WhatsApp de soporte o soporte@tecnoros.ar).
@@ -20,12 +22,28 @@ const SISTEMAS = [
 
 const campo =
   'w-full px-4 py-3 rounded-xl bg-slate-950/90 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-emerald-500 transition-colors';
+// Reemplaza el color del borde en vez de sumar otra clase: con dos border-* no hay orden garantizado.
+const conError = (clases: string, error?: string) => (error ? clases.replace('border-slate-800', 'border-rose-500') : clases);
 
 export const SoporteForm: React.FC = () => {
   const [datos, setDatos] = useState({ nombre: '', email: '', sistema: '', mensaje: '' });
-  const [enviado, setEnviado] = useState(false);
-  const set = (k: keyof typeof datos) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  // Después de enviar queda el aviso con el respaldo de Gmail (por si no hay programa de correo).
+  const [gmailRespaldo, setGmailRespaldo] = useState<string | null>(null);
+  const [errores, setErrores] = useState<{ email?: string; mensaje?: string }>({});
+  const set = (k: keyof typeof datos) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setDatos((d) => ({ ...d, [k]: e.target.value }));
+    if (k === 'email' || k === 'mensaje') setErrores((er) => ({ ...er, [k]: undefined }));
+  };
+
+  // Misma regla para WhatsApp y e-mail (antes sólo el botón de e-mail validaba).
+  const validar = () => {
+    const nuevos: typeof errores = {};
+    if (datos.email.trim() && !emailValido(datos.email)) nuevos.email = MENSAJE_EMAIL_INVALIDO;
+    if (!datos.mensaje.trim()) nuevos.mensaje = 'Contanos qué pasa para poder ayudarte.';
+    setErrores(nuevos);
+    enfocarPrimero([nuevos.email && 'soporte-email', nuevos.mensaje && 'soporte-mensaje'].filter(Boolean) as string[]);
+    return Object.keys(nuevos).length === 0;
+  };
 
   const texto = () => {
     const detalle = [
@@ -39,19 +57,16 @@ export const SoporteForm: React.FC = () => {
 
   const porWhatsApp = (e: React.MouseEvent) => {
     e.preventDefault();
+    if (!validar()) return;
     window.open(`https://wa.me/${SOPORTE_WHATSAPP}?text=${encodeURIComponent(texto())}`, '_blank', 'noopener');
   };
 
   const porEmail = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
+    if (!validar()) return;
     const asunto = `Soporte${datos.sistema ? `: ${datos.sistema}` : ''}${datos.nombre.trim() ? ` - ${datos.nombre.trim()}` : ''} - tecnoros.ar`;
-    window.open(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SOPORTE_EMAIL)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(texto())}`,
-      '_blank',
-      'noopener'
-    );
-    setEnviado(true);
-    window.setTimeout(() => setEnviado(false), 5000);
+    window.location.href = mailtoLink(SOPORTE_EMAIL, asunto, texto());
+    setGmailRespaldo(gmailPara(SOPORTE_EMAIL, asunto, texto()));
   };
 
   return (
@@ -68,7 +83,8 @@ export const SoporteForm: React.FC = () => {
         </div>
       </div>
 
-      <form onSubmit={porEmail} className="space-y-5">
+      {/* method="post" + noValidate: el envío es sólo por JS; así los datos nunca viajan en la URL. */}
+      <form method="post" noValidate onSubmit={porEmail} className="space-y-5" data-sin-asistente>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="soporte-nombre" className="block text-xs font-mono text-slate-300 mb-2">Tu Nombre o Negocio</label>
@@ -76,7 +92,18 @@ export const SoporteForm: React.FC = () => {
           </div>
           <div>
             <label htmlFor="soporte-email" className="block text-xs font-mono text-slate-300 mb-2">Tu E-mail de Contacto</label>
-            <input id="soporte-email" type="email" autoComplete="email" placeholder="nombre@negocio.com" value={datos.email} onChange={set('email')} className={campo} />
+            <input
+              id="soporte-email"
+              type="email"
+              autoComplete="email"
+              placeholder="nombre@negocio.com"
+              value={datos.email}
+              onChange={set('email')}
+              aria-invalid={errores.email ? true : undefined}
+              aria-describedby={errores.email ? 'soporte-email-error' : undefined}
+              className={conError(campo, errores.email)}
+            />
+            {errores.email && <p id="soporte-email-error" className="mt-1.5 text-xs text-rose-300">{errores.email}</p>}
           </div>
         </div>
 
@@ -98,9 +125,12 @@ export const SoporteForm: React.FC = () => {
             value={datos.mensaje}
             onChange={set('mensaje')}
             placeholder="Qué estabas haciendo, qué esperabas que pase y qué pasó. Si podés, mandá una captura después."
-            className={`${campo} leading-relaxed`}
+            aria-invalid={errores.mensaje ? true : undefined}
+            aria-describedby={errores.mensaje ? 'soporte-mensaje-error' : undefined}
+            className={`${conError(campo, errores.mensaje)} leading-relaxed`}
             required
           />
+          {errores.mensaje && <p id="soporte-mensaje-error" className="mt-1.5 text-xs text-rose-300">{errores.mensaje}</p>}
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2">
@@ -123,14 +153,19 @@ export const SoporteForm: React.FC = () => {
 
         <p className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
           <span>O escribí directo a</span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700/80 font-mono text-slate-300">
+          <a
+            href={mailtoLink(SOPORTE_EMAIL, 'Soporte técnico - tecnoros.ar', '')}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
+          >
             <Mail className="w-3.5 h-3.5 text-emerald-400" /> {SOPORTE_EMAIL}
-          </span>
+          </a>
+          <EnlaceGmail href={gmailPara(SOPORTE_EMAIL, 'Soporte técnico - tecnoros.ar', '')} texto="(abrir en Gmail)" />
         </p>
 
-        {enviado && (
-          <div className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono">
-            Se abrió Gmail en una pestaña nueva con tu mensaje listo para enviar a {SOPORTE_EMAIL}.
+        {gmailRespaldo && (
+          <div role="status" className="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>Se abrió tu programa de correo con el mensaje listo para enviar a {SOPORTE_EMAIL}.</span>
+            <EnlaceGmail href={gmailRespaldo} texto="¿No se abrió? Abrilo en Gmail" className="text-emerald-200" />
           </div>
         )}
       </form>

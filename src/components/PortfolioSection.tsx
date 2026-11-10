@@ -179,12 +179,12 @@ export const PortfolioSection: React.FC = () => {
             <Sparkles className="w-3.5 h-3.5" />
             <span>Proyectos</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Lo que{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               ya hicimos
             </span>
-          </h2>
+          </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
             Sistemas reales que reemplazan planillas y tareas a mano. Miralos funcionando.
           </p>
@@ -226,7 +226,7 @@ export const PortfolioSection: React.FC = () => {
               </div>
               <div>
                 <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded border tracking-wider ${activeProject.badgeColor}`}>
+                  <span className={`text-xs sm:text-[10px] font-mono uppercase px-2.5 py-0.5 rounded border tracking-wider ${activeProject.badgeColor}`}>
                     {activeProject.category}
                   </span>
                   {activeProject.demoUrl && (
@@ -273,7 +273,7 @@ export const PortfolioSection: React.FC = () => {
               >
                 Tu navegador no puede reproducir el video.
               </video>
-              <figcaption className="mt-2 text-center text-[11px] text-slate-500">Recorrido del sistema con datos ficticios.</figcaption>
+              <figcaption className="mt-2 text-center text-xs sm:text-[11px] text-slate-500">Recorrido del sistema con datos ficticios.</figcaption>
             </figure>
           )}
 

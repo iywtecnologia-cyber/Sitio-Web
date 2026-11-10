@@ -3,7 +3,7 @@ import { irA as irASeccion } from '../rutas';
 import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
-import { whatsappLink, gmailLink } from '../data/contact';
+import { whatsappLink, gmailLink, ventasMailto } from '../data/contact';
 import { responder, respuestaDeTema, esModificador, temasDeGrilla, hayProveedorIA, type Respuesta, type Tema, type Turno } from '../asistente';
 
 // Asistente guiado de tecnoros.ar. La inteligencia vive en src/asistente:
@@ -23,14 +23,16 @@ interface Mensaje {
   opciones?: boolean;
   /** Se calculan una sola vez al crear el mensaje: whatsappLink reparte al azar
    *  entre los dos números de ventas y no queremos que cambie en cada re-render. */
-  enlaces?: { wa: string; mail: string };
+  enlaces?: { wa: string; mail: string; gmail: string };
 }
 
 let siguienteId = 1;
 
+// mail: programa de correo de la persona (mailto:); gmail: respaldo para quien no tiene uno configurado.
 const enlacesDe = (tema: Tema) => ({
   wa: whatsappLink(tema.whatsapp),
-  mail: gmailLink('Consulta desde la web - tecnoros.ar', tema.whatsapp),
+  mail: ventasMailto('Consulta desde la web - tecnoros.ar', tema.whatsapp),
+  gmail: gmailLink('Consulta desde la web - tecnoros.ar', tema.whatsapp),
 });
 
 const mensajeDeRespuesta = (r: Respuesta): Mensaje => ({
@@ -245,6 +247,48 @@ export const Asistente: React.FC = () => {
     if (!abierto) delChat.setPos(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [abierto]);
+
+  // Marcio y su globo se corren cuando quedarían encima de un formulario o de un botón que
+  // convierte (marcados con data-sin-asistente): tapaban el campo de nombre en /contacto en el
+  // celular y el botón "Pedir presupuesto formal" en escritorio.
+  // Se calcula con la zona fija donde asoma Marcio y no con su caja: mientras está oculto no existe.
+  // Si la persona lo arrastró a otro lado, lo puso ahí a propósito y no se toca.
+  const [ocultoPorFormulario, setOcultoPorFormulario] = useState(false);
+  useEffect(() => {
+    if (pos) {
+      setOcultoPorFormulario(false);
+      return;
+    }
+    let cuadro = 0;
+    // El ticket del presupuesto crece (con animación) al marcar servicios sin que haya scroll:
+    // por eso además de scroll/resize se observa el tamaño de cada zona marcada y del body (cambio de página).
+    const observador = new ResizeObserver(() => revisar());
+    observador.observe(document.body);
+    const revisar = () => {
+      cancelAnimationFrame(cuadro);
+      cuadro = requestAnimationFrame(() => {
+        const ancho = window.innerWidth;
+        const alto = window.innerHeight;
+        // Mismas medidas que el contenedor de abajo: right-0, bottom-36 (sm: bottom-44), globo de 180 px + Marcio.
+        const abajo = alto - (ancho >= 640 ? 176 : 144);
+        const zona = { izq: ancho - 330, der: ancho, arriba: abajo - 160, abajo };
+        const tapa = Array.from(document.querySelectorAll('[data-sin-asistente]')).some((el) => {
+          observador.observe(el); // observar dos veces el mismo elemento no hace nada
+          const r = el.getBoundingClientRect();
+          return r.height > 0 && r.left < zona.der && r.right > zona.izq && r.top < zona.abajo && r.bottom > zona.arriba;
+        });
+        setOcultoPorFormulario(tapa);
+      });
+    };
+    revisar();
+    const eventos = ['scroll', 'resize', 'popstate', 'cambio-de-ruta'];
+    eventos.forEach((ev) => window.addEventListener(ev, revisar, { passive: true }));
+    return () => {
+      cancelAnimationFrame(cuadro);
+      observador.disconnect();
+      eventos.forEach((ev) => window.removeEventListener(ev, revisar));
+    };
+  }, [pos]);
   // El globo va del lado donde hay más lugar.
   const globoALaDerecha = pos !== null && pos.x < window.innerWidth / 2;
   const [texto, setTexto] = useState('');
@@ -459,12 +503,18 @@ export const Asistente: React.FC = () => {
                     </a>
                     <a
                       href={m.enlaces.mail}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       E-mail
+                    </a>
+                    <a
+                      href={m.enlaces.gmail}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-600 hover:border-cyan-400 text-slate-200 hover:text-white text-xs font-semibold transition-colors"
+                    >
+                      Gmail
                     </a>
                     {m.tema.seccion && m.tema.id !== 'persona' && (
                       <button
@@ -565,7 +615,7 @@ export const Asistente: React.FC = () => {
               <Send className="w-4 h-4" />
             </button>
           </form>
-          <div className="px-4 pb-2.5 text-[11px] text-slate-500">
+          <div className="px-4 pb-2.5 text-xs sm:text-[11px] text-slate-500">
             {hayProveedorIA()
               ? 'Asistente automático · algunas respuestas usan IA de Google · no compartas datos personales'
               : 'Asistente automático · no guardamos tus mensajes'}
@@ -574,7 +624,7 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && (
+      {!abierto && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && !ocultoPorFormulario && (
         <div
           ref={(el) => {
             contRef.current = el;

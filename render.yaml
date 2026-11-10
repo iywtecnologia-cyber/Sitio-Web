@@ -1,14 +1,42 @@
+# OJO: hoy el servicio de Render NO está vinculado a este Blueprint (producción ignora este archivo:
+# ni el rewrite ni el Cache-Control de abajo se aplicaban). Las cabeceras de seguridad hay que
+# cargarlas a mano en Cloudflare (Rules > Transform Rules > Modify Response Header) o en el
+# dashboard de Render (Settings > Headers) con estos mismos valores. Este archivo queda como
+# fuente de verdad documentada y se aplica solo si se vincula el Blueprint.
+#
+# Las rutas ya no necesitan rewrite: el build genera un HTML por página (scripts/generar-paginas.ts)
+# y cualquier otra dirección cae en 404.html con código 404.
 services:
   - type: web
     name: tecnoros-ar
     runtime: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
     headers:
       - path: /*
         name: Cache-Control
         value: public, max-age=0, must-revalidate
+      # Sólo HTTPS durante un año, también en subdominios (todos los de tecnoros.ar ya van por Cloudflare con HTTPS).
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=31536000; includeSubDomains
+      # Nadie puede meter el sitio en un iframe (clickjacking). frame-ancestors en la CSP hace lo mismo
+      # en navegadores nuevos; X-Frame-Options cubre los viejos.
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: Permissions-Policy
+        value: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+      # Lo único externo que se carga son las fuentes de Google; lo demás (WhatsApp, Gmail, LinkedIn…)
+      # son links, no recursos. style 'unsafe-inline' hace falta por los style={} de React y del visor 3D.
+      # Activarla primero como Content-Security-Policy-Report-Only y revisar la consola en /robotica y /productos.
+      - path: /*
+        name: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self' blob:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"

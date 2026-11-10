@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Mail, MessageCircle, RotateCcw, X } from 'lucide-react';
-import { SOPORTE_EMAIL, whatsappLink } from '../data/contact';
+import { SOPORTE_EMAIL, whatsappLink, gmailPara, mailtoLink } from '../data/contact';
+import { emailValido, MENSAJE_EMAIL_INVALIDO } from '../validacion';
+
+const ENFOCABLES = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 // Botón de arrepentimiento (Ley 24.240 art. 34 y Res. 424/2020) y botón de baja (Res. 316/2018).
 // Se abre desde cualquier link a "#arrepentimiento" o "#baja". No pide registrarse:
@@ -18,9 +21,27 @@ export const Arrepentimiento: React.FC = () => {
   const [tipo, setTipo] = useState<Tipo | null>(null);
   const [datos, setDatos] = useState({ nombre: '', email: '', telefono: '', servicio: '', fecha: '', comentario: '' });
   const [enviado, setEnviado] = useState(false);
+  // El e-mail se marca como inválido recién al salir del campo: mientras escribe, "juan@" es normal.
+  const [emailTocado, setEmailTocado] = useState(false);
+  const dialogo = useRef<HTMLDivElement>(null);
+  const primerCampo = useRef<HTMLInputElement>(null);
+  // Quién abrió el modal, para devolverle el foco al cerrar (si no, quien navega con teclado
+  // o lector de pantalla vuelve al principio de la página).
+  const disparador = useRef<HTMLElement | null>(null);
+  const abierto = tipo !== null;
 
   useEffect(() => {
-    const leer = () => setTipo(HASHES[window.location.hash] ?? null);
+    const leer = () => {
+      const nuevo = HASHES[window.location.hash] ?? null;
+      // Se guarda sólo al abrir: cambiar entre "Me arrepentí" y "Dar de baja" también cambia el hash.
+      setTipo((previo) => {
+        if (!previo && nuevo) {
+          const activo = document.activeElement;
+          disparador.current = activo instanceof HTMLElement && activo !== document.body ? activo : null;
+        }
+        return nuevo;
+      });
+    };
     leer();
     window.addEventListener('hashchange', leer);
     return () => window.removeEventListener('hashchange', leer);
@@ -33,6 +54,33 @@ export const Arrepentimiento: React.FC = () => {
     window.addEventListener('keydown', esc);
     return () => window.removeEventListener('keydown', esc);
   }, [tipo]);
+
+  // Al abrir, el foco entra al primer campo. Al cerrar, vuelve a quien lo abrió.
+  useEffect(() => {
+    if (!abierto) return;
+    primerCampo.current?.focus();
+    return () => {
+      const d = disparador.current;
+      if (d && d.isConnected) d.focus();
+      disparador.current = null;
+    };
+  }, [abierto]);
+
+  // Tab y Shift+Tab no salen del modal mientras está abierto (aria-modal solo no lo impide).
+  const atraparTab = (e: React.KeyboardEvent) => {
+    if (e.key !== 'Tab' || !dialogo.current) return;
+    const enfocables = Array.from(dialogo.current.querySelectorAll<HTMLElement>(ENFOCABLES));
+    if (enfocables.length === 0) return;
+    const primero = enfocables[0];
+    const ultimo = enfocables[enfocables.length - 1];
+    if (e.shiftKey && document.activeElement === primero) {
+      e.preventDefault();
+      ultimo.focus();
+    } else if (!e.shiftKey && document.activeElement === ultimo) {
+      e.preventDefault();
+      primero.focus();
+    }
+  };
 
   const cerrar = () => {
     history.replaceState(null, '', window.location.pathname + window.location.search);
@@ -60,9 +108,20 @@ export const Arrepentimiento: React.FC = () => {
     .filter((l, i, a) => l !== '' || a[i - 1] !== '')
     .join('\n');
 
-  const completo = datos.nombre.trim() && datos.email.includes('@') && datos.servicio.trim();
-  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(SOPORTE_EMAIL)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
-  const mailto = `mailto:${SOPORTE_EMAIL}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+  // Antes alcanzaba con que el e-mail tuviera "@" y el aviso era siempre el mismo genérico;
+  // ahora se dice exactamente qué falta o qué está mal.
+  const emailMal = datos.email.trim() !== '' && !emailValido(datos.email);
+  const errorEmail = emailTocado && emailMal ? MENSAJE_EMAIL_INVALIDO : '';
+  const faltan = [!datos.nombre.trim() && 'nombre', !datos.email.trim() && 'e-mail', !datos.servicio.trim() && 'servicio contratado'].filter(Boolean) as string[];
+  const completo = faltan.length === 0 && !emailMal;
+  const aviso = faltan.length
+    ? `Para enviar, completá: ${faltan.join(', ').replace(/, ([^,]*)$/, ' y $1')}.`
+    : emailMal
+      ? 'Revisá el e-mail para poder enviar.'
+      : '';
+  // mailto: primero (el programa de correo de cada uno); Gmail web queda como alternativa.
+  const gmail = gmailPara(SOPORTE_EMAIL, asunto, cuerpo);
+  const mailto = mailtoLink(SOPORTE_EMAIL, asunto, cuerpo);
 
   const campo = 'w-full rounded-lg bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:outline-none px-3 py-2.5 text-sm text-white placeholder:text-slate-500';
   const set = (k: keyof typeof datos) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDatos({ ...datos, [k]: e.target.value });
@@ -70,6 +129,8 @@ export const Arrepentimiento: React.FC = () => {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-sm" onClick={cerrar}>
       <div
+        ref={dialogo}
+        onKeyDown={atraparTab}
         role="dialog"
         aria-modal="true"
         aria-labelledby="arrep-titulo"
@@ -108,12 +169,23 @@ export const Arrepentimiento: React.FC = () => {
           No hace falta registrarte. <b className="text-white">Te enviamos un código de trámite dentro de las 24 horas.</b>
         </p>
 
-        <form className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3" onSubmit={(e) => e.preventDefault()}>
+        <form method="post" noValidate className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3" onSubmit={(e) => e.preventDefault()}>
           <label className="sm:col-span-2 text-xs text-slate-400">Nombre o empresa *
-            <input className={`${campo} mt-1`} value={datos.nombre} onChange={set('nombre')} autoComplete="name" required />
+            <input ref={primerCampo} className={`${campo} mt-1`} value={datos.nombre} onChange={set('nombre')} autoComplete="name" required />
           </label>
           <label className="text-xs text-slate-400">Email *
-            <input className={`${campo} mt-1`} type="email" value={datos.email} onChange={set('email')} autoComplete="email" required />
+            <input
+              className={`${errorEmail ? campo.replace('border-slate-700', 'border-rose-500') : campo} mt-1`}
+              type="email"
+              value={datos.email}
+              onChange={set('email')}
+              onBlur={() => setEmailTocado(true)}
+              autoComplete="email"
+              required
+              aria-invalid={errorEmail ? true : undefined}
+              aria-describedby={errorEmail ? 'arrep-email-error' : undefined}
+            />
+            {errorEmail && <span id="arrep-email-error" className="block mt-1 text-xs text-rose-300">{errorEmail}</span>}
           </label>
           <label className="text-xs text-slate-400">Teléfono
             <input className={`${campo} mt-1`} type="tel" value={datos.telefono} onChange={set('telefono')} autoComplete="tel" />
@@ -130,9 +202,7 @@ export const Arrepentimiento: React.FC = () => {
 
           <div className="sm:col-span-2 mt-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <a
-              href={completo ? gmail : undefined}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={completo ? mailto : undefined}
               aria-disabled={!completo}
               onClick={(e) => (completo ? setEnviado(true) : e.preventDefault())}
               className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm ${completo ? 'bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 cursor-pointer' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
@@ -150,10 +220,11 @@ export const Arrepentimiento: React.FC = () => {
               <MessageCircle className="w-4 h-4" /> Enviar por WhatsApp
             </a>
           </div>
-          {!completo && <p className="sm:col-span-2 text-xs text-slate-500">Completá nombre, email y servicio para enviar.</p>}
+          {!completo && <p className="sm:col-span-2 text-xs text-slate-400" aria-live="polite">{aviso}</p>}
           {completo && (
             <p className="sm:col-span-2 text-xs text-slate-400">
-              ¿No usás Gmail? <a href={mailto} className="text-cyan-300 underline">Abrí tu programa de correo</a> o escribí directo a {SOPORTE_EMAIL}.
+              ¿No se abrió tu programa de correo?{' '}
+              <a href={gmail} target="_blank" rel="noopener noreferrer" onClick={() => setEnviado(true)} className="text-cyan-300 underline">Abrilo en Gmail</a> o escribí directo a {SOPORTE_EMAIL}.
             </p>
           )}
           {enviado && (

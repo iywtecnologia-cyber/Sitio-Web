@@ -1,63 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.tecnoros.ar/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/servicios</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/servicios</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/productos</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/productos</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/robotica</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/robotica</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/presupuesto</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/presupuesto</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/tecnologias</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/tecnologias</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/nosotros</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/nosotros</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/proyectos</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/proyectos</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/contacto</loc>
-    <lastmod>2026-10-26</lastmod>
+    <loc>https://tecnoros.ar/contacto</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.tecnoros.ar/blog</loc>
-    <lastmod>2026-10-27</lastmod>
+    <loc>https://tecnoros.ar/blog</loc>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tecnoros.ar/encuentros</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
