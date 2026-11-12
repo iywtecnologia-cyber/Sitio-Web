@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { irA as irASeccion } from '../rutas';
-import { X, Send, MessageCircle, ArrowRight, Mail } from 'lucide-react';
+import { X, Send, MessageCircle, ArrowRight, Mail, LifeBuoy, MonitorUp } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
-import { whatsappLink, gmailLink, ventasMailto } from '../data/contact';
-import { responder, respuestaDeTema, esModificador, temasDeGrilla, hayProveedorIA, type Respuesta, type Tema, type Turno } from '../asistente';
+import { whatsappLink, gmailLink, ventasMailto, soporteWhatsappLink, mailtoLink, gmailPara, SOPORTE_EMAIL } from '../data/contact';
+import { responder, respuestaDeTema, esModificador, temasDeGrilla, temaPorId, hayProveedorIA, type Respuesta, type Tema, type Turno } from '../asistente';
 
 // Asistente guiado de tecnoros.ar. La inteligencia vive en src/asistente:
 // hoy responde con la base de conocimiento local (sin IA ni servicios externos) y
@@ -29,11 +30,18 @@ interface Mensaje {
 let siguienteId = 1;
 
 // mail: programa de correo de la persona (mailto:); gmail: respaldo para quien no tiene uno configurado.
-const enlacesDe = (tema: Tema) => ({
+const enlacesDe = (tema: Tema) =>
+  tema.canal === 'soporte'
+    ? {
+        wa: soporteWhatsappLink(tema.whatsapp),
+        mail: mailtoLink(SOPORTE_EMAIL, 'Soporte técnico - tecnoros.ar', tema.whatsapp),
+        gmail: gmailPara(SOPORTE_EMAIL, 'Soporte técnico - tecnoros.ar', tema.whatsapp),
+      }
+    : {
   wa: whatsappLink(tema.whatsapp),
   mail: ventasMailto('Consulta desde la web - tecnoros.ar', tema.whatsapp),
   gmail: gmailLink('Consulta desde la web - tecnoros.ar', tema.whatsapp),
-});
+      };
 
 const mensajeDeRespuesta = (r: Respuesta): Mensaje => ({
   id: siguienteId++,
@@ -79,14 +87,64 @@ const TextoDelBot: React.FC<{ texto: string }> = ({ texto }) => (
   </>
 );
 
+// "¡Oing!": un resorte corto hecho con Web Audio (sin archivos). Suena sólo cuando la persona
+// lo estrella contra un borde mientras lo arrastra, nunca solo.
+let audioCtx: AudioContext | null = null;
+const sonarOing = () => {
+  try {
+    const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AC) return;
+    audioCtx = audioCtx ?? new AC();
+    const ctx = audioCtx;
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const vib = ctx.createOscillator();
+    const vibGain = ctx.createGain();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(520, t);
+    osc.frequency.exponentialRampToValueAtTime(170, t + 0.35);
+    vib.frequency.value = 22; // el "temblor" del resorte
+    vibGain.gain.setValueAtTime(60, t);
+    vibGain.gain.exponentialRampToValueAtTime(1, t + 0.4);
+    vib.connect(vibGain).connect(osc.frequency);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.12, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.42);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t);
+    vib.start(t);
+    osc.stop(t + 0.45);
+    vib.stop(t + 0.45);
+  } catch {
+    /* sin audio: queda el globo "¡Oing!" */
+  }
+};
+
+type Lado = 'izq' | 'der' | 'arriba' | 'abajo';
+
+interface OpcionesArrastre {
+  alTocar: () => void;
+  /** Cada vez que se agarra (clic o arrastre): sirve para contar cuánto hace que lo están manoseando. */
+  alAgarrar?: () => void;
+  /** Se estrelló contra un borde de la pantalla. */
+  alChocar?: (lado: Lado) => void;
+  /** Lo soltaron afuera de la ventana: la persona lo quiere llevar a otra pantalla. */
+  alSacarDeLaVentana?: (lado: Lado) => void;
+}
+
 // Arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
 // Si se mueve menos de 6px cuenta como clic.
 // Cuando se suelta, después de 5 segundos de inactividad, Marcio regresa a su origen.
-const useArrastre = (alTocar: () => void) => {
+const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: OpcionesArrastre) => {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   // Mientras lo tenés apretado, Marcio se "levanta" para que se note que lo agarraste.
   const [agarrado, setAgarrado] = useState(false);
   const [retornando, setRetornando] = useState(false);
+  // Contra qué borde está apoyado ahora (para no repetir "¡Oing!" mientras sigue empujando).
+  const pegado = useRef<Lado | null>(null);
+  // El puntero salió de la ventana (con el botón apretado el navegador sigue informando la posición).
+  const [afuera, setAfuera] = useState<Lado | null>(null);
   const retornoTimer = useRef<number | null>(null);
   const ref = useRef<HTMLElement | null>(null);
   const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
@@ -118,6 +176,18 @@ const useArrastre = (alTocar: () => void) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const programarRetorno = () => {
+    // Al moverse, tras unos segundos de descanso Marcio regresa automáticamente a su lugar de origen
+    cancelarRetorno();
+    retornoTimer.current = window.setTimeout(() => {
+      setRetornando(true);
+      retornoTimer.current = window.setTimeout(() => {
+        setPos(null);
+        setRetornando(false);
+      }, 850);
+    }, 5000);
+  };
+
   const handlers = {
     onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
       cancelarRetorno();
@@ -125,38 +195,73 @@ const useArrastre = (alTocar: () => void) => {
       const r = ref.current?.getBoundingClientRect();
       if (!r) return;
       arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
+      pegado.current = null;
       e.currentTarget.setPointerCapture(e.pointerId);
       setAgarrado(true);
+      alAgarrar?.();
     },
     onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
       const a = arrastre.current;
       if (!a) return;
       if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
       a.movio = true;
-      setPos(limitar(e.clientX - a.dx, e.clientY - a.dy));
+      const deseado = { x: e.clientX - a.dx, y: e.clientY - a.dy };
+      const limitado = limitar(deseado.x, deseado.y);
+      setPos(limitado);
+
+      // ¿Contra qué pared lo está empujando?
+      const lado: Lado | null =
+        deseado.x < limitado.x - 1 ? 'izq'
+          : deseado.x > limitado.x + 1 ? 'der'
+          : deseado.y < limitado.y - 1 ? 'arriba'
+          : deseado.y > limitado.y + 1 ? 'abajo'
+          : null;
+      if (lado && pegado.current !== lado) alChocar?.(lado);
+      pegado.current = lado;
+
+      // ¿El puntero ya está fuera de la ventana? (sólo con mouse: con el dedo no se puede salir)
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const fuera: Lado | null =
+        e.pointerType !== 'mouse' ? null
+          : e.clientX < -8 ? 'izq'
+          : e.clientX > W + 8 ? 'der'
+          : e.clientY < -8 ? 'arriba'
+          : e.clientY > H + 8 ? 'abajo'
+          : null;
+      setAfuera((f) => (f === fuera ? f : fuera));
     },
-    onPointerUp: () => {
+    onPointerUp: (e: React.PointerEvent<HTMLElement>) => {
       const a = arrastre.current;
       arrastre.current = null;
       setAgarrado(false);
+      pegado.current = null;
       if (a && !a.movio) {
         alTocar();
         return;
       }
       if (a && a.movio) {
-        // Al moverse, tras unos segundos de descanso Marcio regresa automáticamente a su lugar de origen
-        cancelarRetorno();
-        retornoTimer.current = window.setTimeout(() => {
-          setRetornando(true);
-          retornoTimer.current = window.setTimeout(() => {
-            setPos(null);
-            setRetornando(false);
-          }, 850);
-        }, 5000);
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const fuera: Lado | null =
+          e.pointerType !== 'mouse' ? null
+            : e.clientX < -8 ? 'izq'
+            : e.clientX > W + 8 ? 'der'
+            : e.clientY < -8 ? 'arriba'
+            : e.clientY > H + 8 ? 'abajo'
+            : null;
+        setAfuera(null);
+        if (fuera && alSacarDeLaVentana) {
+          alSacarDeLaVentana(fuera);
+          return;
+        }
+        programarRetorno();
       }
     },
     onPointerCancel: () => {
       arrastre.current = null;
+      pegado.current = null;
+      setAfuera(null);
       setAgarrado(false);
     },
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
@@ -166,25 +271,98 @@ const useArrastre = (alTocar: () => void) => {
       }
     },
   };
-  return { pos, setPos, ref, handlers, agarrado, retornando };
+  return { pos, setPos, ref, handlers, agarrado, retornando, afuera };
 };
+
+// ── Marcio en otra pantalla ────────────────────────────────────────────────
+// Una página web no puede sacar un elemento de su ventana, así que cuando lo soltás afuera
+// (o tocás "Llevame a otra pantalla") Marcio se muda a una ventanita propia, siempre visible
+// (Document Picture-in-Picture en Chrome/Edge; una ventana emergente chica en el resto), que
+// se puede arrastrar a cualquier monitor.
+type VentanaMarcio = Window;
+
+const copiarEstilos = (destino: Document) => {
+  document.querySelectorAll('style, link[rel="stylesheet"]').forEach((n) => {
+    destino.head.appendChild(n.cloneNode(true));
+  });
+};
+
+const abrirVentanaMarcio = async (lado: Lado | null): Promise<VentanaMarcio | null> => {
+  const ancho = 260;
+  const alto = 330;
+  const dpip = (window as unknown as { documentPictureInPicture?: { requestWindow: (o: { width: number; height: number }) => Promise<Window> } }).documentPictureInPicture;
+  let win: Window | null = null;
+  if (dpip) {
+    try {
+      win = await dpip.requestWindow({ width: ancho, height: alto });
+    } catch {
+      win = null;
+    }
+  }
+  if (!win) {
+    // Se ubica del lado por el que salió, pegada al borde de esta ventana.
+    const x = lado === 'izq' ? window.screenX - ancho : lado === 'der' ? window.screenX + window.outerWidth : window.screenX + window.outerWidth - ancho - 40;
+    const y = lado === 'arriba' ? window.screenY - alto : lado === 'abajo' ? window.screenY + window.outerHeight : window.screenY + 120;
+    win = window.open('', 'marcio-tecnoros', `popup=yes,width=${ancho},height=${alto},left=${Math.round(x)},top=${Math.round(y)}`);
+    if (!win) return null;
+    win.document.open();
+    win.document.write('<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Marcio · tecnoros.ar</title></head><body></body></html>');
+    win.document.close();
+  }
+  win.document.title = 'Marcio · tecnoros.ar';
+  copiarEstilos(win.document);
+  const b = win.document.body;
+  b.style.margin = '0';
+  b.style.background = '#0B1120';
+  b.style.overflow = 'hidden';
+  return win;
+};
+
+const KEYFRAMES = `
+  @keyframes marcio-giro { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes marcio-voltereta { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-40px) rotate(-180deg); } 100% { transform: translateY(0) rotate(-360deg); } }
+  @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
+  @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
+  @keyframes marcio-mareo { 0%,100% { transform: rotate(0deg) translateX(0); } 20% { transform: rotate(-14deg) translateX(-6px); } 40% { transform: rotate(12deg) translateX(6px); } 60% { transform: rotate(-8deg) translateX(-3px); } 80% { transform: rotate(6deg) translateX(2px); } }
+  @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
+  @keyframes marcio-globo { from { transform: translate(-50%, 8px) scale(.6); opacity: 0; } to { transform: translate(-50%, 0) scale(1); opacity: 1; } }
+  @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+  @keyframes marcio-puntito { 0%,60%,100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
+  @keyframes marcio-oing-izq { 0%,100% { transform: scale(1,1); } 30% { transform: scale(.72,1.18) translateX(-6px); } 60% { transform: scale(1.1,.94); } }
+  @keyframes marcio-oing-der { 0%,100% { transform: scale(1,1); } 30% { transform: scale(.72,1.18) translateX(6px); } 60% { transform: scale(1.1,.94); } }
+  @keyframes marcio-oing-arriba { 0%,100% { transform: scale(1,1); } 30% { transform: scale(1.18,.72) translateY(-6px); } 60% { transform: scale(.94,1.1); } }
+  @keyframes marcio-oing-abajo { 0%,100% { transform: scale(1,1); } 30% { transform: scale(1.18,.72) translateY(6px); } 60% { transform: scale(.94,1.1); } }
+  @keyframes soporte-asoma { 0% { transform: translateX(120%); } 70% { transform: translateX(-6%); } 100% { transform: translateX(0); } }
+`;
+
+// Tras 1 minuto seguido de clics y arrastres (sin pausas de más de 15 s), Marcio pide que lo suelten.
+const JUEGO_MAX_MS = 60_000;
+const PAUSA_JUEGO_MS = 15_000;
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
   // Marcio asoma desde el costado de la pantalla unos segundos después de entrar.
   const [marcioVisible, setMarcioVisible] = useState(false);
-  // Si la persona cierra el chat o el globo, Marcio no vuelve a aparecer solo (en esta visita):
-  // vuelve únicamente si ella toca el botón del asistente.
+  // Si la persona cierra a Marcio con la X del globo, no vuelve a aparecer solo (en esta visita).
+  // Vuelve cuando ella abre el asistente, y desde ahí se queda en la web aunque después cierre el chat.
   const [marcioOculto, setMarcioOcultoEstado] = useState(() => {
     try { return sessionStorage.getItem('marcio_oculto') === '1'; } catch { return false; }
   });
   const setMarcioOculto = (v: boolean) => {
     setMarcioOcultoEstado(v);
-    try { if (v) sessionStorage.setItem('marcio_oculto', '1'); } catch { /* sin almacenamiento: queda oculto en esta pantalla */ }
+    try {
+      if (v) sessionStorage.setItem('marcio_oculto', '1');
+      else sessionStorage.removeItem('marcio_oculto');
+    } catch { /* sin almacenamiento: vale para esta pantalla */ }
   };
+  const abrirChat = () => {
+    setAbierto(true);
+    setMarcioOculto(false);
+    setMarcioVisible(true);
+  };
+  // Cerrar el chat no esconde a Marcio: vuelve a su lugar al costado.
   const cerrarChat = () => {
     setAbierto(false);
-    setMarcioOculto(true);
   };
   const [ocultoPor3D, setOcultoPor3D] = useState(false);
   const [ocultoPorDemo, setOcultoPorDemo] = useState(false);
@@ -230,17 +408,96 @@ export const Asistente: React.FC = () => {
     return () => window.clearTimeout(id);
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
-  const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆'];
+  const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆', 'Podés llevarme a otra pantalla 🖥️'];
+  const FRASES_CANSADO = ['¡Ya soltame! 😵‍💫', '¡Basta, que me mareo! 😵', '¡Ya está, soltame un rato! 🥴'];
+
+  // Cuánto hace que lo están tocando y arrastrando sin parar.
+  const juego = useRef({ desde: 0, ultimo: 0 });
+  const [cansado, setCansado] = useState(false);
+  const cansadoTimer = useRef<number | null>(null);
+  const registrarJuego = () => {
+    const ahora = Date.now();
+    const j = juego.current;
+    if (!j.ultimo || ahora - j.ultimo > PAUSA_JUEGO_MS) j.desde = ahora;
+    j.ultimo = ahora;
+    const harto = ahora - j.desde >= JUEGO_MAX_MS;
+    setCansado(harto);
+    if (harto) setFrase(FRASES_CANSADO[Math.floor(Math.random() * FRASES_CANSADO.length)]);
+    // Si lo dejan descansar, se le pasa.
+    if (cansadoTimer.current) window.clearTimeout(cansadoTimer.current);
+    cansadoTimer.current = window.setTimeout(() => {
+      setCansado(false);
+      setFrase('¡Gracias por soltarme! 😌 ¿Te ayudo?');
+    }, PAUSA_JUEGO_MS);
+  };
+  useEffect(() => () => { if (cansadoTimer.current) window.clearTimeout(cansadoTimer.current); }, []);
+
   const hacerTruco = () => {
+    if (juego.current.ultimo && Date.now() - juego.current.desde >= JUEGO_MAX_MS) {
+      // Harto: en vez de un truco, se marea.
+      setTruco((t) => ({ nombre: 'marcio-mareo', n: t.n + 1 }));
+      return;
+    }
     setTruco((t) => ({ nombre: TRUCOS[t.n % TRUCOS.length], n: t.n + 1 }));
     setFrase((f) => {
       const otras = FRASES.filter((x) => x !== f);
       return otras[Math.floor(Math.random() * otras.length)];
     });
   };
+
+  // "¡Oing!" cuando se estrella contra un borde de la pantalla.
+  const [oing, setOing] = useState<{ lado: Lado; n: number } | null>(null);
+  const oingTimer = useRef<number | null>(null);
+  const chocar = (lado: Lado) => {
+    sonarOing();
+    setOing((o) => ({ lado, n: (o?.n ?? 0) + 1 }));
+    if (oingTimer.current) window.clearTimeout(oingTimer.current);
+    oingTimer.current = window.setTimeout(() => setOing(null), 750);
+  };
+  useEffect(() => () => { if (oingTimer.current) window.clearTimeout(oingTimer.current); }, []);
+
+  // Marcio en su propia ventanita, para llevarlo a otro monitor.
+  const [ventana, setVentana] = useState<VentanaMarcio | null>(null);
+  const [avisoVentana, setAvisoVentana] = useState('');
+  const llevarAOtraPantalla = async (lado: Lado | null = null) => {
+    if (ventana && !ventana.closed) {
+      ventana.focus();
+      return;
+    }
+    const w = await abrirVentanaMarcio(lado);
+    if (!w) {
+      // El navegador bloqueó la ventana (por ejemplo, si el arrastre duró mucho).
+      setFrase('Para llevarme a otra pantalla tocá «🖥️ Otra pantalla» 👇');
+      setAvisoVentana('bloqueada');
+      return;
+    }
+    setAvisoVentana('');
+    w.addEventListener('pagehide', () => setVentana(null));
+    setVentana(w);
+  };
+  const volverDeLaVentana = () => {
+    if (ventana && !ventana.closed) ventana.close();
+    setVentana(null);
+  };
+  useEffect(() => {
+    if (!ventana) return;
+    // Por si la ventana se cierra sin avisar (algunas emergentes no disparan pagehide).
+    const id = window.setInterval(() => { if (ventana.closed) setVentana(null); }, 800);
+    return () => window.clearInterval(id);
+  }, [ventana]);
+  useEffect(() => () => { if (ventana && !ventana.closed) ventana.close(); }, [ventana]);
+
   // Marcio se puede arrastrar (mouse o dedo), tanto el del costado como el que sale del chat.
-  const lateral = useArrastre(hacerTruco);
-  const delChat = useArrastre(hacerTruco);
+  const lateral = useArrastre({
+    alTocar: hacerTruco,
+    alAgarrar: registrarJuego,
+    alChocar: chocar,
+    alSacarDeLaVentana: (lado) => {
+      lateral.setPos(null);
+      void llevarAOtraPantalla(lado);
+    },
+  });
+  const delChat = useArrastre({ alTocar: hacerTruco, alAgarrar: registrarJuego, alChocar: chocar });
   const pos = lateral.pos;
   const contRef = lateral.ref;
   useEffect(() => {
@@ -269,8 +526,8 @@ export const Asistente: React.FC = () => {
       cuadro = requestAnimationFrame(() => {
         const ancho = window.innerWidth;
         const alto = window.innerHeight;
-        // Mismas medidas que el contenedor de abajo: right-0, bottom-36 (sm: bottom-44), globo de 180 px + Marcio.
-        const abajo = alto - (ancho >= 640 ? 176 : 144);
+        // Mismas medidas que el contenedor de abajo: right-0, bottom-40 (sm: bottom-56), globo de 180 px + Marcio.
+        const abajo = alto - (ancho >= 640 ? 224 : 160);
         const zona = { izq: ancho - 330, der: ancho, arriba: abajo - 160, abajo };
         const tapa = Array.from(document.querySelectorAll('[data-sin-asistente]')).some((el) => {
           observador.observe(el); // observar dos veces el mismo elemento no hace nada
@@ -401,22 +658,20 @@ export const Asistente: React.FC = () => {
     setMensajes((m) => [...m, { id: siguienteId++, de: 'bot', texto: '¿Sobre qué más te puedo contar?', opciones: true }]);
   };
 
+  // Botón flotante de soporte técnico: abre el chat directo en soporte.
+  const pedirSoporte = () => {
+    abrirChat();
+    const tema = temaPorId('soporte-tecnico');
+    if (tema) void preguntar(tema.boton.replace(/^\W+\s*/u, ''), tema);
+  };
+
   // Lo último que dijo Marcio, para que el lector de pantalla anuncie sólo eso
   // y no relea toda la conversación cada vez que llega un mensaje.
   const ultimoDelBot = [...mensajes].reverse().find((m) => m.de === 'bot');
 
   return (
     <>
-      <style>{`
-            @keyframes marcio-giro { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-            @keyframes marcio-voltereta { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-40px) rotate(-180deg); } 100% { transform: translateY(0) rotate(-360deg); } }
-            @keyframes marcio-salto { 0%,100% { transform: translateY(0) scale(1); } 30% { transform: translateY(-36px) scale(1.05, .95); } 60% { transform: translateY(0) scale(1.1, .9); } }
-            @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
-            @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
-            @keyframes marcio-globo { from { transform: translate(-50%, 8px) scale(.6); opacity: 0; } to { transform: translate(-50%, 0) scale(1); opacity: 1; } }
-            @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
-            @keyframes marcio-puntito { 0%,60%,100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
-      `}</style>
+      <style>{KEYFRAMES}</style>
       {abierto && (
         <div
           role="dialog"
@@ -435,23 +690,32 @@ export const Asistente: React.FC = () => {
             className={`${teclado ? 'hidden' : ''} ${delChat.pos ? 'fixed' : 'absolute -top-[5.75rem] right-2 sm:right-auto sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
-            {delChat.agarrado && (
+            {(delChat.agarrado || oing) && (
               <span
+                key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-white text-slate-900 px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+                className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
+                  oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
+                }`}
               >
-                ¡Wiii, me llevás! 🚀
+                {oing ? '¡Oing! 💥' : cansado ? '¡Ya soltame! 😵‍💫' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             <span
               className={`block transition-transform duration-200 ease-out ${delChat.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
             >
               <span
+                key={oing ? `aplastado-${oing.n}` : 'normal'}
+                className="block motion-reduce:!animate-none"
+                style={oing ? { animation: `marcio-oing-${oing.lado} 0.45s ease-out` } : undefined}
+              >
+              <span
                 key={truco.n}
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
                 <Marcianito className="w-[4.5rem] h-[5.25rem] sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+              </span>
               </span>
             </span>
           </button>
@@ -624,7 +888,7 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && !ocultoPorFormulario && (
+      {!abierto && !ventana && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && !ocultoPorFormulario && (
         <div
           ref={(el) => {
             contRef.current = el;
@@ -632,7 +896,7 @@ export const Asistente: React.FC = () => {
           className={`fixed z-[70] flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             lateral.retornando ? 'transition-all duration-700 ease-out' : ''
           } ${
-            pos ? '' : `right-0 bottom-36 sm:bottom-44 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
+            pos ? '' : `right-0 bottom-40 sm:bottom-56 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
@@ -646,9 +910,17 @@ export const Asistente: React.FC = () => {
             >
               <X className="w-3.5 h-3.5" />
             </button>
-            <button type="button" onClick={() => setAbierto(true)} className="text-left cursor-pointer">
+            <button type="button" onClick={abrirChat} className="text-left cursor-pointer">
               {frase}
               <span className="block mt-1 text-xs font-bold text-cyan-700">Abrir chat →</span>
+            </button>
+            {/* Sólo en compu: con el dedo no hay otra pantalla adonde llevarlo. */}
+            <button
+              type="button"
+              onClick={() => void llevarAOtraPantalla(null)}
+              className={`hidden sm:flex mt-1.5 items-center gap-1 text-xs font-bold cursor-pointer ${avisoVentana ? 'text-violet-700 underline' : 'text-slate-500 hover:text-violet-700'}`}
+            >
+              <MonitorUp className="w-3.5 h-3.5" /> Otra pantalla
             </button>
           </div>
           <button
@@ -657,12 +929,15 @@ export const Asistente: React.FC = () => {
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
             className={`relative ${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
-            {lateral.agarrado && (
+            {(lateral.agarrado || oing) && (
               <span
+                key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-white text-slate-900 px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+                className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
+                  lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
+                }`}
               >
-                ¡Wiii, me llevás! 🚀
+                {lateral.afuera ? '¡Soltame y me mudo a otra pantalla! 🖥️' : oing ? '¡Oing! 💥' : cansado ? '¡Ya soltame! 😵‍💫' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             {lateral.retornando && (
@@ -677,20 +952,91 @@ export const Asistente: React.FC = () => {
               className={`block transition-transform duration-200 ease-out ${lateral.agarrado ? 'scale-[1.18] -rotate-12 drop-shadow-[0_22px_22px_rgba(34,211,238,0.45)]' : 'motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]'}`}
             >
               <span
+                key={oing ? `aplastado-${oing.n}` : 'normal'}
+                className="block motion-reduce:!animate-none"
+                style={oing ? { animation: `marcio-oing-${oing.lado} 0.45s ease-out` } : undefined}
+              >
+              <span
                 key={truco.n}
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
                 <Marcianito className="w-24 h-28 sm:w-28 sm:h-32 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
+              </span>
             </span>
           </button>
         </div>
       )}
 
+      {/* Soporte técnico: sobresale del costado, arriba del botón del asistente. */}
+      {!abierto && (
+        <button
+          type="button"
+          onClick={pedirSoporte}
+          aria-label="Soporte técnico: abrir el asistente en soporte"
+          title="Soporte técnico"
+          className="fixed z-[64] right-6 bottom-[6.25rem] sm:bottom-[7.25rem] inline-flex items-center gap-2 pl-3 pr-3.5 py-2 sm:py-2.5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-xs sm:text-sm font-black shadow-2xl shadow-emerald-500/40 border border-emerald-200/60 hover:scale-105 active:scale-95 transition-transform cursor-pointer motion-safe:animate-[soporte-asoma_0.7s_ease-out]"
+        >
+          <span className="relative flex">
+            <LifeBuoy className="w-5 h-5" />
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping motion-reduce:animate-none" />
+          </span>
+          <span className="sm:hidden">Soporte</span>
+          <span className="hidden sm:inline">Soporte técnico</span>
+        </button>
+      )}
+
+      {/* Marcio mudado a su ventanita (para arrastrarla a otro monitor). */}
+      {ventana &&
+        createPortal(
+          <div className="h-screen w-screen flex flex-col items-center justify-center gap-2 p-3 bg-[#0B1120] text-white select-none" style={{ fontFamily: 'system-ui, sans-serif' }}>
+            <style>{KEYFRAMES}</style>
+            <p className="text-center text-xs font-semibold text-cyan-200 leading-snug">
+              ¡Me mudé! 🖥️ Arrastrá esta ventanita a la otra pantalla.
+            </p>
+            <button
+              type="button"
+              onClick={hacerTruco}
+              aria-label="Marcio: tocalo para que haga un truco"
+              className="cursor-pointer bg-transparent border-0 p-0"
+            >
+              <span className="block motion-safe:animate-[marcio-flota_3.5s_ease-in-out_infinite]">
+                <span
+                  key={truco.n}
+                  className="block"
+                  style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
+                >
+                  <Marcianito className="w-28 h-32 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                </span>
+              </span>
+            </button>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  window.focus();
+                  abrirChat();
+                }}
+                className="px-3 py-1.5 rounded-full bg-cyan-400 text-slate-950 text-xs font-bold cursor-pointer"
+              >
+                Abrir chat
+              </button>
+              <button
+                type="button"
+                onClick={volverDeLaVentana}
+                className="px-3 py-1.5 rounded-full border border-slate-500 text-slate-200 text-xs font-semibold cursor-pointer"
+              >
+                Volver a la web
+              </button>
+            </div>
+          </div>,
+          ventana.document.body,
+        )}
+
       <button
         type="button"
-        onClick={() => (abierto ? cerrarChat() : setAbierto(true))}
+        onClick={() => (abierto ? cerrarChat() : abrirChat())}
         aria-expanded={abierto}
         aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"

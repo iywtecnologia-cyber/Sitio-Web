@@ -10,6 +10,9 @@ export const AREAS_EQUIPO = [
   { id: 'frontend', nombre: 'Frontend' },
   { id: 'electronica', nombre: 'Electrónica y robótica' },
   { id: 'diseno', nombre: 'Diseño UX/UI' },
+  { id: 'disenografico', nombre: 'Diseño gráfico' },
+  { id: 'redes', nombre: 'Redes sociales' },
+  { id: 'ventas', nombre: 'Ventas' },
   { id: 'operaciones', nombre: 'Operaciones, RR. HH. y Administración' },
 ] as const;
 
@@ -318,6 +321,53 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Ingeniero en Telecomunicaciones · QA Automation y DevOps',
     badge: 'QA Analyst | DevOps | Ing. en Telecomunicaciones',
     linkedin: 'https://www.linkedin.com/in/guillermoadriancuenya/',
+  },
+  {
+    name: 'Leandro Sosa',
+    area: 'redes',
+    role: 'Se sumó al equipo',
+    specialty: 'Redes sociales',
+    badge: 'Redes sociales',
+    linkedin: 'https://www.linkedin.com/in/leandro-sosa/',
+  },
+  {
+    name: 'Florencia Tangorra',
+    area: 'redes',
+    role: 'Se sumó al equipo',
+    specialty: 'Redes sociales',
+    badge: 'Redes sociales',
+    linkedin: 'https://www.linkedin.com/in/tangorraflorencia/',
+  },
+  {
+    name: 'Daniela Ávalos',
+    area: 'disenografico',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño gráfico',
+    badge: 'Diseñadora gráfica',
+  },
+  {
+    name: 'María Clara Rodriguez',
+    corto: 'María Clara Rodriguez',
+    area: 'disenografico',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño gráfico',
+    badge: 'Diseñadora gráfica',
+    linkedin: 'https://www.linkedin.com/in/mar%C3%ADa-clara-rodriguez-b85660293/',
+  },
+  {
+    name: 'Andrés Duré',
+    area: 'ventas',
+    role: 'Se sumó al equipo',
+    specialty: 'Ventas',
+    badge: 'Ventas',
+  },
+  {
+    name: 'Lucas Casco',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA',
+    badge: 'QA Analyst',
+    linkedin: 'https://www.linkedin.com/in/lucas-s-casco/',
   },
 ];
 
