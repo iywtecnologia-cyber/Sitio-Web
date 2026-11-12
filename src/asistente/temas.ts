@@ -38,6 +38,8 @@ export interface Tema {
   precioId?: string;
   /** Temas relacionados que se ofrecen como chips después de responder. */
   relacionados?: string[];
+  /** 'soporte': WhatsApp y e-mail van a soporte técnico (clientes) en vez de a ventas. */
+  canal?: 'ventas' | 'soporte';
 }
 
 export const TEMAS: Tema[] = [
@@ -206,7 +208,7 @@ export const TEMAS: Tema[] = [
   },
   {
     id: 'productos',
-    boton: 'Golondrina, CHAJÁ y TERO',
+    boton: 'Productos propios',
     enGrilla: true,
     patrones: [
       pre('golondrina', 5), ex('chaja', 5), fr('micro hub', 4), pre('sensor', 3),
@@ -214,11 +216,12 @@ export const TEMAS: Tema[] = [
       pre('silo', 4), fr('cadena de frio', 5), ex('oee', 4), pre('planta', 2),
       pre('maquina', 2), pre('industrial', 2), pre('telemetr', 4), pre('monitore', 3),
       ex('temperatura', 3), pre('alerta', 2), ex('camara', 2), fr('edge ai', 5),
+      ex('mostrador', 6),
     ],
     respuesta:
-      'Tenemos tres productos propios: Golondrina (controlador de riel DIN + nube, para monitorear y automatizar máquinas, silos o cadena de frío), CHAJÁ (micro-hub industrial con Edge AI y ciberseguridad) y TERO Security (appliance de ciberseguridad, todavía en desarrollo).',
+      'Nuestros productos propios: Golondrina (controlador de riel DIN + nube, para monitorear y automatizar máquinas, silos o cadena de frío; también instalamos los sensores), Mostrador (chatbot con IA para tu web, que responde 24/7 con la información real de tu negocio), CHAJÁ (micro-hub industrial con Edge AI y ciberseguridad) y TERO Security (appliance de ciberseguridad, todavía en desarrollo).',
     seccion: 'productos',
-    whatsapp: 'Hola tecnoros.ar, quiero consultar por sus productos propios (Golondrina, CHAJÁ o TERO).',
+    whatsapp: 'Hola tecnoros.ar, quiero consultar por sus productos propios (Golondrina, Mostrador, CHAJÁ o TERO).',
     relacionados: ['ciberseguridad', 'automatizacion', 'precio'],
   },
   {
@@ -353,6 +356,24 @@ export const TEMAS: Tema[] = [
     seccion: 'facturacion',
     whatsapp: 'Hola tecnoros.ar, quiero consultar por el soporte y mantenimiento.',
     relacionados: ['precio', 'persona'],
+  },
+  {
+    id: 'soporte-tecnico',
+    boton: '🛠️ Soporte técnico',
+    enGrilla: true,
+    canal: 'soporte',
+    patrones: [
+      fr('soporte tecnico', 7), fr('servicio tecnico', 6), fr('asistencia tecnica', 6), fr('ayuda tecnica', 6),
+      fr('no funciona', 6), fr('no anda', 6), fr('dejo de funcionar', 6), fr('no me funciona', 6),
+      fr('no carga', 5), fr('se cayo', 6), fr('se colgo', 5), fr('se trabo', 5), fr('tengo un problema', 5),
+      pre('error', 4), pre('falla', 3), pre('rompi', 4), pre('reclamo', 4), ex('bug', 5), ex('caido', 4),
+      fr('soy cliente', 5),
+    ],
+    respuesta:
+      'Soporte técnico para clientes 🛠️\nContame qué sistema es (web, bot, CRM, Golondrina, CHAJÁ…) y qué pasa. Escribile directo a soporte por WhatsApp o a soporte@tecnoros.ar, o completá el formulario de soporte y te respondemos lo antes posible.',
+    seccion: 'soporte',
+    whatsapp: 'Hola tecnoros.ar, soy cliente y necesito soporte técnico. Sistema: ___ · Qué pasa: ___',
+    relacionados: ['soporte', 'persona'],
   },
   {
     id: 'persona',

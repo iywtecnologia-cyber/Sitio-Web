@@ -25,6 +25,7 @@ export const temas = (): Tema[] => [
   { id: 'producto-golondrina', grupo: 'Productos', etiqueta: 'Golondrina Automatización', mensaje: 'Hola, quiero consultar por Golondrina Automatización para mi negocio. Les cuento qué máquinas o procesos tengo: ' },
   { id: 'producto-golondrina-personal', grupo: 'Productos', etiqueta: 'Golondrina Personal', mensaje: 'Hola, quiero consultar por Golondrina Personal. Me gustaría que me avise de: ' },
   { id: 'producto-chaja', grupo: 'Productos', etiqueta: 'CHAJÁ', mensaje: 'Hola, quiero consultar por CHAJÁ para mi planta o comercio. Les cuento cómo trabajamos: ' },
+  { id: 'producto-mostrador', grupo: 'Productos', etiqueta: 'Mostrador (chatbot con IA)', mensaje: 'Hola, quiero consultar por Mostrador, el chatbot con IA para mi negocio. Les cuento qué consultas reciben: ' },
   { id: 'producto-tero', grupo: 'Productos', etiqueta: 'TERO Security (novedades)', mensaje: 'Hola, quiero que me mantengan informado sobre el lanzamiento de TERO Security.' },
   ...PROJECTS_DATA.map((p) => ({
     id: `proyecto-${p.id}`,

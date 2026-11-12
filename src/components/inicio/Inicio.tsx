@@ -2,6 +2,7 @@ import React from 'react';
 import { Carrusel } from './Carrusel';
 import {
   ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight, Camera,
+  MessageSquare,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
 import { TecnorosLogo } from '../TecnorosLogo';
@@ -247,8 +248,9 @@ export const PorQueElegirnos: React.FC = () => (
 
 /* ── 3. Productos (carrusel en celular) ────────────────────────────────── */
 const PRODUCTOS_CORTOS: { logo: React.ElementType; nombre: string; linea: string; boton: string; ir: string; equipo?: Equipo3D; estado: string; color: string }[] = [
-  { logo: GolondrinaLogo, nombre: 'Golondrina Automatización', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'golondrina', estado: 'Disponible', color: 'emerald' },
+  { logo: GolondrinaLogo, nombre: 'Golondrina Automatización', linea: 'Vigila tus máquinas y te avisa por WhatsApp si algo falla. Lo resolvés con 1 clic. También instalamos los sensores.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'golondrina', estado: 'Disponible', color: 'emerald' },
   { logo: GolondrinaLogo, nombre: 'Golondrina Personal', linea: 'Le decís qué avisarte, por voz o texto. Sin aprender nada.', boton: 'Probar la demo', ir: 'golondrina-personal-demo', estado: 'Disponible', color: 'emerald' },
+  { logo: MessageSquare, nombre: 'Mostrador', linea: 'Chatbot con IA que atiende a tus clientes 24/7 con la información real de tu negocio.', boton: 'Verlo funcionando', ir: 'mostrador-demo', estado: 'Disponible', color: 'violet' },
   { logo: Cpu, nombre: 'CHAJÁ', linea: 'Un equipo chiquito que cuida tu red y tus equipos, y te avisa si algo cambia.', boton: 'Verlo en 3D', ir: 'hardware-studio-3d', equipo: 'colibri', estado: 'A demanda', color: 'cyan' },
   { logo: TeroLogo, nombre: 'TERO Security', linea: 'Ciberseguridad para pymes. Implementación USD 300 y servicio USD 250 por mes.', boton: 'Mantenete informado', ir: 'tero-proximamente', estado: 'Próximamente', color: 'violet' },
 ];
@@ -262,13 +264,13 @@ const CHIP: Record<string, string> = {
 export const ProductosInicio: React.FC = () => (
   <section id="productos-inicio" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      {/* En compu se ven los cuatro juntos: "Deslizá" sólo tiene sentido en el carrusel */}
+      {/* En compu se ven todos juntos: "Deslizá" sólo tiene sentido en el carrusel */}
       <Titulo chip="Productos propios" titulo="Nuestros productos" bajada={<><span className="lg:hidden">Deslizá para ver cada uno y probalo.</span><span className="hidden lg:inline">Elegí uno y probalo.</span></>} />
     </div>
-    {/* En celular se desliza de costado; en compu se ven los cuatro.
+    {/* En celular se desliza de costado; en compu se ven todos.
         scroll-px: sin esto el snap alinea la tarjeta contra el borde y se "come" el padding. */}
     <div className="max-w-7xl mx-auto lg:px-12">
-      <ul className="flex lg:grid lg:grid-cols-4 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-5 sm:px-8 lg:px-0 scroll-px-5 sm:scroll-px-8 lg:scroll-px-0 pb-3 no-scrollbar">
+      <ul className="flex lg:grid lg:grid-cols-5 gap-4 overflow-x-auto lg:overflow-visible snap-x snap-mandatory px-5 sm:px-8 lg:px-0 scroll-px-5 sm:scroll-px-8 lg:scroll-px-0 pb-3 no-scrollbar">
         {PRODUCTOS_CORTOS.map(({ logo: Logo, nombre, linea, boton, ir, equipo, estado, color }) => (
           <li key={nombre} className="snap-start shrink-0 w-[80%] sm:w-[45%] lg:w-auto">
             <div className="h-full p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 flex flex-col">

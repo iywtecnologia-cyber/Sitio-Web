@@ -65,7 +65,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     icon: GolondrinaLogo,
     title: 'Golondrina Automatización • Software & Telemetría',
     queEs: 'Un sistema con sensores que vigila tus máquinas, cámaras de frío, tanques o silos.',
-    queHace: 'Si algo falla, te avisa por WhatsApp y lo resolvés con 1 clic.',
+    queHace: 'Si algo falla, te avisa por WhatsApp y lo resolvés con 1 clic. También instalamos los sensores.',
     tagline: 'Hardware a demanda y software contextual de telemetría con alertas por WhatsApp.',
     description: 'Implementación inmediata de software de telemetría y automatización: detecta el contexto operativo de tu empresa sin configuraciones complicadas y alerta con botón de resolución en 1 solo clic por WhatsApp. Aplicable en tambos y leche, silos, cámaras de frío, inyectoras, motores y bombas.',
     priceUsd: 190,
@@ -77,7 +77,8 @@ export const PRODUCTOS: ProductoPropio[] = [
       'Automatización contextual (Zero-Click): detecta anomalías y actúa sola',
       'Alertas directas y resolución de incidentes en 1 clic por WhatsApp',
       'Múltiples sectores: tambos, silos, frío, inyectoras, motores y bombas',
-      'Dispositivo físico con sensores fabricado por encargo según tu tablero'
+      'Dispositivo físico con sensores fabricado por encargo según tu tablero',
+      'También instalamos los sensores en tu planta: nos ocupamos de la colocación y la puesta en marcha'
     ]
   },
   {
@@ -131,6 +132,24 @@ export const PRODUCTOS: ProductoPropio[] = [
       'Sistema de ciberseguridad',
       'Próximamente disponible en TecnoRosario',
       'Actualmente en fase de I+D en laboratorio'
+    ]
+  },
+  {
+    id: 'mostrador-chatbot',
+    icon: MessageSquare,
+    title: 'Mostrador • Chatbot con IA para tu negocio',
+    queEs: 'Un chatbot con IA que atiende a tus clientes en tu web con la información real de tu negocio.',
+    queHace: 'Responde horarios, precios y envíos las 24 horas, sin inventar, y deriva a una persona cuando hace falta.',
+    tagline: 'Atención automática 24/7 con la información real de tu negocio.',
+    description: 'Mostrador es una plataforma con un panel para cargar el conocimiento del negocio, configurar el tono y generar un widget que se pega en cualquier web con una sola línea de código.',
+    priceUsd: 0,
+    priceArs: 0,
+    category: 'Chatbots con IA & Atención Comercial',
+    specs: [
+      'Panel para cargar la información del negocio y el tono de las respuestas',
+      'Widget que se instala en cualquier web con una línea de código',
+      'Responde sólo con datos verificados del negocio, sin inventar',
+      'Derivación a una persona cuando la consulta lo necesita'
     ]
   },
   {
@@ -296,6 +315,10 @@ export const ProductosPropios: React.FC = () => {
       irA('golondrina-personal-demo');
       return;
     }
+    if (id === 'mostrador-chatbot') {
+      irA('mostrador-demo');
+      return;
+    }
     if (id === 'colibri-micro-hub') {
       setSelectedSystem('colibri');
       irA('hardware-studio-3d');
@@ -382,6 +405,7 @@ export const ProductosPropios: React.FC = () => {
             const isColibri = id === 'colibri-micro-hub';
             const isGolondrina = id === 'golondrina-automatizacion' || id === 'golondrina-personal';
             const isPersonal = id === 'golondrina-personal';
+            const isMostrador = id === 'mostrador-chatbot';
 
             return (
               <div 
@@ -445,6 +469,8 @@ export const ProductosPropios: React.FC = () => {
                     <span>
                       {isPersonal
                         ? 'Probar cómo se configura'
+                        : isMostrador
+                        ? 'Ver Mostrador funcionando'
                         : isRobotica
                         ? 'Ver Gemelo Digital y Robótica'
                         : isColibri
@@ -463,6 +489,54 @@ export const ProductosPropios: React.FC = () => {
 
         <PlegableMovil titulo="Probá Golondrina Personal" resumen="Conectá apps y pedile avisos por voz o texto">
           <GolondrinaPersonalDemo />
+        </PlegableMovil>
+
+        {/* Mostrador: chatbot con IA (antes estaba en Proyectos; ahora es un producto propio) */}
+        <PlegableMovil titulo="Mostrador: chatbot con IA" resumen="Miralo funcionando o probalo online">
+          <div id="mostrador-demo" className="scroll-mt-28 mb-12 p-5 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-violet-500/30">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/40 flex items-center justify-center text-violet-300 shrink-0">
+                  <MessageSquare className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">Mostrador: chatbot con IA para tu negocio</h2>
+                  <p className="mt-1 text-sm text-slate-300 max-w-2xl">Cargás la información de tu negocio en un panel, elegís el tono y pegás el chat en tu web con una sola línea. Responde las 24 horas sólo con datos verificados y deriva a una persona cuando hace falta.</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <a
+                  href="https://mostrador-axj3.onrender.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/40 text-sm font-bold text-emerald-300 hover:bg-emerald-500/20"
+                >
+                  Probar online <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href={whatsappLink('Hola tecnoros.ar, quiero consultar por Mostrador, el chatbot con IA para mi negocio. Les cuento: ')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cyan-400/10 border border-cyan-400/40 text-sm font-bold text-cyan-300 hover:bg-cyan-400/20"
+                >
+                  Consultar
+                </a>
+              </div>
+            </div>
+            <figure>
+              <video
+                src="/proyectos/demo-mostrador.mp4"
+                poster="/proyectos/demo-mostrador.jpg"
+                controls
+                preload="none"
+                playsInline
+                className="w-full max-w-5xl mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-violet-500/10"
+              >
+                Tu navegador no puede reproducir el video.
+              </video>
+              <figcaption className="mt-2 text-center text-xs sm:text-[11px] text-slate-500">Recorrido de Mostrador con datos ficticios.</figcaption>
+            </figure>
+          </div>
         </PlegableMovil>
 
         {/* Próximamente: TERO Security, separado de los productos disponibles */}

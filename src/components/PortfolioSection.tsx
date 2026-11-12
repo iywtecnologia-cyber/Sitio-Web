@@ -3,7 +3,6 @@ import { irA } from '../rutas';
 import { consultarPor } from '../consulta';
 import { 
   Activity,
-  Bot,
   CheckCircle2, 
   AlertCircle, 
   Cpu, 
@@ -86,59 +85,6 @@ export const PROJECTS_DATA: ProjectCase[] = [
         numero: '5',
         titulo: 'El Resultado tangible',
         descripcion: 'Toda la información de cada paciente —obra social, contacto y adjuntos— accesible desde una sola ficha, con contacto directo en un clic.',
-        icon: CheckCircle2,
-        badgeClass: 'text-emerald-400',
-        cardClass: 'bg-gradient-to-b from-slate-950/80 to-emerald-950/20 border-emerald-500/30 hover:border-emerald-500/50'
-      }
-    ]
-  },
-  {
-    id: 'mostrador',
-    category: 'Chatbots con IA & Atención Comercial',
-    title: 'Mostrador: Chatbot con IA para tu Negocio',
-    highlightNumber: 'Respuestas 24/7',
-    highlightText: 'Atención automática con la información real de tu negocio',
-    icon: Bot,
-    badgeColor: 'border-violet-500/40 text-violet-300 bg-violet-950/30',
-    demoUrl: 'https://mostrador-axj3.onrender.com',
-    video: { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg' },
-    pasos: [
-      {
-        numero: '1',
-        titulo: 'Situación inicial & Dolor',
-        descripcion: 'Los negocios atienden las mismas consultas todos los días (horarios, precios, envíos). Responder a mano consume horas del equipo y deja clientes esperando fuera de horario.',
-        icon: AlertCircle,
-        badgeClass: 'text-rose-400',
-        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
-      },
-      {
-        numero: '2',
-        titulo: 'El Análisis de fondo',
-        descripcion: 'Un chatbot genérico no sirve si inventa respuestas o se desvía del tema. Se necesitaba un asistente estricto que responda únicamente en base a los datos verificados del negocio.',
-        icon: Search,
-        badgeClass: 'text-amber-400',
-        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
-      },
-      {
-        numero: '3',
-        titulo: 'Solución implementada',
-        descripcion: 'Desarrollamos Mostrador: plataforma con panel para cargar conocimiento, configurar el tono y generar un widget incrustable en cualquier web con una sola línea de código.',
-        icon: Cpu,
-        badgeClass: 'text-cyan-400',
-        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
-      },
-      {
-        numero: '4',
-        titulo: 'Validación y pruebas rigurosas',
-        descripcion: 'Pruebas exhaustivas con preguntas ambiguas, fuera de catálogo y de casos límite para garantizar respuestas breves, amables y sin alucinaciones, manteniendo siempre la derivación humana.',
-        icon: ShieldCheck,
-        badgeClass: 'text-sky-400',
-        cardClass: 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
-      },
-      {
-        numero: '5',
-        titulo: 'El Resultado tangible',
-        descripcion: 'Chatbot con IA listo para instalar en cualquier sitio web, respondiendo 24/7 y resolviendo consultas frecuentes al instante.',
         icon: CheckCircle2,
         badgeClass: 'text-emerald-400',
         cardClass: 'bg-gradient-to-b from-slate-950/80 to-emerald-950/20 border-emerald-500/30 hover:border-emerald-500/50'
