@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, gmailPara, mailtoLink } from '../data/contact';
 import { EnlaceGmail } from './EnlaceGmail';
-import { SoporteForm } from './SoporteForm';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
 import { emailValido, enfocarPrimero, MENSAJE_EMAIL_INVALIDO } from '../validacion';
@@ -324,8 +323,6 @@ export const ContactSection: React.FC = () => {
           </form>
         </div>
 
-        {/* Soporte va aparte de ventas (es para quienes ya son clientes), con el mismo formato */}
-        <SoporteForm />
 
       </div>
     </section>

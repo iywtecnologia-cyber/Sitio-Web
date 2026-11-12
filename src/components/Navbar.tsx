@@ -36,7 +36,7 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string; hash?: string }[]
   // Estaba en el menú de compu pero no en el del celular
   { ruta: '/blog', titulo: 'Blog', linea: 'Ideas cortas para tu negocio' },
   { ruta: '/encuentros', titulo: 'Encuentros', linea: 'Nuestra historia en fotos' },
-  // Soporte para quienes ya son clientes: lleva directo al formulario de soporte
+  // Soporte para quienes ya son clientes: abre el panel de soporte técnico del costado
   { ruta: '/contacto', hash: 'soporte', titulo: 'Soporte técnico', linea: '¿Ya sos cliente? Escribinos acá' },
 ];
 

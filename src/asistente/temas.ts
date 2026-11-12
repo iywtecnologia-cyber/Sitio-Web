@@ -370,7 +370,7 @@ export const TEMAS: Tema[] = [
       fr('soy cliente', 5),
     ],
     respuesta:
-      'Soporte técnico para clientes 🛠️\nContame qué sistema es (web, bot, CRM, Golondrina, CHAJÁ…) y qué pasa. Escribile directo a soporte por WhatsApp o a soporte@tecnoros.ar, o completá el formulario de soporte y te respondemos lo antes posible.',
+      'Soporte técnico para clientes 🛠️\nContame qué sistema es (web, bot, CRM, Golondrina, CHAJÁ…) y qué pasa. Escribile directo a soporte por WhatsApp o a soporte@tecnoros.ar y te respondemos lo antes posible.',
     seccion: 'soporte',
     whatsapp: 'Hola tecnoros.ar, soy cliente y necesito soporte técnico. Sistema: ___ · Qué pasa: ___',
     relacionados: ['soporte', 'persona'],

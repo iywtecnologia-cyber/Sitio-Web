@@ -26,7 +26,7 @@ export const ATAJOS: Record<string, [Ruta, string]> = {
   '/mostrador': ['/productos', 'mostrador-demo'],
   '/robot': ['/robotica', ''],
   '/disena-tu-robot': ['/robotica', ''],
-  '/soporte': ['/contacto', 'soporte'],
+  '/soporte': ['/', 'soporte'],
   '/combos': ['/presupuesto', 'combos'],
   '/precios': ['/presupuesto', ''],
   '/fotos': ['/encuentros', ''],
@@ -48,7 +48,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'saber-mas': '/', 'contacto-rapido': '/',
   servicios: '/servicios', 'como-trabajamos': '/servicios',
   proyectos: '/proyectos',
-  contacto: '/contacto', 'consulta-directa': '/contacto', soporte: '/contacto',
+  contacto: '/contacto', 'consulta-directa': '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'mostrador-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica',
@@ -155,7 +155,15 @@ const esperarYScrollear = (id: string, resaltar: boolean, bloque: ScrollLogicalP
 };
 
 // Lleva a una sección esté en la página que esté.
+// Soporte técnico no es una sección: es el panel que sale del costado (lo maneja el asistente).
+export const EVENTO_SOPORTE = 'abrir-soporte';
+export const abrirSoporte = () => window.dispatchEvent(new CustomEvent(EVENTO_SOPORTE));
+
 export const irA = (id: string, resaltar = false, bloque: ScrollLogicalPosition = 'start') => {
+  if (id === 'soporte') {
+    abrirSoporte();
+    return;
+  }
   const destino = paginaDe(id);
   const actual = rutaActual();
   if (destino && destino !== actual) {
@@ -197,6 +205,7 @@ if (typeof window !== 'undefined' && !(window as unknown as { __rutasListas?: bo
   // Al entrar directo con /productos#hardware-studio-3d, ir a esa parte.
   window.addEventListener('load', () => {
     const h = window.location.hash.slice(1);
-    if (h && h !== 'arrepentimiento' && h !== 'baja') esperarYScrollear(h, false, 'start', false);
+    if (h === 'soporte') abrirSoporte();
+    else if (h && h !== 'arrepentimiento' && h !== 'baja') esperarYScrollear(h, false, 'start', false);
   });
 }
