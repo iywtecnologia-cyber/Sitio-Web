@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { irA as irASeccion } from '../rutas';
+import { irA as irASeccion, EVENTO_SOPORTE } from '../rutas';
 import { X, Send, MessageCircle, ArrowRight, Mail, LifeBuoy, MonitorUp } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
@@ -335,8 +335,8 @@ const KEYFRAMES = `
   @keyframes soporte-asoma { 0% { transform: translateX(120%); } 70% { transform: translateX(-6%); } 100% { transform: translateX(0); } }
 `;
 
-// Tras 1 minuto seguido de clics y arrastres (sin pausas de más de 15 s), Marcio pide que lo suelten.
-const JUEGO_MAX_MS = 60_000;
+// Tras 20 segundos seguidos de clics y arrastres (sin pausas de más de 15 s), Marcio pregunta si lo podés soltar.
+const JUEGO_MAX_MS = 20_000;
 const PAUSA_JUEGO_MS = 15_000;
 
 export const Asistente: React.FC = () => {
@@ -409,7 +409,7 @@ export const Asistente: React.FC = () => {
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
   const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆', 'Podés llevarme a otra pantalla 🖥️'];
-  const FRASES_CANSADO = ['¡Ya soltame! 😵‍💫', '¡Basta, que me mareo! 😵', '¡Ya está, soltame un rato! 🥴'];
+  const FRASES_CANSADO = ['¿Me podés soltar? 🥺', '¿Me soltás un ratito? Me estoy mareando 😵‍💫', '¿Ya me podés soltar? 🥴'];
 
   // Cuánto hace que lo están tocando y arrastrando sin parar.
   const juego = useRef({ desde: 0, ultimo: 0 });
@@ -658,8 +658,29 @@ export const Asistente: React.FC = () => {
     setMensajes((m) => [...m, { id: siguienteId++, de: 'bot', texto: '¿Sobre qué más te puedo contar?', opciones: true }]);
   };
 
-  // Botón flotante de soporte técnico: abre el chat directo en soporte.
-  const pedirSoporte = () => {
+  // Panel de soporte técnico que sale del costado (botón verde, "Ver soporte técnico" del chat,
+  // links /soporte y "Soporte técnico" del menú y del pie).
+  const [soporteAbierto, setSoporteAbierto] = useState(false);
+  const enlacesSoporte = enlacesDe(temaPorId('soporte-tecnico')!);
+  useEffect(() => {
+    const abrir = () => {
+      setAbierto(false);
+      setSoporteAbierto(true);
+    };
+    window.addEventListener(EVENTO_SOPORTE, abrir);
+    // Entró con tecnoros.ar/soporte (o #soporte): abrir el panel apenas carga.
+    if (window.location.hash === '#soporte') abrir();
+    return () => window.removeEventListener(EVENTO_SOPORTE, abrir);
+  }, []);
+  useEffect(() => {
+    if (!soporteAbierto) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSoporteAbierto(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [soporteAbierto]);
+  // "Preguntarle al asistente" desde el panel: abre el chat directo en soporte.
+  const soporteEnElChat = () => {
+    setSoporteAbierto(false);
     abrirChat();
     const tema = temaPorId('soporte-tecnico');
     if (tema) void preguntar(tema.boton.replace(/^\W+\s*/u, ''), tema);
@@ -698,7 +719,7 @@ export const Asistente: React.FC = () => {
                   oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {oing ? '¡Oing! 💥' : cansado ? '¡Ya soltame! 😵‍💫' : '¡Wiii, me llevás! 🚀'}
+                {oing ? '¡Oing! 💥' : cansado ? '¿Me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             <span
@@ -786,7 +807,7 @@ export const Asistente: React.FC = () => {
                         onClick={() => irA(m.tema!.seccion!)}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-600 hover:border-cyan-400 text-slate-200 hover:text-white text-xs font-semibold transition-colors cursor-pointer"
                       >
-                        Ver en la web
+                        {m.tema.id === 'soporte-tecnico' ? 'Ver soporte técnico' : 'Ver en la web'}
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     )}
@@ -888,7 +909,7 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {!abierto && !ventana && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && !ocultoPorFormulario && (
+      {!abierto && !soporteAbierto && !ventana && !marcioOculto && !ocultoPor3D && !ocultoPorDemo && !ocultoPorFormulario && (
         <div
           ref={(el) => {
             contRef.current = el;
@@ -937,7 +958,7 @@ export const Asistente: React.FC = () => {
                   lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {lateral.afuera ? '¡Soltame y me mudo a otra pantalla! 🖥️' : oing ? '¡Oing! 💥' : cansado ? '¡Ya soltame! 😵‍💫' : '¡Wiii, me llevás! 🚀'}
+                {lateral.afuera ? '¡Soltame y me mudo a otra pantalla! 🖥️' : oing ? '¡Oing! 💥' : cansado ? '¿Me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             {lateral.retornando && (
@@ -969,22 +990,61 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {/* Soporte técnico: sobresale del costado, arriba del botón del asistente. */}
+      {/* Soporte técnico: sobresale del costado, arriba del botón del asistente, y abre su panel. */}
       {!abierto && (
         <button
           type="button"
-          onClick={pedirSoporte}
-          aria-label="Soporte técnico: abrir el asistente en soporte"
+          onClick={() => setSoporteAbierto((v) => !v)}
+          aria-expanded={soporteAbierto}
+          aria-controls="panel-soporte"
           title="Soporte técnico"
           className="fixed z-[64] right-6 bottom-[6.25rem] sm:bottom-[7.25rem] inline-flex items-center gap-2 pl-3 pr-3.5 py-2 sm:py-2.5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-xs sm:text-sm font-black shadow-2xl shadow-emerald-500/40 border border-emerald-200/60 hover:scale-105 active:scale-95 transition-transform cursor-pointer motion-safe:animate-[soporte-asoma_0.7s_ease-out]"
         >
           <span className="relative flex">
             <LifeBuoy className="w-5 h-5" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping motion-reduce:animate-none" />
+            {!soporteAbierto && <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping motion-reduce:animate-none" />}
           </span>
           <span className="sm:hidden">Soporte</span>
           <span className="hidden sm:inline">Soporte técnico</span>
         </button>
+      )}
+      {soporteAbierto && !abierto && (
+        <div
+          id="panel-soporte"
+          role="dialog"
+          aria-label="Soporte técnico"
+          className="fixed z-[71] right-3 sm:right-6 bottom-[9.5rem] sm:bottom-[10.75rem] w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 motion-safe:animate-[soporte-asoma_0.45s_ease-out]"
+        >
+          <div className="flex items-start gap-3">
+            <span className="w-9 h-9 rounded-xl bg-emerald-400/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shrink-0">
+              <LifeBuoy className="w-5 h-5" />
+            </span>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-bold text-white">Soporte técnico</p>
+              <p className="text-xs text-slate-400">¿Ya sos cliente y algo no anda? Escribinos y te respondemos lo antes posible.</p>
+            </div>
+            <button type="button" onClick={() => setSoporteAbierto(false)} aria-label="Cerrar soporte técnico" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="mt-3 grid gap-2">
+            <a href={enlacesSoporte.wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-bold">
+              <MessageCircle className="w-4 h-4" /> WhatsApp de soporte
+            </a>
+            <div className="grid grid-cols-2 gap-2">
+              <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold">
+                <Mail className="w-3.5 h-3.5" /> E-mail
+              </a>
+              <a href={enlacesSoporte.gmail} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-3 py-2 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-200 text-xs font-semibold">
+                Gmail
+              </a>
+            </div>
+            <button type="button" onClick={soporteEnElChat} className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white text-xs font-semibold cursor-pointer">
+              Preguntarle al asistente <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+            <p className="text-[11px] text-slate-500 text-center">soporte@tecnoros.ar</p>
+          </div>
+        </div>
       )}
 
       {/* Marcio mudado a su ventanita (para arrastrarla a otro monitor). */}
