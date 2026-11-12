@@ -47,9 +47,9 @@ export const COMBOS: Combo[] = [
   {
     id: 'planta-conectada',
     nombre: 'Planta conectada',
-    para: 'Para enterarte por WhatsApp si algo falla en tu planta.',
+    para: 'Golondrina con los sensores instalados: te enterás por WhatsApp si algo falla en tu planta.',
     siTe: 'Si necesitás enterarte apenas una máquina falla, aunque no estés en la planta, este combo te avisa al toque.',
-    incluye: ['Diagnóstico gratuito', 'Equipo Golondrina (automatización de avisos)', 'Puesta en marcha'],
+    incluye: ['Diagnóstico gratuito', 'Equipo Golondrina (automatización de avisos)', 'Instalación de sensores', 'Puesta en marcha'],
     separado: 1_028_000,
     desde: 870_000,
     mensual: 'Abono de Golondrina aparte: desde $80.000 por mes',
