@@ -409,7 +409,7 @@ export const Asistente: React.FC = () => {
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
   const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆', 'Podés llevarme a otra pantalla 🖥️'];
-  const FRASES_CANSADO = ['¿Me podés soltar? 🥺', '¿Me soltás un ratito? Me estoy mareando 😵‍💫', '¿Ya me podés soltar? 🥴'];
+  const FRASES_CANSADO = ['¿Por favor, me puedes soltar? 🥺'];
 
   // Cuánto hace que lo están tocando y arrastrando sin parar.
   const juego = useRef({ desde: 0, ultimo: 0 });
@@ -730,7 +730,7 @@ export const Asistente: React.FC = () => {
                   oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {oing ? '¡Oing! 💥' : pideSoltar ? '¿Ya me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             <span
@@ -969,7 +969,7 @@ export const Asistente: React.FC = () => {
                   lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {lateral.afuera ? 'Si me soltás acá, me paso a la otra pantalla 🖥️' : oing ? '¡Oing! 💥' : pideSoltar ? '¿Ya me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {lateral.afuera ? 'Si me soltás acá, me paso a la otra pantalla 🖥️' : oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             {lateral.retornando && (

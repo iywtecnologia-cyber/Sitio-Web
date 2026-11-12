@@ -47,7 +47,7 @@ export const PROJECTS_DATA: ProjectCase[] = [
     icon: Activity,
     badgeColor: 'border-cyan-500/40 text-cyan-300 bg-cyan-950/30',
     demoUrl: 'https://agendaodontologica-9is7.onrender.com',
-    video: { src: '/proyectos/demo-agenda-consultorio.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg' },
+    video: { src: '/proyectos/demo-agenda-consultorio-completo.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg' },
     pasos: [
       {
         numero: '1',
