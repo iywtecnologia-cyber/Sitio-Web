@@ -409,7 +409,7 @@ export const Asistente: React.FC = () => {
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
   const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆', 'Podés llevarme a otra pantalla 🖥️'];
-  const FRASES_CANSADO = ['¿Me podés soltar? 🥺', '¿Me soltás un ratito? Me estoy mareando 😵‍💫', '¿Ya me podés soltar? 🥴'];
+  const FRASES_CANSADO = ['¿Por favor, me puedes soltar? 🥺'];
 
   // Cuánto hace que lo están tocando y arrastrando sin parar.
   const juego = useRef({ desde: 0, ultimo: 0 });
@@ -453,8 +453,19 @@ export const Asistente: React.FC = () => {
     setOing((o) => ({ lado, n: (o?.n ?? 0) + 1 }));
     if (oingTimer.current) window.clearTimeout(oingTimer.current);
     oingTimer.current = window.setTimeout(() => setOing(null), 750);
+    // Después de un "¡Oing!" se queda callado un rato: la pregunta de si lo soltás va en otro momento.
+    setTrasOing(true);
+    if (trasOingTimer.current) window.clearTimeout(trasOingTimer.current);
+    trasOingTimer.current = window.setTimeout(() => setTrasOing(false), 3000);
   };
-  useEffect(() => () => { if (oingTimer.current) window.clearTimeout(oingTimer.current); }, []);
+  const [trasOing, setTrasOing] = useState(false);
+  const trasOingTimer = useRef<number | null>(null);
+  useEffect(() => () => {
+    if (oingTimer.current) window.clearTimeout(oingTimer.current);
+    if (trasOingTimer.current) window.clearTimeout(trasOingTimer.current);
+  }, []);
+  // Pide que lo suelten sólo si está cansado y no acaba de decir "¡Oing!".
+  const pideSoltar = cansado && !trasOing;
 
   // Marcio en su propia ventanita, para llevarlo a otro monitor.
   const [ventana, setVentana] = useState<VentanaMarcio | null>(null);
@@ -711,15 +722,15 @@ export const Asistente: React.FC = () => {
             className={`${teclado ? 'hidden' : ''} ${delChat.pos ? 'fixed' : 'absolute -top-[5.75rem] right-2 sm:right-auto sm:top-4 sm:-left-28 motion-safe:animate-[marcio-sale_0.9s_ease-out]'} z-[60] cursor-grab active:cursor-grabbing select-none touch-none`}
             style={delChat.pos ? { left: delChat.pos.x, top: delChat.pos.y } : undefined}
           >
-            {(delChat.agarrado || oing) && (
+            {(oing || (delChat.agarrado && !(cansado && trasOing))) && (
               <span
                 key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
                 className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
-                  oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
+                  oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {oing ? '¡Oing! 💥' : cansado ? '¿Me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             <span
@@ -950,15 +961,15 @@ export const Asistente: React.FC = () => {
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
             className={`relative ${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
           >
-            {(lateral.agarrado || oing) && (
+            {(oing || lateral.afuera || (lateral.agarrado && !(cansado && trasOing))) && (
               <span
                 key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
                 className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
-                  lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : cansado ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
+                  lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {lateral.afuera ? '¡Soltame y me mudo a otra pantalla! 🖥️' : oing ? '¡Oing! 💥' : cansado ? '¿Me podés soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {lateral.afuera ? 'Si me soltás acá, me paso a la otra pantalla 🖥️' : oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             {lateral.retornando && (
