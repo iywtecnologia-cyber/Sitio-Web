@@ -17,7 +17,7 @@ const AREAS = equipoPorArea();
 
 // Cada área es un recuadro del mismo tamaño con su nombre y cuántas personas tiene. El recuadro no se
 // clickea: al pasar el puntero muestra quiénes son, y el botón "Ver quiénes" lo despliega (en celu).
-// Si el usuario se desplaza dentro de la lista, la tarjeta queda fija para que pueda entrar a un LinkedIn.
+// Mientras el puntero está adentro, la lista queda abierta aunque te desplaces; al salir vuelve sola al número.
 const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
   const [encima, setEncima] = useState(false);
   const [fija, setFija] = useState(false);
@@ -28,7 +28,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
     <section
       aria-label={area.nombre}
       onMouseEnter={() => setEncima(true)}
-      onMouseLeave={() => setEncima(false)}
+      onMouseLeave={() => { setEncima(false); setFija(false); }}
       className={`relative h-60 rounded-2xl border-2 bg-slate-900/60 overflow-hidden transition-colors ${abierta ? 'border-cyan-400/70' : 'border-slate-600'}`}
     >
       {abierta ? (
