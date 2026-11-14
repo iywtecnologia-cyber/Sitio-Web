@@ -41,7 +41,7 @@ export const temas = (): Tema[] => [
   })),
   { id: 'robotica', grupo: 'Robótica', etiqueta: 'Un robot a medida', mensaje: 'Hola, quiero consultar por un robot a medida. La tarea que necesito resolver es: ' },
   { id: 'jar', grupo: 'Robótica', etiqueta: 'Challenge JAR 2026', mensaje: 'Hola, vi que están desarrollando un robot para el Challenge JAR 2026 y quiero saber más.' },
-  { id: 'diagnostico', grupo: 'Otros', etiqueta: 'Diagnóstico sin costo', mensaje: 'Hola, quiero agendar el diagnóstico sin costo. Mi negocio es… y lo que quiero resolver es: ' },
+  { id: 'diagnostico', grupo: 'Otros', etiqueta: 'Diagnóstico inicial gratuito', mensaje: 'Hola, quiero agendar el diagnóstico inicial gratuito. Mi negocio es… y lo que quiero resolver es: ' },
   { id: 'proyecto-nuevo', grupo: 'Otros', etiqueta: 'Empezar un proyecto', mensaje: 'Hola, quiero empezar un proyecto con ustedes. La idea es: ' },
   { id: 'presupuesto', grupo: 'Otros', etiqueta: 'Un presupuesto', mensaje: 'Hola, quiero pedir un presupuesto. Lo que necesito es: ' },
   { id: 'otro', grupo: 'Otros', etiqueta: 'Otra consulta', mensaje: 'Hola, quiero hacerles una consulta: ' },

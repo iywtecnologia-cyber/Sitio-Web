@@ -306,7 +306,7 @@ export const TEMAS: Tema[] = [
     respuesta:
       'El diagnóstico es 100% gratuito y sin compromiso: nos contás qué te está costando, miramos cómo trabajás hoy y te decimos cómo lo resolveríamos y qué saldría. Si no te cierra, no pasa nada.',
     seccion: 'servicio-analisis-qa',
-    whatsapp: 'Hola tecnoros.ar, quiero agendar el diagnóstico gratuito.',
+    whatsapp: 'Hola tecnoros.ar, quiero agendar el diagnóstico inicial gratuito.',
     relacionados: ['precio', 'proyectos', 'persona'],
   },
   {
@@ -323,7 +323,7 @@ export const TEMAS: Tema[] = [
     respuesta:
       'Depende de lo que necesites. En la sección Presupuesto podés marcar los servicios que te interesan y ver un rango estimado al instante, y también están los combos. El diagnóstico es gratuito y después te pasamos un presupuesto cerrado, sin sorpresas.',
     seccion: 'facturacion',
-    whatsapp: 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.',
+    whatsapp: 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.',
     relacionados: ['diagnostico', 'persona'],
   },
   {

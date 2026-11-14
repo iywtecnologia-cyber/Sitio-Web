@@ -1,6 +1,6 @@
 // Combos de servicios con precio "desde". Los precios salen de sumar el mínimo de cada
 // servicio (src/data/precios.ts) y aplicar un descuento por contratarlos juntos.
-// El precio final se confirma en el diagnóstico gratuito, igual que el resto de los servicios.
+// El precio final se confirma en el diagnóstico inicial gratuito, igual que el resto de los servicios.
 
 export interface Combo {
   id: string;

@@ -4,7 +4,7 @@ import { TecnorosLogo } from './TecnorosLogo';
 import { SERVICES } from './ServicesSection';
 import { PRODUCTOS } from './ProductosPropios';
 import { PROJECTS_DATA } from './PortfolioSection';
-import { irA, useRuta, type Ruta } from '../rutas';
+import { abrirSoporte, irA, useRuta, type Ruta } from '../rutas';
 
 interface NavbarProps {
   onNavigate?: (sectionId: string) => void;
@@ -43,6 +43,7 @@ const MENU_MOVIL: { ruta: Ruta; titulo: string; linea: string; hash?: string }[]
 export const Navbar: React.FC<NavbarProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [contactoAbierto, setContactoAbierto] = useState(false);
   const [seccionInicio, setActiveSection] = useState('inicio');
   const ruta = useRuta();
   const SECCION_DE_PAGINA: Record<string, string> = {
@@ -301,13 +302,40 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
           {/* Zone 3: 1-2 primary actions */}
           <div className="hidden lg:flex items-center gap-2 2xl:gap-3 shrink-0">
-            <a
-              href="#contacto"
-              onClick={(e) => handleLinkClick(e, '#contacto')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 2xl:px-3.5 2xl:py-2 text-xs font-semibold text-white bg-slate-900 border border-slate-700/80 rounded-lg hover:border-slate-600 hover:bg-slate-800 transition-colors whitespace-nowrap"
-            >
-              Contacto
-            </a>
+            {/* Contacto: desplegable con ventas y soporte técnico (el soporte ya no flota en el costado). */}
+            <div className="relative" onMouseEnter={() => setContactoAbierto(true)} onMouseLeave={() => setContactoAbierto(false)}>
+              <button
+                type="button"
+                onClick={() => setContactoAbierto((v) => !v)}
+                aria-expanded={contactoAbierto}
+                aria-haspopup="true"
+                className="inline-flex items-center gap-1 px-3 py-1.5 2xl:px-3.5 2xl:py-2 text-xs font-semibold text-white bg-slate-900 border border-slate-700/80 rounded-lg hover:border-slate-600 hover:bg-slate-800 transition-colors whitespace-nowrap cursor-pointer"
+              >
+                Contacto <ChevronDown className={`w-3.5 h-3.5 transition-transform ${contactoAbierto ? 'rotate-180' : ''}`} />
+              </button>
+              {contactoAbierto && (
+                <div className="absolute right-0 top-full pt-2 w-64 z-50">
+                  <div className="rounded-xl bg-[#0B1120] border border-slate-700 shadow-2xl shadow-black/50 p-1.5 flex flex-col">
+                    <a
+                      href="#contacto"
+                      onClick={(e) => { setContactoAbierto(false); handleLinkClick(e, '#contacto'); }}
+                      className="px-3 py-2.5 rounded-lg hover:bg-slate-800/80"
+                    >
+                      <span className="block text-sm font-semibold text-white">Contactar a ventas</span>
+                      <span className="block text-xs text-slate-400">Consultas, presupuestos y proyectos nuevos</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => { setContactoAbierto(false); abrirSoporte(); }}
+                      className="text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/80 cursor-pointer"
+                    >
+                      <span className="block text-sm font-semibold text-emerald-300">Soporte técnico</span>
+                      <span className="block text-xs text-slate-400">¿Ya sos cliente y algo no anda? Escribinos acá</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             <a
               href="#facturacion"
               onClick={(e) => handleLinkClick(e, '#facturacion')}

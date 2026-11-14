@@ -304,7 +304,7 @@ export const BillingModule: React.FC = () => {
                 2. Servicios (pago único)
               </h3>
               <p className="text-sm text-slate-300 mb-5 leading-relaxed">
-                Elegí los que necesites. Empezamos siempre por el diagnóstico gratuito.
+                Elegí los que necesites. Empezamos siempre por el diagnóstico inicial gratuito.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -524,7 +524,7 @@ export const BillingModule: React.FC = () => {
 
             <div className="mt-6 space-y-2.5">
               <a
-                href={whatsappLink(tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')}
+                href={whatsappLink(tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-extrabold text-sm shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
@@ -533,19 +533,19 @@ export const BillingModule: React.FC = () => {
                 Pedir presupuesto formal por WhatsApp
               </a>
               <a
-                href={ventasMailto('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')}
+                href={ventasMailto('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')}
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-200 font-semibold text-sm transition-colors cursor-pointer hover:bg-slate-800/50"
               >
                 <Mail className="w-4 h-4" />
                 Pedir por e-mail
               </a>
               <div className="text-center">
-                <EnlaceGmail href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico gratuito y un presupuesto.')} />
+                <EnlaceGmail href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')} />
               </div>
             </div>
 
             <p className="mt-4 text-xs sm:text-[11px] leading-relaxed text-slate-400">
-              Precio orientativo. Después del diagnóstico gratuito te pasamos un presupuesto cerrado.
+              Precio orientativo. Después del diagnóstico inicial gratuito te pasamos un presupuesto cerrado.
             </p>
           </div>
         </div>

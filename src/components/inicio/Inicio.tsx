@@ -214,9 +214,9 @@ export const QueHacemos: React.FC = () => (
 
 /* ── Por qué elegirnos ─────────────────────────────────────────────── */
 export const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
-  { icon: Search, titulo: 'Diagnóstico sin costo', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
+  { icon: Search, titulo: 'Diagnóstico inicial gratuito', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
-  { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Una vez pagado, lo desarrollado a medida es tuyo. Y tus datos son siempre tuyos.' },
+  { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Pagado, el desarrollo a medida y tus datos son tuyos.' },
   { icon: CreditCard, titulo: 'Facilidades de pago', linea: 'Te damos facilidades para que pagar no sea un problema.' },
   { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
   { icon: Headset, titulo: 'Soporte técnico todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
