@@ -9,8 +9,7 @@ import { TecnorosLogo } from '../TecnorosLogo';
 import { EquipoAreas } from '../EquipoAreas';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
-import { whatsappLink, gmailLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
-import { EnlaceGmail } from '../EnlaceGmail';
+import { whatsappLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
 import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
@@ -376,9 +375,6 @@ export const ContactoRapido: React.FC = () => (
         >
           <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}
         </a>
-      </div>
-      <div className="mt-2">
-        <EnlaceGmail href={gmailLink('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')} />
       </div>
       <a href="/contacto" className="mt-3 py-1 inline-block text-sm text-cyan-300 underline underline-offset-4">Prefiero personalizar mi mensaje en el formulario</a>
     </div>

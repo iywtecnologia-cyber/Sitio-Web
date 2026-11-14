@@ -25,8 +25,7 @@ import {
   dolares,
   Precio 
 } from '../../data/precios';
-import { whatsappLink, gmailLink, ventasMailto } from '../../data/contact';
-import { EnlaceGmail } from '../EnlaceGmail';
+import { whatsappLink, ventasMailto } from '../../data/contact';
 
 // Presupuestador: separa con total claridad la compra de DISPOSITIVOS FÍSICOS (Hardware pago único),
 // DESARROLLO DE SOFTWARE y los ABONOS MENSUALES (servicios recurrentes opcionales de nube y soporte).
@@ -539,9 +538,6 @@ export const BillingModule: React.FC = () => {
                 <Mail className="w-4 h-4" />
                 Pedir por e-mail
               </a>
-              <div className="text-center">
-                <EnlaceGmail href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')} />
-              </div>
             </div>
 
             <p className="mt-4 text-xs sm:text-[11px] leading-relaxed text-slate-400">

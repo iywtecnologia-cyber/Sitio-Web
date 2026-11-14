@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Mail, MessageCircle, RotateCcw, X } from 'lucide-react';
-import { SOPORTE_EMAIL, whatsappLink, gmailPara, mailtoLink } from '../data/contact';
+import { SOPORTE_EMAIL, whatsappLink, mailtoLink } from '../data/contact';
 import { emailValido, MENSAJE_EMAIL_INVALIDO } from '../validacion';
 
 const ENFOCABLES = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -119,8 +119,6 @@ export const Arrepentimiento: React.FC = () => {
     : emailMal
       ? 'Revisá el e-mail para poder enviar.'
       : '';
-  // mailto: primero (el programa de correo de cada uno); Gmail web queda como alternativa.
-  const gmail = gmailPara(SOPORTE_EMAIL, asunto, cuerpo);
   const mailto = mailtoLink(SOPORTE_EMAIL, asunto, cuerpo);
 
   const campo = 'w-full rounded-lg bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:outline-none px-3 py-2.5 text-sm text-white placeholder:text-slate-500';
@@ -223,8 +221,7 @@ export const Arrepentimiento: React.FC = () => {
           {!completo && <p className="sm:col-span-2 text-xs text-slate-400" aria-live="polite">{aviso}</p>}
           {completo && (
             <p className="sm:col-span-2 text-xs text-slate-400">
-              ¿No se abrió tu programa de correo?{' '}
-              <a href={gmail} target="_blank" rel="noopener noreferrer" onClick={() => setEnviado(true)} className="text-cyan-300 underline">Abrilo en Gmail</a> o escribí directo a {SOPORTE_EMAIL}.
+              ¿No se abrió tu programa de correo? Escribí directo a {SOPORTE_EMAIL}.
             </p>
           )}
           {enviado && (
