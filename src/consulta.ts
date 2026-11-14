@@ -37,7 +37,7 @@ export const temas = (): Tema[] => [
     id: `combo-${c.id}`,
     grupo: 'Combos',
     etiqueta: `Combo ${c.nombre}`,
-    mensaje: `Hola, me interesa el combo "${c.nombre}" (${c.incluye.filter((i) => i !== 'Diagnóstico gratuito').join(', ')}). Les cuento sobre mi negocio: `,
+    mensaje: `Hola, me interesa el combo "${c.nombre}" (${c.incluye.filter((i) => i !== 'Diagnóstico inicial gratuito').join(', ')}). Les cuento sobre mi negocio: `,
   })),
   { id: 'robotica', grupo: 'Robótica', etiqueta: 'Un robot a medida', mensaje: 'Hola, quiero consultar por un robot a medida. La tarea que necesito resolver es: ' },
   { id: 'jar', grupo: 'Robótica', etiqueta: 'Challenge JAR 2026', mensaje: 'Hola, vi que están desarrollando un robot para el Challenge JAR 2026 y quiero saber más.' },

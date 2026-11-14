@@ -9,7 +9,7 @@ import type { Ruta } from '../rutas';
 export const SITIO = 'https://tecnoros.ar';
 
 export const TITULO_INICIO = 'tecnoros.ar | Automatización | Ciberseguridad | Robótica | Electrónica | Machine Learning';
-export const DESCRIPCION_INICIO = 'Automatización inteligente, ciberseguridad, robótica a medida, electrónica y machine learning para empresas y la agroindustria. Diagnóstico gratuito.';
+export const DESCRIPCION_INICIO = 'Automatización inteligente, ciberseguridad, robótica a medida, electrónica y machine learning para empresas y la agroindustria. Diagnóstico inicial gratuito.';
 
 export const META_PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; descripcion: string }> = {
   '/servicios': { titulo: 'Servicios', descripcion: 'Automatizaciones, ciberseguridad, e-commerce, apps, CRM, bots de WhatsApp y robótica. Mirá qué hacemos y cómo trabajamos.' },
