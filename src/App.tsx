@@ -20,7 +20,7 @@ import { Combos } from './components/extra/Combos';
 import { Blog } from './components/extra/Blog';
 import { Encuentros } from './components/extra/Encuentros';
 import { FondoColor } from './components/FondoColor';
-import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, SaberMas, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
+import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
 import { NoEncontrada } from './components/NoEncontrada';
 import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
 import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
@@ -102,7 +102,7 @@ export default function App() {
       <main className="flex-1">
         {ruta === '/' ? (
           <>
-            {/* Orden: hero → combos → JAR → quiénes somos → servicios → productos → más información → contacto */}
+            {/* Orden: hero → combos → JAR → quiénes somos → servicios → productos → contacto */}
             <HeroCorto />
             <Combos id="combos-inicio" />
             <JarDestacado />
@@ -110,7 +110,6 @@ export default function App() {
             <QueHacemos />
             <PorQueElegirnos />
             <ProductosInicio />
-            <SaberMas />
             <ContactoRapido />
           </>
         ) : ruta === NO_ENCONTRADA ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carrusel } from './Carrusel';
 import {
-  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight, Camera,
+  ArrowRight, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, KeyRound, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Workflow, Bot, Code2, Cpu, MessageCircle, Mail, Lock, Calculator,
   MessageSquare,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
@@ -9,9 +9,7 @@ import { TecnorosLogo } from '../TecnorosLogo';
 import { EquipoAreas } from '../EquipoAreas';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
-import { whatsappLink, gmailLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
-import { EnlaceGmail } from '../EnlaceGmail';
-import type { Ruta } from '../../rutas';
+import { whatsappLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
 // Lo pesado (simuladores, 3D, presupuestador, tecnologías) vive en su propia página.
@@ -48,7 +46,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos una agencia remota nacida en Rosario, con equipo en todo LATAM. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -214,14 +212,12 @@ export const QueHacemos: React.FC = () => (
 
 /* ── Por qué elegirnos ─────────────────────────────────────────────── */
 export const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
-  { icon: Search, titulo: 'Diagnóstico inicial gratuito', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
   { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Pagado, el desarrollo a medida y tus datos son tuyos.' },
-  { icon: CreditCard, titulo: 'Facilidades de pago', linea: 'Te damos facilidades para que pagar no sea un problema.' },
+  { icon: Calculator, titulo: 'Precios claros y facilidades', linea: 'Precios publicados y facilidades de pago. Sin sorpresas.' },
   { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
-  { icon: Headset, titulo: 'Soporte técnico todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
+  { icon: Headset, titulo: 'Soporte técnico', linea: 'Te acompañamos antes, durante y después de la entrega.' },
   { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras.' },
-  { icon: Calculator, titulo: 'Precios claros', linea: 'Precios de referencia y combos publicados. Sin sorpresas.' },
 ];
 
 export const PorQueElegirnos: React.FC = () => (
@@ -315,44 +311,6 @@ export const EquipoCorto: React.FC = () => (
 );
 
 /* ── 5. ¿Querés saber más? ─────────────────────────────────────────────── */
-const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: string }[] = [
-  { icon: Layers, titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos', ruta: '/servicios' },
-  { icon: Boxes, titulo: 'Productos y demos', linea: 'Simuladores, equipos en 3D y precios', ruta: '/productos' },
-  { icon: Bot, titulo: 'Diseñá tu robot', linea: 'Armalo y probalo en 3D, en la pantalla', ruta: '/robotica' },
-  { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
-  { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
-  { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
-  { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
-  { icon: Camera, titulo: 'Encuentros', linea: 'Nuestra historia en fotos', ruta: '/encuentros' },
-];
-
-export const SaberMas: React.FC = () => (
-  <section id="saber-mas" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo chip="¿Querés saber más?" titulo="Elegí qué te interesa" />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {SECCIONES.map(({ icon: Icon, titulo, linea, ruta }) => (
-          <li key={titulo}>
-            <a
-              href={ruta}
-              className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors group"
-            >
-              <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
-                <Icon className="w-5 h-5" />
-              </span>
-              <span className="flex-1 min-w-0">
-                <span className="block font-bold text-white">{titulo}</span>
-                <span className="block text-xs sm:text-sm text-slate-400">{linea}</span>
-              </span>
-              <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-cyan-300 shrink-0" />
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-);
-
 /* ── 6. Contacto rápido ───────────────────────────────────────────────── */
 export const ContactoRapido: React.FC = () => (
   <section id="contacto-rapido" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
@@ -369,16 +327,12 @@ export const ContactoRapido: React.FC = () => (
         >
           <MessageCircle className="w-4 h-4" /> WhatsApp
         </a>
-        {/* mailto: abre el programa de correo de cada uno; Gmail web queda abajo como respaldo. */}
         <a
           href={ventasMailto('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
           <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}
         </a>
-      </div>
-      <div className="mt-2">
-        <EnlaceGmail href={gmailLink('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')} />
       </div>
       <a href="/contacto" className="mt-3 py-1 inline-block text-sm text-cyan-300 underline underline-offset-4">Prefiero personalizar mi mensaje en el formulario</a>
     </div>

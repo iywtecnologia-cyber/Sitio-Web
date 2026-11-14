@@ -86,7 +86,7 @@ export interface Abono {
 export const ABONOS: Abono[] = [
   {
     id: 'tero',
-    nombre: 'TERO Security (Ciberseguridad IDS/IPS & Reglas Continuas)',
+    nombre: 'TERO Security',
     detalle: 'Ciberseguridad para la red de tu empresa. (Próximamente).',
     mensual: 300_000,
     mensualUsd: 250,
@@ -95,14 +95,14 @@ export const ABONOS: Abono[] = [
   },
   {
     id: 'golondrina',
-    nombre: 'Golondrina Automatización • Software Cloud & Alertas Contextuales',
+    nombre: 'Golondrina Automatización',
     detalle: 'Monitoreo en la nube y avisos por WhatsApp de lo que pasa en tu planta.',
     mensual: 80_000,
     esServicioParaHardware: true,
   },
   {
     id: 'soporte',
-    nombre: 'Abono Soporte y Mantenimiento de Software',
+    nombre: 'Soporte y mantenimiento',
     detalle: 'Copias de seguridad, monitoreo y horas para mejoras.',
     mensual: 150_000,
   },

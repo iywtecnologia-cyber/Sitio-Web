@@ -63,7 +63,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'golondrina-automatizacion',
     icon: GolondrinaLogo,
-    title: 'Golondrina Automatización • Software & Telemetría',
+    title: 'Golondrina Automatización',
     queEs: 'Un sistema con sensores que vigila tus máquinas, cámaras de frío, tanques o silos.',
     queHace: 'Si algo falla, te avisa por WhatsApp y lo resolvés con 1 clic. También instalamos los sensores.',
     tagline: 'Hardware a demanda y software contextual de telemetría con alertas por WhatsApp.',
@@ -84,7 +84,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'golondrina-personal',
     icon: GolondrinaLogo,
-    title: 'Golondrina Personal • Módulo a tu medida',
+    title: 'Golondrina Personal',
     queEs: 'Un asistente que se conecta a las apps que vos elijas (e-mail, calendario, cobros).',
     queHace: 'Te avisa y te recuerda lo que le pidas, por voz o por texto.',
     tagline: 'Con una G no tenés que aprender nada.',
@@ -102,7 +102,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'colibri-micro-hub',
     icon: Cpu,
-    title: 'CHAJÁ Micro-Hub • Edge AI & Ciberseguridad',
+    title: 'CHAJÁ',
     queEs: 'Un equipo chiquito que se instala en tu planta, galpón o comercio.',
     queHace: 'Cuida tu red y tus equipos, y te avisa por WhatsApp o por voz cuando algo cambia.',
     tagline: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.',
@@ -137,7 +137,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'mostrador-chatbot',
     icon: MessageSquare,
-    title: 'Mostrador • Chatbot con IA para tu negocio',
+    title: 'Mostrador',
     queEs: 'Un chatbot con IA que atiende a tus clientes en tu web con la información real de tu negocio.',
     queHace: 'Responde horarios, precios y envíos las 24 horas, sin inventar, y deriva a una persona cuando hace falta.',
     tagline: 'Atención automática 24/7 con la información real de tu negocio.',
@@ -155,7 +155,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'carancho-robotica',
     icon: Bot,
-    title: 'Robótica a Medida • Cerebro Digital & Cuerpo Físico',
+    title: 'Robótica a medida',
     queEs: 'Un robot hecho para una tarea de tu negocio.',
     queHace: 'Primero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.',
     tagline: 'Lo primero que se desarrolla es el cerebro del robot; si es viable, también incorporás el cuerpo físico.',
@@ -361,7 +361,7 @@ export const ProductosPropios: React.FC = () => {
       : '';
 
     const text = selectedSystem === 'colibri'
-      ? `¡Hola tecnoros.ar! Quiero cotizar el micro-dispositivo *CHAJÁ Micro-Hub • Edge AI & Ciberseguridad* (Dispositivo diminuto con pantalla para reemplazar PC en planta):${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
+      ? `¡Hola tecnoros.ar! Quiero cotizar el micro-dispositivo *CHAJÁ*:${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
       : selectedSystem === 'golondrina'
       ? `¡Hola tecnoros.ar! Quiero cotizar el módulo físico y software *Golondrina Automatización* (Setup inicial y abono mensual SaaS):${filamentoMsg}\n\n¿Podemos coordinar una reunión de diagnóstico para aplicarlo en nuestra empresa?`
       : `¡Hola tecnoros.ar! Me interesa conocer más sobre el próximo sistema de ciberseguridad *TERO Security* (En fase I+D):\n\n¿Tienen una lista de espera o novedades de avance técnico para cuando esté disponible la prueba de concepto?`;
@@ -380,7 +380,7 @@ export const ProductosPropios: React.FC = () => {
         <div className="max-w-3xl mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-xs font-mono text-violet-300 mb-3">
             <FlaskConical className="w-3.5 h-3.5" />
-            <span>Sistemas Propios & Hardware a Medida</span>
+            <span>Productos propios</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Nuestros{' '}
@@ -429,11 +429,11 @@ export const ProductosPropios: React.FC = () => {
                     {isColibri ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <Sparkles className="w-3 h-3 text-cyan-400" />
-                        <span>A demanda • Vigente</span>
+                        <span>Disponible</span>
                       </span>
                     ) : isGolondrina ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
-                        <span>A demanda • Vigente</span>
+                        <span>Disponible</span>
                       </span>
                     ) : id === 'software-ciberseguridad' ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1">
@@ -442,17 +442,14 @@ export const ProductosPropios: React.FC = () => {
                       </span>
                     ) : (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
-                        A demanda • Vigente
+                        Disponible
                       </span>
                     )}
                   </div>
 
                   <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">{title}</h3>
                   {queEs ? (
-                    <dl className="mt-3 space-y-2 text-sm leading-snug">
-                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{queEs}</dd></div>
-                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{queHace}</dd></div>
-                    </dl>
+                    <p className="mt-3 text-sm text-slate-200 leading-snug">{queHace}</p>
                   ) : tagline && (
                     <p className="mt-2 text-sm text-cyan-300 font-semibold leading-relaxed">
                       {tagline}
@@ -468,16 +465,16 @@ export const ProductosPropios: React.FC = () => {
                   >
                     <span>
                       {isPersonal
-                        ? 'Probar cómo se configura'
+                        ? 'Probar la demo'
                         : isMostrador
-                        ? 'Ver Mostrador funcionando'
+                        ? 'Verlo funcionando'
                         : isRobotica
-                        ? 'Ver Gemelo Digital y Robótica'
+                        ? 'Diseñá tu robot'
                         : isColibri
-                        ? 'Probar Micro-Hub 3D (1-Clic)'
+                        ? 'Verlo en 3D'
                         : isGolondrina
-                        ? 'Inspeccionar Software & 3D'
-                        : 'Inspeccionar Prototipo en 3D'}
+                        ? 'Verlo en 3D'
+                        : 'Verlo en 3D'}
                     </span>
                     <span className="text-cyan-400 group-hover/b3d:translate-x-1 transition-transform">→</span>
                   </button>
@@ -566,10 +563,10 @@ export const ProductosPropios: React.FC = () => {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-2">
                 <Workflow className="w-3.5 h-3.5" />
-                <span>Modelo Comercial Claro & Accesible • Golondrina Automatización</span>
+                <span>Golondrina Automatización</span>
               </div>
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                Tarifas de Setup y Abono Mensual
+                Cuánto cuesta
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 mt-1">
                 Un pago para instalarlo y un abono mensual. Sin costos ocultos.
@@ -582,22 +579,22 @@ export const ProductosPropios: React.FC = () => {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
             >
               <Send className="w-4 h-4" />
-              <span>Contratar Setup en WhatsApp</span>
+              <span>Consultar por WhatsApp</span>
             </a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Tarjeta 1: Setup & Puesta en marcha */}
+            {/* Tarjeta 1: Instalación */}
             <div className="p-6 rounded-2xl bg-slate-950/90 border border-emerald-500/30 flex flex-col justify-between shadow-lg">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
-                    Pago Único Inicial
+                    Pago único
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Puesta en Marcha en Planta</span>
+                  
                 </div>
 
-                <h4 className="text-xl font-bold text-white">Setup & Puesta en marcha</h4>
+                <h4 className="text-xl font-bold text-white">Instalación</h4>
                 
                 <div className="mt-3 flex flex-wrap items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
@@ -609,20 +606,10 @@ export const ProductosPropios: React.FC = () => {
                 </div>
 
                 <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  <strong className="text-white">Qué cobramos:</strong> Instalación, configuración y avisos a tus encargados.
+                  Lo instalamos, lo configuramos y lo dejamos avisando a tus encargados.
                 </p>
               </div>
 
-              <div className="mt-5 pt-4 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Sin esfuerzo físico de tu personal: lo dejamos funcionando</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Configuración completa de números de WhatsApp y guardias</span>
-                </div>
-              </div>
             </div>
 
             {/* Tarjeta 2: Abono mensual recurrente (SaaS) */}
@@ -630,12 +617,12 @@ export const ProductosPropios: React.FC = () => {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold uppercase tracking-wider">
-                    Abono Mensual Recurrente (SaaS)
+                    Abono mensual
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">Sin Permanencia Forzada</span>
+                  <span className="text-xs text-slate-400 font-mono">Sin permanencia</span>
                 </div>
 
-                <h4 className="text-xl font-bold text-white">Monitoreo Continuo 24/7 & Nube</h4>
+                <h4 className="text-xl font-bold text-white">Monitoreo 24/7</h4>
                 
                 <div className="mt-3 flex flex-wrap items-baseline gap-2">
                   <span className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
@@ -647,20 +634,10 @@ export const ProductosPropios: React.FC = () => {
                 </div>
 
                 <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  <strong className="text-white">Qué cobramos:</strong> Monitoreo 24/7, avisos por WhatsApp y un reporte semanal.
+                  Avisos por WhatsApp las 24 horas y un reporte por semana.
                 </p>
               </div>
 
-              <div className="mt-5 pt-4 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span>Servidor en la nube dedicado y telemetría ininterrumpida</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span>Reportes semanales automáticos consolidados en PDF</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -813,10 +790,7 @@ export const ProductosPropios: React.FC = () => {
                 <div>
                   <h4 className="text-xl font-bold text-white tracking-tight">{activeData.title}</h4>
                   {activeData.queEs ? (
-                    <dl className="mt-3 space-y-2.5 text-base leading-snug">
-                      <div><dt className="text-xs font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{activeData.queEs}</dd></div>
-                      <div><dt className="text-xs font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{activeData.queHace}</dd></div>
-                    </dl>
+                    <p className="text-sm text-slate-200 leading-snug">{activeData.queHace}</p>
                   ) : activeData.tagline && <p className="mt-2 text-base text-slate-300">{activeData.tagline}</p>}
                 </div>
 
