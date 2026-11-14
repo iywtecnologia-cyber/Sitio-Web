@@ -10,7 +10,6 @@ import {
   Linkedin
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, gmailPara, mailtoLink } from '../data/contact';
-import { EnlaceGmail } from './EnlaceGmail';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
 import { SelectorTema } from './SelectorTema';
 import { emailValido, enfocarPrimero, MENSAJE_EMAIL_INVALIDO } from '../validacion';
@@ -310,14 +309,12 @@ export const ContactSection: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{VENTAS_EMAIL}</span>
               </a>
-              <EnlaceGmail href={gmailPara(VENTAS_EMAIL, 'Consulta para ventas - tecnoros.ar', '')} texto="(abrir en Gmail)" />
             </div>
 
             {gmailRespaldo && (
               <div role="status" className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Sparkles className="w-4 h-4" />
                 <span>Se abrió tu programa de correo con el mensaje listo para enviar a {CONTACT_EMAIL}.</span>
-                <EnlaceGmail href={gmailRespaldo} texto="¿No se abrió? Abrilo en Gmail" className="text-cyan-200" />
               </div>
             )}
           </form>

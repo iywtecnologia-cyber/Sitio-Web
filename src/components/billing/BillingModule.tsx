@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { 
   Calculator, 
   Check, 
@@ -21,12 +21,13 @@ import {
   SERVICIOS_SOFTWARE, 
   ABONOS, 
   OPCION_FILAMENTO_HARDWARE, 
+  PUESTA_EN_MARCHA_GOLONDRINA,
+  CLAVE_SUMAR_PRESUPUESTO,
   pesos, 
   dolares,
   Precio 
 } from '../../data/precios';
-import { whatsappLink, gmailLink, ventasMailto } from '../../data/contact';
-import { EnlaceGmail } from '../EnlaceGmail';
+import { whatsappLink, ventasMailto } from '../../data/contact';
 
 // Presupuestador: separa con total claridad la compra de DISPOSITIVOS FÍSICOS (Hardware pago único),
 // DESARROLLO DE SOFTWARE y los ABONOS MENSUALES (servicios recurrentes opcionales de nube y soporte).
@@ -81,11 +82,25 @@ export const BillingModule: React.FC = () => {
     );
   }, [seleccionSoftware]);
 
+  // Golondrina se instala: la puesta en marcha va con el equipo.
+  const conGolondrina = hardwareElegidos.includes('dispositivo-golondrina');
+  const puestaEnMarcha = conGolondrina ? PUESTA_EN_MARCHA_GOLONDRINA : { min: 0, max: 0 };
   const totalPagoUnicoArs = useMemo(() => {
-    const min = totalArsHardware + totalSoftware.min + (aplicarFilamento ? OPCION_FILAMENTO_HARDWARE.min : 0);
-    const max = totalArsHardware + totalSoftware.max + (aplicarFilamento ? OPCION_FILAMENTO_HARDWARE.max : 0);
+    const min = totalArsHardware + puestaEnMarcha.min + totalSoftware.min + (aplicarFilamento ? OPCION_FILAMENTO_HARDWARE.min : 0);
+    const max = totalArsHardware + puestaEnMarcha.max + totalSoftware.max + (aplicarFilamento ? OPCION_FILAMENTO_HARDWARE.max : 0);
     return { min, max };
-  }, [totalArsHardware, totalSoftware, aplicarFilamento]);
+  }, [totalArsHardware, puestaEnMarcha.min, puestaEnMarcha.max, totalSoftware, aplicarFilamento]);
+
+  // "Sumar al presupuesto" desde Productos: llega anotado y se marca solo.
+  useEffect(() => {
+    try {
+      const id = sessionStorage.getItem(CLAVE_SUMAR_PRESUPUESTO);
+      if (id && DISPOSITIVOS_HARDWARE.some((h) => h.id === id && h.id !== 'dispositivo-tero')) {
+        sessionStorage.removeItem(CLAVE_SUMAR_PRESUPUESTO);
+        setHardwareElegidos((prev) => (prev.includes(id) ? prev : [...prev, id]));
+      }
+    } catch { /* sin sessionStorage */ }
+  }, []);
 
   const mensualTotal = seleccionAbonos.reduce((t, a) => t + (a.mensual ?? 0), 0);
 
@@ -93,11 +108,12 @@ export const BillingModule: React.FC = () => {
   const itemsMensaje: string[] = [];
 
   if (seleccionHardware.length > 0) {
-    itemsMensaje.push('📦 DISPOSITIVOS FÍSICOS (Hardware único):');
+    itemsMensaje.push('📦 EQUIPOS (pago único):');
     seleccionHardware.forEach((h) => {
       const unidades = h.id === 'dispositivo-chaja' ? cantidadChaja : 1;
       itemsMensaje.push(`  • ${h.servicio} (${unidades} unidad/es): ${pesos(h.min * unidades)}`);
     });
+    if (conGolondrina) itemsMensaje.push(`  • Puesta en marcha de Golondrina: ${pesos(PUESTA_EN_MARCHA_GOLONDRINA.min)} a ${pesos(PUESTA_EN_MARCHA_GOLONDRINA.max)}`);
     if (aplicarFilamento) {
       itemsMensaje.push(`  • Carcasa en color a medida: +${pesos(OPCION_FILAMENTO_HARDWARE.min)}`);
     } else {
@@ -198,6 +214,7 @@ export const BillingModule: React.FC = () => {
               <ul className="space-y-3">
                 {[
                   {
+                    id: 'dispositivo-golondrina',
                     nombre: 'Golondrina Automatización',
                     estado: 'Disponible a demanda',
                     color: 'emerald',
@@ -206,6 +223,7 @@ export const BillingModule: React.FC = () => {
                     servicio: '$80.000 a $120.000 por mes',
                   },
                   {
+                    id: 'dispositivo-tero',
                     nombre: 'TERO Security',
                     estado: 'Próximamente',
                     color: 'violet',
@@ -214,6 +232,7 @@ export const BillingModule: React.FC = () => {
                     servicio: `${dolares(250)} por mes`,
                   },
                   {
+                    id: 'dispositivo-chaja',
                     nombre: 'CHAJÁ',
                     estado: 'Disponible a demanda',
                     color: 'cyan',
@@ -242,6 +261,36 @@ export const BillingModule: React.FC = () => {
                       </div>
                     </dl>
                     <p className="mt-2 text-xs text-slate-400">{pr.extra}</p>
+                    {pr.id !== 'dispositivo-tero' && (
+                      <div className="mt-3 flex flex-wrap items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => alternarHardware(pr.id)}
+                          aria-pressed={hardwareElegidos.includes(pr.id)}
+                          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold transition-colors cursor-pointer ${
+                            hardwareElegidos.includes(pr.id)
+                              ? 'bg-emerald-400 text-slate-950 hover:bg-emerald-300'
+                              : 'border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/10'
+                          }`}
+                        >
+                          {hardwareElegidos.includes(pr.id) ? '✓ Sumado al presupuesto' : '+ Sumar al presupuesto'}
+                        </button>
+                        {pr.id === 'dispositivo-chaja' && chajaSeleccionado && (
+                          <label className="flex items-center gap-2 text-sm text-slate-300">
+                            Cantidad
+                            <input
+                              aria-label="Cantidad de equipos CHAJÁ"
+                              type="number"
+                              min={1}
+                              max={100}
+                              value={cantidadChaja}
+                              onChange={(e) => setCantidadChaja(Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
+                              className="w-20 bg-slate-900 border border-slate-600 rounded-lg p-1.5 text-white"
+                            />
+                          </label>
+                        )}
+                      </div>
+                    )}
                     {pr.nombre === 'CHAJÁ' && (
                       <div className="mt-4 pt-4 border-t border-slate-800">
                         <h5 className="text-sm font-bold text-white">Planes de voz hablada (opcional, por equipo)</h5>
@@ -289,6 +338,12 @@ export const BillingModule: React.FC = () => {
                   </li>
                 ))}
               </ul>
+              {tieneHardware && (
+                <label className="mt-4 flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+                  <input type="checkbox" checked={filamentoPersonalizado} onChange={(e) => setFilamentoPersonalizado(e.target.checked)} className="w-4 h-4 accent-cyan-400" />
+                  Carcasa con el color de mi marca (+{pesos(OPCION_FILAMENTO_HARDWARE.min)})
+                </label>
+              )}
               <p className="mt-4 text-xs text-slate-400">
                 De serie se entregan en negro mate. Color de tu marca: +{pesos(OPCION_FILAMENTO_HARDWARE.min)}. El servicio mensual se da de baja cuando quieras.
               </p>
@@ -441,16 +496,22 @@ export const BillingModule: React.FC = () => {
                   <div className="space-y-1.5">
                     <div className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
                       <Cpu className="w-3.5 h-3.5" />
-                      <span>Hardware Físico (Pago Único)</span>
+                      <span>Equipos (pago único)</span>
                     </div>
                     {seleccionHardware.map((h) => (
                       <div key={h.id} className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
-                        <span className="truncate">{h.servicio.replace(' (Hardware Appliance)', '').replace(' (Hardware Riel DIN)', '')}</span>
+                        <span className="truncate">{h.servicio.replace(' (Hardware Appliance)', '').replace(' (Hardware Riel DIN)', '')}{h.id === 'dispositivo-chaja' && cantidadChaja > 1 ? ` × ${cantidadChaja}` : ''}</span>
                         <div className="text-right shrink-0">
                           <span className="font-bold text-white font-mono">{pesos(h.min * (h.id === 'dispositivo-chaja' ? cantidadChaja : 1))}</span>
                         </div>
                       </div>
                     ))}
+                    {conGolondrina && (
+                      <div className="flex justify-between items-baseline gap-2 text-xs text-slate-300">
+                        <span className="truncate">Puesta en marcha de Golondrina</span>
+                        <span className="font-bold text-white font-mono shrink-0">{pesos(PUESTA_EN_MARCHA_GOLONDRINA.min)} a {pesos(PUESTA_EN_MARCHA_GOLONDRINA.max)}</span>
+                      </div>
+                    )}
                     {aplicarFilamento && (
                       <div className="flex justify-between items-baseline gap-2 text-xs text-cyan-300 pl-2 border-l-2 border-cyan-400">
                         <span>🎨 Color de Carcasa a Medida</span>
@@ -539,9 +600,6 @@ export const BillingModule: React.FC = () => {
                 <Mail className="w-4 h-4" />
                 Pedir por e-mail
               </a>
-              <div className="text-center">
-                <EnlaceGmail href={gmailLink('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')} />
-              </div>
             </div>
 
             <p className="mt-4 text-xs sm:text-[11px] leading-relaxed text-slate-400">

@@ -30,7 +30,7 @@ import { whatsappLink } from '../data/contact';
 import { GolondrinaLogo } from './LogosProductos';
 import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
 import { PlegableMovil } from './PlegableMovil';
-import { dolares, pesos } from '../data/precios';
+import { CLAVE_SUMAR_PRESUPUESTO, dolares, pesos } from '../data/precios';
 
 // three.js pesa ~600 kB: el visor se descarga recién cuando se dibuja. Como el Navbar importa
 // PRODUCTOS de este archivo, un import directo metía three.js en la carga del inicio.
@@ -883,9 +883,14 @@ export const ProductosPropios: React.FC = () => {
 
                   <a
                     href="#facturacion"
+                    onClick={() => {
+                      // Que el presupuestador abra con este equipo ya marcado.
+                      const id = selectedSystem === 'golondrina' ? 'dispositivo-golondrina' : selectedSystem === 'colibri' ? 'dispositivo-chaja' : null;
+                      try { if (id) sessionStorage.setItem(CLAVE_SUMAR_PRESUPUESTO, id); } catch { /* sin sessionStorage */ }
+                    }}
                     className="w-full py-2.5 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-300 flex items-center justify-center gap-2 transition-all"
                   >
-                    <span>Sumar al Presupuestador de la web</span>
+                    <span>Sumar al presupuesto</span>
                     <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
                   </a>
                 </div>

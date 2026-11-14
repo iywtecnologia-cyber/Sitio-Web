@@ -18,7 +18,7 @@ export interface Precio {
 export const DISPOSITIVOS_HARDWARE: Precio[] = [
   {
     id: 'dispositivo-chaja',
-    servicio: 'CHAJÁ Micro-Hub · Edge AI y Ciberseguridad',
+    servicio: 'CHAJÁ',
     incluye: 'Micro-Hub industrial. Alertas visuales. Voz hablada neuronal opcional por cada equipo, con suscripción separada.',
     min: 280_000, max: 280_000, precioUsd: 230, tipo: 'hardware',
     badge: 'Dispositivo Físico · $280.000',
@@ -26,7 +26,7 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   },
   {
     id: 'dispositivo-tero',
-    servicio: 'TERO Security · Próximamente (Hardware Appliance)',
+    servicio: 'TERO Security (próximamente)',
     incluye: 'Producto en investigación y desarrollo. Todavía no disponible para compra o instalación. Consultá por novedades.',
     min: 360_000,
     max: 360_000,
@@ -37,7 +37,7 @@ export const DISPOSITIVOS_HARDWARE: Precio[] = [
   },
   {
     id: 'dispositivo-golondrina',
-    servicio: 'Controlador Físico Golondrina (Hardware Riel DIN)',
+    servicio: 'Golondrina Automatización (equipo)',
     incluye: 'Compra única del aparato físico ($228.000): Controlador para tablero eléctrico en Riel DIN, 8 salidas a relé industrial, bus RS-485 Modbus, entradas 4-20mA y pantalla OLED de diagnóstico. Fabricado en filamento Negro Mate de serie.',
     min: 228_000,
     max: 228_000,
@@ -129,6 +129,12 @@ export interface OpcionFilamento {
   max: number;
   usd: number;
 }
+
+// Golondrina se instala en la planta: la puesta en marcha se cobra una vez, junto con el equipo.
+export const PUESTA_EN_MARCHA_GOLONDRINA = { min: 300_000, max: 500_000 };
+
+// "Sumar al presupuesto" desde Productos: se anota qué equipo sumar y el presupuestador lo marca al abrirse.
+export const CLAVE_SUMAR_PRESUPUESTO = 'presupuesto_sumar';
 
 export const OPCION_FILAMENTO_HARDWARE: OpcionFilamento = {
   id: 'filamento-personalizado',
