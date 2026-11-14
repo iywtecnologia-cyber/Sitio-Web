@@ -37,7 +37,7 @@ export const NOTAS: Nota[] = [
       'La mayoría de los robos de cuentas pasan por descuidos chicos. Con estos pasos cerrás las puertas más comunes:',
     ],
     puntos: [
-      'Activá la verificación en dos pasos en WhatsApp, el mail y las redes.',
+      'Activá la verificación en dos pasos en WhatsApp, el e-mail y las redes.',
       'Usá una contraseña distinta para cada cuenta (un gestor de contraseñas ayuda).',
       'Nunca compartas los códigos que te llegan por SMS o WhatsApp, aunque te los pida "el banco".',
       'Revisá cada tanto los dispositivos vinculados y cerrá los que no reconozcas.',

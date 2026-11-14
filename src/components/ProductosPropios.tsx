@@ -85,7 +85,7 @@ export const PRODUCTOS: ProductoPropio[] = [
     id: 'golondrina-personal',
     icon: GolondrinaLogo,
     title: 'Golondrina Personal • Módulo a tu medida',
-    queEs: 'Un asistente que se conecta a las apps que vos elijas (mail, calendario, cobros).',
+    queEs: 'Un asistente que se conecta a las apps que vos elijas (e-mail, calendario, cobros).',
     queHace: 'Te avisa y te recuerda lo que le pidas, por voz o por texto.',
     tagline: 'Con una G no tenés que aprender nada.',
     description: 'Elegís qué aplicaciones conectar con un clic y le decís qué querés que te avise, escribiendo o hablando: un transcriptor muestra al lado lo que le vas pidiendo. Después te avisa solo donde la habilitaste.',

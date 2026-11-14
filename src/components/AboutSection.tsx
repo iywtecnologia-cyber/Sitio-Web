@@ -46,11 +46,11 @@ export const AboutSection: React.FC = () => {
           
           <div className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-4">
             <MapPin className="w-4 h-4 text-cyan-400" />
-            <span>Nacimos en Rosario · equipo remoto en distintos lugares del mundo</span>
+            <span>Nacimos en Rosario · equipo remoto en todo LATAM</span>
           </div>
 
           <p className="text-base sm:text-lg text-slate-200 leading-relaxed font-normal">
-            Nacimos en Rosario: los fundadores nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Desde entonces se fue sumando gente de distintos lugares del mundo, y hoy somos <strong className="text-white">{FOUNDERS.length} personas</strong> trabajando en remoto: desarrollo backend, frontend y full stack, QA, diseño UX/UI, diseño gráfico, redes sociales, ventas, electrónica y robótica, operaciones, recursos humanos, administración y asesoría legal en tecnología.
+            Nacimos en Rosario: los fundadores nos conocimos en 2026 como voluntarios en los <strong className="text-white">Juegos Suramericanos</strong> y decidimos emprender juntos. Sumamos <strong className="text-white">ciberseguridad, QA, automatización, electrónica y machine learning</strong> para resolver problemas reales de negocios. Desde entonces se fue sumando gente de todo LATAM, y hoy somos <strong className="text-white">{FOUNDERS.length} personas</strong> trabajando en remoto: desarrollo backend, frontend y full stack, QA, diseño UX/UI, diseño gráfico, redes sociales, ventas, electrónica y robótica, operaciones, recursos humanos, administración y asesoría legal en tecnología.
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 // Validación compartida por los formularios que abren WhatsApp o el correo.
 // Ninguno pasa por el navegador (los botones de WhatsApp no son submit), así que la regla
-// tiene que ser propia y la misma para todos los botones: antes "E-mail" validaba y
+// tiene que ser propia y la misma para todos los botones: antes "e-mail" validaba y
 // "WhatsApp" no, y se abría el canal con el mensaje vacío.
 
 // No pretende ser RFC 5322: alcanza con frenar los errores de tipeo típicos ("juan@gmail", "juan.gmail.com").
