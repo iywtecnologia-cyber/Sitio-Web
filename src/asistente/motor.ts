@@ -229,7 +229,7 @@ export const responderLocal = (pregunta: string, ctx: Contexto = {}): Respuesta 
     const i = INTENCIONES.find((x) => x.id === intencion)!;
     if (intencion === 'afirmacion' && previo) {
       return {
-        texto: `Genial. Para ${previo.boton.toLowerCase()} lo más práctico es el diagnóstico gratuito: nos contás tu caso y te decimos cómo lo resolveríamos y qué saldría. También podés escribirnos directo por acá:`,
+        texto: `Genial. Para ${previo.boton.toLowerCase()} lo más práctico es el diagnóstico inicial gratuito: nos contás tu caso y te decimos cómo lo resolveríamos y qué saldría. También podés escribirnos directo por acá:`,
         tema: previo,
         sugerencias: [temaPorId('diagnostico')!, temaPorId('persona')!],
         opciones: false,

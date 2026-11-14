@@ -148,6 +148,15 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
   const retornoTimer = useRef<number | null>(null);
   const ref = useRef<HTMLElement | null>(null);
   const arrastre = useRef<{ dx: number; dy: number; x0: number; y0: number; movio: boolean } | null>(null);
+  // Con el dedo: hay que mantenerlo apretado un instante para agarrarlo. Si el dedo se desliza
+  // enseguida, es que la persona quiere desplazar la página (y Marcio no se lo impide).
+  const espera = useRef<{ timer: number; x0: number; y0: number } | null>(null);
+  useEffect(() => {
+    // Mientras Marcio está agarrado con el dedo, la página no se desplaza.
+    const frenar = (e: TouchEvent) => { if (arrastre.current) e.preventDefault(); };
+    document.addEventListener('touchmove', frenar, { passive: false });
+    return () => document.removeEventListener('touchmove', frenar);
+  }, []);
 
   const cancelarRetorno = () => {
     if (retornoTimer.current) {
@@ -194,14 +203,30 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
       setRetornando(false);
       // El punto de agarre se mide sobre Marcio mismo (no sobre el contenedor con el globo):
       // así queda pegado al puntero exactamente donde lo agarraste.
-      const r = e.currentTarget.getBoundingClientRect();
-      arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
-      pegado.current = null;
-      e.currentTarget.setPointerCapture(e.pointerId);
-      setAgarrado(true);
-      alAgarrar?.();
+      const el = e.currentTarget;
+      const r = el.getBoundingClientRect();
+      const { clientX, clientY, pointerId } = e;
+      const agarrar = () => {
+        arrastre.current = { dx: clientX - r.left, dy: clientY - r.top, x0: clientX, y0: clientY, movio: false };
+        pegado.current = null;
+        try { el.setPointerCapture(pointerId); } catch { /* el dedo ya se levantó */ }
+        setAgarrado(true);
+        alAgarrar?.();
+      };
+      if (e.pointerType === 'touch') {
+        if (espera.current) window.clearTimeout(espera.current.timer);
+        espera.current = { x0: clientX, y0: clientY, timer: window.setTimeout(() => { espera.current = null; agarrar(); }, 200) };
+        return;
+      }
+      agarrar();
     },
     onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
+      const w = espera.current;
+      if (w && Math.hypot(e.clientX - w.x0, e.clientY - w.y0) > 8) {
+        window.clearTimeout(w.timer);
+        espera.current = null;
+        return;
+      }
       const a = arrastre.current;
       if (!a) return;
       if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
@@ -233,6 +258,13 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
       setAfuera((f) => (f === fuera ? f : fuera));
     },
     onPointerUp: (e: React.PointerEvent<HTMLElement>) => {
+      if (espera.current) {
+        // Un toque corto con el dedo: es un toque, no un arrastre.
+        window.clearTimeout(espera.current.timer);
+        espera.current = null;
+        alTocar();
+        return;
+      }
       const a = arrastre.current;
       arrastre.current = null;
       setAgarrado(false);
@@ -260,6 +292,8 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
       }
     },
     onPointerCancel: () => {
+      // El navegador se quedó con el gesto (la persona está desplazando la página).
+      if (espera.current) { window.clearTimeout(espera.current.timer); espera.current = null; }
       arrastre.current = null;
       pegado.current = null;
       setAfuera(null);
@@ -680,7 +714,7 @@ export const Asistente: React.FC = () => {
     setMensajes((m) => [...m, { id: siguienteId++, de: 'bot', texto: '¿Sobre qué más te puedo contar?', opciones: true }]);
   };
 
-  // Panel de soporte técnico que sale del costado (botón verde, "Ver soporte técnico" del chat,
+  // Panel de soporte técnico que baja desde arriba (menú Contacto, "Ver soporte técnico" del chat,
   // links /soporte y "Soporte técnico" del menú y del pie).
   const [soporteAbierto, setSoporteAbierto] = useState(false);
   const enlacesSoporte = enlacesDe(temaPorId('soporte-tecnico')!);
@@ -700,14 +734,6 @@ export const Asistente: React.FC = () => {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [soporteAbierto]);
-  // "Preguntarle al asistente" desde el panel: abre el chat directo en soporte.
-  const soporteEnElChat = () => {
-    setSoporteAbierto(false);
-    abrirChat();
-    const tema = temaPorId('soporte-tecnico');
-    if (tema) void preguntar(tema.boton.replace(/^\W+\s*/u, ''), tema);
-  };
-
   // Lo último que dijo Marcio, para que el lector de pantalla anuncie sólo eso
   // y no relea toda la conversación cada vez que llega un mensaje.
   const ultimoDelBot = [...mensajes].reverse().find((m) => m.de === 'bot');
@@ -814,14 +840,6 @@ export const Asistente: React.FC = () => {
                     >
                       <Mail className="w-3.5 h-3.5" />
                       E-mail
-                    </a>
-                    <a
-                      href={m.enlaces.gmail}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-600 hover:border-cyan-400 text-slate-200 hover:text-white text-xs font-semibold transition-colors"
-                    >
-                      Gmail
                     </a>
                     {m.tema.seccion && m.tema.id !== 'persona' && (
                       <button
@@ -936,7 +954,7 @@ export const Asistente: React.FC = () => {
           ref={(el) => {
             contRef.current = el;
           }}
-          className={`fixed z-[70] flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
+          className={`fixed z-[70] flex items-end gap-2 pointer-events-none ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             lateral.retornando ? 'transition-all duration-700 ease-out' : ''
           } ${
             pos ? '' : `right-1 sm:right-3 bottom-40 sm:bottom-56 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
@@ -944,7 +962,7 @@ export const Asistente: React.FC = () => {
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando || pos ? 'hidden' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`pointer-events-auto relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando || pos ? 'hidden' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
@@ -970,7 +988,7 @@ export const Asistente: React.FC = () => {
             type="button"
             {...lateral.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-none"
+            className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-manipulation pointer-events-auto"
           >
             {(oing || lateral.afuera || (lateral.agarrado && !(cansado && trasOing))) && (
               <span
@@ -1012,30 +1030,12 @@ export const Asistente: React.FC = () => {
         </div>
       )}
 
-      {/* Soporte técnico: sobresale del costado, arriba del botón del asistente, y abre su panel. */}
-      {!abierto && (
-        <button
-          type="button"
-          onClick={() => setSoporteAbierto((v) => !v)}
-          aria-expanded={soporteAbierto}
-          aria-controls="panel-soporte"
-          title="Soporte técnico"
-          className="fixed z-[64] right-6 bottom-[6.25rem] sm:bottom-[7.25rem] inline-flex items-center gap-2 pl-3 pr-3.5 py-2 sm:py-2.5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-xs sm:text-sm font-black shadow-2xl shadow-emerald-500/40 border border-emerald-200/60 hover:scale-105 active:scale-95 transition-transform cursor-pointer motion-safe:animate-[soporte-asoma_0.7s_ease-out]"
-        >
-          <span className="relative flex">
-            <LifeBuoy className="w-5 h-5" />
-            {!soporteAbierto && <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-white animate-ping motion-reduce:animate-none" />}
-          </span>
-          <span className="sm:hidden">Soporte</span>
-          <span className="hidden sm:inline">Soporte técnico</span>
-        </button>
-      )}
       {soporteAbierto && !abierto && (
         <div
           id="panel-soporte"
           role="dialog"
           aria-label="Soporte técnico"
-          className="fixed z-[71] right-3 sm:right-6 bottom-[9.5rem] sm:bottom-[10.75rem] w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 motion-safe:animate-[soporte-asoma_0.45s_ease-out]"
+          className="fixed z-[71] right-3 sm:right-6 top-20 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 motion-safe:animate-[soporte-asoma_0.45s_ease-out]"
         >
           <div className="flex items-start gap-3">
             <span className="w-9 h-9 rounded-xl bg-emerald-400/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shrink-0">
@@ -1053,17 +1053,9 @@ export const Asistente: React.FC = () => {
             <a href={enlacesSoporte.wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-bold">
               <MessageCircle className="w-4 h-4" /> WhatsApp de soporte
             </a>
-            <div className="grid grid-cols-2 gap-2">
-              <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold">
-                <Mail className="w-3.5 h-3.5" /> E-mail
-              </a>
-              <a href={enlacesSoporte.gmail} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-3 py-2 rounded-xl border border-slate-600 hover:border-cyan-400 text-slate-200 text-xs font-semibold">
-                Gmail
-              </a>
-            </div>
-            <button type="button" onClick={soporteEnElChat} className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-slate-700 hover:border-emerald-400 text-slate-300 hover:text-white text-xs font-semibold cursor-pointer">
-              Preguntarle al asistente <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-sm font-bold">
+              <Mail className="w-4 h-4" /> E-mail
+            </a>
             <p className="text-[11px] text-slate-500 text-center">soporte@tecnoros.ar</p>
           </div>
         </div>

@@ -76,7 +76,7 @@ function createHardwareBenchTexture(): THREE.CanvasTexture {
 export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
   systemType,
   filamentColor = '#18181b',
-  autoRotate: initialAutoRotate = false,
+  autoRotate: initialAutoRotate = true,
   colibriMode = 'voice',
   explodedAmount = 0,
 }) => {

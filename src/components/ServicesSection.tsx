@@ -285,7 +285,7 @@ export const ServicesSection: React.FC = () => {
             onClick={() => consultarPor('diagnostico')}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap cursor-pointer shrink-0 group"
           >
-            <span>Agendar Diagnóstico Gratuito</span>
+            <span>Agendar Diagnóstico Inicial Gratuito</span>
             <ArrowRight className="w-4 h-4 text-slate-950 group-hover:translate-x-1 transition-transform translate-y-[2px]" />
           </button>
         </div>

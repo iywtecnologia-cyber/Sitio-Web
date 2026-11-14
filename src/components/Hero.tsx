@@ -41,7 +41,7 @@ export const Hero: React.FC = () => {
               onClick={() => scrollTo('contacto')}
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm sm:text-base font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 rounded-xl shadow-lg shadow-cyan-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer group"
             >
-              <span>Pedí tu diagnóstico sin costo</span>
+              <span>Pedí tu diagnóstico inicial gratuito</span>
               <ArrowRight className="w-4 h-4 text-slate-950 group-hover:translate-x-1 transition-transform" />
             </button>
 
