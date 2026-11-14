@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowUpRight, ChevronDown, ArrowRight, Workflow } from 'lucide-react';
+import { Menu, X, ArrowUpRight, ChevronDown, ArrowRight } from 'lucide-react';
 import { TecnorosLogo } from './TecnorosLogo';
 import { SERVICES } from './ServicesSection';
 import { PRODUCTOS } from './ProductosPropios';
@@ -140,21 +140,14 @@ export const Navbar: React.FC<NavbarProps> = () => {
       label: 'Productos propios',
       href: '#productos',
       id: 'productos',
-      items: [
-        ...PRODUCTOS.map((p) => ({
-          key: p.id,
-          label: p.title,
-          icon: p.icon,
-          go: () => irA(`producto-${p.id}`, true),
-        })),
-        {
-          key: 'golondrina-demo-b2b',
-          label: 'Demo B2B Golondrina (Interactivo)',
-          hint: 'Simulador 1 Clic en Planta',
-          icon: Workflow,
-          go: () => irA('aplicaciones-golondrina', true),
-        }
-      ],
+      // Solo los productos propios: Robótica a medida ya tiene "Diseñá tu robot" en el menú,
+      // y la demo B2B se ve dentro de la página de Golondrina.
+      items: PRODUCTOS.filter((p) => !/robot/i.test(p.id) && !/rob[oó]tica/i.test(p.title)).map((p) => ({
+        key: p.id,
+        label: p.title,
+        icon: p.icon,
+        go: () => irA(`producto-${p.id}`, true),
+      })),
     },
     {
       label: 'Proyectos',
