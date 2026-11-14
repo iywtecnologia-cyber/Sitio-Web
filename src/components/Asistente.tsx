@@ -325,7 +325,7 @@ const KEYFRAMES = `
   @keyframes marcio-flip { 0% { transform: scaleX(1); } 25% { transform: scaleX(0) rotate(10deg); } 50% { transform: scaleX(-1); } 75% { transform: scaleX(0) rotate(-10deg); } 100% { transform: scaleX(1); } }
   @keyframes marcio-mareo { 0%,100% { transform: rotate(0deg) translateX(0); } 20% { transform: rotate(-14deg) translateX(-6px); } 40% { transform: rotate(12deg) translateX(6px); } 60% { transform: rotate(-8deg) translateX(-3px); } 80% { transform: rotate(6deg) translateX(2px); } }
   @keyframes marcio-sale { 0% { transform: translate(60px, 40px) scale(.3) rotate(0deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translate(0,0) scale(1) rotate(720deg); opacity: 1; } }
-  @keyframes marcio-globo { from { transform: translate(-50%, 8px) scale(.6); opacity: 0; } to { transform: translate(-50%, 0) scale(1); opacity: 1; } }
+  @keyframes marcio-globo { from { transform: translateY(8px) scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
   @keyframes marcio-flota { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
   @keyframes marcio-puntito { 0%,60%,100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
   @keyframes marcio-oing-izq { 0%,100% { transform: scale(1,1); } 30% { transform: scale(.72,1.18) translateX(-6px); } 60% { transform: scale(1.1,.94); } }
@@ -338,6 +338,16 @@ const KEYFRAMES = `
 // Tras 20 segundos seguidos de clics y arrastres (sin pausas de más de 15 s), Marcio pregunta si lo podés soltar.
 const JUEGO_MAX_MS = 20_000;
 const PAUSA_JUEGO_MS = 15_000;
+
+// Dónde va el globito chico de Marcio ("¡Wiii!", "¡Oing!"...): si Marcio está pegado a un borde,
+// el globo se alinea hacia adentro de la pantalla para que el texto no quede cortado.
+const ladoGlobo = (p: { x: number; y: number } | null, porDefecto: string) => {
+  if (!p) return porDefecto;
+  if (p.x < window.innerWidth * 0.33) return 'left-0';
+  if (p.x > window.innerWidth * 0.6) return 'right-0';
+  return 'left-1/2 -translate-x-1/2';
+};
+const GLOBO_CHICO = 'w-max max-w-[min(15rem,calc(100vw-1.5rem))] text-center leading-snug';
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
@@ -726,7 +736,7 @@ export const Asistente: React.FC = () => {
               <span
                 key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
-                className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
+                className={`pointer-events-none absolute ${ladoGlobo(delChat.pos, 'right-0 sm:right-auto sm:left-0')} bottom-full mb-2 ${GLOBO_CHICO} rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
                   oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
@@ -933,7 +943,7 @@ export const Asistente: React.FC = () => {
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`relative mb-16 max-w-[180px] transition-opacity ${lateral.agarrado || lateral.retornando ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
@@ -965,7 +975,7 @@ export const Asistente: React.FC = () => {
               <span
                 key={oing ? `oing-${oing.n}` : 'agarrado'}
                 aria-hidden="true"
-                className={`pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
+                className={`pointer-events-none absolute ${ladoGlobo(pos, 'right-0')} bottom-full mb-2 ${GLOBO_CHICO} rounded-2xl rounded-b-md px-3 py-1.5 text-sm font-bold shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out] ${
                   lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
@@ -975,7 +985,7 @@ export const Asistente: React.FC = () => {
             {lateral.retornando && (
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 -translate-x-1/2 -top-11 whitespace-nowrap rounded-2xl rounded-b-md bg-cyan-400 text-slate-950 px-3 py-1.5 text-xs font-black shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]"
+                className={`pointer-events-none absolute ${ladoGlobo(pos, 'right-0')} bottom-full mb-2 ${GLOBO_CHICO} rounded-2xl rounded-b-md bg-cyan-400 text-slate-950 px-3 py-1.5 text-xs font-black shadow-xl motion-safe:animate-[marcio-globo_0.25s_ease-out]`}
               >
                 ¡Volviendo a mi base! 🛸
               </span>

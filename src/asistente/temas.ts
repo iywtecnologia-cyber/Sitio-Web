@@ -293,7 +293,7 @@ export const TEMAS: Tema[] = [
   },
   {
     id: 'diagnostico',
-    boton: 'Diagnóstico gratis',
+    boton: 'Diagnóstico inicial gratuito',
     enGrilla: true,
     patrones: [
       pre('diagnostic', 5), ex('gratis', 4), pre('gratuit', 4), fr('sin cargo', 4),
