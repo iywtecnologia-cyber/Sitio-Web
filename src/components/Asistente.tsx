@@ -839,7 +839,7 @@ export const Asistente: React.FC = () => {
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
-                      E-mail
+                      e-mail
                     </a>
                     {m.tema.seccion && m.tema.id !== 'persona' && (
                       <button
@@ -1054,7 +1054,7 @@ export const Asistente: React.FC = () => {
               <MessageCircle className="w-4 h-4" /> WhatsApp de soporte
             </a>
             <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-sm font-bold">
-              <Mail className="w-4 h-4" /> E-mail
+              <Mail className="w-4 h-4" /> e-mail
             </a>
             <p className="text-[11px] text-slate-500 text-center">soporte@tecnoros.ar</p>
           </div>

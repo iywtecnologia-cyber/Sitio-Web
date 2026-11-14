@@ -97,7 +97,7 @@ export const Arrepentimiento: React.FC = () => {
       : 'Hola tecnoros.ar, quiero dar de baja el servicio contratado.',
     '',
     `Nombre o empresa: ${datos.nombre}`,
-    `Email: ${datos.email}`,
+    `e-mail: ${datos.email}`,
     `Teléfono: ${datos.telefono}`,
     `Servicio contratado: ${datos.servicio}`,
     `Fecha de contratación: ${datos.fecha}`,

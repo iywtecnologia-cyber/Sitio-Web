@@ -10,7 +10,7 @@ type App = { id: string; nombre: string; que: string; icon: React.ElementType };
 
 const APPS: App[] = [
   { id: 'whatsapp', nombre: 'WhatsApp', que: 'Avisarte por mensaje', icon: MessageCircle },
-  { id: 'mail', nombre: 'Mail', que: 'Avisos de facturas y turnos que reenviés', icon: Mail },
+  { id: 'mail', nombre: 'e-mail', que: 'Avisos de facturas y turnos que reenviés', icon: Mail },
   { id: 'calendario', nombre: 'Calendario', que: 'Recordarte reuniones y vencimientos', icon: CalendarDays },
   { id: 'pagos', nombre: 'Mercado Pago', que: 'Avisarte cuando entra un cobro', icon: Wallet },
   { id: 'ventas', nombre: 'Tu tienda online', que: 'Avisarte de pedidos nuevos', icon: ShoppingBag },
@@ -40,7 +40,7 @@ const interpretar = (t: string): Regla => {
   const limpio = t.replace(/^(recordame|acordame|avisame|avísame)\s+(que\s+)?/i, '').replace(/^\w/, (c) => c.toUpperCase());
 
   if (/(e-?mail|correo|\bmail)/.test(x)) {
-    return { texto: t, app: 'mail', cuando: 'Apenas te entre ese mail', aviso: '📧 Te entró un mail de un cliente nuevo. ¿Querés que te lo lea?' };
+    return { texto: t, app: 'mail', cuando: 'Apenas te entre ese e-mail', aviso: '📧 Te entró un e-mail de un cliente nuevo. ¿Querés que te lo lea?' };
   }
   if (/(cobro|pago|transferencia|plata)/.test(x)) {
     return { texto: t, app: 'pagos', cuando: 'Apenas entre el cobro', aviso: '💰 Entró un cobro nuevo en Mercado Pago.' };

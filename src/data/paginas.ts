@@ -18,7 +18,7 @@ export const META_PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; descripc
   '/proyectos': { titulo: 'Proyectos', descripcion: 'Sistemas reales que hicimos y que ya están funcionando en negocios.' },
   '/presupuesto': { titulo: 'Presupuesto', descripcion: 'Calculá cuánto cuesta lo que necesitás, con precios de referencia y combos.' },
   '/tecnologias': { titulo: 'Tecnologías', descripcion: 'Las tecnologías con las que trabajamos.' },
-  '/nosotros': { titulo: 'Nosotros', descripcion: 'Nacimos en Rosario y trabajamos en remoto con gente de distintos lugares del mundo: ciberseguridad, QA, automatización, electrónica y machine learning.' },
+  '/nosotros': { titulo: 'Nosotros', descripcion: 'Nacimos en Rosario y trabajamos en remoto con gente de todo LATAM: ciberseguridad, QA, automatización, electrónica y machine learning.' },
   '/contacto': { titulo: 'Contacto', descripcion: 'Contanos qué necesitás por WhatsApp o e-mail. El diagnóstico es sin costo.' },
   '/encuentros': { titulo: 'Encuentros', descripcion: 'Nuestra historia en fotos: cómo empezamos, el equipo y las jornadas y eventos a los que vamos.' },
   '/blog': { titulo: 'Blog', descripcion: 'Notas cortas y prácticas para tu negocio: automatización, ciberseguridad y más.' },

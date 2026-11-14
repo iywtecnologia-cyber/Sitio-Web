@@ -48,7 +48,7 @@ export const HeroCorto: React.FC = () => (
         Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
       </h1>
       <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos una agencia remota nacida en Rosario, con equipo en distintos lugares del mundo. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        Somos una agencia remota nacida en Rosario, con equipo en todo LATAM. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3">
         <button
@@ -307,7 +307,7 @@ export const EquipoCorto: React.FC = () => (
       <Titulo
         chip="Quiénes somos"
         titulo="Nuestro equipo"
-        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de distintos lugares. Así estamos organizados:"
+        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de todo LATAM. Así estamos organizados:"
       />
       <EquipoAreas />
     </div>

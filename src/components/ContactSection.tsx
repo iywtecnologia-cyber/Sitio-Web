@@ -132,7 +132,7 @@ export const ContactSection: React.FC = () => {
     const targetNumber = getRandomWhatsAppNumber();
     const { nombre, email } = camposLimpios();
     const nameStr = nombre ? `• *Nombre o Negocio:* ${nombre}\n` : '';
-    const emailStr = email ? `• *Email de contacto:* ${email}\n` : '';
+    const emailStr = email ? `• *e-mail de contacto:* ${email}\n` : '';
     const msgStr = formData.mensaje.trim() || DEFAULT_MESSAGE;
     
     const formattedText = `Hola equipo de tecnoros.ar,\n\n${nameStr}${emailStr}• *Consulta:* ${msgStr}`;
@@ -149,7 +149,7 @@ export const ContactSection: React.FC = () => {
     // Solo se incluyen los datos que la persona completó.
     const etiquetaTema = temaPorId(tema)?.etiqueta;
     const subject = `${etiquetaTema ? `Consulta: ${etiquetaTema}` : 'Consulta desde la web'}${nombre ? ` - ${nombre}` : ''} - tecnoros.ar`;
-    const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `Email de contacto: ${email}`].filter(Boolean).join('\n');
+    const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `e-mail de contacto: ${email}`].filter(Boolean).join('\n');
     const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
     window.location.href = mailtoLink(CONTACT_EMAIL, subject, bodyText);
@@ -217,7 +217,7 @@ export const ContactSection: React.FC = () => {
 
               <div>
                 <label htmlFor="contacto-email" className="block text-xs font-mono text-slate-300 mb-2">
-                  Tu E-mail de Contacto
+                  Tu e-mail de Contacto
                 </label>
                 <input
                   id="contacto-email"
@@ -282,7 +282,7 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleSendFormWhatsApp}
                   className="px-5 py-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Abre WhatsApp con tu nombre, email y consulta pre-cargados"
+                  title="Abre WhatsApp con tu nombre, e-mail y consulta pre-cargados"
                 >
                   <MessageCircle className="w-4 h-4 fill-emerald-400/20" />
                   <span>Enviar por WhatsApp</span>
@@ -292,10 +292,10 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleSendFormEmail}
                   className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Abre tu programa de correo con tu nombre, email y consulta pre-cargados"
+                  title="Abre tu programa de correo con tu nombre, e-mail y consulta pre-cargados"
                 >
                   <Send className="w-4 h-4 fill-slate-950" />
-                  <span>Enviar por E-mail</span>
+                  <span>Enviar por e-mail</span>
                 </button>
               </div>
             </div>
