@@ -192,8 +192,9 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
     onPointerDown: (e: React.PointerEvent<HTMLElement>) => {
       cancelarRetorno();
       setRetornando(false);
-      const r = ref.current?.getBoundingClientRect();
-      if (!r) return;
+      // El punto de agarre se mide sobre Marcio mismo (no sobre el contenedor con el globo):
+      // así queda pegado al puntero exactamente donde lo agarraste.
+      const r = e.currentTarget.getBoundingClientRect();
       arrastre.current = { dx: e.clientX - r.left, dy: e.clientY - r.top, x0: e.clientX, y0: e.clientY, movio: false };
       pegado.current = null;
       e.currentTarget.setPointerCapture(e.pointerId);
@@ -938,12 +939,12 @@ export const Asistente: React.FC = () => {
           className={`fixed z-[70] flex items-end gap-2 ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             lateral.retornando ? 'transition-all duration-700 ease-out' : ''
           } ${
-            pos ? '' : `right-0 bottom-40 sm:bottom-56 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
+            pos ? '' : `right-1 sm:right-3 bottom-40 sm:bottom-56 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando ? 'opacity-0' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando || pos ? 'hidden' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
@@ -969,7 +970,7 @@ export const Asistente: React.FC = () => {
             type="button"
             {...lateral.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
-            className={`relative ${pos ? 'px-1' : 'pr-2 sm:pr-4'} cursor-grab active:cursor-grabbing select-none touch-none`}
+            className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-none"
           >
             {(oing || lateral.afuera || (lateral.agarrado && !(cansado && trasOing))) && (
               <span

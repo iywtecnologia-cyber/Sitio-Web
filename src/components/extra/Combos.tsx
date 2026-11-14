@@ -30,7 +30,7 @@ export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
             <p className="mt-3 text-sm text-cyan-100/90 leading-snug border-l-2 border-cyan-400/60 pl-3">{c.siTe}</p>
             <ul className="mt-4 space-y-1.5 flex-1">
               {c.incluye.map((i) =>
-                i === 'Diagnóstico gratuito' ? (
+                i === 'Diagnóstico inicial gratuito' ? (
                   <li key={i} className="flex items-center gap-2 px-2.5 py-1.5 -mx-1 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-sm font-bold text-emerald-200">
                     <Check className="w-4 h-4 text-emerald-300 shrink-0" /> {i}
                   </li>

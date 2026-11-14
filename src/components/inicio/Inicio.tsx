@@ -127,7 +127,7 @@ export const JarDestacado: React.FC = () => (
 // Todos los servicios en una sola fila deslizable. Primero los siete de la remera, en el mismo orden.
 // La descripción aparece al pasar el mouse o tocar la tarjeta (en celular se ve siempre, porque no hay "pasar el mouse").
 export const SERVICIOS: { icon: React.ElementType; titulo: string; linea: string; ir: string }[] = [
-  { icon: Search, titulo: 'Diagnóstico gratuito', linea: 'Miramos tu negocio y te decimos qué conviene hacer primero. Sin costo.', ir: 'servicio-analisis-qa' },
+  { icon: Search, titulo: 'Diagnóstico inicial gratuito', linea: 'Miramos tu negocio y te decimos qué conviene hacer primero. Sin costo.', ir: 'servicio-analisis-qa' },
   { icon: Workflow, titulo: 'Automatizaciones', linea: 'Turnos, consultas y tareas administrativas: lo que hacés a mano, que se haga solo.', ir: 'servicio-automatizacion' },
   { icon: MessageCircle, titulo: 'Bots de WhatsApp', linea: 'Responde consultas y toma pedidos a toda hora, con el tono de tu negocio.', ir: 'servicio-bots-whatsapp' },
   { icon: Lock, titulo: 'Ciberseguridad', linea: 'Protegemos tus datos, cuentas y equipos antes de que pase algo.', ir: 'servicio-ciberseguridad' },
