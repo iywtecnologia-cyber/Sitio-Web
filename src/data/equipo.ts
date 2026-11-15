@@ -186,14 +186,6 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://linkedin.com/in/ignacio-ibaigorria',
   },
   {
-    name: 'Rodrigo Pinto',
-    area: 'fullstack',
-    role: 'Se sumó al equipo',
-    specialty: 'Desarrollador Full Stack',
-    badge: 'Full Stack Developer',
-    linkedin: 'https://www.linkedin.com/in/rodrigopinto30/',
-  },
-  {
     name: 'Miguel Pistan',
     area: 'qa',
     role: 'Se sumó al equipo',
@@ -218,14 +210,6 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://www.linkedin.com/in/fernandobarrionuevoqa',
   },
   {
-    name: 'Pamela Calafate',
-    area: 'qa',
-    role: 'Se sumó al equipo',
-    specialty: 'QA manual y automation · Abogada',
-    badge: 'QA Analyst | Abogada',
-    linkedin: 'https://www.linkedin.com/in/pamelacalafate/',
-  },
-  {
     // Pidió que le avisemos qué rol le ponemos: este es el que ella/él mismo propuso, a confirmar.
     name: 'Leandro José Luis Trapine',
     area: 'qa',
@@ -234,14 +218,6 @@ export const FOUNDERS: Founder[] = [
     badge: 'QA Analyst | Lawyer | Legal Tech',
     corto: 'Leandro Trapine',
     linkedin: 'https://www.linkedin.com/in/leandro-trapine-66216b1b6',
-  },
-  {
-    name: 'Santiago Pereira',
-    area: 'fullstack',
-    role: 'Se sumó al equipo',
-    specialty: 'Desarrollador Full Stack',
-    badge: 'Full Stack Developer',
-    linkedin: 'https://www.linkedin.com/in/santiago-pereira-994229244/',
   },
   {
     name: 'Manuel Alexandro Legra Crespo',
@@ -311,15 +287,6 @@ export const FOUNDERS: Founder[] = [
     corto: 'Jonathan Guglielmo',
     linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
     otrasAreas: [{ area: 'disenografico', badge: 'Diseñador gráfico' }],
-  },
-  {
-    name: 'Tavita Ines Vasquez Anticona',
-    area: 'fullstack',
-    role: 'Se sumó al equipo',
-    specialty: 'Desarrolladora Full Stack',
-    badge: 'Full Stack Developer',
-    corto: 'Tavita Vasquez',
-    linkedin: 'https://www.linkedin.com/in/tiva26/',
   },
   {
     name: 'María Belén Fernández Morales',
