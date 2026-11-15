@@ -38,6 +38,7 @@ import {
   USE_CASE_TEMPLATES,
   UseCaseTemplate
 } from './types';
+import { SelectorColor } from '../SelectorColor';
 
 export const RobotStudioSection: React.FC = () => {
   // Mode in Robot: 'use-case' (Need-guided design) or 'free-custom' (100% customization)
@@ -746,13 +747,10 @@ export const RobotStudioSection: React.FC = () => {
                   <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950 border border-slate-800">
                     <span className="text-xs text-slate-300">Pintura Principal:</span>
                     <div className="flex items-center gap-2">
-                      <input
-                        type="color"
+                      <SelectorColor
                         value={robotConfig.colorHex}
-                        onChange={(e) =>
-                          setRobotConfig((prev) => ({ ...prev, colorHex: e.target.value }))
-                        }
-                        className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
+                        onChange={(hex) => setRobotConfig((prev) => ({ ...prev, colorHex: hex }))}
+                        etiqueta="Pintura principal"
                       />
                       <span className="text-xs font-mono text-white">{robotConfig.colorHex}</span>
                     </div>
@@ -762,13 +760,10 @@ export const RobotStudioSection: React.FC = () => {
                   <div className="flex items-center justify-between p-2 rounded-lg bg-slate-950 border border-slate-800">
                     <span className="text-xs text-slate-300">Acentos y Perfiles:</span>
                     <div className="flex items-center gap-2">
-                      <input
-                        type="color"
+                      <SelectorColor
                         value={robotConfig.accentColorHex}
-                        onChange={(e) =>
-                          setRobotConfig((prev) => ({ ...prev, accentColorHex: e.target.value }))
-                        }
-                        className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
+                        onChange={(hex) => setRobotConfig((prev) => ({ ...prev, accentColorHex: hex }))}
+                        etiqueta="Acentos y perfiles"
                       />
                       <span className="text-xs font-mono text-white">{robotConfig.accentColorHex}</span>
                     </div>

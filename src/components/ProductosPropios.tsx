@@ -31,6 +31,7 @@ import { GolondrinaLogo } from './LogosProductos';
 import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
 import { PlegableMovil } from './PlegableMovil';
 import { CLAVE_SUMAR_PRESUPUESTO, dolares, pesos } from '../data/precios';
+import { SelectorColor } from './SelectorColor';
 
 // three.js pesa ~600 kB: el visor se descarga recién cuando se dibuja. Como el Navbar importa
 // PRODUCTOS de este archivo, un import directo metía three.js en la carga del inicio.
@@ -846,12 +847,7 @@ export const ProductosPropios: React.FC = () => {
                     {customFilament && (
                       <div className="mt-2.5 pl-6 flex items-center gap-3">
                         <span className="text-xs sm:text-[11px] text-slate-400 font-mono">Elegir color:</span>
-                        <input
-                          type="color"
-                          value={filamentColorHex}
-                          onChange={(e) => setFilamentColorHex(e.target.value)}
-                          className="w-7 h-7 rounded cursor-pointer bg-transparent border-0"
-                        />
+                        <SelectorColor value={filamentColorHex} onChange={setFilamentColorHex} etiqueta="Color de la carcasa" />
                         <span className="text-xs font-mono text-cyan-300">{filamentColorHex}</span>
                       </div>
                     )}
