@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { geoGraticule10, geoOrthographic, geoPath, geoDistance, type GeoPermissibleObjects } from 'd3-geo';
-import { Linkedin, MapPin, X } from 'lucide-react';
-import { FOUNDERS, type Founder, type Ubicacion } from '../data/equipo';
+import { FileText, Linkedin, MapPin } from 'lucide-react';
+import { AREAS_EQUIPO, FOUNDERS, type Founder, type Ubicacion } from '../data/equipo';
+
+const nombreArea = (id: string) => AREAS_EQUIPO.find((a) => a.id === id)?.nombre ?? '';
 
 // Mapamundi interactivo del equipo: un globo que gira solo, se arrastra con el mouse o el dedo,
 // y muestra de dónde es cada persona. Tocando un punto se ve quiénes son, con su LinkedIn.
@@ -15,7 +17,7 @@ const Avatar: React.FC<{ f: Founder; className?: string }> = ({ f, className = '
   f.foto ? (
     <img src={f.foto} alt="" className={`rounded-full object-cover ${className}`} />
   ) : (
-    <span aria-hidden="true" className={`rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center ${className}`}>
+    <span aria-hidden="true" className={`flex items-center justify-center ${className}`}>
       {f.emoji ?? '🙂'}
     </span>
   );
@@ -23,10 +25,15 @@ const Avatar: React.FC<{ f: Founder; className?: string }> = ({ f, className = '
 const Persona: React.FC<{ f: Founder }> = ({ f }) => {
   const contenido = (
     <>
-      <Avatar f={f} className="w-10 h-10 text-xl shrink-0" />
+      <Avatar f={f} className="w-10 h-10 text-3xl shrink-0" />
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-bold text-white leading-tight">{f.name}</span>
-        <span className="block text-xs text-slate-400 leading-tight mt-0.5">{f.role} · {f.badge}</span>
+        <span className="block text-xs text-cyan-300 leading-tight mt-0.5">{nombreArea(f.area)} · {f.badge}</span>
+        {f.ubicacion && (
+          <span className="flex items-center gap-1 text-xs text-slate-400 leading-tight mt-0.5">
+            <MapPin className="w-3 h-3 shrink-0" /> {f.ubicacion.lugar}
+          </span>
+        )}
       </span>
       {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
     </>
@@ -53,6 +60,8 @@ export const MundoEquipo: React.FC = () => {
     });
     return [...m.values()];
   }, []);
+
+  const gente = useMemo(() => FOUNDERS.filter((f) => f.ubicacion), []);
 
   const [tierra, setTierra] = useState<GeoPermissibleObjects | null>(null);
   // Arranca mirando a Rosario (Sudamérica al frente).
@@ -118,10 +127,13 @@ export const MundoEquipo: React.FC = () => {
     arrastre.current = null;
   };
 
-  const elegir = (p: Punto) => {
+  const mirarA = (u: Ubicacion) => {
     tocado.current = true;
+    setRot([-u.lon, -u.lat * 0.6]);
+  };
+  const elegir = (p: Punto) => {
     setElegido(p);
-    setRot([-p.lon, -p.lat * 0.6]);
+    mirarA(p);
   };
 
   return (
@@ -154,56 +166,60 @@ export const MundoEquipo: React.FC = () => {
               if (!xy) return null;
               const activo = elegido?.lugar === p.lugar;
               return (
-                <g
-                  key={p.lugar}
-                  data-punto
-                  transform={`translate(${xy[0]},${xy[1]})`}
-                  className="cursor-pointer outline-none"
-                  onClick={() => elegir(p)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${p.lugar}: ${p.gente.map((g) => g.name).join(' y ')}`}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); elegir(p); } }}
-                >
+                <g key={p.lugar} data-punto transform={`translate(${xy[0]},${xy[1]})`}>
                   <circle r={18} fill="#00D2F3" opacity={0.18} className="motion-safe:animate-ping" style={{ transformOrigin: 'center', transformBox: 'fill-box' }} />
-                  <circle r={activo ? 9 : 7} fill="#00D2F3" stroke="#fff" strokeWidth={2} />
-                  <text y={-14} textAnchor="middle" fontSize={18}>{p.gente.map((g) => g.emoji ?? '🙂').join('')}</text>
+                  <circle r={activo ? 9 : 7} fill="#00D2F3" stroke="#fff" strokeWidth={2} className="cursor-pointer" onClick={() => elegir(p)} />
+                  {/* Al lado del punto: cada persona (emoji o foto, nombre y área, con link a LinkedIn) y el lugar. */}
+                  <foreignObject x={xy[0] > TAM - 200 ? -200 : 12} y={-12 - p.gente.length * 17} width={188} height={p.gente.length * 34 + 26}>
+                    <div className="rounded-lg bg-[#0B1220]/85 border border-cyan-400/40 px-2 py-1.5 text-white shadow-lg">
+                      {p.gente.map((f) => {
+                        const fila = (
+                          <span className="flex items-center gap-1.5">
+                            <Avatar f={f} className="w-6 h-6 text-lg shrink-0" />
+                            <span className="min-w-0">
+                              <span className="block text-[11px] font-bold leading-tight truncate">{f.name}</span>
+                              <span className="block text-[9px] text-cyan-300 leading-tight truncate">{nombreArea(f.area)}</span>
+                            </span>
+                          </span>
+                        );
+                        return f.linkedin ? (
+                          <a key={f.name} href={f.linkedin} target="_blank" rel="noopener noreferrer" title={`LinkedIn de ${f.name}`} className="block py-0.5 hover:text-cyan-200">{fila}</a>
+                        ) : (
+                          <span key={f.name} className="block py-0.5">{fila}</span>
+                        );
+                      })}
+                      <span className="flex items-center gap-1 mt-0.5 text-[9px] text-slate-300"><MapPin className="w-2.5 h-2.5 shrink-0" /> {p.lugar}</span>
+                    </div>
+                  </foreignObject>
                 </g>
               );
             })}
           </svg>
-          <p className="mt-2 text-center text-xs text-slate-500">Arrastralo para girarlo · tocá un punto</p>
+          <p className="mt-2 text-center text-xs text-slate-500">Arrastralo para girarlo · tocá un nombre para ir a su LinkedIn</p>
         </div>
 
         <div>
-          <span className="text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">De dónde somos</span>
-          <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">El equipo en el mapa</h3>
-          <p className="mt-2 text-sm text-slate-400">Tocá un punto del globo (o un lugar de la lista) para ver quiénes son y entrar a su LinkedIn.</p>
-          <ul className="mt-5 space-y-3">
-            {puntos.map((p) => {
-              const activo = elegido?.lugar === p.lugar;
-              return (
-                <li key={p.lugar} className={`rounded-2xl border p-3 transition-colors ${activo ? 'border-cyan-400/70 bg-slate-900/80' : 'border-slate-800 bg-slate-900/50'}`}>
-                  <div className="flex items-center justify-between gap-2">
-                    <button type="button" onClick={() => (activo ? setElegido(null) : elegir(p))} aria-expanded={activo} className="flex items-center gap-2 text-left cursor-pointer min-w-0">
-                      <MapPin className="w-4 h-4 text-cyan-300 shrink-0" />
-                      <span className="text-sm font-semibold text-white">{p.lugar}</span>
-                      <span className="text-xs text-slate-400 shrink-0">· {p.gente.length} {p.gente.length === 1 ? 'persona' : 'personas'}</span>
-                    </button>
-                    {activo && (
-                      <button type="button" onClick={() => setElegido(null)} aria-label="Cerrar" className="p-1 rounded-md text-slate-400 hover:text-white cursor-pointer">
-                        <X className="w-4 h-4" />
-                      </button>
-                    )}
-                  </div>
-                  {activo && (
-                    <div className="mt-3 grid gap-2">
-                      {p.gente.map((f) => <Persona key={f.name} f={f} />)}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <span className="text-xs font-mono uppercase tracking-[0.14em] text-cyan-300">De dónde somos</span>
+              <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">El equipo en el mapa</h3>
+            </div>
+            <a
+              href="/organigrama-tecnoros.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/60 text-sm font-semibold text-cyan-300 hover:text-cyan-200 hover:border-cyan-300"
+            >
+              <FileText className="w-4 h-4" /> Ver equipo completo
+            </a>
+          </div>
+          <p className="mt-2 text-sm text-slate-400">Tocá a alguien (en el globo o en la lista) para ir a su LinkedIn.</p>
+          <ul className="mt-5 grid gap-2">
+            {gente.map((f) => (
+              <li key={f.name} onMouseEnter={() => f.ubicacion && mirarA(f.ubicacion)}>
+                <Persona f={f} />
+              </li>
+            ))}
           </ul>
           <p className="mt-4 text-xs text-slate-500">Muy pronto vas a ver al resto del equipo, desde todo LATAM.</p>
         </div>

@@ -129,6 +129,8 @@ interface OpcionesArrastre {
   alAgarrar?: () => void;
   /** Se estrelló contra un borde de la pantalla. */
   alChocar?: (lado: Lado) => void;
+  /** Lo arrastraron dando una vuelta entera (en círculo). */
+  alDarVuelta?: () => void;
   /** Lo soltaron afuera de la ventana: la persona lo quiere llevar a otra pantalla. */
   alSacarDeLaVentana?: (lado: Lado) => void;
 }
@@ -136,7 +138,9 @@ interface OpcionesArrastre {
 // Arrastrar con el mouse o el dedo a cualquier parte de la pantalla.
 // Si se mueve menos de 6px cuenta como clic.
 // Cuando se suelta, después de 5 segundos de inactividad, Marcio regresa a su origen.
-const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: OpcionesArrastre) => {
+const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana, alDarVuelta }: OpcionesArrastre) => {
+  // Para saber si lo están llevando en círculo: se va sumando cuánto gira la dirección del arrastre.
+  const giro = useRef<{ x: number; y: number; ang: number | null; total: number }>({ x: 0, y: 0, ang: null, total: 0 });
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   // Mientras lo tenés apretado, Marcio se "levanta" para que se note que lo agarraste.
   const [agarrado, setAgarrado] = useState(false);
@@ -208,6 +212,7 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
       const { clientX, clientY, pointerId } = e;
       const agarrar = () => {
         arrastre.current = { dx: clientX - r.left, dy: clientY - r.top, x0: clientX, y0: clientY, movio: false };
+        giro.current = { x: clientX, y: clientY, ang: null, total: 0 };
         pegado.current = null;
         try { el.setPointerCapture(pointerId); } catch { /* el dedo ya se levantó */ }
         setAgarrado(true);
@@ -231,6 +236,26 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana }: Opcio
       if (!a) return;
       if (!a.movio && Math.hypot(e.clientX - a.x0, e.clientY - a.y0) < 6) return;
       a.movio = true;
+      // ¿Dio una vuelta entera? (la dirección del movimiento giró 360°)
+      const g = giro.current;
+      const ddx = e.clientX - g.x;
+      const ddy = e.clientY - g.y;
+      if (Math.hypot(ddx, ddy) > 6) {
+        const ang = Math.atan2(ddy, ddx);
+        if (g.ang !== null) {
+          let d = ang - g.ang;
+          if (d > Math.PI) d -= 2 * Math.PI;
+          if (d < -Math.PI) d += 2 * Math.PI;
+          g.total += d;
+          if (Math.abs(g.total) >= 1.9 * Math.PI) {
+            g.total = 0;
+            alDarVuelta?.();
+          }
+        }
+        g.ang = ang;
+        g.x = e.clientX;
+        g.y = e.clientY;
+      }
       const deseado = { x: e.clientX - a.dx, y: e.clientY - a.dy };
       const limitado = limitar(deseado.x, deseado.y);
       setPos(limitado);
@@ -454,7 +479,7 @@ export const Asistente: React.FC = () => {
   }, []);
   const TRUCOS = ['marcio-giro', 'marcio-voltereta', 'marcio-salto', 'marcio-flip'];
   const FRASES = ['¡Wiii! 🚀', '¡Circuito encendido! ⚡', '¡Otra vez! 😄', '¿Charlamos? Tocá acá 💬', 'Arrastrame a donde quieras 👆', 'Podés llevarme a otra pantalla 🖥️'];
-  const FRASES_CANSADO = ['¿Por favor, me puedes soltar? 🥺'];
+  const FRASES_CANSADO = ['¿Por favor, me soltás? 🥺'];
 
   // Cuánto hace que lo están tocando y arrastrando sin parar.
   const juego = useRef({ desde: 0, ultimo: 0 });
@@ -510,7 +535,8 @@ export const Asistente: React.FC = () => {
     if (trasOingTimer.current) window.clearTimeout(trasOingTimer.current);
   }, []);
   // Pide que lo suelten sólo si está cansado y no acaba de decir "¡Oing!".
-  const pideSoltar = cansado && !trasOing;
+  const [mareado, setMareado] = useState(false);
+  const pideSoltar = (cansado || mareado) && !trasOing;
 
   // Marcio en su propia ventanita, para llevarlo a otro monitor.
   const [ventana, setVentana] = useState<VentanaMarcio | null>(null);
@@ -544,16 +570,19 @@ export const Asistente: React.FC = () => {
   useEffect(() => () => { if (ventana && !ventana.closed) ventana.close(); }, [ventana]);
 
   // Marcio se puede arrastrar (mouse o dedo), tanto el del costado como el que sale del chat.
+  // Un click (o toque) en Marcio abre el asistente; si lo mantenés apretado y lo arrastrás, se mueve.
+  // Si lo llevan dando una vuelta entera, pide que lo suelten.
   const lateral = useArrastre({
-    alTocar: hacerTruco,
-    alAgarrar: registrarJuego,
+    alTocar: abrirChat,
+    alAgarrar: () => { setMareado(false); registrarJuego(); },
     alChocar: chocar,
+    alDarVuelta: () => setMareado(true),
     alSacarDeLaVentana: (lado) => {
       lateral.setPos(null);
       void llevarAOtraPantalla(lado);
     },
   });
-  const delChat = useArrastre({ alTocar: hacerTruco, alAgarrar: registrarJuego, alChocar: chocar });
+  const delChat = useArrastre({ alTocar: hacerTruco, alAgarrar: () => { setMareado(false); registrarJuego(); }, alChocar: chocar, alDarVuelta: () => setMareado(true) });
   const pos = lateral.pos;
   const contRef = lateral.ref;
   useEffect(() => {
@@ -767,7 +796,7 @@ export const Asistente: React.FC = () => {
                   oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me soltás? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             <span
@@ -959,7 +988,7 @@ export const Asistente: React.FC = () => {
           className={`fixed z-[70] flex items-end gap-2 pointer-events-none ${globoALaDerecha ? 'flex-row-reverse' : ''} ${
             lateral.retornando ? 'transition-all duration-700 ease-out' : ''
           } ${
-            pos ? '' : `right-1 sm:right-3 bottom-40 sm:bottom-56 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
+            pos ? '' : `right-1 sm:right-3 bottom-28 sm:bottom-32 transition-transform duration-700 ease-out motion-reduce:transition-none ${marcioVisible ? 'translate-x-0' : 'translate-x-[110%]'}`
           }`}
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
@@ -989,7 +1018,7 @@ export const Asistente: React.FC = () => {
           <button
             type="button"
             {...lateral.handlers}
-            aria-label="Asistente de tecnoros.ar. Tocalo para que haga un truco o arrastralo"
+            aria-label="Asistente de tecnoros.ar. Tocalo para abrir el chat o arrastralo"
             className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-manipulation pointer-events-auto"
           >
             {(oing || lateral.afuera || (lateral.agarrado && !(cansado && trasOing))) && (
@@ -1000,7 +1029,7 @@ export const Asistente: React.FC = () => {
                   lateral.afuera ? 'bg-violet-300 text-slate-950' : oing ? 'bg-amber-300 text-slate-950 text-base font-black' : pideSoltar ? 'bg-rose-200 text-slate-950' : 'bg-white text-slate-900'
                 }`}
               >
-                {lateral.afuera ? 'Si me soltás acá, me paso a la otra pantalla 🖥️' : oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me puedes soltar? 🥺' : '¡Wiii, me llevás! 🚀'}
+                {lateral.afuera ? 'Si me soltás acá, me paso a la otra pantalla 🖥️' : oing ? '¡Oing! 💥' : pideSoltar ? '¿Por favor, me soltás? 🥺' : '¡Wiii, me llevás! 🚀'}
               </span>
             )}
             {lateral.retornando && (

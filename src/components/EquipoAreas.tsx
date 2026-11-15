@@ -100,7 +100,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
 };
 
 export const EquipoAreas: React.FC = () => {
-  // "Ver organigrama" aparece sólo mientras el usuario pasa por la sección del equipo.
+  // "Ver equipo completo" (el organigrama) aparece sólo mientras el usuario pasa por la sección del equipo.
   const grilla = useRef<HTMLDivElement>(null);
   const [aLaVista, setALaVista] = useState(false);
   useEffect(() => {
@@ -145,7 +145,7 @@ export const EquipoAreas: React.FC = () => {
         tabIndex={aLaVista ? 0 : -1}
         className={`fixed z-[60] left-4 bottom-6 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0B1220] border border-cyan-400/60 text-sm font-semibold text-cyan-300 hover:text-cyan-200 hover:border-cyan-300 shadow-2xl shadow-black/60 transition-all duration-300 ${aLaVista ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
       >
-        <FileText className="w-4 h-4" /> Ver organigrama
+        <FileText className="w-4 h-4" /> Ver equipo completo
       </a>
     </>
   );
