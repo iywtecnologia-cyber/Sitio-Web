@@ -74,12 +74,16 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 truncate ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px]' : 'text-sm'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
-                    <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
+                    <span className="flex items-center gap-1 min-w-0">
+                      <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
+                      {/* En dos columnas el ícono va en la línea del rol, para que el nombre entre completo. */}
+                      {f.linkedin && dosColumnas && <Linkedin className="w-3 h-3 text-[#4DA3FF] shrink-0" />}
+                    </span>
                   </span>
                   {f.linkedin && !dosColumnas && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
                 </>
               );
-              const clases = `flex items-center gap-2 ${dosColumnas ? 'px-1.5' : 'px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
+              const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1.5' : 'gap-2 px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
               return (
                 <li key={f.name} className="min-w-0">
                   {f.linkedin ? (
@@ -130,7 +134,7 @@ export const EquipoAreas: React.FC = () => {
         <span className="text-white font-semibold">{FOUNDERS.length} personas en {AREAS.length} áreas</span>, repartidas y trabajando remotamente desde todo LATAM.
       </p>
       {/* Grilla: todas las áreas a la vista y del mismo tamaño. */}
-      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {AREAS.map((area) => (
           <TarjetaArea key={area.id} area={area} />
         ))}
