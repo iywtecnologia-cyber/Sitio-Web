@@ -284,9 +284,9 @@ export const ProductosInicio: React.FC = () => (
               <button
                 type="button"
                 onClick={() => { if (equipo) elegirEquipo3D(equipo); irA(ir, true); }}
-                className="mt-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 text-sm font-bold hover:bg-cyan-400/20 cursor-pointer"
+                className="mt-4 w-full h-11 inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-300 text-[13px] lg:text-xs xl:text-sm font-bold whitespace-nowrap hover:bg-cyan-400/20 cursor-pointer"
               >
-                {boton} <ArrowRight className="w-4 h-4" />
+                {boton} <ArrowRight className="w-4 h-4 shrink-0 lg:hidden xl:block" />
               </button>
             </div>
           </li>
