@@ -1056,7 +1056,6 @@ export const Asistente: React.FC = () => {
             <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-sm font-bold">
               <Mail className="w-4 h-4" /> e-mail
             </a>
-            <p className="text-[11px] text-slate-500 text-center">soporte@tecnoros.ar</p>
           </div>
         </div>
       )}
