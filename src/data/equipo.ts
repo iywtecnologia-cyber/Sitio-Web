@@ -28,6 +28,8 @@ export interface Founder {
   linkedin?: string;
   /** Opcional: nombre para las fichas angostas de la landing, cuando sacar el primero y el último no alcanza. */
   corto?: string;
+  /** Opcional: otras áreas donde también trabaja (aparece en cada una, con su rol ahí). Cuenta como una sola persona. */
+  otrasAreas?: { area: AreaEquipo; badge: string }[];
 }
 
 export const FOUNDERS: Founder[] = [
@@ -287,6 +289,7 @@ export const FOUNDERS: Founder[] = [
     badge: 'UX/UI Designer',
     corto: 'Jonathan Guglielmo',
     linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
+    otrasAreas: [{ area: 'disenografico', badge: 'Diseñador gráfico' }],
   },
   {
     name: 'Tavita Ines Vasquez Anticona',
@@ -375,5 +378,9 @@ export const FOUNDERS: Founder[] = [
 export const equipoPorArea = () =>
   AREAS_EQUIPO.map((a) => ({
     ...a,
-    integrantes: FOUNDERS.filter((f) => f.area === a.id).sort((x, y) => x.name.localeCompare(y.name, 'es', { sensitivity: 'base' })),
+    integrantes: FOUNDERS.flatMap((f): Founder[] => {
+      if (f.area === a.id) return [f];
+      const otra = f.otrasAreas?.find((o) => o.area === a.id);
+      return otra ? [{ ...f, area: a.id, badge: otra.badge }] : [];
+    }).sort((x, y) => x.name.localeCompare(y.name, 'es', { sensitivity: 'base' })),
   })).filter((a) => a.integrantes.length > 0);
