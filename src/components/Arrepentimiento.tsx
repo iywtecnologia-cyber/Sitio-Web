@@ -201,11 +201,13 @@ export const Arrepentimiento: React.FC = () => {
           <div className="sm:col-span-2 mt-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <a
               href={completo ? mailto : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-disabled={!completo}
               onClick={(e) => (completo ? setEnviado(true) : e.preventDefault())}
               className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-bold text-sm ${completo ? 'bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 cursor-pointer' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}`}
             >
-              <Mail className="w-4 h-4" /> Enviar por email
+              <Mail className="w-4 h-4" /> Enviar por e-mail
             </a>
             <a
               href={completo ? whatsappLink(`${asunto}\n\n${cuerpo}`) : undefined}
@@ -221,7 +223,7 @@ export const Arrepentimiento: React.FC = () => {
           {!completo && <p className="sm:col-span-2 text-xs text-slate-400" aria-live="polite">{aviso}</p>}
           {completo && (
             <p className="sm:col-span-2 text-xs text-slate-400">
-              ¿No se abrió tu programa de correo? Escribí directo a {SOPORTE_EMAIL}.
+              ¿No se abrió Gmail? Escribí directo a {SOPORTE_EMAIL}.
             </p>
           )}
           {enviado && (

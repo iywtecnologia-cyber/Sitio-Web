@@ -836,6 +836,8 @@ export const Asistente: React.FC = () => {
                     </a>
                     <a
                       href={m.enlaces.mail}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
@@ -1053,7 +1055,7 @@ export const Asistente: React.FC = () => {
             <a href={enlacesSoporte.wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-bold">
               <MessageCircle className="w-4 h-4" /> WhatsApp de soporte
             </a>
-            <a href={enlacesSoporte.mail} className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-sm font-bold">
+            <a href={enlacesSoporte.mail} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-sm font-bold">
               <Mail className="w-4 h-4" /> e-mail
             </a>
           </div>
