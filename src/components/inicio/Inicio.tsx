@@ -329,6 +329,8 @@ export const ContactoRapido: React.FC = () => (
         </a>
         <a
           href={ventasMailto('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
         >
           <Mail className="w-4 h-4 text-cyan-300" /> {VENTAS_EMAIL}

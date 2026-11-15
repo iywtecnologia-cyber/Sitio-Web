@@ -593,6 +593,8 @@ export const BillingModule: React.FC = () => {
               </a>
               <a
                 href={ventasMailto('Presupuesto de ingeniería - tecnoros.ar', tieneSeleccion ? mensaje : 'Hola tecnoros.ar, quiero pedir el diagnóstico inicial gratuito y un presupuesto.')}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-slate-700 hover:border-cyan-400 text-slate-200 font-semibold text-sm transition-colors cursor-pointer hover:bg-slate-800/50"
               >
                 <Mail className="w-4 h-4" />

@@ -25,15 +25,13 @@ export const soporteWhatsappLink = (mensaje = 'Hola tecnoros.ar, soy cliente y n
 // Consultas y presupuestos van a ventas.
 export const CONTACT_EMAIL = VENTAS_EMAIL;
 
-// El e-mail abre primero el programa de correo de la persona (mailto:): antes todo iba a Gmail web
-// y no le servía a quien usa Outlook, Apple Mail o el correo del celular. Como en una compu sin
-// programa de correo el mailto: no hace nada, siempre se ofrece Gmail web al lado como respaldo.
-export const mailtoLink = (para: string, asunto: string, cuerpo: string): string =>
-  `mailto:${para}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
-
 // Redacción de Gmail web en una pestaña nueva, con asunto y texto cargados.
 export const gmailPara = (para: string, asunto: string, cuerpo: string): string =>
   `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(para)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+
+// Todo e-mail de la web abre Gmail en una pestaña nueva (antes abría el programa de correo de la
+// compu, por ejemplo Thunderbird). Se mantiene el nombre mailtoLink para no tocar cada botón.
+export const mailtoLink = (para: string, asunto: string, cuerpo: string): string => gmailPara(para, asunto, cuerpo);
 
 export const gmailLink = (subject: string, body: string): string => gmailPara(CONTACT_EMAIL, subject, body);
 export const ventasMailto = (subject: string, body: string): string => mailtoLink(CONTACT_EMAIL, subject, body);

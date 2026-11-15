@@ -30,7 +30,24 @@ export interface Founder {
   corto?: string;
   /** Opcional: otras áreas donde también trabaja (aparece en cada una, con su rol ahí). Cuenta como una sola persona. */
   otrasAreas?: { area: AreaEquipo; badge: string }[];
+  /** Opcional: de dónde es, para el mapamundi del equipo. */
+  ubicacion?: Ubicacion;
+  /** Opcional: emoji que se muestra en el mapamundi mientras no haya foto. */
+  emoji?: string;
+  /** Opcional: foto (por ejemplo '/equipo/sofia.jpg' dentro de public/). Si está, reemplaza al emoji. */
+  foto?: string;
 }
+
+export interface Ubicacion {
+  lugar: string;
+  lat: number;
+  lon: number;
+}
+
+// Lugares del equipo (para el mapamundi). Para sumar a alguien de otra ciudad, agregar el lugar acá.
+export const LUGARES = {
+  rosario: { lugar: 'Rosario, Santa Fe, Argentina', lat: -32.9468, lon: -60.6393 },
+} satisfies Record<string, Ubicacion>;
 
 export const FOUNDERS: Founder[] = [
   {
@@ -40,6 +57,8 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Técnico Superior en Seguridad Informática & QA',
     badge: 'Ciberseguridad & QA',
     linkedin: 'https://www.linkedin.com/in/manuel-angiulli/',
+    ubicacion: LUGARES.rosario,
+    emoji: '👨‍💻',
   },
   {
     name: 'María Sofía Genta',
@@ -49,6 +68,8 @@ export const FOUNDERS: Founder[] = [
     badge: 'Análisis Funcional & QA',
     corto: 'María Sofía Genta',
     linkedin: 'https://www.linkedin.com/in/mariiasof%C3%ADagenta/',
+    ubicacion: LUGARES.rosario,
+    emoji: '👩‍💻',
   },
   {
     name: 'Esteban José Menin',

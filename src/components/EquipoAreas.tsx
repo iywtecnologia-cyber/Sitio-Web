@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, FileText, Linkedin } from 'lucide-react';
 import { FOUNDERS, equipoPorArea } from '../data/equipo';
+import { MundoEquipo } from './MundoEquipo';
 
 // Equipo por área, en grilla: se usa igual en el inicio y en Nosotros.
 
@@ -25,6 +26,8 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
   const abierta = encima || fija;
   const n = area.integrantes.length;
   const idLista = `equipo-${area.id}`;
+  // Las áreas grandes se muestran en dos columnas: así todas entran en el mismo recuadro, sin salirse.
+  const dosColumnas = n > 5;
   useEffect(() => {
     if (!fija) return;
     const fuera = (e: PointerEvent) => {
@@ -62,21 +65,21 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
             <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-cyan-300 truncate">{area.nombre}</span>
             <span className="text-xs text-slate-400 shrink-0">{n}</span>
           </div>
-          <ul id={idLista} className="flex flex-col gap-1 p-1.5">
+          <ul id={idLista} className={`p-1.5 gap-1 ${dosColumnas ? 'grid grid-cols-2' : 'flex flex-col'}`}>
             {area.integrantes.map((f) => {
               const contenido = (
                 <>
-                  <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-[11px] font-bold text-white shrink-0">
+                  <span className={`${dosColumnas ? 'hidden' : 'flex'} w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 items-center justify-center text-[11px] font-bold text-white shrink-0`}>
                     {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
-                    <span className="block text-[11px] text-slate-400 leading-tight">{f.badge}</span>
+                    <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 truncate ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px]' : 'text-sm'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
+                    <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
                   </span>
-                  {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
+                  {f.linkedin && !dosColumnas && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
                 </>
               );
-              const clases = 'flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group';
+              const clases = `flex items-center gap-2 ${dosColumnas ? 'px-1.5' : 'px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
               return (
                 <li key={f.name} className="min-w-0">
                   {f.linkedin ? (
@@ -132,6 +135,8 @@ export const EquipoAreas: React.FC = () => {
           <TarjetaArea key={area.id} area={area} />
         ))}
       </div>
+      {/* Debajo del equipo: de dónde es cada uno, en un globo que se puede girar. */}
+      <MundoEquipo />
       <a
         href="/organigrama-tecnoros.pdf"
         target="_blank"

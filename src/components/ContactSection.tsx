@@ -151,7 +151,7 @@ export const ContactSection: React.FC = () => {
     const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `e-mail de contacto: ${email}`].filter(Boolean).join('\n');
     const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
-    window.location.href = mailtoLink(CONTACT_EMAIL, subject, bodyText);
+    window.open(mailtoLink(CONTACT_EMAIL, subject, bodyText), '_blank', 'noopener');
     setGmailRespaldo(gmailPara(CONTACT_EMAIL, subject, bodyText));
   };
 
@@ -291,7 +291,7 @@ export const ContactSection: React.FC = () => {
                   type="button"
                   onClick={handleSendFormEmail}
                   className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                  title="Abre tu programa de correo con tu nombre, e-mail y consulta pre-cargados"
+                  title="Abre Gmail con tu nombre, e-mail y consulta pre-cargados"
                 >
                   <Send className="w-4 h-4 fill-slate-950" />
                   <span>Enviar por e-mail</span>
@@ -303,6 +303,8 @@ export const ContactSection: React.FC = () => {
               <span>O escribile directo a ventas:</span>
               <a
                 href={mailtoLink(VENTAS_EMAIL, 'Consulta para ventas - tecnoros.ar', '')}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 font-mono text-slate-300 hover:text-white transition-colors"
                 title="Escribir un e-mail a ventas"
               >
@@ -314,7 +316,7 @@ export const ContactSection: React.FC = () => {
             {gmailRespaldo && (
               <div role="status" className="p-4 rounded-xl bg-cyan-950/40 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Sparkles className="w-4 h-4" />
-                <span>Se abrió tu programa de correo con el mensaje listo para enviar a {CONTACT_EMAIL}.</span>
+                <span>Se abrió Gmail con el mensaje listo para enviar a {CONTACT_EMAIL}.</span>
               </div>
             )}
           </form>
