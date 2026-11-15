@@ -111,7 +111,7 @@ export const EquipoAreas: React.FC = () => {
       // Arranca apenas se ve la línea de "Quiénes somos" (el comienzo de la sección) y se va cuando
       // "Qué hacemos" ya ocupa la parte de abajo de la pantalla.
       const t = r.top + (parseFloat(getComputedStyle(seccion).paddingTop) || 0);
-      setALaVista(t < alto - 24 && r.bottom > alto * 0.75);
+      setALaVista(t < alto && r.bottom > alto * 0.75);
     };
     revisar();
     window.addEventListener('scroll', revisar, { passive: true });
