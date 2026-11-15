@@ -108,8 +108,10 @@ export const EquipoAreas: React.FC = () => {
     const revisar = () => {
       const r = seccion.getBoundingClientRect();
       const alto = window.innerHeight;
-      // Arranca cuando la línea de "Quiénes somos" llega a la mitad de la pantalla.
-      setALaVista(r.top < alto * 0.5 && r.bottom > alto * 0.75);
+      // Arranca apenas se ve la línea de "Quiénes somos" (el comienzo de la sección) y se va cuando
+      // "Qué hacemos" ya ocupa la parte de abajo de la pantalla.
+      const t = r.top + (parseFloat(getComputedStyle(seccion).paddingTop) || 0);
+      setALaVista(t < alto - 24 && r.bottom > alto * 0.75);
     };
     revisar();
     window.addEventListener('scroll', revisar, { passive: true });
