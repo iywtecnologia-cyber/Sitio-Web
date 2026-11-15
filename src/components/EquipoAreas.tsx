@@ -65,7 +65,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
             <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-cyan-300 truncate">{area.nombre}</span>
             <span className="text-xs text-slate-400 shrink-0">{n}</span>
           </div>
-          <ul id={idLista} className={`p-1.5 gap-1 ${dosColumnas ? 'grid grid-cols-2' : 'flex flex-col'}`}>
+          <ul id={idLista} className={`${dosColumnas ? 'p-1' : 'p-1.5'} gap-1 ${dosColumnas ? 'grid grid-cols-2' : 'flex flex-col'}`}>
             {area.integrantes.map((f) => {
               const contenido = (
                 <>
@@ -73,17 +73,13 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
                     {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 truncate ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px]' : 'text-sm'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
-                    <span className="flex items-center gap-1 min-w-0">
-                      <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
-                      {/* En dos columnas el ícono va en la línea del rol, para que el nombre entre completo. */}
-                      {f.linkedin && dosColumnas && <Linkedin className="w-3 h-3 text-[#4DA3FF] shrink-0" />}
-                    </span>
+                    <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 truncate ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px] xl:text-[10.5px] xl:tracking-tight' : 'text-sm'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
+                    <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
                   </span>
-                  {f.linkedin && !dosColumnas && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
+                  {f.linkedin && <Linkedin className={`${dosColumnas ? 'w-3 h-3' : 'w-4 h-4'} text-[#4DA3FF] shrink-0`} />}
                 </>
               );
-              const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1.5' : 'gap-2 px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
+              const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1' : 'gap-2 px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
               return (
                 <li key={f.name} className="min-w-0">
                   {f.linkedin ? (
