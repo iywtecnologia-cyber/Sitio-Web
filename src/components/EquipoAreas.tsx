@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, FileText, Linkedin } from 'lucide-react';
-import { equipoPorArea } from '../data/equipo';
+import { FOUNDERS, equipoPorArea } from '../data/equipo';
 
 // Equipo por área, en grilla: se usa igual en el inicio y en Nosotros.
 
@@ -96,20 +96,32 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
 };
 
 export const EquipoAreas: React.FC = () => {
-  // "Ver organigrama" aparece mientras el usuario pasa por el equipo, no todo el tiempo.
+  // "Ver organigrama" aparece sólo mientras el usuario pasa por la sección del equipo.
   const grilla = useRef<HTMLDivElement>(null);
   const [aLaVista, setALaVista] = useState(false);
   useEffect(() => {
-    const el = grilla.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const io = new IntersectionObserver(([e]) => setALaVista(e.isIntersecting), { threshold: 0.15 });
-    io.observe(el);
-    return () => io.disconnect();
+    // Se muestra desde que aparece la línea de "Quiénes somos" (el comienzo de la sección del equipo)
+    // hasta que llega "Qué hacemos" (cuando la sección del equipo ya se fue para arriba).
+    const seccion = grilla.current?.closest('section') ?? grilla.current;
+    if (!seccion) return;
+    const revisar = () => {
+      const r = seccion.getBoundingClientRect();
+      const alto = window.innerHeight;
+      // Arranca cuando la línea de "Quiénes somos" llega a la mitad de la pantalla.
+      setALaVista(r.top < alto * 0.5 && r.bottom > alto * 0.75);
+    };
+    revisar();
+    window.addEventListener('scroll', revisar, { passive: true });
+    window.addEventListener('resize', revisar);
+    return () => {
+      window.removeEventListener('scroll', revisar);
+      window.removeEventListener('resize', revisar);
+    };
   }, []);
   return (
     <>
       <p className="text-sm text-slate-400 mb-4">
-        <span className="text-white font-semibold">{AREAS.reduce((t, a) => t + a.integrantes.length, 0)} personas en {AREAS.length} áreas</span>, repartidas y trabajando remotamente desde todo LATAM.
+        <span className="text-white font-semibold">{FOUNDERS.length} personas en {AREAS.length} áreas</span>, repartidas y trabajando remotamente desde todo LATAM.
       </p>
       {/* Grilla: todas las áreas a la vista y del mismo tamaño. */}
       <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
