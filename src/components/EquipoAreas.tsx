@@ -37,8 +37,9 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
     <section
       ref={ref}
       aria-label={area.nombre}
-      onMouseEnter={() => setEncima(true)}
-      onMouseLeave={() => { setEncima(false); setFija(false); }}
+      // Sólo con mouse: en el celu el toque dispara "entrar/salir" falsos que la cerraban al instante.
+      onPointerEnter={(e) => { if (e.pointerType === 'mouse') setEncima(true); }}
+      onPointerLeave={(e) => { if (e.pointerType === 'mouse') { setEncima(false); setFija(false); } }}
       className={`relative h-60 ${abierta ? 'z-30' : ''}`}
     >
       <div className="h-full rounded-2xl border-2 border-slate-600 bg-slate-900/60 flex flex-col items-center justify-center text-center gap-3 p-5">
@@ -57,25 +58,25 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
       </div>
       {abierta && (
         <div className="absolute inset-x-0 top-0 min-h-full rounded-2xl border-2 border-cyan-400/70 bg-[#0B1220] shadow-2xl shadow-black/60 flex flex-col">
-          <div className="flex items-center justify-between gap-2 px-4 pt-3 pb-2 border-b border-slate-700/70">
+          <div className="flex items-center justify-between gap-2 px-3 pt-2 pb-1.5 border-b border-slate-700/70">
             <span className="text-[11px] font-mono uppercase tracking-[0.14em] text-cyan-300 truncate">{area.nombre}</span>
             <span className="text-xs text-slate-400 shrink-0">{n}</span>
           </div>
-          <ul id={idLista} className="flex flex-col gap-1.5 p-2">
+          <ul id={idLista} className="flex flex-col gap-1 p-1.5">
             {area.integrantes.map((f) => {
               const contenido = (
                 <>
-                  <span className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-[11px] font-bold text-white shrink-0">
+                  <span className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 flex items-center justify-center text-[11px] font-bold text-white shrink-0">
                     {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-semibold text-white leading-tight group-hover:text-cyan-200" title={f.name}>{nombreCorto(f.name, f.corto)}</span>
-                    <span className="block text-[11px] text-slate-400 leading-tight mt-0.5">{f.badge}</span>
+                    <span className="block text-[11px] text-slate-400 leading-tight">{f.badge}</span>
                   </span>
                   {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
                 </>
               );
-              const clases = 'flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group';
+              const clases = 'flex items-center gap-2 px-2 py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group';
               return (
                 <li key={f.name} className="min-w-0">
                   {f.linkedin ? (
