@@ -315,7 +315,6 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Ingeniero en Telecomunicaciones · QA Automation y DevOps',
     badge: 'QA Analyst | DevOps | Ing. en Telecomunicaciones',
     linkedin: 'https://www.linkedin.com/in/guillermoadriancuenya/',
-    otrasAreas: [{ area: 'devops', badge: 'DevOps · Ing. en Telecomunicaciones' }],
   },
   {
     name: 'Leandro Sosa',
