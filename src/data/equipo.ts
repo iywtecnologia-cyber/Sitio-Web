@@ -342,3 +342,10 @@ export const equipoPorArea = () =>
       return otra ? [{ ...f, area: a.id, badge: otra.badge }] : [];
     }).sort((x, y) => x.name.localeCompare(y.name, 'es', { sensitivity: 'base' })),
   })).filter((a) => a.integrantes.length > 0);
+
+// Link al organigrama con una "versión" que cambia cuando cambia el equipo: así el navegador
+// no muestra un PDF viejo guardado en caché después de sumar, sacar o mover a alguien.
+const firmaEquipo = FOUNDERS.map((f) => `${f.name}|${f.area}|${(f.otrasAreas ?? []).map((o) => o.area).join(',')}`).join(';');
+let hash = 0;
+for (let i = 0; i < firmaEquipo.length; i++) hash = (hash * 31 + firmaEquipo.charCodeAt(i)) | 0;
+export const URL_ORGANIGRAMA = `/organigrama-tecnoros.pdf?v=${(hash >>> 0).toString(36)}`;
