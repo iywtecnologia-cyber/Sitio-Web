@@ -7,6 +7,7 @@ export const AREAS_EQUIPO = [
   { id: 'qa', nombre: 'QA y análisis funcional' },
   { id: 'backend', nombre: 'Backend' },
   { id: 'fullstack', nombre: 'Full Stack' },
+  { id: 'devops', nombre: 'DevOps' },
   { id: 'frontend', nombre: 'Frontend' },
   { id: 'electronica', nombre: 'Electrónica y robótica' },
   { id: 'diseno', nombre: 'Diseño UX/UI' },
@@ -110,6 +111,7 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Desarrollo backend e infraestructura (DevOps)',
     badge: 'Backend Developer | DevOps',
     linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220',
+    otrasAreas: [{ area: 'devops', badge: 'DevOps' }],
   },
   {
     name: 'Santiago Senn',
@@ -313,6 +315,7 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Ingeniero en Telecomunicaciones · QA Automation y DevOps',
     badge: 'QA Analyst | DevOps | Ing. en Telecomunicaciones',
     linkedin: 'https://www.linkedin.com/in/guillermoadriancuenya/',
+    otrasAreas: [{ area: 'devops', badge: 'DevOps · Ing. en Telecomunicaciones' }],
   },
   {
     name: 'Leandro Sosa',
