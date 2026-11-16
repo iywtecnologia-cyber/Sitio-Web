@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown, FileText, Linkedin } from 'lucide-react';
-import { FOUNDERS, equipoPorArea } from '../data/equipo';
+import { FOUNDERS, equipoPorArea, URL_ORGANIGRAMA } from '../data/equipo';
 import { MundoEquipo } from './MundoEquipo';
 
 // Equipo por área, en grilla: se usa igual en el inicio y en Nosotros.
@@ -76,7 +76,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
                     {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 truncate ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px] xl:text-[10.5px] xl:tracking-tight' : 'text-sm'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
+                    <span className={`block font-semibold text-white leading-tight group-hover:text-cyan-200 ${dosColumnas ? 'text-[11px] sm:text-xs lg:text-[11px] xl:text-[10.5px] xl:tracking-tight break-words' : 'text-sm truncate'}`} title={f.name}>{dosColumnas ? nombreCorto(f.name) : nombreCorto(f.name, f.corto)}</span>
                     <span className={`block text-slate-400 leading-tight truncate ${dosColumnas ? 'text-[10px]' : 'text-[11px]'}`} title={f.badge}>{f.badge}</span>
                   </span>
                   {f.linkedin && <Linkedin className={`${dosColumnas ? 'w-3 h-3' : 'w-4 h-4'} text-[#4DA3FF] shrink-0`} />}
@@ -159,7 +159,7 @@ export const EquipoAreas: React.FC = () => {
         <span className="text-white font-semibold">{FOUNDERS.length} personas en {AREAS.length} áreas</span>, repartidas y trabajando remotamente desde todo LATAM.
       </p>
       {/* Grilla: todas las áreas a la vista y del mismo tamaño. */}
-      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
         {AREAS.map((area) => (
           <TarjetaArea key={area.id} area={area} />
         ))}
@@ -167,7 +167,7 @@ export const EquipoAreas: React.FC = () => {
       {/* Debajo del equipo: de dónde es cada uno, en un globo que se puede girar. */}
       <MundoEquipo />
       <a
-        href="/organigrama-tecnoros.pdf"
+        href={URL_ORGANIGRAMA}
         target="_blank"
         rel="noopener noreferrer"
         aria-hidden={!aLaVista}

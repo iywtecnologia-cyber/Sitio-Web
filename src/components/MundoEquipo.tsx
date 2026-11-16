@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { geoGraticule10, geoOrthographic, geoPath, geoDistance, type GeoPermissibleObjects } from 'd3-geo';
 import { FileText, Linkedin, MapPin } from 'lucide-react';
-import { AREAS_EQUIPO, FOUNDERS, type Founder, type Ubicacion } from '../data/equipo';
+import { AREAS_EQUIPO, FOUNDERS, type Founder, type Ubicacion, URL_ORGANIGRAMA } from '../data/equipo';
 
 const nombreArea = (id: string) => AREAS_EQUIPO.find((a) => a.id === id)?.nombre ?? '';
 
@@ -205,7 +205,7 @@ export const MundoEquipo: React.FC = () => {
               <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">El equipo en el mapa</h3>
             </div>
             <a
-              href="/organigrama-tecnoros.pdf"
+              href={URL_ORGANIGRAMA}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-cyan-400/60 text-sm font-semibold text-cyan-300 hover:text-cyan-200 hover:border-cyan-300"
