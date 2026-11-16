@@ -72,7 +72,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
             {area.integrantes.map((f) => {
               const contenido = (
                 <>
-                  <span className={`${dosColumnas ? 'hidden' : 'flex'} w-7 h-7 rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 items-center justify-center text-[11px] font-bold text-white shrink-0`}>
+                  <span className={`flex ${dosColumnas ? 'w-5 h-5 text-[8px]' : 'w-7 h-7 text-[11px]'} rounded-full bg-gradient-to-br from-cyan-500/30 to-violet-500/30 border border-slate-700 items-center justify-center font-bold text-white shrink-0`}>
                     {f.name.split(' ').map((p) => p[0]).slice(0, 2).join('')}
                   </span>
                   <span className="min-w-0 flex-1">
@@ -159,7 +159,7 @@ export const EquipoAreas: React.FC = () => {
         <span className="text-white font-semibold">{FOUNDERS.length} personas en {AREAS.length} áreas</span>, repartidas y trabajando remotamente desde todo LATAM.
       </p>
       {/* Grilla: todas las áreas a la vista y del mismo tamaño. */}
-      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <div ref={grilla} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
         {AREAS.map((area) => (
           <TarjetaArea key={area.id} area={area} />
         ))}
