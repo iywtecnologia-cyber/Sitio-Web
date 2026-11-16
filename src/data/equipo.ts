@@ -107,8 +107,8 @@ export const FOUNDERS: Founder[] = [
     name: 'Mariano Candalaft',
     area: 'backend',
     role: 'Se sumó al equipo',
-    specialty: 'Backend Developer',
-    badge: 'Backend Developer',
+    specialty: 'Desarrollo backend e infraestructura (DevOps)',
+    badge: 'Backend Developer | DevOps',
     linkedin: 'https://www.linkedin.com/in/mariano-candalaft-347052220',
   },
   {

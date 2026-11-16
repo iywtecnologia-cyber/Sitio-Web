@@ -28,10 +28,13 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
   const idLista = `equipo-${area.id}`;
   // Las áreas grandes se muestran en dos columnas: así todas entran en el mismo recuadro, sin salirse.
   const dosColumnas = n > 5;
+  // Persona cuyo perfil completo se está mostrando (al pasar el mouse o con el primer toque).
+  const [perfil, setPerfil] = useState<string | null>(null);
+  const ultimoPuntero = useRef<string>('mouse');
   useEffect(() => {
     if (!fija) return;
     const fuera = (e: PointerEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setFija(false);
+      if (!ref.current?.contains(e.target as Node)) { setFija(false); setPerfil(null); }
     };
     document.addEventListener('pointerdown', fuera);
     return () => document.removeEventListener('pointerdown', fuera);
@@ -80,14 +83,40 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
                 </>
               );
               const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1' : 'gap-2 px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
+              const verPerfil = perfil === f.name;
+              // En el celu el primer toque muestra el perfil completo y el segundo abre LinkedIn.
+              const alTocar = (e: React.MouseEvent) => {
+                if (ultimoPuntero.current === 'mouse') return;
+                if (!verPerfil) { e.preventDefault(); setPerfil(f.name); }
+              };
               return (
-                <li key={f.name} className="min-w-0">
+                <li
+                  key={f.name}
+                  className="relative min-w-0"
+                  onPointerDown={(e) => { ultimoPuntero.current = e.pointerType; }}
+                  onPointerEnter={(e) => { if (e.pointerType === 'mouse') setPerfil(f.name); }}
+                  onPointerLeave={(e) => { if (e.pointerType === 'mouse') setPerfil((p) => (p === f.name ? null : p)); }}
+                >
                   {f.linkedin ? (
-                    <a href={f.linkedin} target="_blank" rel="noopener noreferrer" title={`LinkedIn de ${f.name}`} className={`${clases} hover:border-[#0A66C2]/60`}>
+                    <a href={f.linkedin} target="_blank" rel="noopener noreferrer" onClick={alTocar} aria-describedby={verPerfil ? `perfil-${idLista}-${f.name}` : undefined} className={`${clases} hover:border-[#0A66C2]/60`}>
                       {contenido}
                     </a>
                   ) : (
-                    <div className={clases}>{contenido}</div>
+                    <div className={clases} onClick={() => setPerfil(verPerfil ? null : f.name)}>{contenido}</div>
+                  )}
+                  {/* El perfil completo sale de la pastilla (nombre entero, todos sus roles y su especialidad). */}
+                  {verPerfil && (
+                    <div
+                      id={`perfil-${idLista}-${f.name}`}
+                      role="tooltip"
+                      className="absolute z-40 left-1/2 -translate-x-1/2 bottom-full mb-1.5 w-60 max-w-[80vw] p-3 rounded-xl bg-white text-slate-900 shadow-2xl shadow-black/60 pointer-events-none"
+                    >
+                      <span className="block text-sm font-bold leading-tight">{f.name}</span>
+                      <span className="block mt-1 text-xs font-semibold text-cyan-700 leading-snug">{f.badge}</span>
+                      {f.specialty && f.specialty !== f.badge && <span className="block mt-1 text-xs text-slate-600 leading-snug">{f.specialty}</span>}
+                      {f.linkedin && <span className="mt-2 flex items-center gap-1 text-[11px] font-semibold text-[#0A66C2]"><Linkedin className="w-3.5 h-3.5" /> {ultimoPuntero.current === 'mouse' ? 'Clic para ver su LinkedIn' : 'Tocá de nuevo para ver su LinkedIn'}</span>}
+                      <span className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-[6px] border-x-transparent border-t-[6px] border-t-white" />
+                    </div>
                   )}
                 </li>
               );
