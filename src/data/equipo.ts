@@ -254,11 +254,12 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://www.linkedin.com/in/daniel-hernandez-anaya/',
   },
   {
-    name: 'Lucas Greco',
-    area: 'fullstack',
+    name: 'Lucas Gabriel Greco',
+    area: 'backend',
     role: 'Se sumó al equipo',
-    specialty: 'Desarrollador Full Stack',
-    badge: 'Full Stack Developer',
+    specialty: 'Desarrollador Backend',
+    badge: 'Backend Developer',
+    corto: 'Lucas Greco',
     linkedin: 'https://www.linkedin.com/in/lucasggreco/',
   },
   {
