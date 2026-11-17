@@ -12,6 +12,7 @@ export const AREAS_EQUIPO = [
   { id: 'electronica', nombre: 'Electrónica y robótica' },
   { id: 'diseno', nombre: 'Diseño UX/UI' },
   { id: 'disenografico', nombre: 'Diseño gráfico' },
+  { id: 'animacion', nombre: 'Animación web' },
   { id: 'redes', nombre: 'Redes sociales' },
   { id: 'ventas', nombre: 'Ventas' },
   { id: 'operaciones', nombre: 'Operaciones, RR. HH. y Administración' },
@@ -329,6 +330,21 @@ export const FOUNDERS: Founder[] = [
     specialty: 'QA',
     badge: 'QA Analyst',
     linkedin: 'https://www.linkedin.com/in/lucas-s-casco/',
+  },
+  {
+    name: 'Leandro Sosa',
+    area: 'redes',
+    role: 'Se sumó al equipo',
+    specialty: 'Redes sociales',
+    badge: 'Redes sociales',
+    linkedin: 'https://www.linkedin.com/in/leandro-sosa/',
+  },
+  {
+    name: 'Nicolas Diaz',
+    area: 'animacion',
+    role: 'Se sumó al equipo',
+    specialty: 'Animación web',
+    badge: 'Animación web',
   },
 ];
 
