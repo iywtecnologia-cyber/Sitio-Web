@@ -12,6 +12,7 @@ export const AREAS_EQUIPO = [
   { id: 'electronica', nombre: 'Electrónica y robótica' },
   { id: 'diseno', nombre: 'Diseño UX/UI' },
   { id: 'disenografico', nombre: 'Diseño gráfico' },
+  { id: 'disenodigital', nombre: 'Diseño digital' },
   { id: 'animacion', nombre: 'Animación web' },
   { id: 'redes', nombre: 'Redes sociales' },
   { id: 'ventas', nombre: 'Ventas' },
@@ -273,7 +274,7 @@ export const FOUNDERS: Founder[] = [
     badge: 'UX/UI Designer',
     corto: 'Jonathan Guglielmo',
     linkedin: 'https://www.linkedin.com/in/jonathan-javier-guglielmo-2a491517a/',
-    otrasAreas: [{ area: 'disenografico', badge: 'Diseñador gráfico' }],
+    otrasAreas: [{ area: 'disenografico', badge: 'Diseñador gráfico' }, { area: 'animacion', badge: 'Animación web' }],
   },
   {
     name: 'María Belén Fernández Morales',
@@ -306,6 +307,7 @@ export const FOUNDERS: Founder[] = [
     role: 'Se sumó al equipo',
     specialty: 'Diseño gráfico',
     badge: 'Diseñadora gráfica',
+    otrasAreas: [{ area: 'disenodigital', badge: 'Diseñadora digital' }],
   },
   {
     name: 'María Clara Rodriguez',
