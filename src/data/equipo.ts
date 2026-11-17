@@ -363,6 +363,13 @@ export const FOUNDERS: Founder[] = [
     specialty: 'QA',
     badge: 'QA Analyst',
   },
+  {
+    name: 'Brenda Soto',
+    area: 'qa',
+    role: 'Se sumó al equipo',
+    specialty: 'QA',
+    badge: 'QA Analyst',
+  },
 ];
 
 // El equipo agrupado por área. Dentro de cada área, en orden alfabético por nombre.
