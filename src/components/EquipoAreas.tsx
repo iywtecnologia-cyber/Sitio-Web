@@ -82,7 +82,7 @@ const TarjetaArea: React.FC<{ area: Area }> = ({ area }) => {
                   {f.linkedin && <Linkedin className={`${dosColumnas ? 'w-3 h-3' : 'w-4 h-4'} text-[#4DA3FF] shrink-0`} />}
                 </>
               );
-              const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1' : 'gap-2 px-2'} py-1 rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
+              const clases = `flex items-center ${dosColumnas ? 'gap-1 px-1 py-0.5' : 'gap-2 px-2 py-1'} rounded-lg bg-slate-950/60 border border-slate-800 transition-colors min-w-0 group`;
               const verPerfil = perfil === f.name;
               // En el celu el primer toque muestra el perfil completo y el segundo abre LinkedIn.
               const alTocar = (e: React.MouseEvent) => {
