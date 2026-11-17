@@ -332,6 +332,7 @@ export const FOUNDERS: Founder[] = [
     specialty: 'QA',
     badge: 'QA Analyst',
     linkedin: 'https://www.linkedin.com/in/lucas-s-casco/',
+    otrasAreas: [{ area: 'frontend', badge: 'Frontend Developer' }],
   },
   {
     name: 'Leandro Sosa',
