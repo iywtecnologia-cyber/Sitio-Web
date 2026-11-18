@@ -306,7 +306,7 @@ export const EquipoCorto: React.FC = () => (
       <Titulo
         chip="Quiénes somos"
         titulo="Nuestro equipo"
-        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de todo LATAM. Así estamos organizados:"
+        bajada="Nacimos en Rosario y hoy trabajamos en remoto, con gente de todo LATAM. Estos son los fundadores; el equipo completo está en el organigrama."
       />
       <EquipoAreas />
     </div>
