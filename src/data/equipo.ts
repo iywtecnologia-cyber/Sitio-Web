@@ -16,6 +16,7 @@ export const AREAS_EQUIPO = [
   { id: 'animacion', nombre: 'Animación web' },
   { id: 'redes', nombre: 'Redes sociales' },
   { id: 'ventas', nombre: 'Ventas' },
+  { id: 'mejora', nombre: 'Mejora continua' },
   { id: 'operaciones', nombre: 'Operaciones, RR. HH. y Administración' },
 ] as const;
 
@@ -369,6 +370,14 @@ export const FOUNDERS: Founder[] = [
     role: 'Se sumó al equipo',
     specialty: 'QA',
     badge: 'QA Analyst',
+  },
+  {
+    name: 'Edianny Castillo',
+    area: 'mejora',
+    role: 'Se sumó al equipo',
+    specialty: 'Ingeniera · Mejora continua',
+    badge: 'Ing. · Mejora continua',
+    linkedin: 'https://www.linkedin.com/in/edianny-castillo/',
   },
 ];
 
