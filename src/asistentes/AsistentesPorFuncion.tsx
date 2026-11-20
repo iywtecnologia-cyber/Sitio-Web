@@ -1,14 +1,65 @@
 // Interfaz de los asistentes por función: un botón fijo abajo a la izquierda, un "hub" para elegir
 // con quién hablar y el chat de cada asistente. Golondrina (sin su propio botón) entiende lo que
 // se escribe, ejecuta la acción del asistente y aprende qué hace cada visitante para sugerírselo.
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ExternalLink, Send, Sparkles, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
 
-export const EVENTO_ABRIR_ASISTENTE = 'abrir-asistente';
-export const abrirAsistente = (id: string) => window.dispatchEvent(new CustomEvent(EVENTO_ABRIR_ASISTENTE, { detail: id }));
+import { EVENTO_ABRIR_ASISTENTE, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
+
+export { EVENTO_ABRIR_ASISTENTE, abrirAsistente };
+
+// El escenario 3D se descarga sólo en el inicio (usa three.js).
+const Escenario3D = lazy(() => import('./Escenario3D'));
+
+/** Resumen corto de una respuesta, para el globito y la lista de lo que hicieron. */
+const resumen = (t: string) => t.replace(/\*\*/g, '').split('\n')[0].slice(0, 90);
+
+/** Lanzador con vida: la G en el centro y los asistentes girando alrededor, todo el tiempo. */
+const MiniOrbita: React.FC<{ resaltado?: string }> = ({ resaltado }) => {
+  const refs = useRef<(HTMLSpanElement | null)[]>([]);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const cuadro = (ahora: number) => {
+      const t = (ahora - t0) / 1000;
+      refs.current.forEach((el, i) => {
+        if (!el) return;
+        const a = t * 0.9 + (i / ASISTENTES.length) * Math.PI * 2;
+        const x = Math.cos(a) * 30;
+        const y = Math.sin(a) * 12;
+        const prof = (Math.sin(a) + 1) / 2;
+        el.style.transform = `translate(${x}px, ${y}px) scale(${0.7 + prof * 0.45})`;
+        el.style.zIndex = String(Math.round(prof * 10));
+        el.style.opacity = String(0.55 + prof * 0.45);
+      });
+      raf = requestAnimationFrame(cuadro);
+    };
+    raf = requestAnimationFrame(cuadro);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return (
+    <span className="relative w-[84px] h-12 flex items-center justify-center" aria-hidden="true">
+      {ASISTENTES.map((a, i) => (
+        <span
+          key={a.id}
+          ref={(el) => { refs.current[i] = el; }}
+          className={`absolute w-6 h-6 rounded-lg bg-gradient-to-br ${a.degrade} flex items-center justify-center text-[12px] shadow ${a.id === resaltado ? 'ring-2 ring-white' : ''}`}
+          style={{ transform: `translate(${Math.cos((i / ASISTENTES.length) * Math.PI * 2) * 30}px, ${Math.sin((i / ASISTENTES.length) * Math.PI * 2) * 12}px)` }}
+        >
+          {a.emoji}
+        </span>
+      ))}
+      <svg viewBox="0 0 100 115" className="relative z-[5] w-6 h-7 drop-shadow-[0_0_8px_rgba(34,211,238,.6)]">
+        <path d="M50 6L89 19C89 62 80 92 50 110C20 92 11 62 11 19Z" fill="#0B1220" stroke="#22D3EE" strokeWidth="7" strokeLinejoin="round" />
+        <path d="M66 40H42L32 50V70L42 80H58L66 72V62H52" fill="none" stroke="#F1F5F9" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+};
 
 interface Mensaje {
   de: 'yo' | 'asistente';
@@ -90,11 +141,15 @@ export const AsistentesPorFuncion: React.FC = () => {
     const r = await golondrina.responder(q);
     const propios = enlaces.current;
     enlaces.current = [];
+    const textoR = r?.texto ?? 'No te entendí. Probá con una de las opciones de abajo.';
     agregar(id, {
       de: 'asistente',
-      texto: r?.texto ?? 'No te entendí. Probá con una de las opciones de abajo.',
+      texto: textoR,
       enlaces: [...propios, ...(r?.botones ?? []).map((b) => ({ texto: b.texto, alHacer: b.alHacer }))],
     });
+    gesto(id, 'salto');
+    dice(id, resumen(textoR));
+    if (r) registrarHecho(id, `· «${q.slice(0, 50)}» → ${resumen(textoR)}`);
     setPensando(false);
     actualizarSugerencias(id);
   };
@@ -111,6 +166,9 @@ export const AsistentesPorFuncion: React.FC = () => {
     const propios = enlaces.current;
     enlaces.current = [];
     agregar(id, { de: 'asistente', texto: respuesta, enlaces: propios });
+    gesto(id, 'saludo');
+    dice(id, resumen(respuesta));
+    registrarHecho(id, `· ${titulo} → ${resumen(respuesta)}`);
     actualizarSugerencias(id);
   };
 
@@ -153,34 +211,27 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   return (
     <>
-      {/* Botón fijo: muestra el asistente de la página en la que estás */}
-      {!abierto && (
-        <button
-          type="button"
-          onClick={() => setAbierto(deLaPagina?.id ?? 'hub')}
-          className="fixed z-[62] left-3 sm:left-5 bottom-5 inline-flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-2xl bg-[#0B1120] border border-cyan-400/50 shadow-2xl shadow-black/50 hover:border-cyan-300 cursor-pointer"
-          aria-label={deLaPagina ? `Abrir el asistente de ${deLaPagina.nombre}` : 'Abrir los asistentes'}
-        >
-          {deLaPagina ? (
-            <Avatar a={deLaPagina} tam="w-9 h-9 text-lg" />
-          ) : (
-            <span className="flex -space-x-2">
-              {ASISTENTES.slice(0, 3).map((a) => <Avatar key={a.id} a={a} tam="w-8 h-8 text-base ring-2 ring-[#0B1120]" />)}
-            </span>
-          )}
-          <span className="text-left leading-tight">
-            <span className="block text-[10px] font-mono uppercase tracking-wider text-cyan-300">Asistentes</span>
-            <span className="block text-xs sm:text-sm font-bold text-white">{deLaPagina ? deLaPagina.nombre : '¿Qué querés hacer?'}</span>
-          </span>
-        </button>
-      )}
+      {/* Lanzador fijo: los asistentes giran alrededor de la G todo el tiempo (también con el chat abierto) */}
+      <button
+        type="button"
+        onClick={() => setAbierto((v) => (v ? null : deLaPagina?.id ?? 'hub'))}
+        className={`fixed z-[62] left-3 sm:left-5 bottom-4 sm:bottom-5 items-center gap-1.5 pl-1 pr-3.5 py-1 rounded-2xl bg-[#0B1120] border border-cyan-400/50 shadow-2xl shadow-black/50 hover:border-cyan-300 cursor-pointer ${abierto ? 'hidden sm:inline-flex' : 'inline-flex'}`}
+        aria-expanded={!!abierto}
+        aria-label={abierto ? 'Cerrar los asistentes' : deLaPagina ? `Abrir el asistente de ${deLaPagina.nombre}` : 'Abrir los asistentes'}
+      >
+        <MiniOrbita resaltado={asistente?.id ?? deLaPagina?.id} />
+        <span className="text-left leading-tight">
+          <span className="block text-[10px] font-mono uppercase tracking-wider text-cyan-300">Asistentes</span>
+          <span className="block text-xs sm:text-sm font-bold text-white">{asistente ? asistente.nombre : deLaPagina ? deLaPagina.nombre : '¿Qué querés hacer?'}</span>
+        </span>
+      </button>
 
       {abierto && (
         <div
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className="fixed z-[72] left-2 right-2 sm:left-5 sm:right-auto bottom-3 sm:bottom-5 sm:w-[400px] h-[min(600px,calc(100dvh-6rem))] flex flex-col rounded-3xl bg-[#0B1120] border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
+          className="fixed z-[72] inset-x-2 bottom-2 h-[62dvh] sm:inset-x-auto sm:left-5 sm:bottom-24 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -205,6 +256,18 @@ export const AsistentesPorFuncion: React.FC = () => {
               <X className="w-5 h-5" />
             </button>
           </div>
+
+          {asistente && (
+            <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-800 overflow-x-auto no-scrollbar" aria-label="Otros asistentes">
+              {ASISTENTES.filter((a) => a.id !== asistente.id).map((a, i) => (
+                <button key={a.id} type="button" onClick={() => setAbierto(a.id)} title={`Asistente de ${a.nombre}`} className="shrink-0 cursor-pointer">
+                  <span className="asistente-avatar-vivo inline-block" style={{ animationDelay: `${i * 0.25}s` }}>
+                    <Avatar a={a} tam="w-7 h-7 text-sm" />
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
 
           {!asistente ? (
             <div className="flex-1 overflow-y-auto p-3 space-y-3">
@@ -300,7 +363,7 @@ export const AsistentesPorFuncion: React.FC = () => {
   );
 };
 
-/** Bloque del inicio que presenta la idea: un asistente para cada cosa. */
+/** Bloque del inicio: el escenario 3D con los asistentes girando alrededor de Golondrina. */
 export const AsistentesInicio: React.FC = () => (
   <section id="asistentes" className="py-12 sm:py-16 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
@@ -308,15 +371,13 @@ export const AsistentesInicio: React.FC = () => (
         <Sparkles className="w-3.5 h-3.5" /> NUEVO
       </span>
       <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">No tenés que aprender a usar la web</h2>
-      <p className="mt-2 text-base sm:text-lg text-slate-300 max-w-3xl">Hay un asistente para cada cosa que podés hacer acá. Elegí uno, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.</p>
-      <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {ASISTENTES.map((a) => (
-          <button key={a.id} type="button" onClick={() => abrirAsistente(a.id)} className="text-left p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-cyan-400/60 cursor-pointer transition-colors">
-            <Avatar a={a} tam="w-11 h-11 text-2xl" />
-            <span className="mt-3 block text-base font-bold text-white">{a.nombre}</span>
-            <span className="mt-1 block text-xs sm:text-sm text-slate-400 leading-snug">{a.rol}</span>
-          </button>
-        ))}
+      <p className="mt-2 text-base sm:text-lg text-slate-300 max-w-3xl">
+        Hay un asistente para cada cosa que podés hacer acá, y giran siempre alrededor de Golondrina, que los coordina y aprende de lo que hacés. Tocá uno, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
+      </p>
+      <div className="mt-6">
+        <Suspense fallback={<div className="h-[420px] sm:h-[480px] rounded-3xl bg-slate-900/60 border border-slate-800 animate-pulse" />}>
+          <Escenario3D />
+        </Suspense>
       </div>
     </div>
   </section>
