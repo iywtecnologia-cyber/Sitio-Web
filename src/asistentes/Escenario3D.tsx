@@ -1,10 +1,46 @@
-// Escenario 3D: la G de Golondrina en el centro y los asistentes girando siempre a su alrededor.
+// Escenario 3D: el logo de tecnoros en el centro y los asistentes (los cuadraditos con su emoji)
+// girando siempre a su alrededor, haciendo gestos todo el tiempo (vueltas, saltos, giros, se menean).
 // Todo se puede tocar y arrastrar: tocás un asistente y hace un gesto y te abre su chat; lo arrastrás
 // y después vuelve a su órbita; arrastrando el piso girás todo. Cuando un asistente responde o hace
 // algo, en el escenario salta y dice lo que hizo en un globito.
 import React, { useEffect, useRef, useState } from 'react';
 import { ASISTENTES } from './funciones';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, type Gesto } from './eventos';
+
+// Colores de los degradés de Tailwind que usa cada asistente (from-… to-…).
+const TW: Record<string, string> = {
+  'cyan-400': '#22d3ee', 'cyan-500': '#06b6d4', 'sky-400': '#38bdf8', 'sky-500': '#0ea5e9', 'emerald-400': '#34d399', 'emerald-500': '#10b981',
+  'teal-400': '#2dd4bf', 'teal-500': '#14b8a6', 'violet-400': '#a78bfa', 'fuchsia-500': '#d946ef', 'amber-400': '#fbbf24', 'orange-500': '#f97316',
+  'blue-500': '#3b82f6', 'pink-400': '#f472b6', 'rose-500': '#f43f5e', 'lime-400': '#a3e635',
+};
+const colores = (degrade: string) => {
+  const de = /from-([a-z]+-\d+)/.exec(degrade)?.[1] ?? 'cyan-400';
+  const a = /to-([a-z]+-\d+)/.exec(degrade)?.[1] ?? 'sky-500';
+  return [TW[de] ?? '#22d3ee', TW[a] ?? '#0ea5e9'] as const;
+};
+// La cara de cada asistente: el mismo cuadradito con degradé y emoji que se ve en el chat.
+const caraAsistente = (degrade: string, emoji: string) => {
+  const c = document.createElement('canvas');
+  c.width = c.height = 256;
+  const x = c.getContext('2d')!;
+  const [de, a] = colores(degrade);
+  const g = x.createLinearGradient(0, 0, 256, 256);
+  g.addColorStop(0, de);
+  g.addColorStop(1, a);
+  x.fillStyle = g;
+  x.fillRect(0, 0, 256, 256);
+  const brillo = x.createRadialGradient(80, 60, 0, 80, 60, 160);
+  brillo.addColorStop(0, 'rgba(255,255,255,.35)');
+  brillo.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = brillo;
+  x.fillRect(0, 0, 256, 256);
+  x.font = '150px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+  x.textAlign = 'center';
+  x.textBaseline = 'middle';
+  x.fillText(emoji, 128, 140);
+  return c;
+};
 
 const COLOR_HEX: Record<string, number> = {
   cyan: 0x22d3ee,
@@ -17,8 +53,8 @@ const COLOR_HEX: Record<string, number> = {
   lime: 0xa3e635,
 };
 
-// La G de Golondrina dibujada en un canvas para usarla como textura del escudo.
-const LOGO_G = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 115" width="400" height="460"><path d="M50 6L89 19C89 62 80 92 50 110C20 92 11 62 11 19Z" fill="#0B1220" stroke="#22D3EE" stroke-width="6" stroke-linejoin="round"/><path d="M66 40H42L32 50V70L42 80H58L66 72V62H52" fill="none" stroke="#F1F5F9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="40" r="6" fill="#22D3EE"/><circle cx="52" cy="62" r="6" fill="#22D3EE"/></svg>`;
+// El logo de tecnoros (escudo cian con el circuito en T) como textura del escudo del centro.
+const LOGO = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 115" width="400" height="460"><path d="M50 6L89 19C89 62 80 92 50 110C20 92 11 62 11 19Z" fill="#0B1220" stroke="#00D2F3" stroke-width="7" stroke-linejoin="round"/><g stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M31 38H69M50 38V78M50 56H61L69 64"/></g><g fill="#00D2F3"><circle cx="31" cy="38" r="6"/><circle cx="69" cy="38" r="6"/><circle cx="69" cy="64" r="5.5"/><circle cx="50" cy="78" r="6"/></g></svg>`;
 
 export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:h-[480px]' }) => {
   const caja = useRef<HTMLDivElement>(null);
@@ -83,7 +119,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       anillo.computeLineDistances();
       mundo.add(anillo);
 
-      // Centro: el escudo de Golondrina con la G
+      // Centro: el escudo con el logo de tecnoros
       const escudo = new THREE.Group();
       escudo.position.y = 1.9;
       mundo.add(escudo);
@@ -101,7 +137,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       cuerpo.position.z = -0.2;
       escudo.add(cuerpo);
       const img = new Image();
-      img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(LOGO_G)}`;
+      img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(LOGO)}`;
       const tex = new THREE.Texture(img);
       img.onload = () => {
         tex.needsUpdate = true;
@@ -115,57 +151,78 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       dorso.position.z = -0.3;
       escudo.add(dorso);
 
-      // Los asistentes: cuerpito con visor, ojos y antena del color de cada uno
+      // Los asistentes: el cuadradito redondeado de cada uno (degradé + emoji) flotando en 3D
       interface Bot {
         id: string;
         g: import('three').Group;
         cuerpo: import('three').Group;
+        mat: import('three').MeshStandardMaterial;
+        fase: number;
+        trabajo: number;
         sostenido: import('three').Vector3 | null;
         volviendo: boolean;
-        gesto: { tipo: Gesto; t0: number } | null;
+        gesto: { tipo: string; t0: number; dur: number } | null;
+        texturas: import('three').Texture[];
       }
-      const bots: Bot[] = ASISTENTES.map((a) => {
-        const color = COLOR_HEX[a.color] ?? 0x22d3ee;
+      const cajaGeo = new RoundedBoxGeometry(1.15, 1.15, 0.5, 5, 0.22);
+      const caraGeo = new THREE.PlaneGeometry(0.98, 0.98);
+      const bots: Bot[] = ASISTENTES.map((a, i) => {
+        const [de, hasta] = colores(a.degrade);
         const g = new THREE.Group();
         const cuerpoBot = new THREE.Group();
+        cuerpoBot.position.y = 1.15;
         g.add(cuerpoBot);
-        const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.35, metalness: 0.1 });
-        const tronco = new THREE.Mesh(new THREE.CapsuleGeometry(0.42, 0.5, 6, 16), mat);
-        tronco.position.y = 0.75;
-        cuerpoBot.add(tronco);
-        const cabeza = new THREE.Mesh(new THREE.SphereGeometry(0.46, 24, 16), mat);
-        cabeza.position.y = 1.55;
-        cuerpoBot.add(cabeza);
-        const visor = new THREE.Mesh(new THREE.SphereGeometry(0.36, 24, 16, -Math.PI / 2.4, Math.PI / 1.2, Math.PI / 3.2, Math.PI / 2.6), new THREE.MeshStandardMaterial({ color: 0x0b1220, roughness: 0.2 }));
-        visor.position.set(0, 1.55, 0.13);
-        cuerpoBot.add(visor);
-        const ojoMat = new THREE.MeshBasicMaterial({ color: 0xe0f2fe });
-        [-0.13, 0.13].forEach((x) => {
-          const ojo = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 8), ojoMat);
-          ojo.position.set(x, 1.6, 0.47);
-          cuerpoBot.add(ojo);
-        });
-        const antena = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.35, 8), mat);
-        antena.position.y = 2.1;
-        cuerpoBot.add(antena);
-        const bolita = new THREE.Mesh(new THREE.SphereGeometry(0.09, 12, 8), new THREE.MeshBasicMaterial({ color }));
-        bolita.position.y = 2.3;
-        cuerpoBot.add(bolita);
-        [-0.55, 0.55].forEach((x) => {
-          const brazo = new THREE.Mesh(new THREE.CapsuleGeometry(0.09, 0.4, 4, 8), mat);
-          brazo.position.set(x, 0.85, 0);
-          brazo.rotation.z = x > 0 ? -0.3 : 0.3;
-          brazo.name = x > 0 ? 'brazoDer' : 'brazoIzq';
-          cuerpoBot.add(brazo);
-        });
-        const sombra = new THREE.Mesh(new THREE.CircleGeometry(0.5, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.25 }));
+        const mat = new THREE.MeshStandardMaterial({ color: new THREE.Color(de).lerp(new THREE.Color(hasta), 0.5), roughness: 0.35, metalness: 0.1, emissive: new THREE.Color(de), emissiveIntensity: 0.05 });
+        cuerpoBot.add(new THREE.Mesh(cajaGeo, mat));
+        const tex = new THREE.CanvasTexture(caraAsistente(a.degrade, a.emoji));
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const caraMat = new THREE.MeshBasicMaterial({ map: tex });
+        const frente = new THREE.Mesh(caraGeo, caraMat);
+        frente.position.z = 0.256;
+        cuerpoBot.add(frente);
+        const atras = new THREE.Mesh(caraGeo, caraMat);
+        atras.position.z = -0.256;
+        atras.rotation.y = Math.PI;
+        cuerpoBot.add(atras);
+        const sombra = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.3 }));
         sombra.rotation.x = -Math.PI / 2;
         sombra.position.y = 0.02;
+        sombra.name = 'sombra';
         g.add(sombra);
         g.traverse((o) => (o.userData.bot = a.id));
         mundo.add(g);
-        return { id: a.id, g, cuerpo: cuerpoBot, sostenido: null, volviendo: false, gesto: null };
+        return { id: a.id, g, cuerpo: cuerpoBot, mat, fase: i * 1.7 + Math.random(), trabajo: 0, sostenido: null, volviendo: false, gesto: null, texturas: [tex] };
       });
+
+      // Lucecitas que viajan del asistente al logo cuando hace algo (como en donweb)
+      const brillo = (() => {
+        const c = document.createElement('canvas');
+        c.width = c.height = 64;
+        const x = c.getContext('2d')!;
+        const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gr.addColorStop(0, 'rgba(255,255,255,1)');
+        gr.addColorStop(0.4, 'rgba(255,255,255,.45)');
+        gr.addColorStop(1, 'rgba(255,255,255,0)');
+        x.fillStyle = gr;
+        x.fillRect(0, 0, 64, 64);
+        return new THREE.CanvasTexture(c);
+      })();
+      const pulsos: { m: import('three').Sprite; curva: import('three').QuadraticBezierCurve3; t0: number }[] = [];
+      const pulso = (b: Bot) => {
+        const desde = b.g.position.clone().add(new THREE.Vector3(0, 1.2, 0));
+        const hasta = new THREE.Vector3(0, 1.9, 0);
+        const medio = desde.clone().add(hasta).multiplyScalar(0.5);
+        medio.y += 1.6;
+        const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: brillo, color: b.mat.emissive, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+        sp.scale.set(0.7, 0.7, 0.7);
+        mundo.add(sp);
+        pulsos.push({ m: sp, curva: new THREE.QuadraticBezierCurve3(desde, medio, hasta), t0: performance.now() });
+      };
+      const GESTOS = ['vuelta', 'giro', 'salto', 'meneo'];
+      const hacerGesto = (b: Bot, tipo?: string) => {
+        const t = tipo ?? GESTOS[Math.floor(Math.random() * GESTOS.length)];
+        b.gesto = { tipo: t, t0: performance.now(), dur: t === 'meneo' ? 1100 : 900 };
+      };
 
       // ─── Tamaño ───
       const ajustar = () => {
@@ -174,7 +231,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         // En pantallas angostas se aleja un poco para que entren todos.
-        camera.position.set(0, w < 500 ? 9 : 7.2, w < 500 ? 17 : 13.5);
+        camera.position.set(0, w < 500 ? 11 : 7.2, w < 500 ? 21 : 13.5);
         camera.lookAt(0, 1.2, 0);
         camera.updateProjectionMatrix();
       };
@@ -229,13 +286,15 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         if (!arrastre) return;
         const { bot, movio } = arrastre;
         if (bot && !movio) {
-          bot.gesto = { tipo: 'vuelta', t0: performance.now() };
+          hacerGesto(bot, 'vuelta');
+          bot.trabajo = 1;
+          pulso(bot);
           setTimeout(() => abrirAsistente(bot.id), quieto ? 0 : 350);
         }
         if (bot && movio) {
           bot.sostenido = null;
           bot.volviendo = true;
-          bot.gesto = { tipo: 'salto', t0: performance.now() };
+          hacerGesto(bot, 'giro');
         }
         arrastre = null;
       };
@@ -248,15 +307,29 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       const alGesto = (e: Event) => {
         const { id, tipo } = (e as CustomEvent<{ id: string; tipo: Gesto }>).detail;
         const b = bots.find((x) => x.id === id);
-        if (b) b.gesto = { tipo, t0: performance.now() };
+        if (!b) return;
+        hacerGesto(b, tipo === 'saludo' ? 'meneo' : tipo === 'salto' ? 'salto' : 'vuelta');
+        b.trabajo = 1;
+        pulso(b);
       };
       window.addEventListener(EV_GESTO, alGesto);
+      // Siempre hay alguno haciendo algo: cada tanto uno da una vuelta, salta, gira o se menea.
+      const intervalo = quieto
+        ? 0
+        : window.setInterval(() => {
+            const libres = bots.filter((b) => !b.gesto && !b.sostenido);
+            const b = libres[Math.floor(Math.random() * libres.length)];
+            if (!b) return;
+            hacerGesto(b);
+            if (Math.random() < 0.5) pulso(b);
+          }, 1100);
 
       // ─── Animación ───
       let visible = true;
       const io = new IntersectionObserver(([en]) => (visible = en.isIntersecting));
       io.observe(cont);
       let tOrbita = 0;
+      let escudoLatido = 0;
       let antes = performance.now();
       let raf = 0;
       const v3 = new THREE.Vector3();
@@ -276,6 +349,8 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
 
         const w = cont.clientWidth;
         const h = cont.clientHeight;
+        const t = ahora / 1000;
+        const facil = (k: number) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
         bots.forEach((b, i) => {
           const ang = tOrbita + (i / bots.length) * Math.PI * 2;
           const objetivo = b.sostenido ?? new THREE.Vector3(RX * Math.cos(ang), 0, RZ * Math.sin(ang));
@@ -283,36 +358,45 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
             b.g.position.lerp(objetivo, b.sostenido ? 0.35 : 0.08);
             if (b.volviendo && b.g.position.distanceTo(objetivo) < 0.05) b.volviendo = false;
           } else b.g.position.copy(objetivo);
-          // Miran hacia afuera de la órbita, levemente hacia la cámara.
-          b.g.rotation.y = Math.atan2(b.g.position.x, b.g.position.z) * 0.6;
-          // Flotan, cada uno a su ritmo.
-          let y = quieto ? 0 : Math.sin(ahora / 420 + i) * 0.08;
-          let rotY = 0;
-          let rotZ = 0;
-          const brazoDer = b.cuerpo.getObjectByName('brazoDer');
-          if (brazoDer) brazoDer.rotation.z = -0.3;
+          // Miran hacia la cámara (así se ve el emoji) y van mirando para los costados.
+          b.g.rotation.y = -giro + (quieto ? 0 : Math.sin(t * 0.8 + b.fase) * 0.45);
+          // Flotan y se balancean, cada uno a su ritmo; cuando trabajan rebotan y brillan.
+          let y = 1.15 + (quieto ? 0 : Math.sin(t * 1.8 + b.fase) * 0.18) + b.trabajo * Math.abs(Math.sin(t * 9)) * 0.3;
+          let rx = quieto ? 0 : Math.sin(t * 1.3 + b.fase) * 0.12;
+          let ry = 0;
+          let rz = quieto ? 0 : Math.sin(t * 1.1 + b.fase * 2) * 0.1;
           if (b.gesto) {
-            const t = (ahora - b.gesto.t0) / 1000;
-            if (t > 1) b.gesto = null;
-            else if (b.gesto.tipo === 'salto') y += Math.sin(t * Math.PI) * 1.1;
-            else if (b.gesto.tipo === 'vuelta') {
-              rotY = t * Math.PI * 2;
-              y += Math.sin(t * Math.PI) * 0.5;
-            } else if (brazoDer) {
-              brazoDer.rotation.z = -2.4 + Math.sin(t * Math.PI * 6) * 0.4;
-              rotZ = Math.sin(t * Math.PI * 4) * 0.08;
+            const k = Math.min(1, (ahora - b.gesto.t0) / b.gesto.dur);
+            const e = facil(k);
+            if (b.gesto.tipo === 'vuelta') {
+              rx = e * Math.PI * 2;
+              y += Math.sin(Math.PI * k) * 1.1;
+            } else if (b.gesto.tipo === 'giro') {
+              ry = e * Math.PI * 2;
+              y += Math.sin(Math.PI * k) * 0.45;
+            } else if (b.gesto.tipo === 'salto') {
+              y += Math.abs(Math.sin(Math.PI * 2 * k)) * 0.85;
+            } else {
+              rz = Math.sin(k * Math.PI * 6) * 0.45 * (1 - k);
             }
+            if (k >= 1) b.gesto = null;
           }
-          if (b.sostenido) y += 0.4;
+          if (b.sostenido) y += 0.5;
           b.cuerpo.position.y = y;
-          b.cuerpo.rotation.y = rotY;
-          b.cuerpo.rotation.z = rotZ;
+          b.cuerpo.rotation.set(rx, ry, rz);
+          b.trabajo = Math.max(0, b.trabajo - dt / 2.6);
+          b.mat.emissiveIntensity = 0.05 + b.trabajo * 0.6;
+          const esc = 1 + b.trabajo * 0.15;
+          b.cuerpo.scale.set(esc, esc, esc);
+          const sombra = b.g.getObjectByName('sombra');
+          if (sombra) sombra.scale.setScalar(Math.max(0.5, 1.2 - (y - 1.15) * 0.4));
 
           // Etiqueta y globito, encima de cada uno.
-          v3.set(0, 2.75 + y, 0);
+          v3.set(0, y + 0.95, 0);
           b.g.localToWorld(v3);
           v3.project(camera);
-          const x = ((v3.x + 1) / 2) * w;
+          const bordes = w < 500 ? 58 : 70;
+          const x = Math.max(bordes, Math.min(w - bordes, ((v3.x + 1) / 2) * w));
           const yy = ((1 - v3.y) / 2) * h;
           const delante = v3.z < 1;
           const prof = Math.max(0.75, Math.min(1.1, 1.25 - (b.g.position.z + RZ) / (RZ * 6)));
@@ -325,6 +409,19 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           const gl = globos.current[b.id];
           if (gl) gl.style.transform = `translate(${x}px, ${yy - 34}px) translate(-50%, -100%)`;
         });
+        for (let k = pulsos.length - 1; k >= 0; k--) {
+          const pu = pulsos[k];
+          const f = Math.min(1, (ahora - pu.t0) / (quieto ? 300 : 1100));
+          pu.m.position.copy(pu.curva.getPoint(facil(f)));
+          if (f >= 1) {
+            mundo.remove(pu.m);
+            pu.m.material.dispose();
+            pulsos.splice(k, 1);
+            escudoLatido = 1;
+          }
+        }
+        escudoLatido = Math.max(0, escudoLatido - dt * 2.5);
+        escudo.scale.setScalar(1 + escudoLatido * 0.08);
         renderer.render(scene, camera);
       };
       raf = requestAnimationFrame(cuadro);
@@ -334,6 +431,9 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         ro.disconnect();
         io.disconnect();
         window.removeEventListener(EV_GESTO, alGesto);
+        if (intervalo) window.clearInterval(intervalo);
+        bots.forEach((b) => b.texturas.forEach((x) => x.dispose()));
+        brillo.dispose();
         canvas.removeEventListener('pointerdown', abajo);
         canvas.removeEventListener('pointermove', mover);
         canvas.removeEventListener('pointerup', arriba);
@@ -376,7 +476,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
   return (
     <div>
       <div ref={caja} className={`relative w-full ${alto} rounded-3xl overflow-hidden bg-gradient-to-b from-slate-900/80 via-[#0a1426] to-[#060b16] border border-cyan-500/20 touch-none select-none`}>
-        {!sin3D && <canvas ref={lienzo} className="absolute inset-0 w-full h-full" aria-label="Escenario 3D con la G de Golondrina y los asistentes girando alrededor. Tocá uno para hablarle." />}
+        {!sin3D && <canvas ref={lienzo} className="absolute inset-0 w-full h-full" aria-label="Escenario 3D con el logo de tecnoros y los asistentes girando alrededor. Tocá uno para hablarle." />}
         {/* Nombre de cada asistente sobre su cabeza (también sirve para tocarlo con el teclado) */}
         <div className="absolute inset-0 pointer-events-none">
           {ASISTENTES.map((a) => (
