@@ -1,3 +1,4 @@
+import { EscenarioAsistentes } from '../../asistentes/AsistentesPorFuncion';
 import React from 'react';
 import { Carrusel } from './Carrusel';
 import {
@@ -36,43 +37,52 @@ const VerMas: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
 
 /* ── 1. Hero ───────────────────────────────────────────────────────────── */
 export const HeroCorto: React.FC = () => (
-  <section id="inicio" className="relative pt-28 pb-12 sm:pt-36 sm:pb-20 overflow-hidden">
+  <section id="inicio" className="relative pt-[84px] pb-10 sm:pt-32 sm:pb-16 overflow-hidden">
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
-        De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
-      </span>
-      <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
-        Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
-      </h1>
-      <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Somos una agencia remota nacida en Rosario, con equipo en todo LATAM. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
-      </p>
-      <div className="mt-8 flex flex-col sm:flex-row gap-3">
-        <button
-          type="button"
-          onClick={() => navegar('/presupuesto')}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
-        >
-          Pedí presupuesto <ArrowRight className="w-4 h-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => irA('productos-inicio')}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 rounded-xl cursor-pointer"
-        >
-          Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
-        </button>
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 lg:gap-10 items-center">
+      {/* Lo primero que se ve: los asistentes girando alrededor del logo de tecnoros */}
+      <div id="asistentes" className="order-1 lg:order-2 scroll-mt-24">
+        <EscenarioAsistentes alto="h-[300px] sm:h-[460px] lg:h-[540px]" />
       </div>
-      {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
-      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
-          <Unlock className="w-3.5 h-3.5" /> Sin permanencia
+      <div className="order-2 lg:order-1">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-4">
+          De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
         </span>
-        <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
-          Botón de arrepentimiento
-        </a>
+        <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
+          Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
+        </h1>
+        <p className="mt-3 sm:mt-4 text-[15px] sm:text-xl text-slate-300 max-w-xl">
+          Somos una agencia remota nacida en Rosario, con equipo en todo LATAM. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        </p>
+        <p className="hidden sm:block mt-3 text-sm sm:text-base text-cyan-200/90 max-w-xl">
+          Tocá un asistente, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
+        </p>
+        <div className="mt-5 sm:mt-8 flex flex-row gap-2.5 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => navegar('/presupuesto')}
+            className="flex-1 sm:flex-none whitespace-nowrap text-[15px] sm:text-base inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
+          >
+            <span className="sm:hidden">Pedí cotización</span><span className="hidden sm:inline">Pedí presupuesto</span> <ArrowRight className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => irA('productos-inicio')}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3.5 font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 rounded-xl cursor-pointer"
+          >
+            Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
+          </button>
+        </div>
+        {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
+        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
+            <Unlock className="w-3.5 h-3.5" /> Sin permanencia
+          </span>
+          <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
+            Botón de arrepentimiento
+          </a>
+        </div>
       </div>
     </div>
   </section>

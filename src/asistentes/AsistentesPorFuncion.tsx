@@ -361,22 +361,9 @@ export const AsistentesPorFuncion: React.FC = () => {
   );
 };
 
-/** Bloque del inicio: el escenario 3D con los asistentes girando alrededor del logo de tecnoros. */
-export const AsistentesInicio: React.FC = () => (
-  <section id="asistentes" className="py-12 sm:py-16 border-t border-slate-800/50 scroll-mt-20">
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300">
-        <Sparkles className="w-3.5 h-3.5" /> NUEVO
-      </span>
-      <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">No tenés que aprender a usar la web</h2>
-      <p className="mt-2 text-base sm:text-lg text-slate-300 max-w-3xl">
-        Hay un asistente para cada cosa que podés hacer acá, y giran siempre alrededor de tecnoros, coordinados por Golondrina, que aprende de lo que hacés. Tocá uno, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
-      </p>
-      <div className="mt-6">
-        <Suspense fallback={<div className="h-[420px] sm:h-[480px] rounded-3xl bg-slate-900/60 border border-slate-800 animate-pulse" />}>
-          <Escenario3D />
-        </Suspense>
-      </div>
-    </div>
-  </section>
+/** Escenario 3D con los asistentes girando alrededor del logo de tecnoros (es lo primero que se ve en la web). */
+export const EscenarioAsistentes: React.FC<{ alto?: string }> = ({ alto }) => (
+  <Suspense fallback={<div className={`${alto ?? 'h-[420px] sm:h-[480px]'} rounded-3xl bg-slate-900/60 border border-slate-800 animate-pulse`} />}>
+    <Escenario3D alto={alto} />
+  </Suspense>
 );
