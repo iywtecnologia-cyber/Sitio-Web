@@ -1,7 +1,8 @@
+import { EscenarioAsistentes } from '../../asistentes/AsistentesPorFuncion';
 import React from 'react';
 import { Carrusel } from './Carrusel';
 import {
-  ArrowRight, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, KeyRound, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Workflow, Bot, Code2, Cpu, MessageCircle, Mail, Lock, Calculator,
+  ArrowRight, BookOpen, Target, Globe, Globe2, Palette, ShoppingCart, Megaphone, Compass, Search, Eye, MapPin, Package, KeyRound, CreditCard, Smile, Headset, Unlock, Smartphone, Contact, ExternalLink, Flag, Instagram, Linkedin, Workflow, Bot, ShieldCheck, Code2, Cpu, MessageCircle, Mail, Layers, Lock, Boxes, FolderKanban, Calculator, ChevronRight, Camera,
   MessageSquare,
 } from 'lucide-react';
 import { GolondrinaLogo, TeroLogo } from '../LogosProductos';
@@ -10,6 +11,7 @@ import { EquipoAreas } from '../EquipoAreas';
 import { irA, navegar } from '../../rutas';
 import { elegirEquipo3D, type Equipo3D } from '../../equipo3d';
 import { whatsappLink, ventasMailto, VENTAS_EMAIL } from '../../data/contact';
+import type { Ruta } from '../../rutas';
 
 // Inicio corto: cada bloque dice una sola cosa y tiene un botón que lleva al detalle.
 // Lo pesado (simuladores, 3D, presupuestador, tecnologías) vive en su propia página.
@@ -35,43 +37,52 @@ const VerMas: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
 
 /* ── 1. Hero ───────────────────────────────────────────────────────────── */
 export const HeroCorto: React.FC = () => (
-  <section id="inicio" className="relative pt-28 pb-12 sm:pt-36 sm:pb-20 overflow-hidden">
+  <section id="inicio" className="relative pt-[84px] pb-10 sm:pt-32 sm:pb-16 overflow-hidden">
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
-      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-5">
-        De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
-      </span>
-      <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
-        Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
-      </h1>
-      <p className="mt-5 text-base sm:text-xl text-slate-300 max-w-xl">
-        Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
-      </p>
-      <div className="mt-8 flex flex-col sm:flex-row gap-3">
-        <button
-          type="button"
-          onClick={() => navegar('/presupuesto')}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
-        >
-          Pedí presupuesto <ArrowRight className="w-4 h-4" />
-        </button>
-        <button
-          type="button"
-          onClick={() => irA('productos-inicio')}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 rounded-xl cursor-pointer"
-        >
-          Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
-        </button>
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 lg:gap-10 items-center">
+      {/* Lo primero que se ve: los asistentes girando alrededor del logo de tecnoros */}
+      <div id="asistentes" className="order-1 lg:order-2 scroll-mt-24">
+        <EscenarioAsistentes alto="h-[300px] sm:h-[460px] lg:h-[540px]" />
       </div>
-      {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
-      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
-          <Unlock className="w-3.5 h-3.5" /> Sin permanencia
+      <div className="order-2 lg:order-1">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-4">
+          De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
         </span>
-        <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
-          Botón de arrepentimiento
-        </a>
+        <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
+          Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
+        </h1>
+        <p className="mt-3 sm:mt-4 text-[15px] sm:text-xl text-slate-300 max-w-xl">
+          Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+        </p>
+        <p className="hidden sm:block mt-3 text-sm sm:text-base text-cyan-200/90 max-w-xl">
+          Tocá un asistente, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
+        </p>
+        <div className="mt-5 sm:mt-8 flex flex-row gap-2.5 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => navegar('/presupuesto')}
+            className="flex-1 sm:flex-none whitespace-nowrap text-[15px] sm:text-base inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
+          >
+            <span className="sm:hidden">Pedí cotización</span><span className="hidden sm:inline">Pedí presupuesto</span> <ArrowRight className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => irA('productos-inicio')}
+            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3.5 font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 rounded-xl cursor-pointer"
+          >
+            Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
+          </button>
+        </div>
+        {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
+        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
+            <Unlock className="w-3.5 h-3.5" /> Sin permanencia
+          </span>
+          <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
+            Botón de arrepentimiento
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -212,12 +223,14 @@ export const QueHacemos: React.FC = () => (
 
 /* ── Por qué elegirnos ─────────────────────────────────────────────── */
 export const RAZONES: { icon: React.ElementType; titulo: string; linea: string }[] = [
+  { icon: Search, titulo: 'Diagnóstico inicial gratuito', linea: 'Primero entendemos tu problema. Recién después hablamos de precio.' },
   { icon: Eye, titulo: 'Lo ves antes de pagarlo', linea: 'Armamos un prototipo y no seguimos hasta que lo aprobás.' },
   { icon: KeyRound, titulo: 'Lo que hacemos es tuyo', linea: 'Pagado, el desarrollo a medida y tus datos son tuyos.' },
-  { icon: Calculator, titulo: 'Precios claros y facilidades', linea: 'Precios publicados y facilidades de pago. Sin sorpresas.' },
+  { icon: CreditCard, titulo: 'Facilidades de pago', linea: 'Te damos facilidades para que pagar no sea un problema.' },
   { icon: Smile, titulo: 'No necesitás saber de tecnología', linea: 'Te explicamos todo en simple y lo dejamos andando.' },
-  { icon: Headset, titulo: 'Soporte técnico', linea: 'Te acompañamos antes, durante y después de la entrega.' },
+  { icon: Headset, titulo: 'Soporte técnico todo el tiempo', linea: 'Te acompañamos antes, durante y después de la entrega.' },
   { icon: Unlock, titulo: 'Sin permanencia', linea: 'Los abonos mensuales se dan de baja cuando quieras.' },
+  { icon: Calculator, titulo: 'Precios claros', linea: 'Precios de referencia y combos publicados. Sin sorpresas.' },
 ];
 
 export const PorQueElegirnos: React.FC = () => (
@@ -311,6 +324,44 @@ export const EquipoCorto: React.FC = () => (
 );
 
 /* ── 5. ¿Querés saber más? ─────────────────────────────────────────────── */
+const SECCIONES: { icon: React.ElementType; titulo: string; linea: string; ruta: string }[] = [
+  { icon: Layers, titulo: 'Servicios', linea: 'Todo lo que hacemos y cómo trabajamos', ruta: '/servicios' },
+  { icon: Boxes, titulo: 'Productos y demos', linea: 'Simuladores, equipos en 3D y precios', ruta: '/productos' },
+  { icon: Bot, titulo: 'Diseñá tu robot', linea: 'Armalo y probalo en 3D, en la pantalla', ruta: '/robotica' },
+  { icon: FolderKanban, titulo: 'Proyectos', linea: 'Sistemas que ya están funcionando', ruta: '/proyectos' },
+  { icon: Calculator, titulo: 'Presupuesto', linea: 'Calculá cuánto cuesta lo que necesitás', ruta: '/presupuesto' },
+  { icon: Package, titulo: 'Combos', linea: 'Servicios juntos, a mejor precio', ruta: '/presupuesto#combos' },
+  { icon: BookOpen, titulo: 'Blog', linea: 'Ideas cortas para tu negocio', ruta: '/blog' },
+  { icon: Camera, titulo: 'Encuentros', linea: 'Nuestra historia en fotos', ruta: '/encuentros' },
+];
+
+export const SaberMas: React.FC = () => (
+  <section id="saber-mas" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <Titulo chip="¿Querés saber más?" titulo="Elegí qué te interesa" />
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {SECCIONES.map(({ icon: Icon, titulo, linea, ruta }) => (
+          <li key={titulo}>
+            <a
+              href={ruta}
+              className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 transition-colors group"
+            >
+              <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
+                <Icon className="w-5 h-5" />
+              </span>
+              <span className="flex-1 min-w-0">
+                <span className="block font-bold text-white">{titulo}</span>
+                <span className="block text-xs sm:text-sm text-slate-400">{linea}</span>
+              </span>
+              <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-cyan-300 shrink-0" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+);
+
 /* ── 6. Contacto rápido ───────────────────────────────────────────────── */
 export const ContactoRapido: React.FC = () => (
   <section id="contacto-rapido" className="py-14 sm:py-20 border-t border-slate-800/50 scroll-mt-20">

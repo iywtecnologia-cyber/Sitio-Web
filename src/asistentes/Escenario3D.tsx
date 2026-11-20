@@ -206,8 +206,8 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         // En pantallas angostas se aleja un poco para que entren todos.
-        camera.position.set(0, w < 500 ? 11 : 7.2, w < 500 ? 21 : 13.5);
-        camera.lookAt(0, 1.2, 0);
+        camera.position.set(0, w < 500 ? 8.5 : 7.2, w < 500 ? 15.5 : 13.5);
+        camera.lookAt(0, w < 500 ? 0.3 : 1.2, 0);
         camera.updateProjectionMatrix();
       };
       ajustar();
@@ -380,7 +380,11 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           if (et) {
             et.style.transform = `translate(${x}px, ${yy}px) translate(-50%, -100%) scale(${prof})`;
             et.style.zIndex = String(Math.round(100 + b.g.position.z * 10));
-            et.style.opacity = delante ? '1' : '0';
+            // En el celu solo se ven los nombres de los que pasan por adelante, así no tapan el logo.
+            const ver = delante && (w >= 500 || b.g.position.z > -0.4);
+            et.style.opacity = ver ? '1' : '0';
+            const boton = et.firstElementChild as HTMLElement | null;
+            if (boton) boton.style.pointerEvents = ver ? '' : 'none';
           }
           const gl = globos.current[b.id];
           if (gl) gl.style.transform = `translate(${x}px, ${yy - 34}px) translate(-50%, -100%)`;

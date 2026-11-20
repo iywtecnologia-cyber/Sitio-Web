@@ -24,7 +24,7 @@ import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, 
 import { NoEncontrada } from './components/NoEncontrada';
 import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
 import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
-import { AsistentesInicio, AsistentesPorFuncion } from './asistentes/AsistentesPorFuncion';
+import { AsistentesPorFuncion } from './asistentes/AsistentesPorFuncion';
 
 // El estudio de robótica arrastra three.js: se descarga sólo al entrar a /robotica
 // para que el inicio cargue rápido en el celular.
@@ -103,9 +103,8 @@ export default function App() {
       <main className="flex-1">
         {ruta === '/' ? (
           <>
-            {/* Orden: hero → combos → JAR → quiénes somos → servicios → productos → contacto */}
+            {/* Orden: hero con los asistentes → combos → JAR → quiénes somos → servicios → productos → contacto */}
             <HeroCorto />
-            <AsistentesInicio />
             <Combos id="combos-inicio" />
             <JarDestacado />
             <EquipoCorto />
