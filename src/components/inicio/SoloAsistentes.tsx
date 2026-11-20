@@ -128,7 +128,7 @@ export const VideosProductos: React.FC = () => (
         <button
           type="button"
           onClick={() => abrirAsistente('proyectos')}
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-cyan-400 text-white font-semibold cursor-pointer"
+          className="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-cyan-400 text-white font-semibold cursor-pointer"
         >
           <img src="/asistentes/proyectos.png" alt="" aria-hidden="true" className="w-6 h-6 object-contain" /> Hacele click al asistente de Proyectos
         </button>
