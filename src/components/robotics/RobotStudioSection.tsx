@@ -259,7 +259,7 @@ export const RobotStudioSection: React.FC = () => {
         </div>
 
         {/* Model Selector Carousel / Bar: al tocar un robot, la vista va directo al robot */}
-        <div className="mb-6 space-y-2" onClickCapture={mostrarRobot}>
+        <div id="robot-creacion" className="mb-6 space-y-2 scroll-mt-24" onClickCapture={mostrarRobot}>
           <div className="flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
             <span className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
