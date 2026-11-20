@@ -158,22 +158,6 @@ export const FOUNDERS: Founder[] = [
     linkedin: 'https://www.linkedin.com/in/abelalarc%C3%B3n/',
   },
   {
-    name: 'Matias Aguero',
-    area: 'backend',
-    role: 'Se sumó al equipo',
-    specialty: 'Backend Developer (Full Stack)',
-    badge: 'Backend Developer',
-    linkedin: 'https://www.linkedin.com/in/matias-aguero-ventrice',
-  },
-  {
-    name: 'Lucas Caño',
-    area: 'frontend',
-    role: 'Se sumó al equipo',
-    specialty: 'Frontend Developer',
-    badge: 'Frontend Developer',
-    linkedin: 'https://www.linkedin.com/in/lucas-ca%C3%B1o-0a5406223',
-  },
-  {
     name: 'Ignacio Ibaigorria',
     area: 'frontend',
     role: 'Se sumó al equipo',
@@ -231,15 +215,6 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Administración',
     badge: 'Administración',
     linkedin: 'https://www.linkedin.com/in/celina-jara-23b03373/',
-  },
-  {
-    name: 'Daniel Hernández Anaya',
-    area: 'qa',
-    role: 'Se sumó al equipo',
-    specialty: 'QA',
-    badge: 'QA Analyst',
-    corto: 'Daniel Hernández Anaya',
-    linkedin: 'https://www.linkedin.com/in/daniel-hernandez-anaya/',
   },
   {
     name: 'Lucas Gabriel Greco',
@@ -358,13 +333,6 @@ export const FOUNDERS: Founder[] = [
     badge: 'QA Analyst',
   },
   {
-    name: 'Daniel Cuda',
-    area: 'qa',
-    role: 'Se sumó al equipo',
-    specialty: 'QA',
-    badge: 'QA Analyst',
-  },
-  {
     name: 'Brenda Soto',
     area: 'qa',
     role: 'Se sumó al equipo',
@@ -389,10 +357,10 @@ export const FOUNDERS: Founder[] = [
   },
   {
     name: 'Agustín Chazarreta Cruz',
-    area: 'fullstack',
+    area: 'devops',
     role: 'Se sumó al equipo',
-    specialty: 'Desarrollador Full Stack',
-    badge: 'Full Stack Developer',
+    specialty: 'DevOps',
+    badge: 'DevOps',
     linkedin: 'https://www.linkedin.com/in/agust%C3%ADn-chazarreta-cruz',
   },
   {
