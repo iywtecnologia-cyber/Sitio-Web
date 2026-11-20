@@ -137,8 +137,14 @@ export const PREGUNTA_DE: Record<string, { pregunta: string; parametro: string; 
   'explicar-producto': { parametro: 'producto', pregunta: '¿De qué producto querés saber? Elegí uno o escribime cuál.' },
   'probar-producto': { parametro: 'producto', pregunta: '¿Qué producto querés probar? Elegí uno.' },
   'disenar-robot': { parametro: 'uso', pregunta: 'Completá la frase: «Quiero un robot que…»', prefijo: 'Quiero un robot que ' },
-  'escribir-ventas': { parametro: 'mensaje', pregunta: '¿Qué le querés decir a ventas? Contámelo en una frase y te dejo el mensaje listo.' },
   'pedir-soporte': { parametro: 'problema', pregunta: '¿Qué es lo que no anda? Contame qué pasa y te paso con soporte.' },
+};
+
+/** Sugerencias que aparecen como botones cuando el asistente pregunta (el texto es lo que «decís» al tocarlo). */
+export const SUGERENCIAS_DE: Record<string, string[]> = {
+  'servicio-para': ['Vender por internet', 'Que el WhatsApp responda solo', 'Ordenar mis clientes', 'Automatizar tareas a mano', 'Una página web', 'Cuidar mi información', 'Una app para el celular', 'No sé, quiero un diagnóstico'],
+  'calcular-presupuesto': ['Una tienda online', 'Un bot de WhatsApp', 'Una página web', 'Automatizar tareas', 'Un CRM para mis clientes'],
+  'pedir-soporte': ['No me llegan los avisos', 'No puedo entrar', 'Algo se ve mal', 'Otra cosa'],
 };
 
 /** Pedirle algo a otro asistente (por ejemplo, desde Servicios: «¿Cuánto sale?» lo responde Presupuesto). */
@@ -460,8 +466,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       parametros: [{ nombre: 'uso', libre: true, completo: true, memorizable: false }],
       descubrible: true,
       ejecutar: (p: Parametros) => {
-        irA('robotica-3d');
-        mostrar('robot', 'robotica-3d', 'Acá lo armás');
+        irA('robot-creacion', true);
+        mostrar('robot', 'robot-creacion', 'Acá lo armás');
         const t = normalizar(p['uso'] ?? '');
         const consejo = contiene(t, 'caja', 'llev', 'carga')
           ? 'Para llevar cajas, elegí ruedas y una bandeja arriba.'
@@ -470,7 +476,7 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           : contiene(t, 'brazo', 'agarr', 'mover')
           ? 'Para agarrar cosas, sumale un brazo.'
           : 'Elegí el modelo, los colores y probalo en 3D.';
-        return `Te abrí el diseñador de robots. ${consejo}\nPrimero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.`;
+        return `Te llevé al panel de creación del robot. ${consejo}\nPrimero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.`;
       },
     }),
 
@@ -522,9 +528,14 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           ofrecer({ texto: `Ver ${hit.title.split(':')[0]}`, alHacer: () => verProyecto(hit.id) });
           return `Tenemos **${hit.title}** (${hit.category}). Tocalo para verlo.`;
         }
-        ofrecer({ texto: 'Mostrador', alHacer: verMostrador });
-        PROJECTS_DATA.forEach((x) => ofrecer({ texto: x.title.split(':')[0].replace('Agenda Odontológica', 'Agenda de consultorio'), alHacer: () => verProyecto(x.id) }));
-        return 'Estos son los sistemas que ya están funcionando: **Mostrador** y la **Agenda de consultorio**. Tocá el que quieras ver.' + (t ? '\nPara tu rubro todavía no tenemos uno publicado: lo armamos a medida.' : '');
+        ofrecer({ texto: 'Ver Mostrador', alHacer: verMostrador });
+        PROJECTS_DATA.forEach((x) => ofrecer({ texto: `Ver ${x.title.split(':')[0].replace('Agenda Odontológica', 'Agenda de consultorio')}`, alHacer: () => verProyecto(x.id) }));
+        return (
+          'Estos son nuestros proyectos funcionando:\n' +
+          '• **Mostrador**: un chatbot con IA que atiende a los clientes de tu negocio 24/7 con tu información (precios, horarios, productos).\n' +
+          '• **Agenda de consultorio**: la ficha de cada paciente con obra social, adjuntos y contacto directo por WhatsApp, llamada o correo.\n' +
+          'Elegí cuál querés ver.'
+        ) + (t ? '\nPara tu rubro todavía no tenemos uno publicado: lo armamos a medida.' : '');
       },
     }),
 
@@ -566,22 +577,10 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       parametros: [{ nombre: 'mensaje', libre: true, completo: true, memorizable: false }],
       ejecutar: (p: Parametros) => {
         const texto = (p['mensaje'] ?? '').trim();
-        const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
-        ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg), unaVez: true });
-        ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
-        ofrecer({
-          texto: 'Escribilo en el formulario',
-          unaVez: true,
-          alHacer: () => {
-            irA('contacto');
-            void (async () => {
-              const campo = (await esperar('#contacto-mensaje')) as HTMLTextAreaElement | null;
-              mostrar('contacto', campo, 'Te lo escribo');
-              await escribir(campo, msg);
-            })();
-          },
-        });
-        return `Te dejé el mensaje listo: «${msg}». Elegí cómo mandarlo; te responde una persona del equipo.`;
+        const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir|escribirle a ventas)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
+        // Directo al e-mail de ventas: al tocarlo se abre Gmail con el mensaje para el equipo de ventas.
+        ofrecer({ texto: `✉️ ${VENTAS_EMAIL} · abrir Gmail`, href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
+        return `Escribile al equipo de ventas a **${VENTAS_EMAIL}**. Tocá el botón y se abre Gmail para mandarle tu mensaje; te responde una persona del equipo.`;
       },
     }),
 

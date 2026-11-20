@@ -51,7 +51,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   contacto: '/contacto', 'consulta-directa': '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'mostrador-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
-  'robotica-3d': '/robotica',
+  'robotica-3d': '/robotica', 'robot-creacion': '/robotica',
   facturacion: '/presupuesto', combos: '/presupuesto',
   'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/encuentros',
   stack: '/tecnologias',
