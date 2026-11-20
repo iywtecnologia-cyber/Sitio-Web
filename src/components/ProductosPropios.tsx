@@ -210,7 +210,7 @@ const useDecodificar = (disparo: number) => {
 };
 
 // Cartel interactivo: se decodifica al aparecer en pantalla y cada vez que lo tocás o pasás el mouse.
-const CartelProximamente: React.FC = () => {
+export const CartelProximamente: React.FC = () => {
   const [disparo, setDisparo] = useState(0);
   const ref = useRef<HTMLButtonElement>(null);
   const texto = useDecodificar(disparo);

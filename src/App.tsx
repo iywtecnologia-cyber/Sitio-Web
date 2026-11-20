@@ -4,7 +4,6 @@
  */
 
 import React, { Suspense, lazy } from 'react';
-import { Navbar } from './components/Navbar';
 import { ProductosPropios } from './components/ProductosPropios';
 import { ServicesSection } from './components/ServicesSection';
 import { AboutSection } from './components/AboutSection';
@@ -13,14 +12,14 @@ import { PortfolioSection } from './components/PortfolioSection';
 import { BillingModule } from './components/billing/BillingModule';
 import { HowWeWorkSection } from './components/HowWeWorkSection';
 import { ContactSection } from './components/ContactSection';
-import { Footer } from './components/Footer';
 import { Asistente } from './components/Asistente';
 import { Arrepentimiento } from './components/Arrepentimiento';
 import { Combos } from './components/extra/Combos';
 import { Blog } from './components/extra/Blog';
 import { Encuentros } from './components/extra/Encuentros';
 import { FondoColor } from './components/FondoColor';
-import { HeroCorto, JarDestacado, QueHacemos, PorQueElegirnos, ProductosInicio, EquipoCorto, ContactoRapido, CierrePagina } from './components/inicio/Inicio';
+import { HeroCorto, CierrePagina } from './components/inicio/Inicio';
+import { CabeceraSimple, InicioSoloAsistentes, PieSimple } from './components/inicio/SoloAsistentes';
 import { NoEncontrada } from './components/NoEncontrada';
 import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
 import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
@@ -98,27 +97,23 @@ export default function App() {
     <div className="relative min-h-screen text-slate-100 flex flex-col selection:bg-cyan-500/20 selection:text-cyan-300">
       {/* Fondo con color (la lucecita de arriba lo cambia) */}
       <FondoColor />
-      <Navbar />
+      {/* Web manejada por asistentes: sin menú, solo el logo y el botón para hablar con ellos */}
+      <CabeceraSimple />
 
       <main className="flex-1">
         {ruta === '/' ? (
           <>
-            {/* Orden: hero con los asistentes → combos → JAR → quiénes somos → servicios → productos → contacto */}
+            {/* Primero los asistentes (con el chat); después solo: Diseñá tu robot, videos de productos,
+                Cómo trabajamos, TERO próximamente, fotos y mapa. Todo lo demás lo manejan los asistentes. */}
             <HeroCorto />
-            <Combos id="combos-inicio" />
-            <JarDestacado />
-            <EquipoCorto />
-            <QueHacemos />
-            <PorQueElegirnos />
-            <ProductosInicio />
-            <ContactoRapido />
+            <InicioSoloAsistentes />
           </>
         ) : ruta === NO_ENCONTRADA ? (
-          <div className="pt-20 sm:pt-[84px]">
+          <div className="pt-16 sm:pt-[72px]">
             <NoEncontrada />
           </div>
         ) : (
-          <div key={ruta} className="pt-20 sm:pt-[84px]">
+          <div key={ruta} className="pt-16 sm:pt-[72px]">
             <Suspense fallback={<Cargando />}>
               {CONTENIDO[ruta]}
             </Suspense>
@@ -127,7 +122,7 @@ export default function App() {
         )}
       </main>
 
-      <Footer />
+      <PieSimple />
 
       {/* Asistente guiado: el botón flotante abre el chat */}
       <Asistente />
