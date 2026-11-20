@@ -75,15 +75,6 @@ export const HeroCorto: React.FC = () => (
             Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
           </button>
         </div>
-        {/* El botón de arrepentimiento es obligatorio a la vista en la primera pantalla (Res. 424/2020) */}
-        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-semibold">
-            <Unlock className="w-3.5 h-3.5" /> Sin permanencia
-          </span>
-          <a href="#arrepentimiento" className="inline-block py-1 text-slate-400 hover:text-cyan-300 underline underline-offset-4">
-            Botón de arrepentimiento
-          </a>
-        </div>
       </div>
     </div>
   </section>
