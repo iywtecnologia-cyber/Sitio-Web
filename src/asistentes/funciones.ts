@@ -14,6 +14,7 @@ import { FOUNDERS, URL_ORGANIGRAMA } from '../data/equipo';
 import { VENTAS_EMAIL, gmailPara, soporteWhatsappLink, whatsappLink } from '../data/contact';
 import { abrirSoporte, irA } from '../rutas';
 import { escribir, esperar, tocar, volarA } from './manos';
+import { cerrarAsistentes } from './eventos';
 
 export interface Enlace {
   texto: string;
@@ -111,7 +112,7 @@ export const ASISTENTES: Asistente[] = [
   {
     id: 'soporte',
     nombre: 'Soporte técnico',
-    emoji: '🛟',
+    emoji: '🎧',
     color: 'lime',
     degrade: 'from-lime-400 to-emerald-500',
     rol: '¿Ya sos cliente y algo no anda? Te ayudo',
@@ -119,6 +120,21 @@ export const ASISTENTES: Asistente[] = [
     paginas: [],
   },
 ];
+
+/**
+ * Cuando tocás un botón del menú que necesita un dato, el asistente no completa nada solo:
+ * te pregunta y espera tu respuesta. `prefijo` deja empezada la frase en la caja de texto.
+ */
+export const PREGUNTA_DE: Record<string, { pregunta: string; parametro: string; prefijo?: string }> = {
+  'servicio-para': { parametro: 'necesidad', pregunta: '¿Para qué querés el servicio? Contame con tus palabras qué querés resolver en tu negocio.' },
+  'calcular-presupuesto': { parametro: 'pedido', pregunta: '¿De qué querés saber cuánto sale? Contame qué necesitás y te lo calculo.' },
+  'recomendar-combo': { parametro: 'pedido', pregunta: '¿Para qué lo querés? Contame qué querés lograr y te digo qué combo te conviene.' },
+  'explicar-producto': { parametro: 'producto', pregunta: '¿De qué producto querés saber? Elegí uno o escribime cuál.' },
+  'probar-producto': { parametro: 'producto', pregunta: '¿Qué producto querés probar? Elegí uno.' },
+  'disenar-robot': { parametro: 'uso', pregunta: 'Completá la frase: «Quiero un robot que…»', prefijo: 'Quiero un robot que ' },
+  'escribir-ventas': { parametro: 'mensaje', pregunta: '¿Qué le querés decir a ventas? Contámelo en una frase y te dejo el mensaje listo.' },
+  'pedir-soporte': { parametro: 'problema', pregunta: '¿Qué es lo que no anda? Contame qué pasa y te paso con soporte.' },
+};
 
 /** Pedirle algo a otro asistente (por ejemplo, desde Servicios: «¿Cuánto sale?» lo responde Presupuesto). */
 export const EVENTO_PEDIR = 'pedir-a-asistente';
@@ -159,6 +175,12 @@ const mostrar = (asistente: string, destino: string | HTMLElement | null | Promi
 };
 /** Busca un elemento por su texto dentro de un contenedor. */
 const porTexto = (selector: string, texto: string) => esperar(() => [...document.querySelectorAll(selector)].find((e) => normalizar(e.textContent ?? '').includes(normalizar(texto))) ?? null);
+
+/** Diagnóstico gratis: se cierra el chat y te lleva directo a esa pantalla. */
+export const irAlDiagnostico = () => {
+  cerrarAsistentes();
+  irA('servicio-analisis-qa', true, 'center');
+};
 
 const pesos = (n: number) => `$${Math.round(n).toLocaleString('es-AR')}`;
 const contiene = (t: string, ...palabras: string[]) => palabras.some((p) => t.includes(p));
@@ -241,7 +263,7 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const ids = serviciosDe(p['necesidad'] ?? '');
         const items = ids.map((id) => SERVICES.find((s) => s.id === id)).filter(Boolean) as typeof SERVICES;
         if (!items.length) {
-          ofrecer({ texto: 'Pedir diagnóstico gratis', alHacer: () => irA('servicio-analisis-qa', true, 'center') });
+          ofrecer({ texto: 'Pedir diagnóstico gratis', alHacer: irAlDiagnostico });
           return 'No me quedó claro qué necesitás. Contámelo con otras palabras, o empezá por el diagnóstico inicial gratuito: miramos tu negocio y te decimos qué conviene.';
         }
         irA(`servicio-${items[0].id}`, false, 'center');
@@ -258,8 +280,16 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       titulo: 'Ver todos los servicios',
       frases: ['ver servicios', 'qué hacen', 'todos los servicios', 'qué ofrecen'],
       ejecutar: () => {
-        irA('servicios');
-        return 'Hacemos: ' + SERVICES.map((s) => s.title.split(':')[0]).join(' · ') + '.\nTocá cualquiera en la página o contame qué querés resolver.';
+        SERVICES.forEach((s) =>
+          ofrecer({
+            texto: s.title.split(':')[0],
+            alHacer: () => {
+              irA(`servicio-${s.id}`, true, 'center');
+              mostrar('servicios', `servicio-${s.id}`, s.title.split(':')[0]);
+            },
+          }),
+        );
+        return 'Estos son todos nuestros servicios. Tocá el que quieras y te llevo a ver de qué se trata.';
       },
     }),
 
@@ -358,8 +388,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       ejecutar: (p: Parametros) => {
         const prod = productoDe(p['producto'] ?? '');
         if (!prod) {
-          irA('productos');
-          return 'Tenemos: ' + Object.values(DEMO_DE).map((x) => x.nombre).join(' · ') + '.\n¿De cuál te cuento?';
+          Object.values(DEMO_DE).forEach((x) => ofrecer({ texto: x.nombre, alHacer: () => pedirA('productos', 'explicar-producto', { producto: x.nombre }, `¿Qué es ${x.nombre}?`) }));
+          return 'Tenemos estos productos. ¿De cuál te cuento?';
         }
         const info = PRODUCTOS.find((x) => x.id === prod.id);
         irA(`producto-${prod.id}`, false, 'center');
@@ -378,7 +408,11 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       parametros: [{ nombre: 'producto', libre: true, completo: true, memorizable: false }],
       descubrible: true,
       ejecutar: (p: Parametros) => {
-        const prod = productoDe(p['producto'] ?? '') ?? DEMO_DE.golondrina;
+        const prod = productoDe(p['producto'] ?? '');
+        if (!prod) {
+          Object.values(DEMO_DE).forEach((x) => ofrecer({ texto: x.nombre, alHacer: () => pedirA('productos', 'probar-producto', { producto: x.nombre }, `Probar ${x.nombre}`) }));
+          return '¿Qué producto querés probar? Elegí uno.';
+        }
         irA(prod.demo);
         if (prod === DEMO_DE.golondrina) {
           // La prueba la hace el asistente: aprieta "Simular corte de luz" y se ve llegar la alerta.
@@ -418,8 +452,25 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           : contiene(t, 'brazo', 'agarr', 'mover')
           ? 'Para agarrar cosas, sumale un brazo.'
           : 'Elegí el modelo, los colores y probalo en 3D.';
-        ofrecer({ texto: 'Cotizar mi robot', href: whatsappLink(`Hola tecnoros.ar, quiero cotizar un robot para: ${p['uso'] || 'mi negocio'}.`) });
         return `Te abrí el diseñador de robots. ${consejo}\nPrimero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.`;
+      },
+    }),
+
+    de('robot', {
+      id: 'cotizar-robot',
+      grupo: 'Robot',
+      titulo: 'Cotizar mi robot',
+      frases: ['cotizar mi robot', 'cotizar robot', 'cotizar un robot', 'precio del robot', 'cuánto sale un robot', 'cuanto sale el robot'],
+      ejecutar: () => {
+        irA('robotica-3d');
+        void (async () => {
+          const boton = await porTexto('#robotica-3d button, button', 'Cotizar mi robot');
+          if (boton) {
+            boton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            mostrar('robot', boton, 'Cotizalo acá');
+          }
+        })();
+        return 'Te llevé a la cotización del diseñador de robots: armalo como lo querés y tocá «Cotizar mi robot».';
       },
     }),
 
@@ -433,13 +484,19 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       frases: ['proyectos de {rubro}', 'tienen algo para {rubro}', 'ver proyectos', 'qué hicieron', 'ejemplos'],
       parametros: [{ nombre: 'rubro', libre: true, completo: true, memorizable: false }],
       ejecutar: (p: Parametros) => {
-        irA('proyectos');
-        mostrar('proyectos', 'proyectos', 'Mirá estos');
+        const verProyecto = (id: string) => {
+          irA('proyectos');
+          window.setTimeout(() => window.dispatchEvent(new CustomEvent('seleccionar-proyecto', { detail: id })), 300);
+          mostrar('proyectos', 'proyectos', 'Este es');
+        };
         const t = normalizar(p['rubro'] ?? '');
-        const hit = PROJECTS_DATA.find((x) => normalizar(`${x.category} ${x.title}`).split(' ').some((w) => w.length > 4 && t.includes(w)));
-        return hit
-          ? `Mirá **${hit.title}** (${hit.category}). Te llevé a Proyectos.`
-          : `Estos son los sistemas que ya están funcionando: ${PROJECTS_DATA.map((x) => x.title.split(':')[0]).join(' · ')}.\nSi tu rubro es otro, lo armamos a medida.`;
+        const hit = t ? PROJECTS_DATA.find((x) => normalizar(`${x.category} ${x.title}`).split(' ').some((w) => w.length > 4 && t.includes(w))) : undefined;
+        if (hit) {
+          ofrecer({ texto: `Ver ${hit.title.split(':')[0]}`, alHacer: () => verProyecto(hit.id) });
+          return `Tenemos **${hit.title}** (${hit.category}). Tocalo para verlo.`;
+        }
+        PROJECTS_DATA.forEach((x) => ofrecer({ texto: x.title.split(':')[0], alHacer: () => verProyecto(x.id) }));
+        return 'Estos son los sistemas que ya están funcionando. Tocá el que quieras ver.' + (t ? '\nPara tu rubro todavía no tenemos uno publicado: lo armamos a medida.' : '');
       },
     }),
 
