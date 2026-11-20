@@ -2,10 +2,9 @@
 // con quién hablar y el chat de cada asistente. Golondrina (sin su propio botón) entiende lo que
 // se escribe, ejecuta la acción del asistente y aprende qué hace cada visitante para sugerírselo.
 import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ExternalLink, Send, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, MessageCircle, Send, Sparkles, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
-import { TecnorosLogo } from '../components/TecnorosLogo';
 import { ASISTENTES, EVENTO_PEDIR, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
@@ -17,47 +16,6 @@ const Escenario3D = lazy(() => import('./Escenario3D'));
 
 /** Resumen corto de una respuesta, para el globito y la lista de lo que hicieron. */
 const resumen = (t: string) => t.replace(/\*\*/g, '').split('\n')[0].slice(0, 90);
-
-/** Lanzador con vida: el logo de tecnoros en el centro y los asistentes girando alrededor, todo el tiempo. */
-const MiniOrbita: React.FC<{ resaltado?: string }> = ({ resaltado }) => {
-  const refs = useRef<(HTMLSpanElement | null)[]>([]);
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    let raf = 0;
-    const t0 = performance.now();
-    const cuadro = (ahora: number) => {
-      const t = (ahora - t0) / 1000;
-      refs.current.forEach((el, i) => {
-        if (!el) return;
-        const a = t * 0.9 + (i / ASISTENTES.length) * Math.PI * 2;
-        const x = Math.cos(a) * 30;
-        const y = Math.sin(a) * 12;
-        const prof = (Math.sin(a) + 1) / 2;
-        el.style.transform = `translate(${x}px, ${y}px) scale(${0.7 + prof * 0.45})`;
-        el.style.zIndex = String(Math.round(prof * 10));
-        el.style.opacity = String(0.55 + prof * 0.45);
-      });
-      raf = requestAnimationFrame(cuadro);
-    };
-    raf = requestAnimationFrame(cuadro);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-  return (
-    <span className="relative w-[84px] h-12 flex items-center justify-center" aria-hidden="true">
-      {ASISTENTES.map((a, i) => (
-        <span
-          key={a.id}
-          ref={(el) => { refs.current[i] = el; }}
-          className={`absolute w-6 h-6 flex items-center justify-center drop-shadow-[0_2px_3px_rgba(0,0,0,.6)] ${a.id === resaltado ? 'text-[19px]' : 'text-[15px]'}`}
-          style={{ transform: `translate(${Math.cos((i / ASISTENTES.length) * Math.PI * 2) * 30}px, ${Math.sin((i / ASISTENTES.length) * Math.PI * 2) * 12}px)` }}
-        >
-          {a.emoji}
-        </span>
-      ))}
-      <TecnorosLogo className="relative z-[5] w-6 h-7 drop-shadow-[0_0_8px_rgba(0,210,243,.6)]" />
-    </span>
-  );
-};
 
 interface Mensaje {
   de: 'yo' | 'asistente';
@@ -209,7 +167,7 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   return (
     <>
-      {/* Lanzador fijo: los asistentes giran alrededor del logo todo el tiempo (también con el chat abierto) */}
+      {/* Lanzador fijo: un ícono de chat para hablar con los asistentes (visible también con el chat abierto) */}
       <button
         type="button"
         onClick={() => setAbierto((v) => (v ? null : deLaPagina?.id ?? 'hub'))}
@@ -217,7 +175,9 @@ export const AsistentesPorFuncion: React.FC = () => {
         aria-expanded={!!abierto}
         aria-label={abierto ? 'Cerrar los asistentes' : deLaPagina ? `Abrir el asistente de ${deLaPagina.nombre}` : 'Abrir los asistentes'}
       >
-        <MiniOrbita resaltado={asistente?.id ?? deLaPagina?.id} />
+        <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30" aria-hidden="true">
+          <MessageCircle className="w-6 h-6 text-slate-950" strokeWidth={2.4} />
+        </span>
         <span className="text-left leading-tight">
           <span className="block text-[10px] font-mono uppercase tracking-wider text-cyan-300">Asistentes</span>
           <span className="block text-xs sm:text-sm font-bold text-white">{asistente ? asistente.nombre : deLaPagina ? deLaPagina.nombre : '¿Qué querés hacer?'}</span>

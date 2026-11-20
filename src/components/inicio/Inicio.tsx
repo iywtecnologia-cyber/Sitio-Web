@@ -37,15 +37,15 @@ const VerMas: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
 
 /* ── 1. Hero ───────────────────────────────────────────────────────────── */
 export const HeroCorto: React.FC = () => (
-  <section id="inicio" className="relative pt-[84px] pb-10 sm:pt-32 sm:pb-16 overflow-hidden">
+  <section id="inicio" className="relative pt-24 pb-10 sm:pt-32 sm:pb-16 overflow-hidden">
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-6 lg:gap-10 items-center">
-      {/* Lo primero que se ve: los asistentes girando alrededor del logo de tecnoros */}
-      <div id="asistentes" className="order-1 lg:order-2 scroll-mt-24">
-        <EscenarioAsistentes alto="h-[300px] sm:h-[460px] lg:h-[540px]" />
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 flex flex-col gap-6 sm:gap-8">
+      {/* Debajo del título: los asistentes girando alrededor del logo de tecnoros, a todo el ancho */}
+      <div id="asistentes" className="order-2 scroll-mt-24">
+        <EscenarioAsistentes alto="h-[340px] sm:h-[460px] lg:h-[520px]" />
       </div>
-      <div className="order-2 lg:order-1">
+      <div className="order-1">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-4">
           De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
         </span>
