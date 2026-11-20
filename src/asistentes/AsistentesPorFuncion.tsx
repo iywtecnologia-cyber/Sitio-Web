@@ -5,6 +5,7 @@ import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useStat
 import { ArrowLeft, ExternalLink, Send, Sparkles, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
+import { TecnorosLogo } from '../components/TecnorosLogo';
 import { ASISTENTES, EVENTO_PEDIR, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
@@ -17,7 +18,7 @@ const Escenario3D = lazy(() => import('./Escenario3D'));
 /** Resumen corto de una respuesta, para el globito y la lista de lo que hicieron. */
 const resumen = (t: string) => t.replace(/\*\*/g, '').split('\n')[0].slice(0, 90);
 
-/** Lanzador con vida: la G en el centro y los asistentes girando alrededor, todo el tiempo. */
+/** Lanzador con vida: el logo de tecnoros en el centro y los asistentes girando alrededor, todo el tiempo. */
 const MiniOrbita: React.FC<{ resaltado?: string }> = ({ resaltado }) => {
   const refs = useRef<(HTMLSpanElement | null)[]>([]);
   useEffect(() => {
@@ -53,10 +54,7 @@ const MiniOrbita: React.FC<{ resaltado?: string }> = ({ resaltado }) => {
           {a.emoji}
         </span>
       ))}
-      <svg viewBox="0 0 100 115" className="relative z-[5] w-6 h-7 drop-shadow-[0_0_8px_rgba(34,211,238,.6)]">
-        <path d="M50 6L89 19C89 62 80 92 50 110C20 92 11 62 11 19Z" fill="#0B1220" stroke="#22D3EE" strokeWidth="7" strokeLinejoin="round" />
-        <path d="M66 40H42L32 50V70L42 80H58L66 72V62H52" fill="none" stroke="#F1F5F9" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+      <TecnorosLogo className="relative z-[5] w-6 h-7 drop-shadow-[0_0_8px_rgba(0,210,243,.6)]" />
     </span>
   );
 };
@@ -211,7 +209,7 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   return (
     <>
-      {/* Lanzador fijo: los asistentes giran alrededor de la G todo el tiempo (también con el chat abierto) */}
+      {/* Lanzador fijo: los asistentes giran alrededor del logo todo el tiempo (también con el chat abierto) */}
       <button
         type="button"
         onClick={() => setAbierto((v) => (v ? null : deLaPagina?.id ?? 'hub'))}
@@ -363,7 +361,7 @@ export const AsistentesPorFuncion: React.FC = () => {
   );
 };
 
-/** Bloque del inicio: el escenario 3D con los asistentes girando alrededor de Golondrina. */
+/** Bloque del inicio: el escenario 3D con los asistentes girando alrededor del logo de tecnoros. */
 export const AsistentesInicio: React.FC = () => (
   <section id="asistentes" className="py-12 sm:py-16 border-t border-slate-800/50 scroll-mt-20">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
@@ -372,7 +370,7 @@ export const AsistentesInicio: React.FC = () => (
       </span>
       <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">No tenés que aprender a usar la web</h2>
       <p className="mt-2 text-base sm:text-lg text-slate-300 max-w-3xl">
-        Hay un asistente para cada cosa que podés hacer acá, y giran siempre alrededor de Golondrina, que los coordina y aprende de lo que hacés. Tocá uno, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
+        Hay un asistente para cada cosa que podés hacer acá, y giran siempre alrededor de tecnoros, coordinados por Golondrina, que aprende de lo que hacés. Tocá uno, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
       </p>
       <div className="mt-6">
         <Suspense fallback={<div className="h-[420px] sm:h-[480px] rounded-3xl bg-slate-900/60 border border-slate-800 animate-pulse" />}>
