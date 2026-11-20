@@ -61,7 +61,7 @@ export async function volarA(destino: string | HTMLElement, quien: Personaje, te
   nodo.style.cssText = `position:fixed;left:0;top:0;z-index:90;pointer-events:none;transform:translate(${x}px,${y}px)`;
   nodo.innerHTML = `
     <div class="relative -translate-x-1/2 -translate-y-1/2">
-      <span class="asistente-volador flex w-12 h-12 rounded-2xl bg-gradient-to-br ${quien.degrade} items-center justify-center text-2xl shadow-2xl ring-4 ring-white/20">${quien.emoji}</span>
+      <span class="asistente-volador flex w-12 h-12 items-center justify-center text-4xl drop-shadow-[0_6px_8px_rgba(0,0,0,.5)]">${quien.emoji}</span>
       <span class="asistente-globo absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap rounded-xl bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-xl">${texto.replace(/</g, '&lt;')}</span>
     </div>`;
   document.body.appendChild(nodo);

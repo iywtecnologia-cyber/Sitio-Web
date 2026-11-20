@@ -1,11 +1,10 @@
-// Escenario 3D: el logo de tecnoros en el centro y los asistentes (los cuadraditos con su emoji)
+// Escenario 3D: el logo de tecnoros en el centro y los asistentes (su emoji, sin cuadrado)
 // girando siempre a su alrededor, haciendo gestos todo el tiempo (vueltas, saltos, giros, se menean).
 // Todo se puede tocar y arrastrar: tocás un asistente y hace un gesto y te abre su chat; lo arrastrás
 // y después vuelve a su órbita; arrastrando el piso girás todo. Cuando un asistente responde o hace
 // algo, en el escenario salta y dice lo que hizo en un globito.
 import React, { useEffect, useRef, useState } from 'react';
 import { ASISTENTES } from './funciones';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, type Gesto } from './eventos';
 
 // Colores de los degradés de Tailwind que usa cada asistente (from-… to-…).
@@ -19,25 +18,17 @@ const colores = (degrade: string) => {
   const a = /to-([a-z]+-\d+)/.exec(degrade)?.[1] ?? 'sky-500';
   return [TW[de] ?? '#22d3ee', TW[a] ?? '#0ea5e9'] as const;
 };
-// La cara de cada asistente: el mismo cuadradito con degradé y emoji que se ve en el chat.
-const caraAsistente = (degrade: string, emoji: string) => {
+// Cada asistente es su emoji solo, sin fondo (transparente), con una sombrita suave para que tenga volumen.
+const caraAsistente = (emoji: string) => {
   const c = document.createElement('canvas');
   c.width = c.height = 256;
   const x = c.getContext('2d')!;
-  const [de, a] = colores(degrade);
-  const g = x.createLinearGradient(0, 0, 256, 256);
-  g.addColorStop(0, de);
-  g.addColorStop(1, a);
-  x.fillStyle = g;
-  x.fillRect(0, 0, 256, 256);
-  const brillo = x.createRadialGradient(80, 60, 0, 80, 60, 160);
-  brillo.addColorStop(0, 'rgba(255,255,255,.35)');
-  brillo.addColorStop(1, 'rgba(255,255,255,0)');
-  x.fillStyle = brillo;
-  x.fillRect(0, 0, 256, 256);
-  x.font = '150px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+  x.font = '200px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
   x.textAlign = 'center';
   x.textBaseline = 'middle';
+  x.shadowColor = 'rgba(0,0,0,.45)';
+  x.shadowBlur = 14;
+  x.shadowOffsetY = 8;
   x.fillText(emoji, 128, 140);
   return c;
 };
@@ -151,50 +142,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       dorso.position.z = -0.3;
       escudo.add(dorso);
 
-      // Los asistentes: el cuadradito redondeado de cada uno (degradé + emoji) flotando en 3D
-      interface Bot {
-        id: string;
-        g: import('three').Group;
-        cuerpo: import('three').Group;
-        mat: import('three').MeshStandardMaterial;
-        fase: number;
-        trabajo: number;
-        sostenido: import('three').Vector3 | null;
-        volviendo: boolean;
-        gesto: { tipo: string; t0: number; dur: number } | null;
-        texturas: import('three').Texture[];
-      }
-      const cajaGeo = new RoundedBoxGeometry(1.15, 1.15, 0.5, 5, 0.22);
-      const caraGeo = new THREE.PlaneGeometry(0.98, 0.98);
-      const bots: Bot[] = ASISTENTES.map((a, i) => {
-        const [de, hasta] = colores(a.degrade);
-        const g = new THREE.Group();
-        const cuerpoBot = new THREE.Group();
-        cuerpoBot.position.y = 1.15;
-        g.add(cuerpoBot);
-        const mat = new THREE.MeshStandardMaterial({ color: new THREE.Color(de).lerp(new THREE.Color(hasta), 0.5), roughness: 0.35, metalness: 0.1, emissive: new THREE.Color(de), emissiveIntensity: 0.05 });
-        cuerpoBot.add(new THREE.Mesh(cajaGeo, mat));
-        const tex = new THREE.CanvasTexture(caraAsistente(a.degrade, a.emoji));
-        tex.colorSpace = THREE.SRGBColorSpace;
-        const caraMat = new THREE.MeshBasicMaterial({ map: tex });
-        const frente = new THREE.Mesh(caraGeo, caraMat);
-        frente.position.z = 0.256;
-        cuerpoBot.add(frente);
-        const atras = new THREE.Mesh(caraGeo, caraMat);
-        atras.position.z = -0.256;
-        atras.rotation.y = Math.PI;
-        cuerpoBot.add(atras);
-        const sombra = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.3 }));
-        sombra.rotation.x = -Math.PI / 2;
-        sombra.position.y = 0.02;
-        sombra.name = 'sombra';
-        g.add(sombra);
-        g.traverse((o) => (o.userData.bot = a.id));
-        mundo.add(g);
-        return { id: a.id, g, cuerpo: cuerpoBot, mat, fase: i * 1.7 + Math.random(), trabajo: 0, sostenido: null, volviendo: false, gesto: null, texturas: [tex] };
-      });
-
-      // Lucecitas que viajan del asistente al logo cuando hace algo (como en donweb)
+      // Brillo suave (para el aura de cada asistente y las lucecitas que viajan al logo)
       const brillo = (() => {
         const c = document.createElement('canvas');
         c.width = c.height = 64;
@@ -207,13 +155,56 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         x.fillRect(0, 0, 64, 64);
         return new THREE.CanvasTexture(c);
       })();
+      const brilloAura = brillo;
+      // Los asistentes: su emoji flotando en 3D, sin cuadrado
+      interface Bot {
+        id: string;
+        g: import('three').Group;
+        cuerpo: import('three').Group;
+        mat: import('three').SpriteMaterial;
+        color: import('three').Color;
+        fase: number;
+        trabajo: number;
+        sostenido: import('three').Vector3 | null;
+        volviendo: boolean;
+        gesto: { tipo: string; t0: number; dur: number } | null;
+        texturas: import('three').Texture[];
+      }
+      const caraGeo = new THREE.PlaneGeometry(1.5, 1.5);
+      const bots: Bot[] = ASISTENTES.map((a, i) => {
+        const [de] = colores(a.degrade);
+        const g = new THREE.Group();
+        const cuerpoBot = new THREE.Group();
+        cuerpoBot.position.y = 1.15;
+        g.add(cuerpoBot);
+        // Aura de su color detrás (no es un cuadrado: es un brillo suave que se enciende cuando trabaja)
+        const mat = new THREE.SpriteMaterial({ map: brilloAura, color: new THREE.Color(de), transparent: true, opacity: 0.35, depthWrite: false, blending: THREE.AdditiveBlending });
+        const aura = new THREE.Sprite(mat);
+        aura.scale.set(1.9, 1.9, 1.9);
+        aura.position.z = -0.05;
+        cuerpoBot.add(aura);
+        const tex = new THREE.CanvasTexture(caraAsistente(a.emoji));
+        tex.colorSpace = THREE.SRGBColorSpace;
+        const caraMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide, alphaTest: 0.05 });
+        const cara = new THREE.Mesh(caraGeo, caraMat);
+        cuerpoBot.add(cara);
+        const sombra = new THREE.Mesh(new THREE.CircleGeometry(0.55, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.3 }));
+        sombra.rotation.x = -Math.PI / 2;
+        sombra.position.y = 0.02;
+        sombra.name = 'sombra';
+        g.add(sombra);
+        g.traverse((o) => (o.userData.bot = a.id));
+        mundo.add(g);
+        return { id: a.id, g, cuerpo: cuerpoBot, mat, color: new THREE.Color(de), fase: i * 1.7 + Math.random(), trabajo: 0, sostenido: null, volviendo: false, gesto: null, texturas: [tex] };
+      });
+
       const pulsos: { m: import('three').Sprite; curva: import('three').QuadraticBezierCurve3; t0: number }[] = [];
       const pulso = (b: Bot) => {
         const desde = b.g.position.clone().add(new THREE.Vector3(0, 1.2, 0));
         const hasta = new THREE.Vector3(0, 1.9, 0);
         const medio = desde.clone().add(hasta).multiplyScalar(0.5);
         medio.y += 1.6;
-        const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: brillo, color: b.mat.emissive, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+        const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: brillo, color: b.color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
         sp.scale.set(0.7, 0.7, 0.7);
         mundo.add(sp);
         pulsos.push({ m: sp, curva: new THREE.QuadraticBezierCurve3(desde, medio, hasta), t0: performance.now() });
@@ -385,7 +376,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           b.cuerpo.position.y = y;
           b.cuerpo.rotation.set(rx, ry, rz);
           b.trabajo = Math.max(0, b.trabajo - dt / 2.6);
-          b.mat.emissiveIntensity = 0.05 + b.trabajo * 0.6;
+          b.mat.opacity = 0.3 + b.trabajo * 0.6;
           const esc = 1 + b.trabajo * 0.15;
           b.cuerpo.scale.set(esc, esc, esc);
           const sombra = b.g.getObjectByName('sombra');
