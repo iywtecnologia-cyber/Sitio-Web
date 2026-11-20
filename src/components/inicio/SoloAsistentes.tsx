@@ -39,7 +39,14 @@ export const CabeceraSimple: React.FC = () => {
           {ruta !== '/' && (
             <button
               type="button"
-              onClick={() => navegar('/')}
+              onClick={() => {
+                // Vuelve al panel de los asistentes (no al título de arriba) y abre el menú.
+                navegar('/', 'asistentes');
+                window.setTimeout(() => {
+                  document.getElementById('asistentes')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  abrirAsistente('hub');
+                }, 250);
+              }}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" /> Volver a los asistentes
@@ -72,7 +79,7 @@ export const PieSimple: React.FC = () => (
         <a href="#arrepentimiento" className="inline-flex items-center px-3 py-1.5 rounded-lg border border-cyan-500/50 text-cyan-300 font-semibold hover:bg-cyan-500/10">
           Botón de arrepentimiento
         </a>
-        <button type="button" onClick={() => abrirAsistente('soporte')} className="text-emerald-300 hover:text-emerald-200 underline underline-offset-4 py-1 cursor-pointer">
+        <button type="button" onClick={abrirSoporte} className="text-emerald-300 hover:text-emerald-200 underline underline-offset-4 py-1 cursor-pointer">
           Soporte técnico
         </button>
         <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>

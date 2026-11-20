@@ -2,10 +2,10 @@
 // con quién hablar y el chat de cada asistente. Golondrina (sin su propio botón) entiende lo que
 // se escribe, ejecuta la acción del asistente y aprende qué hace cada visitante para sugerírselo.
 import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ExternalLink, MessageCircle, Send, Sparkles, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Send, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
-import { useRuta } from '../rutas';
-import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
+import { irA, useRuta } from '../rutas';
+import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, SUGERENCIAS_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
 import { Marcianito } from '../components/Marcianito';
@@ -90,9 +90,6 @@ export const AsistentesPorFuncion: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (abierto && abierto !== 'hub') ultimo.current = abierto;
-  }, [abierto]);
 
   // Marcio y el botón de abajo se enteran si el chat está abierto.
   useEffect(() => {
@@ -173,6 +170,8 @@ export const AsistentesPorFuncion: React.FC = () => {
     if (!id) return;
     if (abierto !== id) setAbierto(id);
     setEsperando((e) => (e[id] ? { ...e, [id]: undefined as never } : e));
+    // Si te lleva a otra parte y cerrás el chat, al reabrirlo seguís con este asistente.
+    ultimo.current = id === 'soporte' ? null : id;
     agregar(id, { de: 'yo', texto: titulo });
     enlaces.current = [];
     golondrina.contexto(id, { pagina: ruta });
@@ -222,6 +221,17 @@ export const AsistentesPorFuncion: React.FC = () => {
         });
       });
     }
+    // Sugerencias para tocar (lo que tocás es tu respuesta).
+    const sug = SUGERENCIAS_DE[accionId];
+    if (sug) {
+      setChats((c) => {
+        const lista = [...(c[id] ?? [])];
+        const ult = lista[lista.length - 1];
+        if (ult) lista[lista.length - 1] = { ...ult, enlaces: sug.map((t) => ({ texto: t, unaVez: true, alHacer: () => void ejecutar(accionId, { [q.parametro]: t }, 'asistente', t, id) })) };
+        return { ...c, [id]: lista };
+      });
+    }
+    if (accionId === 'disenar-robot') irA('robot-creacion', true);
     setTexto(q.prefijo ?? '');
     window.setTimeout(() => entrada.current?.focus(), 50);
   };
@@ -244,24 +254,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     return accionesDeAsistentes(() => {}).filter((a) => a.menu && a.secciones?.includes(asistente.id));
   }, [asistente]);
 
-  const asistenteDeAccion = (accionId: string) => accionesDeAsistentes(() => {}).find((a) => a.id === accionId)?.secciones?.[0];
 
-  const Sugerencias = ({ enHub }: { enHub?: boolean }) =>
-    sugeridas.length ? (
-      <div className={`flex flex-wrap gap-1.5 ${enHub ? '' : 'px-3 pt-2'}`}>
-        {sugeridas.map((s) => (
-          <button
-            key={s.clave}
-            type="button"
-            title={s.mensaje}
-            onClick={() => void ejecutar(s.accion, s.parametros, 'golondrina', s.boton, asistenteDeAccion(s.accion))}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-400/15 border border-emerald-400/40 text-[11px] font-semibold text-emerald-200 hover:bg-emerald-400/25 cursor-pointer"
-          >
-            <Sparkles className="w-3 h-3" /> {s.boton}
-          </button>
-        ))}
-      </div>
-    ) : null;
 
   return (
     <>
@@ -276,7 +269,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
             {asistente ? (
               <>
-                <button type="button" onClick={() => setAbierto('hub')} aria-label="Ver todos los asistentes" className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
+                <button type="button" onClick={() => { ultimo.current = null; setAbierto('hub'); }} aria-label="Ver todos los asistentes" className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
                   <ArrowLeft className="w-5 h-5" />
                 </button>
                 <span className="asistente-avatar-vivo"><Avatar a={asistente} /></span>
@@ -310,12 +303,6 @@ export const AsistentesPorFuncion: React.FC = () => {
 
           {!asistente ? (
             <div className="flex-1 overflow-y-auto p-3 space-y-3">
-              {sugeridas.length > 0 && (
-                <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/5 p-3">
-                  <p className="flex items-center gap-1.5 text-xs font-bold text-emerald-300"><Sparkles className="w-3.5 h-3.5" /> Golondrina aprendió lo que solés hacer</p>
-                  <div className="mt-2"><Sugerencias enHub /></div>
-                </div>
-              )}
               <button
                 type="button"
                 onClick={() => {
@@ -376,7 +363,6 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </div>
                 )}
               </div>
-              <Sugerencias />
               <div className="px-3 pt-2 flex flex-wrap gap-1.5">
                 {menu.map((a) => (
                   <button

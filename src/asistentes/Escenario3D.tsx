@@ -308,6 +308,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       let antes = performance.now();
       let raf = 0;
       const v3 = new THREE.Vector3();
+      const enMundo = new THREE.Vector3();
       const cuadro = (ahora: number) => {
         raf = requestAnimationFrame(cuadro);
         const dt = Math.min(0.05, (ahora - antes) / 1000);
@@ -325,6 +326,14 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         const w = cont.clientWidth;
         const h = cont.clientHeight;
         const t = ahora / 1000;
+        // Dónde está el logo en la pantalla (para no dibujar nombres encima cuando pasan por detrás).
+        v3.set(0, escudo.position.y, 0);
+        mundo.localToWorld(v3);
+        v3.project(camera);
+        const logoX = ((v3.x + 1) / 2) * w;
+        v3.set(1.3 * escudo.scale.x, escudo.position.y, 0);
+        v3.project(camera);
+        const logoMedio = Math.abs(((v3.x + 1) / 2) * w - logoX);
         const facil = (k: number) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
         bots.forEach((b, i) => {
           const ang = tOrbita + (i / bots.length) * Math.PI * 2;
@@ -376,13 +385,17 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           const x = Math.max(bordes, Math.min(w - bordes, ((v3.x + 1) / 2) * w));
           const yy = ((1 - v3.y) / 2) * h;
           const delante = v3.z < 1;
-          const prof = Math.max(0.75, Math.min(1.1, 1.25 - (b.g.position.z + RZ) / (RZ * 6)));
+          // Profundidad real (con el giro del mundo): z < 0 es que pasa por detrás del logo.
+          b.g.getWorldPosition(enMundo);
+          const prof = Math.max(0.75, Math.min(1.1, 1.25 - (enMundo.z + RZ) / (RZ * 6)));
+          // Cuando pasa por detrás del logo, su nombre no se dibuja encima del logo.
+          const tapadoPorLogo = enMundo.z < -0.2 && Math.abs(x - logoX) < logoMedio + 50;
           const et = etiquetas.current[b.id];
           if (et) {
             et.style.transform = `translate(${x}px, ${yy}px) translate(-50%, -100%) scale(${prof})`;
-            et.style.zIndex = String(Math.round(100 + b.g.position.z * 10));
+            et.style.zIndex = String(Math.round(100 + enMundo.z * 10));
             // En el celu solo se ven los nombres de los que pasan por adelante, así no tapan el logo.
-            const ver = delante && (w >= 500 || b.g.position.z > -0.4);
+            const ver = delante && !tapadoPorLogo && (w >= 500 || enMundo.z > -0.4);
             et.style.opacity = ver ? '1' : '0';
             const boton = et.firstElementChild as HTMLElement | null;
             if (boton) boton.style.pointerEvents = ver ? '' : 'none';
@@ -402,7 +415,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           }
         }
         escudoLatido = Math.max(0, escudoLatido - dt * 2.5);
-        escudo.scale.setScalar(1 + escudoLatido * 0.08);
+        escudo.scale.setScalar(0.82 * (1 + escudoLatido * 0.08));
         renderer.render(scene, camera);
       };
       raf = requestAnimationFrame(cuadro);
@@ -462,7 +475,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         <div className="absolute inset-0 pointer-events-none">
           {ASISTENTES.map((a) => (
             <React.Fragment key={a.id}>
-              <div ref={(el) => { etiquetas.current[a.id] = el; }} className="absolute left-0 top-0 will-change-transform" style={sin3D ? { position: 'static' } : undefined}>
+              <div ref={(el) => { etiquetas.current[a.id] = el; }} className="absolute left-0 top-0 will-change-transform transition-opacity duration-200" style={sin3D ? { position: 'static' } : undefined}>
                 <button
                   type="button"
                   onClick={() => abrirAsistente(a.id)}
@@ -483,23 +496,49 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           Tocá un asistente para hablarle · arrastralo · girá el piso
         </p>
       </div>
-      {lista.length > 0 && (
-        <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-          <h3 className="text-sm font-bold text-white">Lo que hicieron los asistentes</h3>
-          <ol className="mt-2 space-y-1.5">
-            {lista.map((h, i) => {
-              const a = ASISTENTES.find((x) => x.id === h.id);
-              return (
-                <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                  <span className="text-xs font-mono text-slate-500 mt-0.5">{h.hora}</span>
-                  {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
-                  <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
-                </li>
-              );
-            })}
-          </ol>
+      {/* Así funciona Golondrina: lo que hicieron los asistentes y lo que se puede automatizar */}
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div className="rounded-2xl border border-cyan-500/30 bg-slate-900/60 p-4">
+          <p className="text-xs font-mono uppercase tracking-wider text-cyan-300">Así funciona Golondrina</p>
+          <h3 className="mt-1 text-base font-bold text-white">Lo que hicieron los asistentes</h3>
+          <p className="mt-1 text-sm text-slate-400">Golondrina coordina a los asistentes: entiende lo que pedís, lo hace por vos y aprende de lo que hacés. Acá queda todo, al momento.</p>
+          {lista.length ? (
+            <ol className="mt-3 space-y-1.5">
+              {lista.map((h, i) => {
+                const a = ASISTENTES.find((x) => x.id === h.id);
+                return (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                    <span className="text-xs font-mono text-slate-500 mt-0.5">{h.hora}</span>
+                    {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
+                    <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <p className="mt-3 text-sm text-slate-500 italic">Tocá un asistente y pedile algo: acá vas a ver lo que hace.</p>
+          )}
         </div>
-      )}
+        <div className="rounded-2xl border border-emerald-500/30 bg-slate-900/60 p-4">
+          <p className="text-xs font-mono uppercase tracking-wider text-emerald-300">Lo mismo, en tu negocio</p>
+          <h3 className="mt-1 text-base font-bold text-white">Lo que se puede automatizar</h3>
+          <ul className="mt-3 space-y-2 text-sm text-slate-300">
+            {[
+              ['💬', 'Responder el WhatsApp solo, a cualquier hora.'],
+              ['📅', 'Dar turnos y mandar recordatorios.'],
+              ['📦', 'Avisarte cuando falta stock o algo se rompe.'],
+              ['🧾', 'Armar presupuestos y facturas sin planillas.'],
+              ['👥', 'Seguir a cada cliente: quién compró, a quién llamar.'],
+              ['📊', 'Juntar los números del día en un solo tablero.'],
+            ].map(([e, t]) => (
+              <li key={t} className="flex gap-2"><span aria-hidden="true">{e}</span> {t}</li>
+            ))}
+          </ul>
+          <button type="button" onClick={() => abrirAsistente('servicios')} className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-400 text-slate-950 text-sm font-bold hover:bg-emerald-300 cursor-pointer">
+            ¿Qué puedo automatizar yo?
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
