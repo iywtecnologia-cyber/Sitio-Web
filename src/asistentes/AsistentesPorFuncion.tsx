@@ -233,7 +233,8 @@ export const AsistentesPorFuncion: React.FC = () => {
     }
     if (accionId === 'disenar-robot') irA('robot-creacion', true);
     setTexto(q.prefijo ?? '');
-    window.setTimeout(() => entrada.current?.focus(), 50);
+    // En el celu no se abre el teclado solo: la persona toca la caja cuando quiere escribir.
+    if (window.matchMedia('(pointer: fine)').matches) window.setTimeout(() => entrada.current?.focus(), 50);
   };
 
   // Un asistente le pasa la posta a otro (ej. Servicios → Presupuesto).
