@@ -5,9 +5,9 @@ import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useStat
 import { ArrowLeft, ExternalLink, MessageCircle, Send, Sparkles, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
-import { ASISTENTES, EVENTO_PEDIR, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
+import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
 
-import { EVENTO_ABRIR_ASISTENTE, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
+import { EVENTO_ABRIR_ASISTENTE, EV_CERRAR, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
 
 export { EVENTO_ABRIR_ASISTENTE, abrirAsistente };
 
@@ -41,6 +41,9 @@ export const AsistentesPorFuncion: React.FC = () => {
   const [pensando, setPensando] = useState(false);
   const [sugeridas, setSugeridas] = useState<Sugerencia[]>([]);
   const enlaces = useRef<Enlace[]>([]);
+  const entrada = useRef<HTMLInputElement>(null);
+  // Lo que el asistente le preguntó a la persona y está esperando que responda (por asistente).
+  const [esperando, setEsperando] = useState<Record<string, { accion: string; parametro: string }>>({});
   const lista = useRef<HTMLDivElement>(null);
 
   // Las acciones se definen una vez; los botones que ofrecen se juntan en `enlaces` para la respuesta.
@@ -62,8 +65,13 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   useEffect(() => {
     const abrir = (e: Event) => setAbierto((e as CustomEvent<string>).detail || 'hub');
+    const cerrar = () => setAbierto(null);
     window.addEventListener(EVENTO_ABRIR_ASISTENTE, abrir);
-    return () => window.removeEventListener(EVENTO_ABRIR_ASISTENTE, abrir);
+    window.addEventListener(EV_CERRAR, cerrar);
+    return () => {
+      window.removeEventListener(EVENTO_ABRIR_ASISTENTE, abrir);
+      window.removeEventListener(EV_CERRAR, cerrar);
+    };
   }, []);
 
   useEffect(() => {
@@ -90,6 +98,17 @@ export const AsistentesPorFuncion: React.FC = () => {
     if (!asistente || !q.trim() || pensando) return;
     const id = asistente.id;
     setTexto('');
+    const pendiente = esperando[id];
+    if (pendiente) setEsperando((e) => ({ ...e, [id]: undefined as never }));
+    const tq = q.toLowerCase();
+    if (/cotiz/.test(tq) && /robot/.test(tq)) {
+      void ejecutar('cotizar-robot', {}, 'asistente', q, 'robot');
+      return;
+    }
+    if (pendiente) {
+      void ejecutar(pendiente.accion, { [pendiente.parametro]: q }, 'asistente', q, id);
+      return;
+    }
     agregar(id, { de: 'yo', texto: q });
     setPensando(true);
     enlaces.current = [];
@@ -115,6 +134,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     const id = destino ?? asistente?.id;
     if (!id) return;
     if (abierto !== id) setAbierto(id);
+    setEsperando((e) => (e[id] ? { ...e, [id]: undefined as never } : e));
     agregar(id, { de: 'yo', texto: titulo });
     enlaces.current = [];
     golondrina.contexto(id, { pagina: ruta });
@@ -126,6 +146,35 @@ export const AsistentesPorFuncion: React.FC = () => {
     dice(id, resumen(respuesta));
     registrarHecho(id, `· ${titulo} → ${resumen(respuesta)}`);
     actualizarSugerencias(id);
+  };
+
+  /** Botón del menú: si necesita un dato, el asistente pregunta y espera (no completa nada solo). */
+  const tocarMenu = (accionId: string, titulo: string) => {
+    if (!asistente) return;
+    const q = PREGUNTA_DE[accionId];
+    if (!q) {
+      void ejecutar(accionId, {}, 'asistente', titulo);
+      return;
+    }
+    const id = asistente.id;
+    agregar(id, { de: 'yo', texto: titulo }, { de: 'asistente', texto: q.pregunta });
+    setEsperando((e) => ({ ...e, [id]: { accion: accionId, parametro: q.parametro } }));
+    // Algunas acciones sin dato ya muestran opciones (productos): las ejecuto para que aparezcan los botones.
+    if (accionId === 'explicar-producto' || accionId === 'probar-producto') {
+      enlaces.current = [];
+      void golondrina.ejecutar(accionId, {}, 'asistente').then(() => {
+        const propios = enlaces.current;
+        enlaces.current = [];
+        setChats((c) => {
+          const lista = [...(c[id] ?? [])];
+          const ultimo = lista[lista.length - 1];
+          if (ultimo) lista[lista.length - 1] = { ...ultimo, enlaces: propios };
+          return { ...c, [id]: lista };
+        });
+      });
+    }
+    setTexto(q.prefijo ?? '');
+    window.setTimeout(() => entrada.current?.focus(), 50);
   };
 
   // Un asistente le pasa la posta a otro (ej. Servicios → Presupuesto).
@@ -143,7 +192,7 @@ export const AsistentesPorFuncion: React.FC = () => {
   // Menú de cada asistente: lo que tiene parámetro libre deja escrito el ejemplo; lo demás se hace al tocar.
   const menu = useMemo(() => {
     if (!asistente) return [];
-    return accionesDeAsistentes(() => {}).filter((a) => a.secciones?.includes(asistente.id));
+    return accionesDeAsistentes(() => {}).filter((a) => a.menu && a.secciones?.includes(asistente.id));
   }, [asistente]);
 
   const asistenteDeAccion = (accionId: string) => accionesDeAsistentes(() => {}).find((a) => a.id === accionId)?.secciones?.[0];
@@ -287,7 +336,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   <button
                     key={a.id}
                     type="button"
-                    onClick={() => (a.parametros?.some((p) => p.libre) && a.ejemplo ? setTexto(a.ejemplo) : void ejecutar(a.id, {}, 'asistente', a.menu ?? a.titulo))}
+                    onClick={() => tocarMenu(a.id, a.menu ?? a.titulo)}
                     className="px-2.5 py-1 rounded-full border border-slate-600 text-[11px] font-semibold text-slate-200 hover:border-cyan-400 hover:text-white cursor-pointer"
                   >
                     {a.menu ?? a.titulo}
@@ -303,6 +352,7 @@ export const AsistentesPorFuncion: React.FC = () => {
               >
                 <label htmlFor="asistente-funcion-texto" className="sr-only">Mensaje para el asistente</label>
                 <input
+                  ref={entrada}
                   id="asistente-funcion-texto"
                   value={texto}
                   onChange={(e) => setTexto(e.target.value)}
