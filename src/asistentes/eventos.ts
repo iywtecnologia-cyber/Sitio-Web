@@ -31,3 +31,12 @@ export const registrarHecho = (id: string, texto: string) => {
 /** Cerrar el chat de asistentes (por ejemplo, cuando te lleva a una pantalla completa). */
 export const EV_CERRAR = 'cerrar-asistentes';
 export const cerrarAsistentes = () => window.dispatchEvent(new CustomEvent(EV_CERRAR));
+
+/** Marcio y el botón de abajo abren/cierran el chat de asistentes ('auto' = el de la página o el menú). */
+export const EV_ALTERNAR = 'alternar-asistentes';
+export const alternarAsistentes = () => window.dispatchEvent(new CustomEvent(EV_ALTERNAR));
+/** El chat de asistentes avisa si está abierto (para esconder a Marcio y cambiar el botón). */
+export const EV_ESTADO = 'asistentes-estado';
+/** Abrir el chat propio de Marcio (preguntas generales), opcionalmente con una pregunta escrita. */
+export const EV_CHAT_MARCIO = 'abrir-chat-marcio';
+export const abrirChatMarcio = (pregunta = '') => window.dispatchEvent(new CustomEvent(EV_CHAT_MARCIO, { detail: pregunta }));

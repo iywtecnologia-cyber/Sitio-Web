@@ -1,13 +1,13 @@
 // Web manejada por asistentes: no hay menú ni páginas para recorrer.
-// Al entrar se ven los asistentes 3D (con el chat) y solo quedan a la vista: Diseñá tu robot,
+// Arriba: el logo y Soporte técnico. Al entrar se ven los asistentes 3D (con el chat) y solo quedan a la vista: Diseñá tu robot,
 // los videos de los productos, Cómo trabajamos, TERO (próximamente), las fotos y el mapa.
 // Todo lo demás (servicios, presupuesto, productos, proyectos, equipo, contacto, soporte) lo
 // manejan los asistentes: te preguntan y te abren la pantalla justa cuando hace falta.
 import React, { Suspense, lazy } from 'react';
-import { ArrowLeft, MessageCircle, PlayCircle } from 'lucide-react';
+import { ArrowLeft, Headphones, PlayCircle } from 'lucide-react';
 import { TecnorosLogo } from '../TecnorosLogo';
 import { BotonesRedes } from '../Redes';
-import { navegar, useRuta } from '../../rutas';
+import { abrirSoporte, navegar, useRuta } from '../../rutas';
 import { abrirAsistente } from '../../asistentes/eventos';
 import { HowWeWorkSection } from '../HowWeWorkSection';
 import { Encuentros } from '../extra/Encuentros';
@@ -16,7 +16,7 @@ import { CartelProximamente } from '../ProductosPropios';
 
 const RobotStudioSection = lazy(() => import('../robotics/RobotStudioSection').then((m) => ({ default: m.RobotStudioSection })));
 
-/** Cabecera mínima: el logo y un botón para hablar con los asistentes. */
+/** Cabecera mínima: el logo y Soporte técnico (para clientes). */
 export const CabeceraSimple: React.FC = () => {
   const ruta = useRuta();
   return (
@@ -45,12 +45,13 @@ export const CabeceraSimple: React.FC = () => {
               <ArrowLeft className="w-4 h-4" /> Volver a los asistentes
             </button>
           )}
+          {/* Lo que estaba antes en Contacto → Soporte técnico: abre el panel de soporte para clientes */}
           <button
             type="button"
-            onClick={() => abrirAsistente('hub')}
-            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-cyan-400 text-slate-950 text-sm font-bold hover:bg-cyan-300 cursor-pointer"
+            onClick={abrirSoporte}
+            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
           >
-            <MessageCircle className="w-4 h-4" /> <span className="hidden sm:inline">Hablar con un asistente</span><span className="sm:hidden">Asistentes</span>
+            <Headphones className="w-4 h-4" /> Soporte técnico
           </button>
         </div>
       </div>
@@ -83,9 +84,6 @@ export const PieSimple: React.FC = () => (
 const VIDEOS = [
   { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg', titulo: 'Mostrador', linea: 'Chatbot con IA que atiende a tus clientes 24/7.' },
   { src: '/proyectos/demo-agenda-consultorio-1min.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg', titulo: 'Agenda de consultorio', linea: 'Fichas, obra social y contacto directo con cada paciente.' },
-  { src: '/proyectos/demo-ingresos-y-gastos.mp4', poster: '/proyectos/demo-ingresos-y-gastos.jpg', titulo: 'Ingresos y gastos', linea: 'Las cuentas del emprendimiento, claras y en un lugar.' },
-  { src: '/proyectos/demo-salon-de-eventos.mp4', poster: '/proyectos/demo-salon-de-eventos.jpg', titulo: 'Salón de eventos', linea: 'Reservas, señas y agenda del salón.' },
-  { src: '/proyectos/demo-sistema-kiosco.mp4', poster: '/proyectos/demo-sistema-kiosco.jpg', titulo: 'Sistema para kiosco', linea: 'Ventas, stock y caja del día.' },
 ];
 
 const Titulo: React.FC<{ etiqueta: string; titulo: string; texto?: string }> = ({ etiqueta, titulo, texto }) => (
@@ -101,7 +99,7 @@ export const VideosProductos: React.FC = () => (
   <section id="videos-productos" className="scroll-mt-24 py-14 sm:py-20 border-t border-slate-800/50">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <Titulo etiqueta="Videos" titulo="Nuestros productos funcionando" texto="Recorridos reales con datos ficticios. Si querés uno para tu negocio, decíselo a un asistente." />
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {VIDEOS.map((v) => (
           <li key={v.src} className="rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800">
             <video src={v.src} poster={v.poster} controls preload="none" playsInline className="w-full aspect-[16/10] bg-slate-950 block">

@@ -220,7 +220,7 @@ const equipo = (THREE: THREE): Modelo => {
   };
 };
 
-// Auriculares con micrófono (soporte técnico)
+// Auriculares (soporte técnico): solo los auriculares, sin micrófono
 const auriculares = (THREE: THREE): Modelo => {
   const g = new THREE.Group();
   const negro = mat(THREE, 0x1f2937, { roughness: 0.35, metalness: 0.3 });
@@ -230,12 +230,6 @@ const auriculares = (THREE: THREE): Modelo => {
     malla(THREE, g, new THREE.CylinderGeometry(0.24, 0.24, 0.2, 28), negro, s * 0.52, -0.05, 0, 0, 0, Math.PI / 2);
     malla(THREE, g, new THREE.CylinderGeometry(0.2, 0.2, 0.06, 28), verde, s * 0.64, -0.05, 0, 0, 0, Math.PI / 2);
   });
-  const brazo = new THREE.Group();
-  brazo.position.set(-0.55, -0.15, 0.08);
-  g.add(brazo);
-  const curva = new THREE.QuadraticBezierCurve3(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0.05, -0.35, 0.3), new THREE.Vector3(0.45, -0.38, 0.35));
-  malla(THREE, brazo, new THREE.TubeGeometry(curva, 20, 0.03, 8), negro);
-  malla(THREE, brazo, new THREE.SphereGeometry(0.08, 16, 12), verde, 0.47, -0.38, 0.35);
   return { grupo: g, animar: (t) => (g.rotation.z = Math.sin(t * 2) * 0.12) };
 };
 

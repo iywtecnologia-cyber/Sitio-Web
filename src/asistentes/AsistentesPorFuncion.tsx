@@ -7,7 +7,8 @@ import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
 
-import { EVENTO_ABRIR_ASISTENTE, EV_CERRAR, abrirAsistente, dice, gesto, registrarHecho } from './eventos';
+import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
+import { Marcianito } from '../components/Marcianito';
 
 export { EVENTO_ABRIR_ASISTENTE, abrirAsistente };
 
@@ -64,15 +65,27 @@ export const AsistentesPorFuncion: React.FC = () => {
   }, [abierto, actualizarSugerencias]);
 
   useEffect(() => {
-    const abrir = (e: Event) => setAbierto((e as CustomEvent<string>).detail || 'hub');
+    const auto = () => ASISTENTES.find((a) => a.paginas.includes(window.location.pathname))?.id ?? 'hub';
+    const abrir = (e: Event) => {
+      const d = (e as CustomEvent<string>).detail;
+      setAbierto(!d || d === 'auto' ? auto() : d);
+    };
     const cerrar = () => setAbierto(null);
+    const alternar = () => setAbierto((v) => (v ? null : auto()));
     window.addEventListener(EVENTO_ABRIR_ASISTENTE, abrir);
     window.addEventListener(EV_CERRAR, cerrar);
+    window.addEventListener(EV_ALTERNAR, alternar);
     return () => {
       window.removeEventListener(EVENTO_ABRIR_ASISTENTE, abrir);
       window.removeEventListener(EV_CERRAR, cerrar);
+      window.removeEventListener(EV_ALTERNAR, alternar);
     };
   }, []);
+
+  // Marcio y el botón de abajo se enteran si el chat está abierto.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent(EV_ESTADO, { detail: !!abierto }));
+  }, [abierto]);
 
   useEffect(() => {
     if (!abierto) return;
@@ -116,11 +129,15 @@ export const AsistentesPorFuncion: React.FC = () => {
     const r = await golondrina.responder(q);
     const propios = enlaces.current;
     enlaces.current = [];
-    const textoR = r?.texto ?? 'No te entendí. Probá con una de las opciones de abajo.';
+    const textoR = r?.texto ?? 'No te entendí. Probá con una de las opciones de abajo, o preguntale a Marcio, que sabe de todo un poco.';
     agregar(id, {
       de: 'asistente',
       texto: textoR,
-      enlaces: [...propios, ...(r?.botones ?? []).map((b) => ({ texto: b.texto, alHacer: b.alHacer }))],
+      enlaces: [
+        ...propios,
+        ...(r?.botones ?? []).map((b) => ({ texto: b.texto, alHacer: b.alHacer })),
+        ...(r ? [] : [{ texto: 'Preguntarle a Marcio', alHacer: () => { setAbierto(null); abrirChatMarcio(q); } }]),
+      ],
     });
     gesto(id, 'salto');
     dice(id, resumen(textoR));
@@ -216,29 +233,12 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   return (
     <>
-      {/* Lanzador fijo: un ícono de chat para hablar con los asistentes (visible también con el chat abierto) */}
-      <button
-        type="button"
-        onClick={() => setAbierto((v) => (v ? null : deLaPagina?.id ?? 'hub'))}
-        className={`fixed z-[62] left-3 sm:left-5 bottom-4 sm:bottom-5 items-center gap-1.5 pl-1 pr-3.5 py-1 rounded-2xl bg-[#0B1120] border border-cyan-400/50 shadow-2xl shadow-black/50 hover:border-cyan-300 cursor-pointer ${abierto ? 'hidden sm:inline-flex' : 'inline-flex'}`}
-        aria-expanded={!!abierto}
-        aria-label={abierto ? 'Cerrar los asistentes' : deLaPagina ? `Abrir el asistente de ${deLaPagina.nombre}` : 'Abrir los asistentes'}
-      >
-        <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/30" aria-hidden="true">
-          <MessageCircle className="w-6 h-6 text-slate-950" strokeWidth={2.4} />
-        </span>
-        <span className="text-left leading-tight">
-          <span className="block text-[10px] font-mono uppercase tracking-wider text-cyan-300">Asistentes</span>
-          <span className="block text-xs sm:text-sm font-bold text-white">{asistente ? asistente.nombre : deLaPagina ? deLaPagina.nombre : '¿Qué querés hacer?'}</span>
-        </span>
-      </button>
-
       {abierto && (
         <div
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className="fixed z-[72] inset-x-2 bottom-2 h-[62dvh] sm:inset-x-auto sm:left-5 sm:bottom-24 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
+          className="fixed z-[72] inset-x-2 bottom-2 h-[62dvh] sm:inset-x-auto sm:right-5 sm:bottom-28 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -256,7 +256,7 @@ export const AsistentesPorFuncion: React.FC = () => {
             ) : (
               <div className="flex-1">
                 <p className="text-sm font-bold text-white">¿Qué querés hacer?</p>
-                <p className="text-xs text-slate-400">Elegí con quién hablar: cada uno sabe de una parte de la web.</p>
+                <p className="text-xs text-slate-400">Soy Marcio 👋 Elegí con quién hablar: cada asistente sabe de una parte de la web.</p>
               </div>
             )}
             <button type="button" onClick={() => setAbierto(null)} aria-label="Cerrar" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
@@ -284,6 +284,20 @@ export const AsistentesPorFuncion: React.FC = () => {
                   <div className="mt-2"><Sugerencias enHub /></div>
                 </div>
               )}
+              <button
+                type="button"
+                onClick={() => {
+                  setAbierto(null);
+                  abrirChatMarcio();
+                }}
+                className="w-full flex items-center gap-3 text-left p-3 rounded-2xl border border-cyan-400/40 bg-cyan-400/5 hover:bg-cyan-400/10 cursor-pointer"
+              >
+                <Marcianito className="w-10 h-12 shrink-0" />
+                <span>
+                  <span className="block text-sm font-bold text-white">Marcio</span>
+                  <span className="block text-[11px] text-slate-400 leading-snug">Te presenta a los asistentes. Preguntale cualquier otra cosa.</span>
+                </span>
+              </button>
               <div className="grid grid-cols-2 gap-2">
                 {ASISTENTES.map((a) => (
                   <button
