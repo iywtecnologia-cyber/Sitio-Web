@@ -16,23 +16,12 @@ interface Mensaje {
   enlaces?: Enlace[];
 }
 
-const COLOR: Record<string, string> = {
-  cyan: 'from-cyan-400 to-sky-500',
-  emerald: 'from-emerald-400 to-teal-500',
-  violet: 'from-violet-400 to-fuchsia-500',
-  amber: 'from-amber-400 to-orange-500',
-  sky: 'from-sky-400 to-blue-500',
-  pink: 'from-pink-400 to-rose-500',
-  teal: 'from-teal-400 to-cyan-500',
-  lime: 'from-lime-400 to-emerald-500',
-};
-
 /** **negrita** → <b>negrita</b> */
 const conNegritas = (t: string) =>
   t.split(/(\*\*[^*]+\*\*)/g).map((parte, i) => (parte.startsWith('**') ? <b key={i} className="text-white">{parte.slice(2, -2)}</b> : <React.Fragment key={i}>{parte}</React.Fragment>));
 
 const Avatar: React.FC<{ a: Asistente; tam?: string }> = ({ a, tam = 'w-10 h-10 text-xl' }) => (
-  <span className={`${tam} shrink-0 rounded-2xl bg-gradient-to-br ${COLOR[a.color]} flex items-center justify-center shadow-lg`} aria-hidden="true">
+  <span className={`${tam} shrink-0 rounded-2xl bg-gradient-to-br ${a.degrade} flex items-center justify-center shadow-lg`} aria-hidden="true">
     {a.emoji}
   </span>
 );
@@ -189,6 +178,7 @@ export const AsistentesPorFuncion: React.FC = () => {
       {abierto && (
         <div
           role="dialog"
+          data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
           className="fixed z-[72] left-2 right-2 sm:left-5 sm:right-auto bottom-3 sm:bottom-5 sm:w-[400px] h-[min(600px,calc(100dvh-6rem))] flex flex-col rounded-3xl bg-[#0B1120] border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
         >
@@ -199,7 +189,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                 <button type="button" onClick={() => setAbierto('hub')} aria-label="Ver todos los asistentes" className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">
                   <ArrowLeft className="w-5 h-5" />
                 </button>
-                <Avatar a={asistente} />
+                <span className="asistente-avatar-vivo"><Avatar a={asistente} /></span>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-bold text-white">Asistente de {asistente.nombre}</p>
                   <p className="text-xs text-slate-400 truncate">{asistente.rol}</p>
@@ -264,7 +254,11 @@ export const AsistentesPorFuncion: React.FC = () => {
                     </div>
                   </div>
                 ))}
-                {pensando && <p className="text-xs text-slate-500 px-1">Escribiendo…</p>}
+                {pensando && (
+                  <div className="flex items-center gap-1 px-3 py-2.5 w-fit rounded-2xl bg-slate-800/80" aria-label="Escribiendo">
+                    {[0, 1, 2].map((i) => <span key={i} className="w-1.5 h-1.5 rounded-full bg-slate-300 animate-bounce" style={{ animationDelay: `${i * 0.15}s` }} />)}
+                  </div>
+                )}
               </div>
               <Sugerencias />
               <div className="px-3 pt-2 flex flex-wrap gap-1.5">

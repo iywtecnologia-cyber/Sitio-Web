@@ -13,6 +13,7 @@ import { SERVICIOS_SOFTWARE } from '../data/precios';
 import { FOUNDERS, URL_ORGANIGRAMA } from '../data/equipo';
 import { VENTAS_EMAIL, gmailPara, soporteWhatsappLink, whatsappLink } from '../data/contact';
 import { abrirSoporte, irA } from '../rutas';
+import { escribir, esperar, tocar, volarA } from './manos';
 
 export interface Enlace {
   texto: string;
@@ -25,8 +26,10 @@ export interface Asistente {
   id: string;
   nombre: string;
   emoji: string;
-  /** Color de acento (clases Tailwind de texto/fondo). */
+  /** Color de acento. */
   color: string;
+  /** Degradé del avatar (clases Tailwind). */
+  degrade: string;
   /** Qué hace, en una línea. */
   rol: string;
   saludo: string;
@@ -40,6 +43,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Servicios',
     emoji: '🧩',
     color: 'cyan',
+    degrade: 'from-cyan-400 to-sky-500',
     rol: 'Te digo qué servicio te sirve según lo que querés resolver',
     saludo: 'Contame qué querés resolver en tu negocio («vender por internet», «que el WhatsApp responda solo», «ordenar mis clientes») y te muestro el servicio que te sirve.',
     paginas: ['/servicios'],
@@ -49,6 +53,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Presupuesto',
     emoji: '💰',
     color: 'emerald',
+    degrade: 'from-emerald-400 to-teal-500',
     rol: 'Te calculo cuánto sale lo que necesitás',
     saludo: 'Decime qué necesitás («una tienda online y un bot de WhatsApp») y te calculo cuánto sale. También te muestro el combo que más te conviene.',
     paginas: ['/presupuesto'],
@@ -58,6 +63,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Productos',
     emoji: '🕊️',
     color: 'violet',
+    degrade: 'from-violet-400 to-fuchsia-500',
     rol: 'Te muestro y te hago probar nuestros productos',
     saludo: 'Te muestro Golondrina, Golondrina Personal, Mostrador, CHAJÁ y TERO Security. Preguntame qué hace cada uno o pedime «probar Golondrina».',
     paginas: ['/productos'],
@@ -67,6 +73,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Diseñá tu robot',
     emoji: '🤖',
     color: 'amber',
+    degrade: 'from-amber-400 to-orange-500',
     rol: 'Te guío para armar tu robot en 3D',
     saludo: 'Te ayudo a diseñar tu robot: contame para qué lo querés («que lleve cajas», «que limpie») y te llevo al diseñador con eso en mente.',
     paginas: ['/robotica'],
@@ -76,6 +83,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Proyectos',
     emoji: '📁',
     color: 'sky',
+    degrade: 'from-sky-400 to-blue-500',
     rol: 'Te muestro sistemas que ya hicimos',
     saludo: 'Te muestro sistemas que ya están funcionando. Decime tu rubro («consultorio», «comercio») y te enseño el más parecido.',
     paginas: ['/proyectos'],
@@ -85,6 +93,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Equipo',
     emoji: '👥',
     color: 'pink',
+    degrade: 'from-pink-400 to-rose-500',
     rol: 'Te cuento quiénes somos y cómo trabajamos',
     saludo: 'Te cuento quiénes somos, de dónde y cómo trabajamos. Pedime «ver el organigrama» o «quiénes son los fundadores».',
     paginas: ['/nosotros'],
@@ -94,6 +103,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Contacto',
     emoji: '✉️',
     color: 'teal',
+    degrade: 'from-teal-400 to-cyan-500',
     rol: 'Te armo el mensaje para ventas',
     saludo: 'Contame en una frase qué necesitás y te dejo el mensaje listo para mandarlo por WhatsApp o e-mail.',
     paginas: ['/contacto'],
@@ -103,6 +113,7 @@ export const ASISTENTES: Asistente[] = [
     nombre: 'Soporte técnico',
     emoji: '🛟',
     color: 'lime',
+    degrade: 'from-lime-400 to-emerald-500',
     rol: '¿Ya sos cliente y algo no anda? Te ayudo',
     saludo: '¿Algo no anda? Contame qué pasa («no me llegan los avisos», «no puedo entrar») y te paso con soporte con el mensaje listo.',
     paginas: [],
@@ -138,6 +149,16 @@ export const golondrina = new Golondrina({
     return { accion: elegido[0], parametros: { [elegido[1]]: texto } };
   },
 });
+
+/** El asistente vuela hasta lo que te quiere mostrar. */
+const mostrar = (asistente: string, destino: string | HTMLElement | null | Promise<HTMLElement | null>, texto: string) => {
+  const a = ASISTENTES.find((x) => x.id === asistente)!;
+  void Promise.resolve(destino).then((d) => {
+    if (d) void volarA(d, { emoji: a.emoji, degrade: a.degrade }, texto);
+  });
+};
+/** Busca un elemento por su texto dentro de un contenedor. */
+const porTexto = (selector: string, texto: string) => esperar(() => [...document.querySelectorAll(selector)].find((e) => normalizar(e.textContent ?? '').includes(normalizar(texto))) ?? null);
 
 const pesos = (n: number) => `$${Math.round(n).toLocaleString('es-AR')}`;
 const contiene = (t: string, ...palabras: string[]) => palabras.some((p) => t.includes(p));
@@ -223,7 +244,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           ofrecer({ texto: 'Pedir diagnóstico gratis', alHacer: () => irA('servicio-analisis-qa', true, 'center') });
           return 'No me quedó claro qué necesitás. Contámelo con otras palabras, o empezá por el diagnóstico inicial gratuito: miramos tu negocio y te decimos qué conviene.';
         }
-        irA(`servicio-${items[0].id}`, true, 'center');
+        irA(`servicio-${items[0].id}`, false, 'center');
+        mostrar('servicios', `servicio-${items[0].id}`, '¡Este te sirve!');
         items.slice(1, 3).forEach((s) => ofrecer({ texto: `Ver ${s.title}`, alHacer: () => irA(`servicio-${s.id}`, true, 'center') }));
         ofrecer({ texto: '¿Cuánto sale?', alHacer: () => pedirA('presupuesto', 'calcular-presupuesto', { pedido: p['necesidad'] ?? '' }, `¿Cuánto sale? (${items.map((s) => s.title.split(':')[0]).join(', ')})`) });
         return `Para eso te sirve **${items[0].title}**: ${items[0].description}\nTe lo marqué en la página.` + (items.length > 1 ? `\nTambién puede servirte: ${items.slice(1, 3).map((s) => s.title).join(' y ')}.` : '');
@@ -262,7 +284,18 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const max = precios.reduce((t, s) => t + s.max, 0);
         ultimoPresupuesto = { items: precios.map((s) => s.servicio), min, max };
         const combo = precios.length > 1 ? COMBOS.find((c) => precios.every((s) => (SERVICIOS_DE_COMBO[c.id] ?? []).includes(s.id))) : undefined;
-        irA(combo ? 'combos' : 'facturacion');
+        irA('facturacion');
+        // Marca en el presupuestador cada servicio, a la vista, y después señala el combo si conviene.
+        void (async () => {
+          for (const s of precios) {
+            const boton = await esperar(`[data-servicio="${s.id}"]`);
+            if (boton && boton.getAttribute('aria-pressed') !== 'true') await tocar(boton);
+          }
+          if (combo) {
+            irA('combos');
+            mostrar('presupuesto', porTexto('#combos h3', combo.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), `Ahorrás ${ahorro(combo)}%`);
+          } else mostrar('presupuesto', esperar('[data-servicio][aria-pressed="true"]'), 'Te lo marqué');
+        })();
         const msg = `Hola tecnoros.ar, quiero presupuesto de: ${ultimoPresupuesto.items.join(', ')} (referencia ${pesos(min)} a ${pesos(max)}).`;
         ofrecer({ texto: 'Pedir presupuesto por WhatsApp', href: whatsappLink(msg) });
         ofrecer({ texto: 'Por e-mail', href: gmailPara(VENTAS_EMAIL, 'Presupuesto - tecnoros.ar', msg) });
@@ -290,7 +323,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           : contiene(t, 'cliente', 'crm', 'segur') ? COMBOS[2]
           : contiene(t, 'planta', 'maquina', 'sensor', 'golondrina') ? COMBOS[3]
           : null;
-        irA('combos', true);
+        irA('combos', !combo);
+        if (combo) mostrar('presupuesto', porTexto('#combos h3', combo.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), `¡Este te conviene!`);
         if (!combo) return 'Estos son los combos: ' + COMBOS.map((c) => `**${c.nombre}** (desde ${pesos(c.desde)})`).join(' · ') + '.\nContame qué querés lograr y te digo cuál.';
         return `Te conviene **${combo.nombre}**: ${combo.para}\nIncluye ${combo.incluye.join(', ')}. Desde ${pesos(combo.desde)} (ahorrás ${ahorro(combo)}%).`;
       },
@@ -328,8 +362,9 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           return 'Tenemos: ' + Object.values(DEMO_DE).map((x) => x.nombre).join(' · ') + '.\n¿De cuál te cuento?';
         }
         const info = PRODUCTOS.find((x) => x.id === prod.id);
-        irA(`producto-${prod.id}`, true, 'center');
-        ofrecer({ texto: `Probar ${prod.nombre}`, alHacer: () => irA(prod.demo, true) });
+        irA(`producto-${prod.id}`, false, 'center');
+        mostrar('productos', `producto-${prod.id}`, prod.nombre);
+        ofrecer({ texto: `Probar ${prod.nombre}`, alHacer: () => pedirA('productos', 'probar-producto', { producto: prod.nombre }, `Probar ${prod.nombre}`) });
         return `**${prod.nombre}**: ${[info?.queEs, info?.queHace].filter(Boolean).join(' ')}\nTe lo marqué en la página.`;
       },
     }),
@@ -344,7 +379,20 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       descubrible: true,
       ejecutar: (p: Parametros) => {
         const prod = productoDe(p['producto'] ?? '') ?? DEMO_DE.golondrina;
-        irA(prod.demo, true);
+        irA(prod.demo);
+        if (prod === DEMO_DE.golondrina) {
+          // La prueba la hace el asistente: aprieta "Simular corte de luz" y se ve llegar la alerta.
+          void (async () => {
+            const boton = await porTexto('#aplicaciones-golondrina button, button', 'Simular Corte de Luz');
+            if (boton) {
+              mostrar('productos', boton, 'Mirá: lo aprieto yo');
+              await new Promise((ok) => setTimeout(ok, 1200));
+              await tocar(boton);
+            }
+          })();
+          return 'Te llevé al simulador de Golondrina y aprieto «Simular corte de luz»: mirá cómo llega la alerta por WhatsApp y se resuelve con 1 clic. Es una simulación.';
+        }
+        mostrar('productos', prod.demo, `Probá ${prod.nombre}`);
         return `Te llevé a la demo de ${prod.nombre}. Es una simulación: no se conecta a nada real.`;
       },
     }),
@@ -360,7 +408,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       parametros: [{ nombre: 'uso', libre: true, completo: true, memorizable: false }],
       descubrible: true,
       ejecutar: (p: Parametros) => {
-        irA('robotica-3d', true);
+        irA('robotica-3d');
+        mostrar('robot', 'robotica-3d', 'Acá lo armás');
         const t = normalizar(p['uso'] ?? '');
         const consejo = contiene(t, 'caja', 'llev', 'carga')
           ? 'Para llevar cajas, elegí ruedas y una bandeja arriba.'
@@ -384,7 +433,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       frases: ['proyectos de {rubro}', 'tienen algo para {rubro}', 'ver proyectos', 'qué hicieron', 'ejemplos'],
       parametros: [{ nombre: 'rubro', libre: true, completo: true, memorizable: false }],
       ejecutar: (p: Parametros) => {
-        irA('proyectos', true);
+        irA('proyectos');
+        mostrar('proyectos', 'proyectos', 'Mirá estos');
         const t = normalizar(p['rubro'] ?? '');
         const hit = PROJECTS_DATA.find((x) => normalizar(`${x.category} ${x.title}`).split(' ').some((w) => w.length > 4 && t.includes(w)));
         return hit
@@ -402,6 +452,7 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       frases: ['quiénes son', 'quienes somos', 'fundadores', 'quién está detrás', 'de dónde son'],
       ejecutar: () => {
         irA('sobre-nosotros');
+        mostrar('equipo', porTexto('#sobre-nosotros span', 'Fundadores').then((e) => (e?.parentElement as HTMLElement | null) ?? null), 'Los fundadores');
         const f = FOUNDERS.filter((x) => x.area === 'cofundadores');
         f.forEach((x) => x.linkedin && ofrecer({ texto: `LinkedIn de ${x.name}`, href: x.linkedin }));
         return `Nacimos en Rosario y hoy somos ${FOUNDERS.length} personas trabajando en remoto desde todo LATAM.\nNos fundaron ${f.map((x) => x.name).join(' y ')}.`;
@@ -433,7 +484,17 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
         ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg) });
         ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg) });
-        ofrecer({ texto: 'Prefiero el formulario', alHacer: () => irA('contacto', true) });
+        ofrecer({
+          texto: 'Escribilo en el formulario',
+          alHacer: () => {
+            irA('contacto');
+            void (async () => {
+              const campo = (await esperar('#contacto-mensaje')) as HTMLTextAreaElement | null;
+              mostrar('contacto', campo, 'Te lo escribo');
+              await escribir(campo, msg);
+            })();
+          },
+        });
         return `Te dejé el mensaje listo: «${msg}». Elegí cómo mandarlo; te responde una persona del equipo.`;
       },
     }),
@@ -451,7 +512,7 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const problema = (p['problema'] ?? '').trim();
         const msg = `Hola tecnoros.ar, soy cliente y necesito soporte técnico${problema ? `: ${problema}` : '.'}`;
         ofrecer({ texto: 'WhatsApp de soporte', href: soporteWhatsappLink(msg) });
-        ofrecer({ texto: 'Ver opciones de soporte', alHacer: abrirSoporte });
+        ofrecer({ texto: 'Ver opciones de soporte', alHacer: () => { abrirSoporte(); mostrar('soporte', esperar('#panel-soporte'), 'Elegí cómo'); } });
         return 'Te dejé el mensaje listo para soporte técnico. Si podés, sumá una captura de lo que ves: así lo resolvemos más rápido.';
       },
     }),

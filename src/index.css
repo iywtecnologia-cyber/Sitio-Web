@@ -350,3 +350,31 @@
   from { opacity: 0; transform: translateY(-8px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+/* ─── Asistentes por función: lo que hacen en la página ─── */
+.asistente-senalado {
+  outline: 3px solid rgb(34 211 238 / 0.85);
+  outline-offset: 4px;
+  border-radius: 1rem;
+  animation: asistente-latido 1.2s ease-in-out infinite;
+}
+@keyframes asistente-latido {
+  0%, 100% { outline-color: rgb(34 211 238 / 0.85); box-shadow: 0 0 0 0 rgb(34 211 238 / 0.25); }
+  50% { outline-color: rgb(34 211 238 / 0.35); box-shadow: 0 0 0 12px rgb(34 211 238 / 0); }
+}
+.asistente-volador { animation: asistente-flota 1.6s ease-in-out infinite; }
+@keyframes asistente-flota {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-6px) rotate(4deg); }
+}
+.asistente-globo { animation: asistente-aparece 0.35s 0.8s both ease-out; }
+@keyframes asistente-aparece { from { opacity: 0; transform: translate(8px, -50%) scale(0.9); } to { opacity: 1; transform: translate(0, -50%) scale(1); } }
+.asistente-toque {
+  position: fixed; z-index: 91; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 9999px;
+  border: 3px solid rgb(34 211 238); pointer-events: none; animation: asistente-toque 0.7s ease-out forwards;
+}
+@keyframes asistente-toque { from { transform: scale(0.4); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
+.asistente-avatar-vivo { animation: asistente-flota 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .asistente-senalado, .asistente-volador, .asistente-globo, .asistente-toque, .asistente-avatar-vivo { animation: none; }
+}
