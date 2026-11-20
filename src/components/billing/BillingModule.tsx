@@ -368,6 +368,7 @@ export const BillingModule: React.FC = () => {
                       key={s.id}
                       type="button"
                       onClick={() => alternarSoftware(s.id)}
+                      data-servicio={s.id}
                       aria-pressed={activo}
                       className={`text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex gap-3 ${
                         activo
