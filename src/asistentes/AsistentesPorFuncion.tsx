@@ -48,7 +48,7 @@ const MiniOrbita: React.FC<{ resaltado?: string }> = ({ resaltado }) => {
         <span
           key={a.id}
           ref={(el) => { refs.current[i] = el; }}
-          className={`absolute w-6 h-6 rounded-lg bg-gradient-to-br ${a.degrade} flex items-center justify-center text-[12px] shadow ${a.id === resaltado ? 'ring-2 ring-white' : ''}`}
+          className={`absolute w-6 h-6 flex items-center justify-center drop-shadow-[0_2px_3px_rgba(0,0,0,.6)] ${a.id === resaltado ? 'text-[19px]' : 'text-[15px]'}`}
           style={{ transform: `translate(${Math.cos((i / ASISTENTES.length) * Math.PI * 2) * 30}px, ${Math.sin((i / ASISTENTES.length) * Math.PI * 2) * 12}px)` }}
         >
           {a.emoji}
@@ -70,7 +70,7 @@ const conNegritas = (t: string) =>
   t.split(/(\*\*[^*]+\*\*)/g).map((parte, i) => (parte.startsWith('**') ? <b key={i} className="text-white">{parte.slice(2, -2)}</b> : <React.Fragment key={i}>{parte}</React.Fragment>));
 
 const Avatar: React.FC<{ a: Asistente; tam?: string }> = ({ a, tam = 'w-10 h-10 text-xl' }) => (
-  <span className={`${tam} shrink-0 rounded-2xl bg-gradient-to-br ${a.degrade} flex items-center justify-center shadow-lg`} aria-hidden="true">
+  <span className={`${tam} shrink-0 flex items-center justify-center drop-shadow-[0_3px_4px_rgba(0,0,0,.55)] !text-[1.6em]`} aria-hidden="true">
     {a.emoji}
   </span>
 );
