@@ -32,6 +32,8 @@ async function quieto(maxMs = 1500) {
 
 interface Personaje {
   emoji: string;
+  /** Foto del personaje 3D (si está, se usa en vez del emoji). */
+  imagen?: string;
   /** Clases del degradé del avatar (ej. 'from-cyan-400 to-sky-500'). */
   degrade: string;
 }
@@ -61,11 +63,12 @@ export async function volarA(destino: string | HTMLElement, quien: Personaje, te
   nodo.style.cssText = `position:fixed;left:0;top:0;z-index:90;pointer-events:none;transform:translate(${x}px,${y}px)`;
   nodo.innerHTML = `
     <div class="relative -translate-x-1/2 -translate-y-1/2">
-      <span class="asistente-volador flex w-12 h-12 items-center justify-center text-4xl drop-shadow-[0_6px_8px_rgba(0,0,0,.5)]">${quien.emoji}</span>
+      <span class="asistente-volador flex w-12 h-12 items-center justify-center text-4xl drop-shadow-[0_6px_8px_rgba(0,0,0,.5)]">${quien.imagen ? `<img src="${quien.imagen}" alt="" class="w-14 h-14 object-contain" />` : quien.emoji}</span>
       <span class="asistente-globo absolute right-full top-1/2 -translate-y-1/2 mr-2 whitespace-nowrap rounded-xl bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-xl">${texto.replace(/</g, '&lt;')}</span>
     </div>`;
   document.body.appendChild(nodo);
   vuelo = nodo;
+  window.dispatchEvent(new CustomEvent('asistente-vuela', { detail: true }));
 
   // El elemento señalado se ilumina mientras el asistente está ahí.
   el.classList.add('asistente-senalado');
@@ -86,6 +89,7 @@ export async function volarA(destino: string | HTMLElement, quien: Personaje, te
   nodo.remove();
   el.classList.remove('asistente-senalado');
   if (vuelo === nodo) vuelo = null;
+  window.dispatchEvent(new CustomEvent('asistente-vuela', { detail: false }));
 }
 
 /** Toca un botón de la página, con un círculo que se ve. */

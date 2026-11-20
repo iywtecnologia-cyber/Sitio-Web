@@ -4,7 +4,7 @@
 // Todo lo demás (servicios, presupuesto, productos, proyectos, equipo, contacto, soporte) lo
 // manejan los asistentes: te preguntan y te abren la pantalla justa cuando hace falta.
 import React, { Suspense, lazy } from 'react';
-import { ArrowLeft, Headphones, PlayCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Headphones, PlayCircle, Unlock } from 'lucide-react';
 import { TecnorosLogo } from '../TecnorosLogo';
 import { BotonesRedes } from '../Redes';
 import { abrirSoporte, navegar, useRuta } from '../../rutas';
@@ -31,11 +31,11 @@ export const CabeceraSimple: React.FC = () => {
           className="flex items-center gap-2.5 sm:gap-3"
         >
           <TecnorosLogo className="w-9 h-9 sm:w-11 sm:h-11 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
-          <span className="text-xl sm:text-2xl font-black tracking-tight text-white leading-none">
+          <span className="text-lg sm:text-2xl font-black tracking-tight text-white leading-none">
             tecnoros<span className="text-[#00D2F3]">.ar</span>
           </span>
         </a>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {ruta !== '/' && (
             <button
               type="button"
@@ -45,13 +45,18 @@ export const CabeceraSimple: React.FC = () => {
               <ArrowLeft className="w-4 h-4" /> Volver a los asistentes
             </button>
           )}
+          {/* Sin permanencia, a la izquierda de Soporte técnico */}
+          <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] sm:text-sm font-semibold whitespace-nowrap">
+            <Unlock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Sin permanencia
+          </span>
           {/* Lo que estaba antes en Contacto → Soporte técnico: abre el panel de soporte para clientes */}
           <button
             type="button"
             onClick={abrirSoporte}
-            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
+            aria-label="Soporte técnico"
+            className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
           >
-            <Headphones className="w-4 h-4" /> Soporte técnico
+            <Headphones className="w-4 h-4" /> <span className="hidden sm:inline">Soporte técnico</span>
           </button>
         </div>
       </div>
@@ -98,7 +103,7 @@ const Titulo: React.FC<{ etiqueta: string; titulo: string; texto?: string }> = (
 export const VideosProductos: React.FC = () => (
   <section id="videos-productos" className="scroll-mt-24 py-14 sm:py-20 border-t border-slate-800/50">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <Titulo etiqueta="Videos" titulo="Nuestros productos funcionando" texto="Recorridos reales con datos ficticios. Si querés uno para tu negocio, decíselo a un asistente." />
+      <Titulo etiqueta="Videos" titulo="Nuestros productos funcionando" texto="Recorridos reales con datos ficticios." />
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {VIDEOS.map((v) => (
           <li key={v.src} className="rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800">
@@ -112,6 +117,23 @@ export const VideosProductos: React.FC = () => (
           </li>
         ))}
       </ul>
+      <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
+        <button
+          type="button"
+          onClick={() => abrirAsistente('proyectos')}
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-cyan-400 text-white font-semibold cursor-pointer"
+        >
+          <img src="/asistentes/proyectos.png" alt="" aria-hidden="true" className="w-6 h-6 object-contain" /> Hacele click al asistente de Proyectos
+        </button>
+        <button
+          type="button"
+          onClick={() => abrirAsistente('contacto')}
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold shadow-lg shadow-cyan-500/20 cursor-pointer"
+        >
+          Contactanos por tu necesidad o software a medida <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+      <p className="mt-3 text-sm text-emerald-300 font-semibold">El diagnóstico inicial es gratuito.</p>
     </div>
   </section>
 );

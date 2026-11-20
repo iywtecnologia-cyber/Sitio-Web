@@ -18,6 +18,8 @@ import { cerrarAsistentes } from './eventos';
 
 export interface Enlace {
   texto: string;
+  /** Se usa una sola vez: al tocarlo, desaparecen los botones de esa respuesta. */
+  unaVez?: boolean;
   href?: string;
   /** Acción interna en vez de link. */
   alHacer?: () => void;
@@ -37,6 +39,9 @@ export interface Asistente {
   /** Páginas donde este asistente es "el de acá". */
   paginas: string[];
 }
+
+/** Dibujito de cada asistente: es una foto de su personaje 3D, así coincide con los que giran. */
+export const imagenDe = (id: string) => `/asistentes/${id}.png`;
 
 export const ASISTENTES: Asistente[] = [
   {
@@ -170,7 +175,7 @@ export const golondrina = new Golondrina({
 const mostrar = (asistente: string, destino: string | HTMLElement | null | Promise<HTMLElement | null>, texto: string) => {
   const a = ASISTENTES.find((x) => x.id === asistente)!;
   void Promise.resolve(destino).then((d) => {
-    if (d) void volarA(d, { emoji: a.emoji, degrade: a.degrade }, texto);
+    if (d) void volarA(d, { emoji: a.emoji, degrade: a.degrade, imagen: imagenDe(a.id) }, texto);
   });
 };
 /** Busca un elemento por su texto dentro de un contenedor. */
@@ -327,8 +332,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           } else mostrar('presupuesto', esperar('[data-servicio][aria-pressed="true"]'), 'Te lo marqué');
         })();
         const msg = `Hola tecnoros.ar, quiero presupuesto de: ${ultimoPresupuesto.items.join(', ')} (referencia ${pesos(min)} a ${pesos(max)}).`;
-        ofrecer({ texto: 'Pedir presupuesto por WhatsApp', href: whatsappLink(msg) });
-        ofrecer({ texto: 'Por e-mail', href: gmailPara(VENTAS_EMAIL, 'Presupuesto - tecnoros.ar', msg) });
+        ofrecer({ texto: 'Pedir presupuesto por WhatsApp', href: whatsappLink(msg), unaVez: true });
+        ofrecer({ texto: 'Por e-mail', href: gmailPara(VENTAS_EMAIL, 'Presupuesto - tecnoros.ar', msg), unaVez: true });
         return (
           precios.map((s) => `• ${s.servicio}: ${s.max ? `${pesos(s.min)} a ${pesos(s.max)}` : 'gratis'}`).join('\n') +
           `\nTotal de referencia: ${pesos(min)} a ${pesos(max)}.` +
@@ -353,9 +358,22 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           : contiene(t, 'cliente', 'crm', 'segur') ? COMBOS[2]
           : contiene(t, 'planta', 'maquina', 'sensor', 'golondrina') ? COMBOS[3]
           : null;
-        irA('combos', !combo);
+        if (!combo) {
+          COMBOS.forEach((c) =>
+            ofrecer({
+              texto: `${c.nombre} · desde ${pesos(c.desde)}`,
+              alHacer: () => {
+                irA('combos');
+                mostrar('presupuesto', porTexto('#combos h3', c.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), c.nombre);
+              },
+            }),
+          );
+          return t
+            ? 'No me quedó claro para qué. Te sugiero estos combos: tocá uno para verlo, o contame qué querés lograr.'
+            : 'Te sugiero estos combos: tocá uno para verlo. Si me contás para qué lo querés, te digo cuál te conviene más.';
+        }
+        irA('combos');
         if (combo) mostrar('presupuesto', porTexto('#combos h3', combo.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), `¡Este te conviene!`);
-        if (!combo) return 'Estos son los combos: ' + COMBOS.map((c) => `**${c.nombre}** (desde ${pesos(c.desde)})`).join(' · ') + '.\nContame qué querés lograr y te digo cuál.';
         return `Te conviene **${combo.nombre}**: ${combo.para}\nIncluye ${combo.incluye.join(', ')}. Desde ${pesos(combo.desde)} (ahorrás ${ahorro(combo)}%).`;
       },
     }),
@@ -369,8 +387,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const msg = ultimoPresupuesto
           ? `Hola tecnoros.ar, quiero presupuesto de: ${ultimoPresupuesto.items.join(', ')} (referencia ${pesos(ultimoPresupuesto.min)} a ${pesos(ultimoPresupuesto.max)}).`
           : 'Hola tecnoros.ar, quiero pedir un presupuesto.';
-        ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg) });
-        ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Presupuesto - tecnoros.ar', msg) });
+        ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg), unaVez: true });
+        ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Presupuesto - tecnoros.ar', msg), unaVez: true });
         return `Te dejé el mensaje listo: «${msg}». Tocá cómo querés mandarlo.`;
       },
     }),
@@ -489,14 +507,24 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           window.setTimeout(() => window.dispatchEvent(new CustomEvent('seleccionar-proyecto', { detail: id })), 300);
           mostrar('proyectos', 'proyectos', 'Este es');
         };
+        // Los dos que mostramos: Mostrador (chatbot) y la Agenda del consultorio.
+        const verMostrador = () => {
+          irA('mostrador-demo', true, 'center');
+          mostrar('proyectos', 'mostrador-demo', 'Mostrador');
+        };
         const t = normalizar(p['rubro'] ?? '');
+        if (contiene(t, 'mostrador', 'chat', 'atencion', 'comercio', 'local', 'tienda')) {
+          ofrecer({ texto: 'Ver Mostrador', alHacer: verMostrador });
+          return 'Para eso mirá **Mostrador**: un chatbot con IA que atiende a tus clientes 24/7. Tocalo para verlo.';
+        }
         const hit = t ? PROJECTS_DATA.find((x) => normalizar(`${x.category} ${x.title}`).split(' ').some((w) => w.length > 4 && t.includes(w))) : undefined;
         if (hit) {
           ofrecer({ texto: `Ver ${hit.title.split(':')[0]}`, alHacer: () => verProyecto(hit.id) });
           return `Tenemos **${hit.title}** (${hit.category}). Tocalo para verlo.`;
         }
-        PROJECTS_DATA.forEach((x) => ofrecer({ texto: x.title.split(':')[0], alHacer: () => verProyecto(x.id) }));
-        return 'Estos son los sistemas que ya están funcionando. Tocá el que quieras ver.' + (t ? '\nPara tu rubro todavía no tenemos uno publicado: lo armamos a medida.' : '');
+        ofrecer({ texto: 'Mostrador', alHacer: verMostrador });
+        PROJECTS_DATA.forEach((x) => ofrecer({ texto: x.title.split(':')[0].replace('Agenda Odontológica', 'Agenda de consultorio'), alHacer: () => verProyecto(x.id) }));
+        return 'Estos son los sistemas que ya están funcionando: **Mostrador** y la **Agenda de consultorio**. Tocá el que quieras ver.' + (t ? '\nPara tu rubro todavía no tenemos uno publicado: lo armamos a medida.' : '');
       },
     }),
 
@@ -539,10 +567,11 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       ejecutar: (p: Parametros) => {
         const texto = (p['mensaje'] ?? '').trim();
         const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
-        ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg) });
-        ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg) });
+        ofrecer({ texto: 'Mandar por WhatsApp', href: whatsappLink(msg), unaVez: true });
+        ofrecer({ texto: 'Mandar por e-mail', href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
         ofrecer({
           texto: 'Escribilo en el formulario',
+          unaVez: true,
           alHacer: () => {
             irA('contacto');
             void (async () => {
