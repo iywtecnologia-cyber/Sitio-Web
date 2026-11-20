@@ -4,7 +4,7 @@
 // y después vuelve a su órbita; arrastrando el piso girás todo. Cuando un asistente responde o hace
 // algo, en el escenario salta y dice lo que hizo en un globito.
 import React, { useEffect, useRef, useState } from 'react';
-import { ASISTENTES } from './funciones';
+import { ASISTENTES, imagenDe } from './funciones';
 import { crearModelo } from './modelos3D';
 import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, type Gesto } from './eventos';
 
@@ -164,7 +164,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         cuerpoBot.position.y = 1.15;
         g.add(cuerpoBot);
         // Aura de su color detrás (no es un cuadrado: es un brillo suave que se enciende cuando trabaja)
-        const mat = new THREE.SpriteMaterial({ map: brilloAura, color: new THREE.Color(de), transparent: true, opacity: 0.35, depthWrite: false, blending: THREE.AdditiveBlending });
+        const mat = new THREE.SpriteMaterial({ map: brilloAura, color: new THREE.Color(de), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending });
         const aura = new THREE.Sprite(mat);
         aura.scale.set(1.9, 1.9, 1.9);
         aura.position.z = -0.05;
@@ -361,7 +361,8 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           b.cuerpo.rotation.set(rx, ry, rz);
           if (!quieto) b.animar(t + b.fase);
           b.trabajo = Math.max(0, b.trabajo - dt / 2.6);
-          b.mat.opacity = 0.3 + b.trabajo * 0.6;
+          // El brillo aparece solo cuando el asistente está haciendo algo (quieto no tiene aura).
+          b.mat.opacity = b.trabajo * 0.7;
           const esc = 1 + b.trabajo * 0.15;
           b.cuerpo.scale.set(esc, esc, esc);
           const sombra = b.g.getObjectByName('sombra');
@@ -467,7 +468,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
                   onClick={() => abrirAsistente(a.id)}
                   className="pointer-events-auto inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#0B1220]/90 border border-white/15 text-[11px] sm:text-xs font-bold text-white whitespace-nowrap shadow-lg cursor-pointer hover:border-cyan-300"
                 >
-                  <span aria-hidden="true">{a.emoji}</span> {a.nombre}
+                  <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" /> {a.nombre}
                 </button>
               </div>
               <div
@@ -491,7 +492,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
               return (
                 <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
                   <span className="text-xs font-mono text-slate-500 mt-0.5">{h.hora}</span>
-                  <span aria-hidden="true">{a?.emoji}</span>
+                  {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
                   <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
                 </li>
               );

@@ -223,7 +223,7 @@ const equipo = (THREE: THREE): Modelo => {
 // Auriculares (soporte técnico): solo los auriculares, sin micrófono
 const auriculares = (THREE: THREE): Modelo => {
   const g = new THREE.Group();
-  const negro = mat(THREE, 0x1f2937, { roughness: 0.35, metalness: 0.3 });
+  const negro = mat(THREE, 0x94a3b8, { roughness: 0.3, metalness: 0.4 });
   const verde = mat(THREE, 0x84cc16, { roughness: 0.4 });
   malla(THREE, g, new THREE.TorusGeometry(0.5, 0.07, 12, 40, Math.PI), negro, 0, 0.05, 0);
   [-1, 1].forEach((s) => {

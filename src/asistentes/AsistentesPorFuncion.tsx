@@ -5,7 +5,7 @@ import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useStat
 import { ArrowLeft, ExternalLink, MessageCircle, Send, Sparkles, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
 import { useRuta } from '../rutas';
-import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, accionesDeAsistentes, golondrina, type Asistente, type Enlace } from './funciones';
+import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
 import { Marcianito } from '../components/Marcianito';
@@ -28,10 +28,9 @@ interface Mensaje {
 const conNegritas = (t: string) =>
   t.split(/(\*\*[^*]+\*\*)/g).map((parte, i) => (parte.startsWith('**') ? <b key={i} className="text-white">{parte.slice(2, -2)}</b> : <React.Fragment key={i}>{parte}</React.Fragment>));
 
-const Avatar: React.FC<{ a: Asistente; tam?: string }> = ({ a, tam = 'w-10 h-10 text-xl' }) => (
-  <span className={`${tam} shrink-0 flex items-center justify-center drop-shadow-[0_3px_4px_rgba(0,0,0,.55)] !text-[1.6em]`} aria-hidden="true">
-    {a.emoji}
-  </span>
+// El dibujito es la foto del mismo personaje 3D que gira en el inicio (así coinciden).
+const Avatar: React.FC<{ a: Asistente; tam?: string }> = ({ a, tam = 'w-10 h-10' }) => (
+  <img src={imagenDe(a.id)} alt="" aria-hidden="true" loading="lazy" className={`${tam.replace(/text-\S+/g, '')} shrink-0 object-contain drop-shadow-[0_3px_4px_rgba(0,0,0,.55)]`} />
 );
 
 export const AsistentesPorFuncion: React.FC = () => {
@@ -43,6 +42,14 @@ export const AsistentesPorFuncion: React.FC = () => {
   const [sugeridas, setSugeridas] = useState<Sugerencia[]>([]);
   const enlaces = useRef<Enlace[]>([]);
   const entrada = useRef<HTMLInputElement>(null);
+  const ultimo = useRef<string | null>(null);
+  // En el celu, mientras el asistente vuela a mostrarte algo, el chat se achica (no se cierra) para que lo veas.
+  const [volando, setVolando] = useState(false);
+  useEffect(() => {
+    const v = (e: Event) => setVolando(!!(e as CustomEvent<boolean>).detail);
+    window.addEventListener('asistente-vuela', v);
+    return () => window.removeEventListener('asistente-vuela', v);
+  }, []);
   // Lo que el asistente le preguntó a la persona y está esperando que responda (por asistente).
   const [esperando, setEsperando] = useState<Record<string, { accion: string; parametro: string }>>({});
   const lista = useRef<HTMLDivElement>(null);
@@ -65,7 +72,8 @@ export const AsistentesPorFuncion: React.FC = () => {
   }, [abierto, actualizarSugerencias]);
 
   useEffect(() => {
-    const auto = () => ASISTENTES.find((a) => a.paginas.includes(window.location.pathname))?.id ?? 'hub';
+    // Al reabrir vuelve al último asistente con el que hablaste (no al menú), o al de la página.
+    const auto = () => ultimo.current ?? ASISTENTES.find((a) => a.paginas.includes(window.location.pathname))?.id ?? 'hub';
     const abrir = (e: Event) => {
       const d = (e as CustomEvent<string>).detail;
       setAbierto(!d || d === 'auto' ? auto() : d);
@@ -81,6 +89,10 @@ export const AsistentesPorFuncion: React.FC = () => {
       window.removeEventListener(EV_ALTERNAR, alternar);
     };
   }, []);
+
+  useEffect(() => {
+    if (abierto && abierto !== 'hub') ultimo.current = abierto;
+  }, [abierto]);
 
   // Marcio y el botón de abajo se enteran si el chat está abierto.
   useEffect(() => {
@@ -106,6 +118,15 @@ export const AsistentesPorFuncion: React.FC = () => {
     const ultima = preguntas[preguntas.length - 1] as HTMLElement | undefined;
     el.scrollTo({ top: ultima ? ultima.offsetTop - 8 : 0, behavior: 'smooth' });
   }, [chat.length]);
+  // Al abrir (o cambiar de asistente) se ve el final de la charla, no el principio.
+  useEffect(() => {
+    if (!abierto || abierto === 'hub') return;
+    const t = window.setTimeout(() => {
+      const el = lista.current;
+      if (el) el.scrollTop = el.scrollHeight;
+    }, 30);
+    return () => window.clearTimeout(t);
+  }, [abierto]);
 
   const preguntar = async (q: string) => {
     if (!asistente || !q.trim() || pensando) return;
@@ -165,6 +186,17 @@ export const AsistentesPorFuncion: React.FC = () => {
     actualizarSugerencias(id);
   };
 
+  /** Los botones «de una sola vez» (mandar a ventas) desaparecen después de usarlos. */
+  const usado = (indice: number) => {
+    if (!asistente) return;
+    const id = asistente.id;
+    setChats((c) => {
+      const lista = [...(c[id] ?? [])];
+      if (lista[indice]) lista[indice] = { ...lista[indice], enlaces: [] };
+      return { ...c, [id]: lista };
+    });
+  };
+
   /** Botón del menú: si necesita un dato, el asistente pregunta y espera (no completa nada solo). */
   const tocarMenu = (accionId: string, titulo: string) => {
     if (!asistente) return;
@@ -177,7 +209,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     agregar(id, { de: 'yo', texto: titulo }, { de: 'asistente', texto: q.pregunta });
     setEsperando((e) => ({ ...e, [id]: { accion: accionId, parametro: q.parametro } }));
     // Algunas acciones sin dato ya muestran opciones (productos): las ejecuto para que aparezcan los botones.
-    if (accionId === 'explicar-producto' || accionId === 'probar-producto') {
+    if (accionId === 'explicar-producto' || accionId === 'probar-producto' || accionId === 'recomendar-combo') {
       enlaces.current = [];
       void golondrina.ejecutar(accionId, {}, 'asistente').then(() => {
         const propios = enlaces.current;
@@ -238,7 +270,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className="fixed z-[72] inset-x-2 bottom-2 h-[62dvh] sm:inset-x-auto sm:right-5 sm:bottom-28 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden"
+          className={`fixed z-[72] inset-x-2 bottom-2 ${volando ? 'h-[26dvh]' : 'h-[62dvh]'} transition-[height] duration-300 sm:inset-x-auto sm:right-5 sm:bottom-28 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -324,11 +356,11 @@ export const AsistentesPorFuncion: React.FC = () => {
                         <div className="mt-2 flex flex-wrap gap-1.5">
                           {m.enlaces.map((e, j) =>
                             e.href ? (
-                              <a key={j} href={e.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-cyan-400 text-slate-950 text-xs font-bold hover:bg-cyan-300">
+                              <a key={j} href={e.href} target="_blank" rel="noopener noreferrer" onClick={() => e.unaVez && usado(i)} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-cyan-400 text-slate-950 text-xs font-bold hover:bg-cyan-300">
                                 {e.texto} <ExternalLink className="w-3 h-3" />
                               </a>
                             ) : (
-                              <button key={j} type="button" onClick={e.alHacer} className="px-2.5 py-1.5 rounded-lg bg-slate-700 text-white text-xs font-bold hover:bg-slate-600 cursor-pointer">
+                              <button key={j} type="button" onClick={() => { e.alHacer?.(); if (e.unaVez) usado(i); }} className="px-2.5 py-1.5 rounded-lg bg-slate-700 text-white text-xs font-bold hover:bg-slate-600 cursor-pointer">
                                 {e.texto}
                               </button>
                             ),
