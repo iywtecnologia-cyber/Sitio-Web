@@ -27,3 +27,7 @@ export const registrarHecho = (id: string, texto: string) => {
   hechos.splice(12);
   window.dispatchEvent(new CustomEvent(EV_HIZO));
 };
+
+/** Cerrar el chat de asistentes (por ejemplo, cuando te lleva a una pantalla completa). */
+export const EV_CERRAR = 'cerrar-asistentes';
+export const cerrarAsistentes = () => window.dispatchEvent(new CustomEvent(EV_CERRAR));
