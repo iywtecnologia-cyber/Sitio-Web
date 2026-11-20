@@ -379,6 +379,30 @@ export const FOUNDERS: Founder[] = [
     badge: 'Ing. · Mejora continua',
     linkedin: 'https://www.linkedin.com/in/edianny-castillo/',
   },
+  {
+    name: 'Julian Mansilla',
+    area: 'disenografico',
+    role: 'Se sumó al equipo',
+    specialty: 'Diseño gráfico',
+    badge: 'Diseñador gráfico',
+    linkedin: 'https://www.linkedin.com/in/julianmansilla/',
+  },
+  {
+    name: 'Agustín Chazarreta Cruz',
+    area: 'fullstack',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Full Stack',
+    badge: 'Full Stack Developer',
+    linkedin: 'https://www.linkedin.com/in/agust%C3%ADn-chazarreta-cruz',
+  },
+  {
+    name: 'Lucas Sampo',
+    area: 'frontend',
+    role: 'Se sumó al equipo',
+    specialty: 'Desarrollador Frontend',
+    badge: 'Frontend Developer',
+    linkedin: 'https://www.linkedin.com/in/lucas-sampoo/',
+  },
 ];
 
 // El equipo agrupado por área. Dentro de cada área, en orden alfabético por nombre.
