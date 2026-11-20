@@ -333,13 +333,6 @@ export const FOUNDERS: Founder[] = [
     badge: 'QA Analyst',
   },
   {
-    name: 'Daniel Cuda',
-    area: 'qa',
-    role: 'Se sumó al equipo',
-    specialty: 'QA',
-    badge: 'QA Analyst',
-  },
-  {
     name: 'Brenda Soto',
     area: 'qa',
     role: 'Se sumó al equipo',
