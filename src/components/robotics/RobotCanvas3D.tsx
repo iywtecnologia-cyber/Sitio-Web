@@ -225,7 +225,9 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
       0.05,
       30
     );
-    camera.position.set(1.15, 0.75, 1.15);
+    // En pantallas de notebook/PC el robot tiene más lugar a los costados: la cámara se aleja un poco.
+    const esNotebook = window.innerWidth >= 1024;
+    camera.position.set(...((esNotebook ? [1.4, 0.9, 1.4] : [1.15, 0.75, 1.15]) as [number, number, number]));
     cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({
@@ -320,8 +322,11 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
     // 3. Trayectoria de navegación autónoma ROS 2 proyectada estrictamente en el centro (radio 0.28m)
     // Con radio 0.28m, el robot permanece SIEMPRE a >0.55m dentro de la plataforma (imposible salir)
+    // Recorrido ovalado más ancho a los costados (más espacio para desplazarse), siempre dentro de la plataforma.
     const patrolRadius = 0.28;
-    const pathCurve = new THREE.EllipseCurve(0, 0, patrolRadius, patrolRadius, 0, 2 * Math.PI, false, 0);
+    // Solo en notebook/PC el recorrido es más ancho a los costados; en el celu queda como antes.
+    const patrolAncho = esNotebook ? 0.5 : patrolRadius;
+    const pathCurve = new THREE.EllipseCurve(0, 0, patrolAncho, patrolRadius, 0, 2 * Math.PI, false, 0);
     const pathPoints = pathCurve.getPoints(64).map((p) => new THREE.Vector3(p.x, 0.045, p.y));
     const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
     const pathMat = new THREE.LineBasicMaterial({
@@ -475,11 +480,11 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
           const t = elapsed * patrolSpeed;
 
           // Radio de trayectoria circular: 0.28m (estrictamente dentro de la plataforma de 0.85m)
-          const targetX = Math.sin(t) * patrolRadius;
+          const targetX = Math.sin(t) * patrolAncho;
           const targetZ = Math.cos(t) * patrolRadius;
 
           // Vector de dirección tangencial (Yaw)
-          const dx = Math.cos(t) * patrolRadius;
+          const dx = Math.cos(t) * patrolAncho;
           const dz = -Math.sin(t) * patrolRadius;
           const targetYaw = Math.atan2(dx, dz);
 
@@ -625,7 +630,8 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
     controls.target.set(0, 0.12, 0);
     if (view === 'iso') {
-      camera.position.set(1.15, 0.75, 1.15);
+      if (window.innerWidth >= 1024) camera.position.set(1.4, 0.9, 1.4);
+      else camera.position.set(1.15, 0.75, 1.15);
     } else if (view === 'front') {
       camera.position.set(0, 0.35, 1.35);
     } else if (view === 'top') {
