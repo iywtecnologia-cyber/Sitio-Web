@@ -64,7 +64,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'golondrina-automatizacion',
     icon: GolondrinaLogo,
-    title: 'Golondrina Automatización',
+    title: 'Golondrina Automatización • Software & Telemetría',
     queEs: 'Un sistema con sensores que vigila tus máquinas, cámaras de frío, tanques o silos.',
     queHace: 'Si algo falla, te avisa por WhatsApp y lo resolvés con 1 clic. También instalamos los sensores.',
     tagline: 'Hardware a demanda y software contextual de telemetría con alertas por WhatsApp.',
@@ -85,7 +85,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'golondrina-personal',
     icon: GolondrinaLogo,
-    title: 'Golondrina Personal',
+    title: 'Golondrina Personal • Módulo a tu medida',
     queEs: 'Un asistente que se conecta a las apps que vos elijas (e-mail, calendario, cobros).',
     queHace: 'Te avisa y te recuerda lo que le pidas, por voz o por texto.',
     tagline: 'Con una G no tenés que aprender nada.',
@@ -103,7 +103,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'colibri-micro-hub',
     icon: Cpu,
-    title: 'CHAJÁ',
+    title: 'CHAJÁ Micro-Hub • Edge AI & Ciberseguridad',
     queEs: 'Un equipo chiquito que se instala en tu planta, galpón o comercio.',
     queHace: 'Cuida tu red y tus equipos, y te avisa por WhatsApp o por voz cuando algo cambia.',
     tagline: 'Un equipo chiquito que cuida tu empresa y te avisa con 1 clic.',
@@ -138,7 +138,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'mostrador-chatbot',
     icon: MessageSquare,
-    title: 'Mostrador',
+    title: 'Mostrador • Chatbot con IA para tu negocio',
     queEs: 'Un chatbot con IA que atiende a tus clientes en tu web con la información real de tu negocio.',
     queHace: 'Responde horarios, precios y envíos las 24 horas, sin inventar, y deriva a una persona cuando hace falta.',
     tagline: 'Atención automática 24/7 con la información real de tu negocio.',
@@ -156,7 +156,7 @@ export const PRODUCTOS: ProductoPropio[] = [
   {
     id: 'carancho-robotica',
     icon: Bot,
-    title: 'Robótica a medida',
+    title: 'Robótica a Medida • Cerebro Digital & Cuerpo Físico',
     queEs: 'Un robot hecho para una tarea de tu negocio.',
     queHace: 'Primero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.',
     tagline: 'Lo primero que se desarrolla es el cerebro del robot; si es viable, también incorporás el cuerpo físico.',
@@ -362,7 +362,7 @@ export const ProductosPropios: React.FC = () => {
       : '';
 
     const text = selectedSystem === 'colibri'
-      ? `¡Hola tecnoros.ar! Quiero cotizar el micro-dispositivo *CHAJÁ*:${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
+      ? `¡Hola tecnoros.ar! Quiero cotizar el micro-dispositivo *CHAJÁ Micro-Hub • Edge AI & Ciberseguridad* (Dispositivo diminuto con pantalla para reemplazar PC en planta):${filamentoMsg}\n\n¿Podemos coordinar una demo técnica para configurarlo con 1 solo clic en nuestra empresa?`
       : selectedSystem === 'golondrina'
       ? `¡Hola tecnoros.ar! Quiero cotizar el módulo físico y software *Golondrina Automatización* (Setup inicial y abono mensual SaaS):${filamentoMsg}\n\n¿Podemos coordinar una reunión de diagnóstico para aplicarlo en nuestra empresa?`
       : `¡Hola tecnoros.ar! Me interesa conocer más sobre el próximo sistema de ciberseguridad *TERO Security* (En fase I+D):\n\n¿Tienen una lista de espera o novedades de avance técnico para cuando esté disponible la prueba de concepto?`;
@@ -381,7 +381,7 @@ export const ProductosPropios: React.FC = () => {
         <div className="max-w-3xl mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-xs font-mono text-violet-300 mb-3">
             <FlaskConical className="w-3.5 h-3.5" />
-            <span>Productos propios</span>
+            <span>Sistemas Propios & Hardware a Medida</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
             Nuestros{' '}
@@ -393,6 +393,25 @@ export const ProductosPropios: React.FC = () => {
             Software listo para usar y equipos que fabricamos a pedido para tu máquina o tablero.
           </p>
         </div>
+
+        {/* Arriba de todo: TERO Security (próximamente) */}
+        <div id="tero-proximamente" className="scroll-mt-28 mb-4">
+          <CartelProximamente />
+        {/* Aviso de lanzamiento de TERO Security (único producto próximamente) */}
+        <div className="-mt-6 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <a
+            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen TERO Security')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
+          >
+            <BellRing className="w-4 h-4" />
+            Mantenete informado
+          </a>
+          <span className="text-sm text-slate-400">Te contamos las novedades por WhatsApp.</span>
+        </div>
+        </div>
+
 
         {/* Tarjetas de Productos Propios (vigentes a demanda; TERO va aparte en el cartel Próximamente) */}
         <div className="flex items-center gap-2 mb-4 text-xs font-mono font-bold tracking-widest text-emerald-300">
@@ -430,11 +449,11 @@ export const ProductosPropios: React.FC = () => {
                     {isColibri ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-cyan-300 bg-cyan-950/90 border border-cyan-500/50 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
                         <Sparkles className="w-3 h-3 text-cyan-400" />
-                        <span>Disponible</span>
+                        <span>A demanda • Vigente</span>
                       </span>
                     ) : isGolondrina ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-emerald-300 bg-emerald-950/80 border border-emerald-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-sm">
-                        <span>Disponible</span>
+                        <span>A demanda • Vigente</span>
                       </span>
                     ) : id === 'software-ciberseguridad' ? (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded-lg flex items-center gap-1">
@@ -443,14 +462,17 @@ export const ProductosPropios: React.FC = () => {
                       </span>
                     ) : (
                       <span className="text-xs sm:text-[11px] font-mono font-bold text-violet-300 bg-violet-950/70 border border-violet-500/30 px-2 py-0.5 rounded-lg">
-                        Disponible
+                        A demanda • Vigente
                       </span>
                     )}
                   </div>
 
                   <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight leading-snug">{title}</h3>
                   {queEs ? (
-                    <p className="mt-3 text-sm text-slate-200 leading-snug">{queHace}</p>
+                    <dl className="mt-3 space-y-2 text-sm leading-snug">
+                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{queEs}</dd></div>
+                      <div><dt className="text-xs sm:text-[11px] font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{queHace}</dd></div>
+                    </dl>
                   ) : tagline && (
                     <p className="mt-2 text-sm text-cyan-300 font-semibold leading-relaxed">
                       {tagline}
@@ -466,16 +488,16 @@ export const ProductosPropios: React.FC = () => {
                   >
                     <span>
                       {isPersonal
-                        ? 'Probar la demo'
+                        ? 'Probar cómo se configura'
                         : isMostrador
-                        ? 'Verlo funcionando'
+                        ? 'Ver Mostrador funcionando'
                         : isRobotica
-                        ? 'Diseñá tu robot'
+                        ? 'Ver Gemelo Digital y Robótica'
                         : isColibri
-                        ? 'Verlo en 3D'
+                        ? 'Probar Micro-Hub 3D (1-Clic)'
                         : isGolondrina
-                        ? 'Verlo en 3D'
-                        : 'Verlo en 3D'}
+                        ? 'Inspeccionar Software & 3D'
+                        : 'Inspeccionar Prototipo en 3D'}
                     </span>
                     <span className="text-cyan-400 group-hover/b3d:translate-x-1 transition-transform">→</span>
                   </button>
@@ -485,9 +507,11 @@ export const ProductosPropios: React.FC = () => {
           })}
         </div>
 
-        <PlegableMovil titulo="Probá Golondrina Personal" resumen="Conectá apps y pedile avisos por voz o texto">
-          <GolondrinaPersonalDemo />
-        </PlegableMovil>
+        {/* Otros proyectos: Mostrador */}
+        <div className="flex items-center gap-2 mb-4 text-xs font-mono font-bold tracking-widest text-cyan-300">
+          <span className="w-2 h-2 rounded-full bg-cyan-400" />
+          OTROS PROYECTOS
+        </div>
 
         {/* Mostrador: chatbot con IA (antes estaba en Proyectos; ahora es un producto propio) */}
         <PlegableMovil titulo="Mostrador: chatbot con IA" resumen="Miralo funcionando o probalo online">
@@ -537,113 +561,17 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </PlegableMovil>
 
-        {/* Próximamente: TERO Security, separado de los productos disponibles */}
-        <div id="tero-proximamente" className="scroll-mt-28 pt-10 border-t border-slate-800/80">
-          <CartelProximamente />
-        {/* Aviso de lanzamiento de TERO Security (único producto próximamente) */}
-        <div className="-mt-6 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <a
-            href={whatsappLink('Hola tecnoros.ar, quiero enterarme cuando lancen TERO Security')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-cyan-300 hover:to-cyan-200 text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition-all"
-          >
-            <BellRing className="w-4 h-4" />
-            Mantenete informado
-          </a>
-          <span className="text-sm text-slate-400">Te contamos las novedades por WhatsApp.</span>
-        </div>
+
+        {/* Probá Golondrina */}
+        <div className="flex items-center gap-2 mb-4 text-xs font-mono font-bold tracking-widest text-emerald-300">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          PROBÁ GOLONDRINA
         </div>
 
-        {/* =========================================================================
-            TABLA TRANSPARENTE DE PRECIOS & ABONOS: GOLONDRINA AUTOMATIZACIÓN
-            ========================================================================= */}
-        <PlegableMovil titulo="Precios de Golondrina" resumen="Puesta en marcha y abono mensual">
-        <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-slate-900 to-cyan-950/40 border border-emerald-500/40 shadow-2xl relative overflow-hidden">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-800">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-2">
-                <Workflow className="w-3.5 h-3.5" />
-                <span>Golondrina Automatización</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-                Cuánto cuesta
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                Un pago para instalarlo y un abono mensual. Sin costos ocultos.
-              </p>
-            </div>
-            <a
-              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($300.000-$500.000 ARS) y el abono mensual ($80.000-$120.000 ARS/mes) de Golondrina Automatización.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
-            >
-              <Send className="w-4 h-4" />
-              <span>Consultar por WhatsApp</span>
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Tarjeta 1: Instalación */}
-            <div className="p-6 rounded-2xl bg-slate-950/90 border border-emerald-500/30 flex flex-col justify-between shadow-lg">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
-                    Pago único
-                  </span>
-                  
-                </div>
-
-                <h4 className="text-xl font-bold text-white">Instalación</h4>
-                
-                <div className="mt-3 flex flex-wrap items-baseline gap-2">
-                  <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
-                    $300.000 a $500.000 ARS
-                  </span>
-                  <span className="text-xs text-slate-400 font-mono">
-                    por única vez
-                  </span>
-                </div>
-
-                <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Lo instalamos, lo configuramos y lo dejamos avisando a tus encargados.
-                </p>
-              </div>
-
-            </div>
-
-            {/* Tarjeta 2: Abono mensual recurrente (SaaS) */}
-            <div className="p-6 rounded-2xl bg-slate-950/90 border border-cyan-500/30 flex flex-col justify-between shadow-lg">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold uppercase tracking-wider">
-                    Abono mensual
-                  </span>
-                  <span className="text-xs text-slate-400 font-mono">Sin permanencia</span>
-                </div>
-
-                <h4 className="text-xl font-bold text-white">Monitoreo 24/7</h4>
-                
-                <div className="mt-3 flex flex-wrap items-baseline gap-2">
-                  <span className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
-                    $80.000 a $120.000 ARS
-                  </span>
-                  <span className="text-xs text-slate-400 font-mono">
-                    / mes por máquina o cámara
-                  </span>
-                </div>
-
-                <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Avisos por WhatsApp las 24 horas y un reporte por semana.
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
+        <PlegableMovil titulo="Probá Golondrina Personal" resumen="Conectá apps y pedile avisos por voz o texto">
+          <GolondrinaPersonalDemo />
         </PlegableMovil>
+
 
         {/* Aviso de seguridad industrial: una línea a la vista y el texto completo al tocar */}
         <details id="aviso-seguridad" className="scroll-mt-24 mb-8 rounded-2xl border border-amber-500/40 bg-slate-900/90 px-5 py-4 group/aviso" aria-label="Compromiso con la seguridad industrial">
@@ -663,8 +591,10 @@ export const ProductosPropios: React.FC = () => {
           </div>
         </details>
 
+
         {/* Aplicaciones Llave en Mano de Golondrina Automatización (Listas para implementar hoy) */}
         <GolondrinaAplicacionesShowcase />
+
 
         {/* =========================================================================
             ESTUDIO 3D EXCLUSIVO DE SISTEMAS Y HARDWARE A MEDIDA (CHAJÁ Y GOLONDRINA)
@@ -791,7 +721,10 @@ export const ProductosPropios: React.FC = () => {
                 <div>
                   <h4 className="text-xl font-bold text-white tracking-tight">{activeData.title}</h4>
                   {activeData.queEs ? (
-                    <p className="text-sm text-slate-200 leading-snug">{activeData.queHace}</p>
+                    <dl className="mt-3 space-y-2.5 text-base leading-snug">
+                      <div><dt className="text-xs font-mono uppercase tracking-wider text-cyan-400">Qué es</dt><dd className="text-slate-200">{activeData.queEs}</dd></div>
+                      <div><dt className="text-xs font-mono uppercase tracking-wider text-emerald-400">Qué hace</dt><dd className="text-slate-200">{activeData.queHace}</dd></div>
+                    </dl>
                   ) : activeData.tagline && <p className="mt-2 text-base text-slate-300">{activeData.tagline}</p>}
                 </div>
 
@@ -872,6 +805,117 @@ export const ProductosPropios: React.FC = () => {
           </div>
 
         </div>
+        </PlegableMovil>
+
+        {/* Por último: tarifas y abonos mensuales */}
+        {/* =========================================================================
+            TABLA TRANSPARENTE DE PRECIOS & ABONOS: GOLONDRINA AUTOMATIZACIÓN
+            ========================================================================= */}
+        <PlegableMovil titulo="Precios de Golondrina" resumen="Puesta en marcha y abono mensual">
+        <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950/40 via-slate-900 to-cyan-950/40 border border-emerald-500/40 shadow-2xl relative overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-800">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-2">
+                <Workflow className="w-3.5 h-3.5" />
+                <span>Modelo Comercial Claro & Accesible • Golondrina Automatización</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+                Tarifas de Setup y Abono Mensual
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                Un pago para instalarlo y un abono mensual. Sin costos ocultos.
+              </p>
+            </div>
+            <a
+              href={whatsappLink('Hola TecnoRosario, quiero consultar por la instalación en planta ($300.000-$500.000 ARS) y el abono mensual ($80.000-$120.000 ARS/mes) de Golondrina Automatización.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
+            >
+              <Send className="w-4 h-4" />
+              <span>Contratar Setup en WhatsApp</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Tarjeta 1: Setup & Puesta en marcha */}
+            <div className="p-6 rounded-2xl bg-slate-950/90 border border-emerald-500/30 flex flex-col justify-between shadow-lg">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-bold uppercase tracking-wider">
+                    Pago Único Inicial
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">Puesta en Marcha en Planta</span>
+                </div>
+
+                <h4 className="text-xl font-bold text-white">Setup & Puesta en marcha</h4>
+                
+                <div className="mt-3 flex flex-wrap items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
+                    $300.000 a $500.000 ARS
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    por única vez
+                  </span>
+                </div>
+
+                <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  <strong className="text-white">Qué cobramos:</strong> Instalación, configuración y avisos a tus encargados.
+                </p>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Sin esfuerzo físico de tu personal: lo dejamos funcionando</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Configuración completa de números de WhatsApp y guardias</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Tarjeta 2: Abono mensual recurrente (SaaS) */}
+            <div className="p-6 rounded-2xl bg-slate-950/90 border border-cyan-500/30 flex flex-col justify-between shadow-lg">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="text-xs sm:text-[11px] font-mono px-2.5 py-1 rounded-md bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold uppercase tracking-wider">
+                    Abono Mensual Recurrente (SaaS)
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">Sin Permanencia Forzada</span>
+                </div>
+
+                <h4 className="text-xl font-bold text-white">Monitoreo Continuo 24/7 & Nube</h4>
+                
+                <div className="mt-3 flex flex-wrap items-baseline gap-2">
+                  <span className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
+                    $80.000 a $120.000 ARS
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    / mes por máquina o cámara
+                  </span>
+                </div>
+
+                <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  <strong className="text-white">Qué cobramos:</strong> Monitoreo 24/7, avisos por WhatsApp y un reporte semanal.
+                </p>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-slate-800/80 space-y-2 text-xs text-slate-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>Servidor en la nube dedicado y telemetría ininterrumpida</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                  <span>Reportes semanales automáticos consolidados en PDF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         </PlegableMovil>
 
       </div>

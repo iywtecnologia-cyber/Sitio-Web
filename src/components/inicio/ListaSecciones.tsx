@@ -2,11 +2,10 @@
 // asistente que te ayuda ahí, pero hablarle es opcional: tocando la sección vas directo.
 // En compu queda fija a la izquierda; en el celu se abre desde el botón «Secciones» de arriba.
 import React, { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
+import { Home, X } from 'lucide-react';
 import { irA, navegar, useRuta, type Ruta } from '../../rutas';
 import { imagenDe } from '../../asistentes/funciones';
 import { abrirAsistente } from '../../asistentes/eventos';
-import { TecnorosLogo } from '../TecnorosLogo';
 
 interface Seccion {
   texto: string;
@@ -71,7 +70,7 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
               }`}
             >
               {s.asistente === 'logo' ? (
-                <TecnorosLogo className="w-7 h-7 shrink-0" />
+                <Home className="w-7 h-7 p-0.5 text-cyan-300 shrink-0" aria-hidden="true" />
               ) : (
                 <img src={imagenDe(s.asistente)} alt="" aria-hidden="true" className="w-7 h-7 object-contain shrink-0" />
               )}
@@ -79,14 +78,13 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
             </button>
             {/* Debajo de Quiénes somos: links chiquitos a sus tres partes */}
             {s.ruta === '/nosotros' && (
-              <div className="ml-12 mt-0.5 mb-1 flex flex-wrap gap-x-2 gap-y-0.5 text-[11px] text-slate-400">
+              <div className="ml-12 mt-0.5 mb-1 flex flex-col items-start gap-0.5 text-[11px] text-slate-400">
                 {[
                   ['Quiénes somos', 'sobre-nosotros'],
                   ['Cómo trabajamos', 'como-trabajamos'],
                   ['Encuentros', 'encuentros'],
                 ].map(([t, id], k) => (
                   <React.Fragment key={id}>
-                    {k > 0 && <span aria-hidden="true">·</span>}
                     <button
                       type="button"
                       onClick={() => {
@@ -113,7 +111,7 @@ export const ListaSecciones: React.FC = () => (
   <nav aria-label="Secciones" className="hidden lg:block fixed z-40 left-0 top-[72px] bottom-0 w-60 border-r border-slate-800/70 bg-[#070A12]/85 backdrop-blur-md overflow-y-auto px-3 py-4">
     <p className="px-2.5 mb-2 text-[11px] font-mono uppercase tracking-[0.16em] text-slate-500">Secciones</p>
     <Items />
-    <p className="mt-4 px-2.5 text-xs text-slate-500 leading-snug">Un clic te lleva a la sección. Doble clic y te ayuda su asistente.</p>
+    <p className="mt-4 px-2.5 text-xs text-slate-500 leading-snug">Un clic te lleva a la sección.<br />Doble clic y te ayuda su asistente.</p>
   </nav>
 );
 
@@ -137,7 +135,7 @@ export const SeccionesCelu: React.FC = () => {
           </button>
         </div>
         <Items alElegir={() => setAbierta(false)} />
-        <p className="mt-4 px-2.5 text-xs text-slate-500 leading-snug">Un toque te lleva a la sección. Doble toque y te ayuda su asistente.</p>
+        <p className="mt-4 px-2.5 text-xs text-slate-500 leading-snug">Un toque te lleva a la sección.<br />Doble toque y te ayuda su asistente.</p>
       </nav>
     </div>
   );

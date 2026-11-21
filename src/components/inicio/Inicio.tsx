@@ -45,14 +45,14 @@ export const HeroCorto: React.FC = () => (
       <div id="asistentes" className="order-2 scroll-mt-24">
         <EscenarioAsistentes alto="h-[300px] sm:h-[360px] lg:h-[370px]" />
       </div>
-      {/* Título, texto y botones: en compu los botones van a la derecha para que entre todo en la primera pantalla */}
-      <div className="order-1 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-8">
+      {/* Título y texto (sin botones): «Todo para tu negocio que crece con vos» va todo junto */}
+      <div className="order-1">
         <div className="min-w-0">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-2 sm:mb-3">
           De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
         </span>
-        <h1 className="text-[1.9rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
-          Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
+        <h1 className="text-[1.75rem] sm:text-4xl xl:text-5xl font-extrabold tracking-tight text-white leading-[1.1] lg:whitespace-nowrap">
+          Todo para tu negocio que crece <span className="animate-text-light-sweep">con vos</span>
         </h1>
         <p className="mt-2 sm:mt-3 text-[15px] sm:text-lg text-slate-300 max-w-4xl leading-snug">
           Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
@@ -60,22 +60,6 @@ export const HeroCorto: React.FC = () => (
         <p className="hidden sm:block mt-1.5 text-sm sm:text-base text-cyan-200/90 max-w-4xl">
           Tocá un asistente, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
         </p>
-        </div>
-        <div className="mt-4 lg:mt-0 flex flex-row gap-2.5 sm:gap-3">
-          <button
-            type="button"
-            onClick={() => irA('facturacion')}
-            className="flex-1 sm:flex-none whitespace-nowrap text-[15px] sm:text-base inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
-          >
-            <span className="sm:hidden">Pedí cotización</span><span className="hidden sm:inline">Pedí presupuesto</span> <ArrowRight className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => irA('videos-productos')}
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-3.5 font-semibold text-white bg-slate-900/90 border border-slate-700 hover:border-slate-500 rounded-xl cursor-pointer"
-          >
-            Ver demos <ArrowRight className="w-4 h-4 text-cyan-400" />
-          </button>
         </div>
       </div>
     </div>

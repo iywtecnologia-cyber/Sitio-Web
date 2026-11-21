@@ -1,4 +1,5 @@
 import React from 'react';
+import { verServicio } from '../asistentes/eventos';
 import { irA } from '../rutas';
 import { consultarPor } from '../consulta';
 import { 
@@ -245,7 +246,12 @@ export const ServicesSection: React.FC = () => {
               <div
                 key={service.id}
                 id={`servicio-${service.id}`}
-                className="scroll-mt-28 p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900/85 to-slate-950 border border-slate-800 hover:border-cyan-500/40 transition-colors flex flex-col"
+                // Al tocar la tarjeta se abre una ventana con toda su información, en el centro de la pantalla.
+                onClick={(e) => {
+                  if ((e.target as Element).closest('button, a')) return;
+                  verServicio(service.id);
+                }}
+                className="scroll-mt-28 p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900/85 to-slate-950 border border-slate-800 hover:border-cyan-500/40 transition-colors flex flex-col cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <span className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
@@ -265,6 +271,9 @@ export const ServicesSection: React.FC = () => {
                       Diseñá tu robot <ArrowRight className="w-4 h-4" />
                     </button>
                   )}
+                  <button type="button" onClick={() => verServicio(service.id)} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 text-sm font-bold cursor-pointer hover:bg-cyan-300">
+                    Ver detalle
+                  </button>
                   <button type="button" onClick={() => consultarPor(`servicio-${service.id}`)} className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold cursor-pointer hover:border-cyan-500/50">
                     Consultar <ArrowRight className="w-4 h-4 text-cyan-400" />
                   </button>

@@ -4,7 +4,7 @@
 import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ExternalLink, Send, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
-import { irA, useRuta } from '../rutas';
+import { irA, navegar, useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, SUGERENCIAS_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
@@ -36,6 +36,8 @@ const Avatar: React.FC<{ a: Asistente; tam?: string }> = ({ a, tam = 'w-10 h-10'
 export const AsistentesPorFuncion: React.FC = () => {
   const ruta = useRuta();
   const [abierto, setAbierto] = useState<null | 'hub' | string>(null);
+  const abiertoRef = useRef<null | string>(null);
+  abiertoRef.current = abierto;
   const [chats, setChats] = useState<Record<string, Mensaje[]>>({});
   const [texto, setTexto] = useState('');
   const [pensando, setPensando] = useState(false);
@@ -61,6 +63,34 @@ export const AsistentesPorFuncion: React.FC = () => {
 
   const asistente = ASISTENTES.find((a) => a.id === abierto) ?? null;
   const deLaPagina = ASISTENTES.find((a) => a.paginas.includes(ruta));
+  // Cuándo hizo algo un asistente por última vez (si te lleva él a otra sección, no se cambia de asistente).
+  const ultimaAccion = useRef(0);
+  const rutaEsperada = useRef<string | null>(null);
+
+  /** Cambiar de asistente: te lleva a su sección y el chat queda abierto con él. */
+  const cambiarA = (id: string) => {
+    ultimo.current = id === 'soporte' ? ultimo.current : id;
+    setAbierto(id);
+    const pagina = ASISTENTES.find((a) => a.id === id)?.paginas[0];
+    if (pagina && pagina !== window.location.pathname) {
+      rutaEsperada.current = pagina;
+      navegar(pagina as Parameters<typeof navegar>[0]);
+    }
+  };
+
+  // Si vos te vas a otra sección con el chat abierto, se cambia al asistente de esa sección.
+  useEffect(() => {
+    if (rutaEsperada.current === ruta) {
+      rutaEsperada.current = null;
+      return;
+    }
+    if (!deLaPagina) return;
+    // Si te llevó el asistente (hace un instante), sigue el mismo asistente.
+    if (Date.now() - ultimaAccion.current < 2500) return;
+    setAbierto((v) => (v && v !== deLaPagina.id ? deLaPagina.id : v));
+    if (abiertoRef.current) ultimo.current = deLaPagina.id === 'soporte' ? ultimo.current : deLaPagina.id;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ruta]);
 
   const actualizarSugerencias = useCallback((contexto: string) => {
     golondrina.contexto(contexto, { pagina: ruta });
@@ -141,6 +171,7 @@ export const AsistentesPorFuncion: React.FC = () => {
       return;
     }
     agregar(id, { de: 'yo', texto: q });
+    ultimaAccion.current = Date.now();
     setPensando(true);
     enlaces.current = [];
     golondrina.contexto(id, { pagina: ruta });
@@ -170,6 +201,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     if (!id) return;
     if (abierto !== id) setAbierto(id);
     setEsperando((e) => (e[id] ? { ...e, [id]: undefined as never } : e));
+    ultimaAccion.current = Date.now();
     // Si te lleva a otra parte y cerrás el chat, al reabrirlo seguís con este asistente.
     ultimo.current = id === 'soporte' ? null : id;
     agregar(id, { de: 'yo', texto: titulo });
@@ -210,13 +242,14 @@ export const AsistentesPorFuncion: React.FC = () => {
     // Algunas acciones sin dato ya muestran opciones (productos): las ejecuto para que aparezcan los botones.
     if (accionId === 'explicar-producto' || accionId === 'probar-producto' || accionId === 'recomendar-combo') {
       enlaces.current = [];
-      void golondrina.ejecutar(accionId, {}, 'asistente').then(() => {
+      void golondrina.ejecutar(accionId, {}, 'asistente').then((respuesta) => {
         const propios = enlaces.current;
         enlaces.current = [];
         setChats((c) => {
           const lista = [...(c[id] ?? [])];
           const ultimo = lista[lista.length - 1];
-          if (ultimo) lista[lista.length - 1] = { ...ultimo, enlaces: propios };
+          // En combos, además de preguntar, muestra el detalle de cada uno (qué incluye y desde cuánto).
+          if (ultimo) lista[lista.length - 1] = { ...ultimo, ...(accionId === 'recomendar-combo' && respuesta ? { texto: respuesta } : {}), enlaces: propios };
           return { ...c, [id]: lista };
         });
       });
@@ -293,7 +326,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           {asistente && (
             <div className="flex items-center gap-1.5 px-3 py-2 border-b border-slate-800 overflow-x-auto no-scrollbar" aria-label="Otros asistentes">
               {ASISTENTES.filter((a) => a.id !== asistente.id).map((a, i) => (
-                <button key={a.id} type="button" onClick={() => setAbierto(a.id)} title={`Asistente de ${a.nombre}`} className="shrink-0 cursor-pointer">
+                <button key={a.id} type="button" onClick={() => cambiarA(a.id)} title={`Asistente de ${a.nombre}`} className="shrink-0 cursor-pointer">
                   <span className="asistente-avatar-vivo inline-block" style={{ animationDelay: `${i * 0.25}s` }}>
                     <Avatar a={a} tam="w-7 h-7 text-sm" />
                   </span>
@@ -376,6 +409,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </button>
                 ))}
               </div>
+              {asistente.id !== 'contacto' && (
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -397,6 +431,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   <Send className="w-4 h-4" />
                 </button>
               </form>
+              )}
             </>
           )}
         </div>

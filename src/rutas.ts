@@ -104,6 +104,8 @@ export const useRuta = (): RutaVista => {
 };
 
 const resaltarEl = (el: Element) => {
+  // Ya no se ilumina el borde de la sección al llegar (se veía como una línea brillante arriba).
+  if (el) return;
   if (typeof (el as HTMLElement).animate !== 'function') return;
   window.setTimeout(() => {
     (el as HTMLElement).animate(

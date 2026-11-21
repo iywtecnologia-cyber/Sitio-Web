@@ -40,3 +40,7 @@ export const EV_ESTADO = 'asistentes-estado';
 /** Abrir el chat propio de Marcio (preguntas generales), opcionalmente con una pregunta escrita. */
 export const EV_CHAT_MARCIO = 'abrir-chat-marcio';
 export const abrirChatMarcio = (pregunta = '') => window.dispatchEvent(new CustomEvent(EV_CHAT_MARCIO, { detail: pregunta }));
+
+/** Abrir la ventana con la información de un servicio. */
+export const EV_VER_SERVICIO = 'ver-servicio';
+export const verServicio = (id: string) => window.dispatchEvent(new CustomEvent(EV_VER_SERVICIO, { detail: id }));
