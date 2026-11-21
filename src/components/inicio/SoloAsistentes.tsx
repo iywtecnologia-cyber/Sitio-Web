@@ -21,13 +21,13 @@ export const CabeceraSimple: React.FC = () => {
   const ruta = useRuta();
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-[#070A12]/90 backdrop-blur-md border-b border-slate-800/60">
-      <div className="w-full px-3 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 sm:gap-2">
+      <div className="w-full px-2 min-[400px]:px-3 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-1.5 min-[400px]:gap-3">
+        <div className="flex items-center gap-1 min-[400px]:gap-1.5 sm:gap-2 min-w-0">
         <button
           type="button"
           onClick={() => window.dispatchEvent(new CustomEvent(EVENTO_SECCIONES))}
           aria-label="Ver secciones"
-          className="lg:hidden p-2 rounded-xl text-slate-200 border border-slate-700 hover:border-cyan-400 cursor-pointer"
+          className="lg:hidden p-1.5 min-[400px]:p-2 rounded-xl text-slate-200 border border-slate-700 hover:border-cyan-400 cursor-pointer"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -37,15 +37,15 @@ export const CabeceraSimple: React.FC = () => {
             e.preventDefault();
             navegar('/');
           }}
-          className="flex items-center gap-2.5 sm:gap-3"
+          className="flex items-center gap-1.5 min-[400px]:gap-2.5 sm:gap-3 min-w-0"
         >
-          <TecnorosLogo className="w-9 h-9 sm:w-11 sm:h-11 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
-          <span className="text-lg sm:text-2xl font-black tracking-tight text-white leading-none">
+          <TecnorosLogo className="w-7 h-7 min-[400px]:w-9 min-[400px]:h-9 sm:w-11 sm:h-11 shrink-0 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
+          <span className="text-[15px] min-[400px]:text-lg sm:text-2xl font-black tracking-tight text-white leading-none">
             tecnoros<span className="text-[#00D2F3]">.ar</span>
           </span>
         </a>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 min-[400px]:gap-1.5 sm:gap-2 shrink-0">
           {ruta !== '/' && (
             <button
               type="button"
@@ -60,15 +60,17 @@ export const CabeceraSimple: React.FC = () => {
             </button>
           )}
           {/* Sin permanencia, a la izquierda de Soporte técnico */}
-          <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] sm:text-sm font-semibold whitespace-nowrap">
-            <Unlock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="max-[379px]:sr-only">Sin permanencia</span>
+          {/* En celus angostos el texto va en dos renglones para que siempre se lea «Sin permanencia». */}
+          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] sm:text-sm font-semibold">
+            <Unlock className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />{' '}
+            <span className="whitespace-nowrap max-[399px]:whitespace-normal max-[399px]:w-[4.6rem] max-[399px]:text-[10.5px] max-[399px]:leading-[1.1] max-[399px]:text-center">Sin permanencia</span>
           </span>
           {/* Lo que estaba antes en Contacto → Soporte técnico: abre el panel de soporte para clientes */}
           <button
             type="button"
             onClick={abrirSoporte}
             aria-label="Soporte técnico"
-            className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-2 min-[400px]:px-2.5 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
           >
             <Headphones className="w-4 h-4" /> <span className="hidden sm:inline">Soporte técnico</span>
           </button>
