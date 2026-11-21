@@ -17,10 +17,20 @@ const Avatar: React.FC<{ f: Founder; className?: string }> = ({ f, className = '
   f.foto ? (
     <img src={f.foto} alt="" className={`rounded-full object-cover ${className}`} />
   ) : (
-    <span aria-hidden="true" className={`flex items-center justify-center ${className}`}>
-      {f.emoji ?? '🙂'}
+    <PersonaConCompu emoji={f.emoji ?? '🙂'} className={className} />
+  );
+
+// 👨‍💻 / 👩‍💻 traen una pantalla verde atrás: se muestra la persona (👨 / 👩) con una compu 💻 adelante, sin ese fondo.
+const PersonaConCompu: React.FC<{ emoji: string; className?: string }> = ({ emoji, className = '' }) => {
+  const conCompu = emoji.includes('💻');
+  const persona = conCompu ? emoji.split('\u200d')[0] : emoji;
+  return (
+    <span aria-hidden="true" className={`relative flex items-center justify-center ${className}`}>
+      {persona}
+      {conCompu && <span className="absolute -right-1 -bottom-1 text-[0.55em] leading-none">💻</span>}
     </span>
   );
+};
 
 const Persona: React.FC<{ f: Founder }> = ({ f }) => {
   const contenido = (

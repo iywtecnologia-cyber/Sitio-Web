@@ -427,9 +427,13 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       ejecutar: (p: Parametros) => {
         const prod = productoDe(p['producto'] ?? '');
         if (!prod) {
-          Object.values(DEMO_DE).forEach((x) => ofrecer({ texto: x.nombre, alHacer: () => pedirA('productos', 'probar-producto', { producto: x.nombre }, `Probar ${x.nombre}`) }));
+          // TERO Security todavía no se puede probar (es próximamente): no aparece en «Probar».
+          Object.values(DEMO_DE)
+            .filter((x) => x !== DEMO_DE.tero)
+            .forEach((x) => ofrecer({ texto: x.nombre, alHacer: () => pedirA('productos', 'probar-producto', { producto: x.nombre }, `Probar ${x.nombre}`) }));
           return '¿Qué producto querés probar? Elegí uno.';
         }
+        if (prod === DEMO_DE.tero) return 'TERO Security sale próximamente: todavía no se puede probar. Si querés, te aviso cuando esté listo desde Contacto.';
         irA(prod.demo);
         if (prod === DEMO_DE.golondrina) {
           // La prueba la hace el asistente: aprieta "Simular corte de luz" y se ve llegar la alerta.
