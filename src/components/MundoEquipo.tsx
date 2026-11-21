@@ -170,12 +170,13 @@ export const MundoEquipo: React.FC = () => {
                   <circle r={18} fill="#00D2F3" opacity={0.18} className="motion-safe:animate-ping" style={{ transformOrigin: 'center', transformBox: 'fill-box' }} />
                   <circle r={activo ? 9 : 7} fill="#00D2F3" stroke="#fff" strokeWidth={2} className="cursor-pointer" onClick={() => elegir(p)} />
                   {/* Al lado del punto: cada persona (emoji o foto, nombre y área, con link a LinkedIn) y el lugar. */}
-                  <foreignObject x={xy[0] > TAM - 200 ? -200 : 12} y={-12 - p.gente.length * 17} width={188} height={p.gente.length * 34 + 26}>
-                    <div className="rounded-lg bg-[#0B1220]/85 border border-cyan-400/40 px-2 py-1.5 text-white shadow-lg">
+                  <foreignObject x={xy[0] > TAM - 200 ? -200 : 12} y={-12 - p.gente.length * 17} width={188} height={p.gente.length * 38 + 20}>
+                    {/* Los muñequitos de antes (👨‍💻 👩‍💻), sueltos sobre el globo, sin cajita de fondo. */}
+                    <div className="px-1 py-0.5 text-white [text-shadow:0_1px_3px_rgba(0,0,0,.9)]">
                       {p.gente.map((f) => {
                         const fila = (
                           <span className="flex items-center gap-1.5">
-                            <Avatar f={f} className="w-6 h-6 text-lg shrink-0" />
+                            <Avatar f={f} className="w-8 h-8 text-[26px] shrink-0 drop-shadow-[0_2px_4px_rgba(0,0,0,.7)]" />
                             <span className="min-w-0">
                               <span className="block text-[11px] font-bold leading-tight truncate">{f.name}</span>
                               <span className="block text-[9px] text-cyan-300 leading-tight truncate">{nombreArea(f.area)}</span>
