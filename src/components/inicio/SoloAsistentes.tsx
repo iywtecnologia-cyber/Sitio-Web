@@ -4,7 +4,8 @@
 // Todo lo demás (servicios, presupuesto, productos, proyectos, equipo, contacto, soporte) lo
 // manejan los asistentes: te preguntan y te abren la pantalla justa cuando hace falta.
 import React, { Suspense, lazy } from 'react';
-import { ArrowLeft, ArrowRight, Headphones, PlayCircle, Unlock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Headphones, Menu, PlayCircle, Unlock } from 'lucide-react';
+import { EVENTO_SECCIONES } from './ListaSecciones';
 import { TecnorosLogo } from '../TecnorosLogo';
 import { BotonesRedes } from '../Redes';
 import { abrirSoporte, irA, navegar, useRuta } from '../../rutas';
@@ -22,6 +23,15 @@ export const CabeceraSimple: React.FC = () => {
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-[#070A12]/90 backdrop-blur-md border-b border-slate-800/60">
       <div className="w-full px-3 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent(EVENTO_SECCIONES))}
+          aria-label="Ver secciones"
+          className="lg:hidden p-2 rounded-xl text-slate-200 border border-slate-700 hover:border-cyan-400 cursor-pointer"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
         <a
           href="/"
           onClick={(e) => {
@@ -35,6 +45,7 @@ export const CabeceraSimple: React.FC = () => {
             tecnoros<span className="text-[#00D2F3]">.ar</span>
           </span>
         </a>
+        </div>
         <div className="flex items-center gap-1.5 sm:gap-2">
           {ruta !== '/' && (
             <button
@@ -45,14 +56,14 @@ export const CabeceraSimple: React.FC = () => {
                 abrirAsistente('hub');
               }}
               aria-label="Volver al inicio"
-              className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">Volver al inicio</span>
             </button>
           )}
           {/* Sin permanencia, a la izquierda de Soporte técnico */}
           <span className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] sm:text-sm font-semibold whitespace-nowrap">
-            <Unlock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Sin permanencia
+            <Unlock className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> <span className="max-[379px]:sr-only">Sin permanencia</span>
           </span>
           {/* Lo que estaba antes en Contacto → Soporte técnico: abre el panel de soporte para clientes */}
           <button
