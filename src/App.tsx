@@ -20,6 +20,7 @@ import { Encuentros } from './components/extra/Encuentros';
 import { FondoColor } from './components/FondoColor';
 import { HeroCorto, CierrePagina } from './components/inicio/Inicio';
 import { CabeceraSimple, InicioSoloAsistentes, PieSimple } from './components/inicio/SoloAsistentes';
+import { ListaSecciones, SeccionesCelu } from './components/inicio/ListaSecciones';
 import { NoEncontrada } from './components/NoEncontrada';
 import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
 import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
@@ -99,8 +100,11 @@ export default function App() {
       <FondoColor />
       {/* Web manejada por asistentes: sin menú, solo el logo y el botón para hablar con ellos */}
       <CabeceraSimple />
+      {/* Secciones para recorrer sin chatear (izquierda en compu, botón «Secciones» en el celu) */}
+      <ListaSecciones />
+      <SeccionesCelu />
 
-      <main className="flex-1">
+      <main className="flex-1 lg:pl-60">
         {ruta === '/' ? (
           <>
             {/* Primero los asistentes (con el chat); después solo: Diseñá tu robot, videos de productos,
@@ -122,7 +126,9 @@ export default function App() {
         )}
       </main>
 
-      <PieSimple />
+      <div className="lg:pl-60">
+        <PieSimple />
+      </div>
 
       {/* Asistente guiado: el botón flotante abre el chat */}
       <Asistente />
