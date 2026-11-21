@@ -219,11 +219,8 @@ const useArrastre = ({ alTocar, alAgarrar, alChocar, alSacarDeLaVentana, alDarVu
         setAgarrado(true);
         alAgarrar?.();
       };
-      if (e.pointerType === 'touch') {
-        if (espera.current) window.clearTimeout(espera.current.timer);
-        espera.current = { x0: clientX, y0: clientY, timer: window.setTimeout(() => { espera.current = null; agarrar(); }, 200) };
-        return;
-      }
+      // Con el dedo también se agarra enseguida (antes había que mantenerlo apretado y el celu
+      // lo tomaba como desplazar la página, así que no se podía mover).
       agarrar();
     },
     onPointerMove: (e: React.PointerEvent<HTMLElement>) => {
@@ -1042,7 +1039,7 @@ export const Asistente: React.FC = () => {
             type="button"
             {...lateral.handlers}
             aria-label="Asistente de tecnoros.ar. Tocalo para abrir el chat o arrastralo"
-            className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-manipulation pointer-events-auto"
+            className="relative px-1 cursor-grab active:cursor-grabbing select-none touch-none pointer-events-auto"
           >
             {(oing || lateral.afuera || (lateral.agarrado && !(cansado && trasOing))) && (
               <span
