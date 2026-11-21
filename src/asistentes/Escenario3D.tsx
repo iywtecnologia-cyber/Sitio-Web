@@ -249,12 +249,9 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         }
         if (!arrastre.movio && Math.hypot(e.clientX - arrastre.x, e.clientY - arrastre.y) < 6) return;
         arrastre.movio = true;
-        if (arrastre.bot) {
-          const v = puntoPiso(e);
-          if (v) arrastre.bot.sostenido = new THREE.Vector3(Math.max(-6, Math.min(6, v.x)), 0.9, Math.max(-4, Math.min(4, v.z)));
-        }
-        // La plataforma queda fija. En el celu, arrastrar el piso (no a un asistente) baja/sube la página como siempre.
-        else if (e.pointerType !== 'mouse') window.scrollBy(0, arrastre.ultimoY - e.clientY);
+        // Los asistentes no se arrastran (eso es solo de Marcio): se tocan para hablarles.
+        // En el celu, arrastrar el dedo sobre el escenario baja/sube la página como siempre.
+        if (e.pointerType !== 'mouse') window.scrollBy(0, arrastre.ultimoY - e.clientY);
         arrastre.ultimoY = e.clientY;
       };
       const arriba = () => {
@@ -494,7 +491,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           ))}
         </div>
         <p className="absolute left-1/2 -translate-x-1/2 bottom-3 px-3 py-1 rounded-full bg-black/40 text-[11px] sm:text-xs text-slate-300 whitespace-nowrap pointer-events-none">
-          Tocá un asistente para hablarle · arrastralo para moverlo
+          Tocá un asistente para hablarle
         </p>
       </div>
       {/* Así funciona Golondrina: lo que hicieron los asistentes y lo que se puede automatizar */}

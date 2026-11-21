@@ -212,7 +212,7 @@ export const SERVICES: ServiceItem[] = [
 export const ServicesSection: React.FC = () => {
 
   return (
-    <section id="servicios" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
+    <section id="servicios" className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
@@ -220,18 +220,18 @@ export const ServicesSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Cabecera con la frase solicitada */}
-        <div className="max-w-full lg:max-w-6xl mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
+        <div className="max-w-full lg:max-w-6xl mb-4">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-1.5">
             <Layers className="w-3.5 h-3.5" />
             <span>Servicios</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Qué podemos hacer{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               por tu negocio
             </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
+          <p className="mt-1.5 text-sm sm:text-base text-slate-300 leading-snug max-w-2xl sm:max-w-3xl">
             Entendemos cómo trabajás y armamos lo justo para vos.
           </p>
         </div>

@@ -44,3 +44,8 @@ export const abrirChatMarcio = (pregunta = '') => window.dispatchEvent(new Custo
 /** Abrir la ventana con la información de un servicio. */
 export const EV_VER_SERVICIO = 'ver-servicio';
 export const verServicio = (id: string) => window.dispatchEvent(new CustomEvent(EV_VER_SERVICIO, { detail: id }));
+
+/** Un asistente dice algo en su chat (y se abre), con botones opcionales. */
+export const EV_MENSAJE = 'asistente-mensaje';
+export const mensajeDeAsistente = (id: string, texto: string, enlaces: { texto: string; alHacer?: () => void; href?: string }[] = []) =>
+  window.dispatchEvent(new CustomEvent(EV_MENSAJE, { detail: { id, texto, enlaces } }));
