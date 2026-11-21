@@ -262,7 +262,7 @@ export const RobotStudioSection: React.FC = () => {
         )}
 
         {/* Model Selector Carousel / Bar: al tocar un robot, la vista va directo al robot */}
-        <div id="robot-creacion" className="order-3 mt-4 space-y-2 scroll-mt-24" onClickCapture={mostrarRobot}>
+        <div id="robot-creacion" className="order-2 mb-3 space-y-2 scroll-mt-24" onClickCapture={mostrarRobot}>
           <div className="flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
             <span className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -307,7 +307,7 @@ export const RobotStudioSection: React.FC = () => {
         </div>
 
         {/* Studio Sub-Header & Controls */}
-        <div className="order-4 mt-3 flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/60 border border-slate-800/80">
+        <div className="order-3 mb-3 flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/60 border border-slate-800/80">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('free-custom')}
@@ -321,7 +321,11 @@ export const RobotStudioSection: React.FC = () => {
               <span>Personalización 100% Libre</span>
             </button>
             <button
-              onClick={() => setActiveTab('use-case')}
+              onClick={() => {
+                setActiveTab('use-case');
+                // Te lleva a donde se muestran los robots para cada caso de uso.
+                window.setTimeout(() => document.getElementById('robot-diseno')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+              }}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeTab === 'use-case'
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold'
@@ -352,7 +356,7 @@ export const RobotStudioSection: React.FC = () => {
         </div>
 
         {/* Main 3D Studio Layout */}
-        <div className="order-2 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        <div className="order-4 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
           
           {/* Left / Central 3D Canvas Viewport */}
           <div className="lg:col-span-8 flex flex-col gap-2">
@@ -369,7 +373,11 @@ export const RobotStudioSection: React.FC = () => {
               {/* Interactivity Shortcuts */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setAutoRotate(!autoRotate)}
+                  onClick={() => {
+                    const v = !autoRotate;
+                    setAutoRotate(v);
+                    setRobotConfig((prev) => ({ ...prev, isSimulatingMotion: v }));
+                  }}
                   className={`px-2.5 py-1 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
                     autoRotate
                       ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
@@ -403,6 +411,8 @@ export const RobotStudioSection: React.FC = () => {
               modelType="robot"
               config={robotConfig}
               autoRotate={autoRotate}
+              // Elegir una vista (Iso, Arriba, Frente, Abajo) apaga el Auto-Giro: si no, la cámara se iba y parecía que no se elegía.
+              onElegirVista={() => setAutoRotate(false)}
               onToggleMotion={() =>
                 setRobotConfig((prev) => ({
                   ...prev,
@@ -417,40 +427,6 @@ export const RobotStudioSection: React.FC = () => {
             >
               <span className="text-xs sm:text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
             </div>
-            </div>
-
-            {/* Exploded View Slider */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2">
-              <div className="flex items-center justify-between text-xs font-mono">
-                <div className="flex items-center gap-2 text-cyan-400">
-                  <Layers className="w-4 h-4" />
-                  <span className="font-semibold">Vista Explosionada del Hardware</span>
-                </div>
-                <span className="text-slate-400">
-                  Separación: {Math.round(robotConfig.explodedAmount * 100)}%
-                </span>
-              </div>
-
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={robotConfig.explodedAmount}
-                onChange={(e) =>
-                  setRobotConfig((prev) => ({
-                    ...prev,
-                    explodedAmount: parseFloat(e.target.value),
-                  }))
-                }
-                className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg appearance-none"
-              />
-
-              <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
-                <span>0% Ensamblado Completo</span>
-                <span>50% Separación Parcial</span>
-                <span>100% Despiece Total de Placas</span>
-              </div>
             </div>
 
             {/* Actuators & Simulation Panel */}
@@ -576,10 +552,44 @@ export const RobotStudioSection: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Exploded View Slider */}
+            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2">
+              <div className="flex items-center justify-between text-xs font-mono">
+                <div className="flex items-center gap-2 text-cyan-400">
+                  <Layers className="w-4 h-4" />
+                  <span className="font-semibold">Vista Explosionada del Hardware</span>
+                </div>
+                <span className="text-slate-400">
+                  Separación: {Math.round(robotConfig.explodedAmount * 100)}%
+                </span>
+              </div>
+
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={robotConfig.explodedAmount}
+                onChange={(e) =>
+                  setRobotConfig((prev) => ({
+                    ...prev,
+                    explodedAmount: parseFloat(e.target.value),
+                  }))
+                }
+                className="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-800 rounded-lg appearance-none"
+              />
+
+              <div className="flex justify-between text-xs sm:text-[10px] font-mono text-slate-500">
+                <span>0% Ensamblado Completo</span>
+                <span>50% Separación Parcial</span>
+                <span>100% Despiece Total de Placas</span>
+              </div>
+            </div>
           </div>
 
           {/* Right Sidebar: 100% Customization Controls */}
-          <div className="lg:col-span-4 flex flex-col gap-4" onClickCapture={mostrarRobot}>
+          <div id="robot-diseno" className="lg:col-span-4 flex flex-col gap-4 scroll-mt-24 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1" onClickCapture={mostrarRobot}>
             
             {activeTab === 'use-case' ? (
               /* USE CASE ASSISTANT */
@@ -834,20 +844,22 @@ export const RobotStudioSection: React.FC = () => {
                     </label>
                     <div className="grid grid-cols-3 gap-1.5">
                       {[
-                        { id: 'ip54' as IpRatingType, label: 'IP54 (Lab/Mesa)' },
-                        { id: 'ip65' as IpRatingType, label: 'IP65 (Polvo/Salpic.)' },
-                        { id: 'ip67' as IpRatingType, label: 'IP67 (Ductos/Húmedo)' },
+                        { id: 'ip54' as IpRatingType, label: 'IP54', sub: 'Lab/Mesa' },
+                        { id: 'ip65' as IpRatingType, label: 'IP65', sub: 'Polvo/Salpic.' },
+                        { id: 'ip67' as IpRatingType, label: 'IP67', sub: 'Ductos/Húmedo' },
                       ].map((ip) => (
                         <button
                           key={ip.id}
                           onClick={() => setRobotConfig((prev) => ({ ...prev, ipRating: ip.id }))}
-                          className={`p-2 rounded-lg border text-center font-mono text-xs sm:text-[11px] transition-all cursor-pointer ${
+                          className={`min-w-0 p-2 rounded-lg border text-center font-mono text-xs sm:text-[11px] leading-tight transition-all cursor-pointer ${
                             robotConfig.ipRating === ip.id
                               ? 'bg-cyan-500/20 border-cyan-400 text-white font-bold'
                               : 'bg-slate-800/60 border-slate-700 text-slate-400'
                           }`}
                         >
-                          {ip.label}
+                          {/* Código arriba y para qué abajo: así las tres opciones quedan alineadas */}
+                          <span className="block">{ip.label}</span>
+                          <span className="block mt-0.5 text-[10px] font-sans font-normal opacity-80 break-words">{ip.sub}</span>
                         </button>
                       ))}
                     </div>

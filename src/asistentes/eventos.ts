@@ -17,16 +17,31 @@ export interface Hecho {
   id: string;
   texto: string;
   hora: string;
+  repetir?: Repetir;
+  /** Número único (para recordar si ya respondió «¿repetir?»). */
+  n: number;
 }
 
 /** Lo que hicieron los asistentes en esta visita (el escenario lo muestra como lista). */
 export const hechos: Hecho[] = [];
-export const registrarHecho = (id: string, texto: string) => {
+/** Cómo repetir una tarea: la acción con sus datos, o lo que la persona escribió. */
+export interface Repetir {
+  accion?: string;
+  parametros?: Record<string, string>;
+  pregunta?: string;
+  titulo: string;
+}
+let numeroHecho = 0;
+export const registrarHecho = (id: string, texto: string, repetir?: Repetir) => {
   const d = new Date();
-  hechos.unshift({ id, texto, hora: `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` });
+  hechos.unshift({ id, texto, repetir, n: ++numeroHecho, hora: `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` });
   hechos.splice(12);
   window.dispatchEvent(new CustomEvent(EV_HIZO));
 };
+
+/** Golondrina: repetir una tarea que ya hizo un asistente (la persona aceptó «¿Te gustaría repetir la tarea?»). */
+export const EV_REPETIR = 'repetir-tarea';
+export const repetirTarea = (id: string, r: Repetir) => window.dispatchEvent(new CustomEvent(EV_REPETIR, { detail: { id, r } }));
 
 /** Cerrar el chat de asistentes (por ejemplo, cuando te lleva a una pantalla completa). */
 export const EV_CERRAR = 'cerrar-asistentes';

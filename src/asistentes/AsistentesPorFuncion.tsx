@@ -7,8 +7,7 @@ import type { Sugerencia } from '../golondrina';
 import { irA, navegar, useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, SUGERENCIAS_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
-import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_MENSAJE, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
-import { Marcianito } from '../components/Marcianito';
+import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_MENSAJE, EV_ESTADO, EV_REPETIR, type Repetir, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
 
 export { EVENTO_ABRIR_ASISTENTE, abrirAsistente };
 
@@ -44,6 +43,7 @@ export const AsistentesPorFuncion: React.FC = () => {
   const [sugeridas, setSugeridas] = useState<Sugerencia[]>([]);
   const enlaces = useRef<Enlace[]>([]);
   const entrada = useRef<HTMLInputElement>(null);
+  const preguntarRef = useRef<(q: string) => void>(() => {});
   const ultimo = useRef<string | null>(null);
   // Lo que el asistente le preguntó a la persona y está esperando que responda (por asistente).
   const [esperando, setEsperando] = useState<Record<string, { accion: string; parametro: string }>>({});
@@ -183,7 +183,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     });
     gesto(id, 'salto');
     dice(id, resumen(textoR));
-    if (r) registrarHecho(id, `· «${q.slice(0, 50)}» → ${resumen(textoR)}`);
+    if (r) registrarHecho(id, `· «${q.slice(0, 50)}» → ${resumen(textoR)}`, { pregunta: q, titulo: q });
     setPensando(false);
     actualizarSugerencias(id);
   };
@@ -206,7 +206,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     agregar(id, { de: 'asistente', texto: respuesta, enlaces: propios });
     gesto(id, 'saludo');
     dice(id, resumen(respuesta));
-    registrarHecho(id, `· ${titulo} → ${resumen(respuesta)}`);
+    registrarHecho(id, `· ${titulo} → ${resumen(respuesta)}`, { accion: accionId, parametros, titulo });
     actualizarSugerencias(id);
   };
 
@@ -276,6 +276,21 @@ export const AsistentesPorFuncion: React.FC = () => {
     return () => window.removeEventListener(EV_MENSAJE, llega);
   }, []);
 
+  preguntarRef.current = (q: string) => void preguntar(q);
+  // Golondrina: la persona aceptó repetir una tarea → el mismo asistente la vuelve a hacer.
+  useEffect(() => {
+    const repetir = (e: Event) => {
+      const { id, r } = (e as CustomEvent<{ id: string; r: Repetir }>).detail;
+      if (r.accion) void ejecutarRef.current(r.accion, r.parametros ?? {}, 'golondrina', r.titulo, id);
+      else if (r.pregunta) {
+        setAbierto(id);
+        window.setTimeout(() => preguntarRef.current(r.pregunta!), 50);
+      }
+    };
+    window.addEventListener(EV_REPETIR, repetir);
+    return () => window.removeEventListener(EV_REPETIR, repetir);
+  }, []);
+
   // Un asistente le pasa la posta a otro (ej. Servicios → Presupuesto).
   const ejecutarRef = useRef(ejecutar);
   ejecutarRef.current = ejecutar;
@@ -343,20 +358,6 @@ export const AsistentesPorFuncion: React.FC = () => {
 
           {!asistente ? (
             <div className="flex-1 overflow-y-auto p-3 space-y-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setAbierto(null);
-                  abrirChatMarcio();
-                }}
-                className="w-full flex items-center gap-3 text-left p-3 rounded-2xl border border-cyan-400/40 bg-cyan-400/5 hover:bg-cyan-400/10 cursor-pointer"
-              >
-                <Marcianito className="w-10 h-12 shrink-0" />
-                <span>
-                  <span className="block text-sm font-bold text-white">Marcio</span>
-                  <span className="block text-[11px] text-slate-400 leading-snug">Te presenta a los asistentes. Preguntale cualquier otra cosa.</span>
-                </span>
-              </button>
               <div className="grid grid-cols-2 gap-2">
                 {ASISTENTES.map((a) => (
                   <button

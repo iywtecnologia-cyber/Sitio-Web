@@ -68,8 +68,8 @@ export const FOTOS_ENCUENTROS: FotoEncuentro[] = [
 
   {
     src: '/assets/encuentros/trabajo.webp',
-    alt: 'El equipo de tecnoros.ar trabajando juntos durante una jornada',
-    titulo: 'Un día trabajando juntos',
+    alt: 'El equipo de tecnoros.ar cooperando juntos durante una jornada',
+    titulo: 'Un día cooperando juntos',
     tipo: 'equipo',
   },
 ];

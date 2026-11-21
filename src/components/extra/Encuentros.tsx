@@ -39,11 +39,11 @@ export const Encuentros: React.FC = () => {
   const actual = abierta !== null ? fotos[abierta] : null;
 
   return (
-    <section id="encuentros" className="scroll-mt-24 py-14 sm:py-20">
+    <section id="encuentros" className="scroll-mt-24 py-5 sm:py-6">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Encuentros</span>
-        <h1 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Nuestra historia en fotos</h1>
-        <p className="mt-2 max-w-2xl text-base text-slate-400">
+        <h1 className="mt-1 text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Nuestra historia en fotos</h1>
+        <p className="mt-1 max-w-2xl text-sm sm:text-base text-slate-400">
           Acá van los comienzos, el equipo y las jornadas y eventos en los que participamos.
         </p>
 
@@ -66,13 +66,13 @@ export const Encuentros: React.FC = () => {
         ) : (
           <>
             {tipos.length > 1 && (
-              <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filtrar fotos">
-                {[{ id: 'todas' as const, nombre: 'Todas' }, ...tipos].map((t) => (
+              <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Filtrar fotos">
+                {tipos.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     aria-pressed={filtro === t.id}
-                    onClick={() => setFiltro(t.id)}
+                    onClick={() => setFiltro((v) => (v === t.id ? 'todas' : t.id))}
                     className={`px-4 py-2 rounded-full border text-sm transition-colors ${
                       filtro === t.id ? 'bg-cyan-400 border-cyan-400 text-slate-950 font-semibold' : 'border-slate-700 text-slate-300 hover:border-cyan-500/60'
                     }`}
@@ -82,7 +82,7 @@ export const Encuentros: React.FC = () => {
                 ))}
               </div>
             )}
-            <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {fotos.map((f, i) => (
                 <li key={f.src} className="h-full" >
                   <button
@@ -97,10 +97,10 @@ export const Encuentros: React.FC = () => {
                       decoding="async"
                       className="w-full aspect-[2/2] object-cover block transition-transform duration-300 group-hover:scale-[1.02]"
                     />
-                    <span className="block p-4 flex-1">
-                      <span className="block font-semibold text-white">{f.titulo}</span>
+                    <span className="block p-4 flex-1 text-center">
+                      <span className="block font-semibold text-white min-h-[3rem] flex items-center justify-center">{f.titulo}</span>
                       {(f.fecha || f.lugar) && (
-                        <span className="mt-1 flex items-center gap-1.5 text-xs text-slate-400">
+                        <span className="mt-1 flex items-center justify-center gap-1.5 text-xs text-slate-400">
                           {f.lugar && <MapPin className="w-3.5 h-3.5 text-cyan-400" />}
                           {[f.lugar, fechaLinda(f.fecha)].filter(Boolean).join(' · ')}
                         </span>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { propsVideo } from '../videos';
 import { irA } from '../rutas';
 import { consultarPor } from '../consulta';
 import { 
@@ -208,9 +209,7 @@ export const PortfolioSection: React.FC = () => {
                 key={activeProject.video.src}
                 src={activeProject.video.src}
                 poster={activeProject.video.poster}
-                controls
-                preload="none"
-                playsInline
+                {...propsVideo}
                 className="w-full max-w-[calc(56vh*1.6)] mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10"
               >
                 Tu navegador no puede reproducir el video.

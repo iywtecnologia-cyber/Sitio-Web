@@ -1164,21 +1164,18 @@ export const Asistente: React.FC = () => {
         aria-expanded={abierto}
         aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"
-        className="fixed bottom-6 right-6 z-[65] p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer"
+        className="fixed bottom-6 right-6 z-[65] p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 transition-colors duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer"
       >
         {!abierto && (
           <>
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping absolute -top-1 -right-1 motion-reduce:animate-none" />
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 absolute -top-1 -right-1" />
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 absolute -top-1 -right-1 animate-beacon-blink motion-reduce:animate-none" />
           </>
         )}
         {abierto ? (
           <X className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-300 p-1.5" />
         ) : (
-          // El botón de abajo también se mueve: flota despacito, como Marcio.
-          <span className="block motion-safe:animate-[marcio-flota_3.2s_ease-in-out_infinite]">
-            <TecnorosContactIcon className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-[0_0_12px_rgba(0,210,243,0.45)] group-hover:scale-105 transition-transform" />
-          </span>
+          // El botón de abajo queda quieto: solo la lucecita de arriba prende y apaga.
+          <TecnorosContactIcon className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-[0_0_12px_rgba(0,210,243,0.45)]" />
         )}
       </button>
     </>

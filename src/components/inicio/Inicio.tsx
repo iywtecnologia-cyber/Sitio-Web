@@ -349,7 +349,7 @@ export const ContactoRapido: React.FC = () => (
       <p className="mt-2 text-sm sm:text-base text-slate-400">El diagnóstico es sin costo. Te respondemos en el día.</p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio. Mi negocio es: "" y lo que necesito es: ""')}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
@@ -357,7 +357,7 @@ export const ContactoRapido: React.FC = () => (
           <MessageCircle className="w-4 h-4" /> WhatsApp
         </a>
         <a
-          href={ventasMailto('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          href={ventasMailto('Consulta desde tecnoros.ar', 'Hola tecnoros.ar, quiero consultar por una solución para mi negocio. Mi negocio es: "" y lo que necesito es: ""')}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-semibold"
@@ -378,7 +378,7 @@ export const CierrePagina: React.FC = () => (
       <p className="mt-2 text-sm sm:text-base text-slate-400">Contanos qué necesitás y te respondemos en el día.</p>
       <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio.')}
+          href={whatsappLink('Hola tecnoros.ar, quiero consultar por una solución para mi negocio. Mi negocio es: "" y lo que necesito es: ""')}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full sm:w-96 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-300 text-slate-950 font-bold"
