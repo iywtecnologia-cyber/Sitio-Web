@@ -29,11 +29,6 @@ const Persona: React.FC<{ f: Founder }> = ({ f }) => {
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-bold text-white leading-tight">{f.name}</span>
         <span className="block text-xs text-cyan-300 leading-tight mt-0.5">{nombreArea(f.area)} · {f.badge}</span>
-        {f.ubicacion && (
-          <span className="flex items-center gap-1 text-xs text-slate-400 leading-tight mt-0.5">
-            <MapPin className="w-3 h-3 shrink-0" /> {f.ubicacion.lugar}
-          </span>
-        )}
       </span>
       {f.linkedin && <Linkedin className="w-4 h-4 text-[#4DA3FF] shrink-0" />}
     </>
@@ -61,7 +56,6 @@ export const MundoEquipo: React.FC = () => {
     return [...m.values()];
   }, []);
 
-  const gente = useMemo(() => FOUNDERS.filter((f) => f.ubicacion), []);
 
   const [tierra, setTierra] = useState<GeoPermissibleObjects | null>(null);
   // Arranca mirando a Rosario (Sudamérica al frente).
@@ -188,7 +182,6 @@ export const MundoEquipo: React.FC = () => {
                           <span key={f.name} className="block py-0.5">{fila}</span>
                         );
                       })}
-                      <span className="flex items-center gap-1 mt-0.5 text-[9px] text-slate-300"><MapPin className="w-2.5 h-2.5 shrink-0" /> {p.lugar}</span>
                     </div>
                   </foreignObject>
                 </g>
@@ -206,13 +199,23 @@ export const MundoEquipo: React.FC = () => {
             </div>
           </div>
           <p className="mt-2 text-sm text-slate-400">Tocá a alguien (en el globo o en la lista) para ir a su LinkedIn.</p>
-          <ul className="mt-5 grid gap-2">
-            {gente.map((f) => (
-              <li key={f.name} onMouseEnter={() => f.ubicacion && mirarA(f.ubicacion)}>
-                <Persona f={f} />
-              </li>
+          {/* Cada lugar aparece una sola vez, con su gente debajo. */}
+          <div className="mt-5 space-y-4">
+            {puntos.map((p) => (
+              <div key={p.lugar} onMouseEnter={() => mirarA(p)}>
+                <p className="flex items-center gap-1.5 text-sm font-semibold text-slate-300">
+                  <MapPin className="w-4 h-4 text-cyan-400 shrink-0" /> {p.lugar}
+                </p>
+                <ul className="mt-2 grid gap-2">
+                  {p.gente.map((f) => (
+                    <li key={f.name}>
+                      <Persona f={f} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
           <p className="mt-4 text-xs text-slate-500">Muy pronto vas a ver al resto del equipo, desde todo LATAM.</p>
         </div>
       </div>
