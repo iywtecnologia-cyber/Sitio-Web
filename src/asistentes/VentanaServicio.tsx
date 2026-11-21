@@ -71,7 +71,8 @@ export const VentanaServicio: React.FC = () => {
         {precio && (
           <p className="mt-4 p-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-300">
             Precio de referencia: <b className="text-white">{precio.max ? `${pesos(precio.min)} a ${pesos(precio.max)}` : 'gratis'}</b>
-            . El precio final se confirma en el diagnóstico inicial gratuito.
+            {/* En el diagnóstico (que es gratis) no tiene sentido decir que el precio se confirma en el diagnóstico. */}
+            {s.id !== 'analisis-qa' && '. El precio final se confirma en el diagnóstico inicial gratuito.'}
           </p>
         )}
         <div className="mt-5 flex flex-wrap gap-2">
