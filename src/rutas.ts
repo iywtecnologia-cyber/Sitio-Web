@@ -55,7 +55,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   facturacion: '/presupuesto', combos: '/presupuesto',
   'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', asistentes: '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/nosotros',
   stack: '/tecnologias',
-  'sobre-nosotros': '/nosotros',
+  'sobre-nosotros': '/nosotros', 'nacimos-en-rosario': '/nosotros',
 };
 
 const paginaDe = (id: string): Ruta | undefined => {

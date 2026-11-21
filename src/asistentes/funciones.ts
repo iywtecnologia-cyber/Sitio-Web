@@ -12,7 +12,7 @@ import { COMBOS, ahorro } from '../data/combos';
 import { SERVICIOS_SOFTWARE } from '../data/precios';
 import { FOUNDERS, URL_ORGANIGRAMA } from '../data/equipo';
 import { VENTAS_EMAIL, gmailPara, soporteWhatsappLink, whatsappLink } from '../data/contact';
-import { abrirSoporte, irA } from '../rutas';
+import { abrirSoporte, irA, navegar } from '../rutas';
 import { escribir, esperar, tocar, volarA } from './manos';
 import { cerrarAsistentes, verServicio } from './eventos';
 
@@ -289,15 +289,11 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       menu: 'Ver todos los servicios',
       titulo: 'Ver todos los servicios',
       frases: ['ver servicios', 'qué hacen', 'todos los servicios', 'qué ofrecen'],
+      // Se cierra el asistente y te lleva al panel con todos los servicios (tocás uno y se abre su detalle).
       ejecutar: () => {
-        SERVICES.forEach((s) =>
-          ofrecer({
-            texto: s.title.split(':')[0],
-            // Se abre una ventana con la información de ese servicio (no te manda a buscar la tarjeta).
-            alHacer: () => verServicio(s.id),
-          }),
-        );
-        return 'Estos son todos nuestros servicios. Tocá el que quieras y te llevo a ver de qué se trata.';
+        cerrarAsistentes();
+        navegar('/servicios');
+        return 'Te llevé a todos los servicios: tocá el que quieras y se abre con su detalle.';
       },
     }),
 
@@ -544,8 +540,9 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
       titulo: 'Quiénes somos',
       frases: ['quiénes son', 'quienes somos', 'fundadores', 'quién está detrás', 'de dónde son'],
       ejecutar: () => {
-        irA('sobre-nosotros');
-        mostrar('equipo', porTexto('#sobre-nosotros span', 'Fundadores').then((e) => (e?.parentElement as HTMLElement | null) ?? null), 'Los fundadores');
+        // Se cierra el asistente y te lleva a «Nacimos en Rosario» en Quiénes somos.
+        cerrarAsistentes();
+        irA('nacimos-en-rosario', false, 'center');
         const f = FOUNDERS.filter((x) => x.area === 'cofundadores');
         f.forEach((x) => x.linkedin && ofrecer({ texto: `LinkedIn de ${x.name}`, href: x.linkedin }));
         return `Nacimos en Rosario y hoy somos ${FOUNDERS.length} personas trabajando en remoto desde todo LATAM.\nNos fundaron ${f.map((x) => x.name).join(' y ')}.`;
@@ -576,7 +573,7 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const texto = (p['mensaje'] ?? '').trim();
         const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir|escribirle a ventas)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
         // Directo al e-mail de ventas: al tocarlo se abre Gmail con el mensaje para el equipo de ventas.
-        ofrecer({ texto: `✉️ ${VENTAS_EMAIL} · abrir Gmail`, href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
+        ofrecer({ texto: `✉️ ${VENTAS_EMAIL}`, href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
         return texto
           ? `Listo, tu mensaje para ventas: «${msg}». Tocá el botón y se abre Gmail para mandárselo a **${VENTAS_EMAIL}**; te responde una persona del equipo.`
           : `Escribile al equipo de ventas a **${VENTAS_EMAIL}**. Tocá el botón y se abre Gmail para mandarle tu mensaje; te responde una persona del equipo.`;

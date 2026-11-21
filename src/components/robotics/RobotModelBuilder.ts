@@ -1638,6 +1638,53 @@ export function buildSceneModel(
     ptzHead.add(eye);
 
     moduleGroup.add(ptzHead);
+  } else if (effectiveModule === 'sensor_dome') {
+    // Domo ahumado: cúpula oscura con anillo de sensores 360° adentro
+    const topeY = baseY + baseH / 2;
+    const aroGeo = regGeo(new THREE.CylinderGeometry(baseW * 0.32, baseW * 0.34, 0.014, 32));
+    const aro = new THREE.Mesh(aroGeo, accentPaintMat);
+    aro.position.set(0, topeY + 0.007, 0);
+    moduleGroup.add(aro);
+    const domoGeo = regGeo(new THREE.SphereGeometry(baseW * 0.31, 32, 18, 0, Math.PI * 2, 0, Math.PI / 2));
+    const domo = new THREE.Mesh(domoGeo, smokedDomeMat);
+    domo.position.set(0, topeY + 0.014, 0);
+    moduleGroup.add(domo);
+    // Sensores adentro del domo (se ven a través del vidrio ahumado)
+    for (let i = 0; i < 6; i++) {
+      const ang = (i / 6) * Math.PI * 2;
+      const sGeo = regGeo(new THREE.CylinderGeometry(0.007, 0.007, 0.012, 10));
+      sGeo.rotateX(Math.PI / 2);
+      const sensor = new THREE.Mesh(sGeo, glassLensMat);
+      sensor.position.set(Math.sin(ang) * baseW * 0.18, topeY + 0.04, Math.cos(ang) * baseW * 0.18);
+      sensor.lookAt(Math.sin(ang) * baseW, topeY + 0.04, Math.cos(ang) * baseW);
+      moduleGroup.add(sensor);
+    }
+    const ledGeo = regGeo(new THREE.SphereGeometry(0.008, 12, 10));
+    const led = new THREE.Mesh(ledGeo, ledCustomMat);
+    led.position.set(0, topeY + baseW * 0.31 + 0.006, 0);
+    moduleGroup.add(led);
+  } else if (effectiveModule === 'dispenser') {
+    // Locker seguro: caja con puerta, manija y lucecita de cerrado
+    const topeY = baseY + baseH / 2;
+    const lw = baseW * 0.7;
+    const ll = baseL * 0.55;
+    const lh = 0.09;
+    const cajaGeo = regGeo(new THREE.BoxGeometry(lw, lh, ll));
+    const caja = new THREE.Mesh(cajaGeo, bodyPaintMat);
+    caja.position.set(0, topeY + lh / 2, 0);
+    moduleGroup.add(caja);
+    const puertaGeo = regGeo(new THREE.BoxGeometry(lw * 0.86, lh * 0.8, 0.004));
+    const puerta = new THREE.Mesh(puertaGeo, accentPaintMat);
+    puerta.position.set(0, topeY + lh / 2, ll / 2 + 0.002);
+    moduleGroup.add(puerta);
+    const manijaGeo = regGeo(new THREE.BoxGeometry(lw * 0.3, 0.006, 0.008));
+    const manija = new THREE.Mesh(manijaGeo, chromeMat);
+    manija.position.set(0, topeY + lh * 0.3, ll / 2 + 0.008);
+    moduleGroup.add(manija);
+    const candadoGeo = regGeo(new THREE.SphereGeometry(0.006, 10, 8));
+    const candado = new THREE.Mesh(candadoGeo, ledCustomMat);
+    candado.position.set(lw * 0.32, topeY + lh * 0.72, ll / 2 + 0.006);
+    moduleGroup.add(candado);
   }
 
   rootGroup.add(moduleGroup);

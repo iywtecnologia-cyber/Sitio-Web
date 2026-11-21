@@ -4,6 +4,7 @@
 // Todo lo demás (servicios, presupuesto, productos, proyectos, equipo, contacto, soporte) lo
 // manejan los asistentes: te preguntan y te abren la pantalla justa cuando hace falta.
 import React, { Suspense, lazy } from 'react';
+import { propsVideo } from '../../videos';
 import { ArrowLeft, ArrowRight, Headphones, Menu, PlayCircle, Unlock } from 'lucide-react';
 import { EVENTO_SECCIONES } from './ListaSecciones';
 import { TecnorosLogo } from '../TecnorosLogo';
@@ -94,8 +95,8 @@ export const PieSimple: React.FC = () => (
         <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
         <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
       </div>
-      {/* Todo el pie va centrado sobre el mismo eje: links, redes y © */}
-      <div className="self-center">
+      {/* Links y © centrados; Instagram y LinkedIn apenas corridos a la izquierda */}
+      <div className="self-center -translate-x-10 sm:-translate-x-20">
         <BotonesRedes />
       </div>
       <span className="font-mono text-slate-500 text-center">
@@ -126,7 +127,7 @@ export const VideosProductos: React.FC = () => (
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {VIDEOS.map((v) => (
           <li key={v.src} className="rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800">
-            <video src={v.src} poster={v.poster} controls preload="none" playsInline className="w-full aspect-[16/10] bg-slate-950 block">
+            <video src={v.src} poster={v.poster} {...propsVideo} className="w-full aspect-[16/10] bg-slate-950 block">
               Tu navegador no puede reproducir el video.
             </video>
             <div className="p-4">

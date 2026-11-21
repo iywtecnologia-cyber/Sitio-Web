@@ -1,4 +1,5 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { propsVideo } from '../videos';
 import { irA } from '../rutas';
 import { tomarEquipo3D, EVENTO_EQUIPO_3D, type Equipo3D } from '../equipo3d';
 import { 
@@ -549,9 +550,7 @@ export const ProductosPropios: React.FC = () => {
               <video
                 src="/proyectos/demo-mostrador.mp4"
                 poster="/proyectos/demo-mostrador.jpg"
-                controls
-                preload="none"
-                playsInline
+                {...propsVideo}
                 className="w-full max-w-5xl mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-violet-500/10"
               >
                 Tu navegador no puede reproducir el video.

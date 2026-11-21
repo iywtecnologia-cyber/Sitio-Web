@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ASISTENTES, imagenDe } from './funciones';
 import { crearModelo } from './modelos3D';
-import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, type Gesto } from './eventos';
+import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, repetirTarea, type Gesto } from './eventos';
 
 // Colores de los degradés de Tailwind que usa cada asistente (from-… to-…).
 const TW: Record<string, string> = {
@@ -40,6 +40,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
   const globos = useRef<Record<string, HTMLDivElement | null>>({});
   const [sin3D, setSin3D] = useState(false);
   const [lista, setLista] = useState(hechos.slice());
+  const [respondidas, setRespondidas] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const act = () => setLista(hechos.slice());
@@ -238,13 +239,33 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       let giro = 0;
       let vel = 0;
       let arrastre: { x: number; y: number; ultimoY: number; movio: boolean; bot: Bot | null } | null = null;
+      // El logo sí se puede girar con el mouse o el dedo (los asistentes no se arrastran).
+      const logoBajo = (e: PointerEvent) => {
+        aNDC(e);
+        rayo.setFromCamera(ptr, camera);
+        return rayo.intersectObject(escudo, true).length > 0;
+      };
+      let giroLogo = 0;
+      let velLogo = 0;
+      let logoAgarrado = false;
+      let ultimoX = 0;
       const abajo = (e: PointerEvent) => {
         canvas.setPointerCapture(e.pointerId);
-        arrastre = { x: e.clientX, y: e.clientY, ultimoY: e.clientY, movio: false, bot: botBajo(e) };
+        const bot = botBajo(e);
+        logoAgarrado = !bot && logoBajo(e);
+        ultimoX = e.clientX;
+        arrastre = { x: e.clientX, y: e.clientY, ultimoY: e.clientY, movio: false, bot };
       };
       const mover = (e: PointerEvent) => {
         if (!arrastre) {
-          canvas.style.cursor = botBajo(e) ? 'pointer' : 'default';
+          canvas.style.cursor = botBajo(e) ? 'pointer' : logoBajo(e) ? 'grab' : 'default';
+          return;
+        }
+        if (logoAgarrado) {
+          velLogo = (e.clientX - ultimoX) * 0.012;
+          giroLogo += velLogo;
+          ultimoX = e.clientX;
+          arrastre.movio = true;
           return;
         }
         if (!arrastre.movio && Math.hypot(e.clientX - arrastre.x, e.clientY - arrastre.y) < 6) return;
@@ -255,6 +276,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         arrastre.ultimoY = e.clientY;
       };
       const arriba = () => {
+        logoAgarrado = false;
         if (!arrastre) return;
         const { bot, movio } = arrastre;
         if (bot && !movio) {
@@ -317,7 +339,11 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           vel *= 0.92;
         }
         mundo.rotation.y = giro;
-        escudo.rotation.y = quieto ? 0 : Math.sin(ahora / 1400) * 0.5;
+        if (!logoAgarrado && Math.abs(velLogo) > 1e-4) {
+          giroLogo += velLogo;
+          velLogo *= 0.94;
+        }
+        escudo.rotation.y = giroLogo + (quieto ? 0 : Math.sin(ahora / 1400) * 0.5);
         escudo.position.y = 1.9 + (quieto ? 0 : Math.sin(ahora / 900) * 0.12);
 
         const w = cont.clientWidth;
@@ -491,7 +517,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           ))}
         </div>
         <p className="absolute left-1/2 -translate-x-1/2 bottom-3 px-3 py-1 rounded-full bg-black/40 text-[11px] sm:text-xs text-slate-300 whitespace-nowrap pointer-events-none">
-          Tocá un asistente para hablarle
+          Tocá un asistente para hablarle · girá el logo
         </p>
       </div>
       {/* Así funciona Golondrina: lo que hicieron los asistentes y lo que se puede automatizar */}
@@ -500,15 +526,46 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           <p className="text-xs font-mono uppercase tracking-wider text-cyan-300">Así funciona Golondrina</p>
           <h3 className="mt-1 text-base font-bold text-white">Lo que hicieron los asistentes</h3>
           <p className="mt-1 text-sm text-slate-400">Golondrina coordina a los asistentes: entiende lo que pedís, lo hace por vos y aprende de lo que hacés. Acá queda todo, al momento.</p>
+          <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">🔒 Tus datos están 100% protegidos</span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-200">⚙️ Golondrina es 100% configurable</span>
+          </div>
+          <p className="mt-1.5 text-xs text-slate-500">No te pregunta por cada cosa que hacés: solo por lo que te gustaría automatizar.</p>
           {lista.length ? (
             <ol className="mt-3 space-y-1.5">
               {lista.map((h, i) => {
                 const a = ASISTENTES.find((x) => x.id === h.id);
                 return (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                    <span className="text-xs font-mono text-slate-500 mt-0.5">{h.hora}</span>
-                    {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
-                    <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
+                  <li key={i} className="text-sm text-slate-300">
+                    <div className="flex items-start gap-2">
+                      <span className="text-xs font-mono text-slate-500 mt-0.5">{h.hora}</span>
+                      {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
+                      <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
+                    </div>
+                    {/* ¿Repetir la tarea? Aceptar la vuelve a hacer; Rechazar oculta la pregunta. */}
+                    {h.repetir && respondidas[h.n] === undefined && (
+                      <div className="mt-1 ml-12 flex flex-wrap items-center gap-1.5 text-xs">
+                        <span className="text-slate-400">¿Te gustaría repetir la tarea?</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setRespondidas((v) => ({ ...v, [h.n]: true }));
+                            repetirTarea(h.id, h.repetir!);
+                          }}
+                          className="px-2 py-0.5 rounded-md bg-emerald-400 text-slate-950 font-bold hover:bg-emerald-300 cursor-pointer"
+                        >
+                          Aceptar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setRespondidas((v) => ({ ...v, [h.n]: false }))}
+                          className="px-2 py-0.5 rounded-md border border-slate-600 text-slate-300 hover:text-white cursor-pointer"
+                        >
+                          Rechazar
+                        </button>
+                      </div>
+                    )}
+                    {respondidas[h.n] === true && <p className="mt-1 ml-12 text-xs text-emerald-300">Listo, la estoy repitiendo.</p>}
                   </li>
                 );
               })}

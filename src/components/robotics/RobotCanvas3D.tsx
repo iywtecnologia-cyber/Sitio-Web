@@ -11,6 +11,8 @@ interface RobotCanvas3DProps {
   config: RobotConfig;
   autoRotate?: boolean;
   onToggleMotion?: () => void;
+  /** Avisa que la persona eligió una vista (para apagar el Auto-Giro). */
+  onElegirVista?: () => void;
 }
 
 // Textura procedural de la plataforma circular de ensayo y calibración de banco
@@ -106,6 +108,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
   modelType,
   config,
   autoRotate = false,
+  onElegirVista,
   onToggleMotion,
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -628,6 +631,9 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
     const controls = controlsRef.current;
     if (!camera || !controls) return;
 
+    onElegirVista?.();
+    controls.autoRotate = false;
+    autoRotateRef.current = false;
     controls.target.set(0, 0.12, 0);
     if (view === 'iso') {
       if (window.innerWidth >= 1024) camera.position.set(1.4, 0.9, 1.4);
@@ -642,7 +648,11 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
       camera.position.set(0.001, -0.65, 0.95);
     }
     camera.lookAt(controls.target);
+    // Sin la inercia del arrastre anterior: la vista elegida queda quieta (y se puede volver a elegir siempre).
+    const amortiguar = controls.enableDamping;
+    controls.enableDamping = false;
     controls.update();
+    controls.enableDamping = amortiguar;
   };
 
   const handleZoom = (direction: 'in' | 'out') => {
@@ -663,7 +673,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
   return (
     <div
-      className={`relative w-full h-full min-h-[360px] lg:min-h-[480px] bg-slate-950/80 rounded-2xl overflow-hidden border transition-all duration-300 touch-pan-y ${
+      className={`relative w-full h-full min-h-[340px] lg:min-h-[400px] bg-slate-950/80 rounded-2xl overflow-hidden border transition-all duration-300 touch-pan-y ${
         is3DActive ? 'border-cyan-400/80 ring-2 ring-cyan-500/20' : 'border-slate-800/80'
       }`}
       onPointerDown={() => setIs3DActive(true)}
