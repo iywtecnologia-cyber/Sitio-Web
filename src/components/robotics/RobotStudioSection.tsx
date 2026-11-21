@@ -256,10 +256,7 @@ export const RobotStudioSection: React.FC = () => {
               <li><strong className="text-white">4. Cotizalo</strong><br />Tocá «Cotizar mi robot» y nos llega tu diseño por WhatsApp.</li>
             </ol>
             <p className="mt-3 text-slate-400">
-              Primero programamos el <strong className="text-white">cerebro</strong> y lo probás en 3D; si funciona, fabricamos el <strong className="text-white">cuerpo</strong>.{' '}
-              <a href="https://airclub-udesa.github.io/jar_site/" target="_blank" rel="noopener noreferrer" className="text-violet-300 underline underline-offset-4">
-                🏁 Challenge JAR 2026: terminamos 7° con nuestro robot autónomo
-              </a>
+              Primero programamos el <strong className="text-white">cerebro</strong> y lo probás en 3D; luego, si el análisis de fiabilidad es viable y es posible desarrollar ese robot, fabricamos el <strong className="text-white">cuerpo</strong>.
             </p>
           </div>
         )}

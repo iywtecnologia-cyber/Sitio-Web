@@ -6,10 +6,10 @@ import { consultarPor } from '../../consulta';
 
 // Combos de servicios con precio "desde" y cuánto ahorrás frente a contratarlos por separado.
 export const Combos: React.FC<{ id?: string }> = ({ id = 'combos' }) => (
-  <section id={id} className="scroll-mt-24 py-14 sm:py-20 border-t border-slate-800/50">
+  <section id={id} className="scroll-mt-24 py-6 sm:py-8 border-t border-slate-800/50">
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
       <span className="text-xs sm:text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-400">Combos</span>
-      <h2 className="mt-1.5 text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Juntos te salen menos</h2>
+      <h2 className="mt-1.5 text-xl sm:text-2xl font-extrabold text-white tracking-tight">Juntos te salen menos</h2>
       <p className="mt-2 text-base sm:text-lg text-slate-400 max-w-2xl"><span className="sm:hidden">Deslizá para ver los 4. </span>Elegí un combo. El precio final lo confirmamos en el diagnóstico inicial gratuito.</p>
 
       <ul className="mt-8 -mx-5 px-5 scroll-px-5 sm:mx-0 sm:px-0 sm:scroll-px-0 pt-3 flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible snap-x snap-mandatory no-scrollbar">

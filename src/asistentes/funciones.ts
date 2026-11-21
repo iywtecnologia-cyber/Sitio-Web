@@ -371,8 +371,9 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
               },
             }),
           );
-          const detalle = COMBOS.map((c) => `• **${c.nombre}** (desde ${pesos(c.desde)}): ${c.para} Incluye ${c.incluye.join(', ')}.`).join('\n');
-          return (t ? 'No me quedó claro para qué. ' : '') + 'Estos son los combos:\n' + detalle + '\nTocá uno para verlo, o contame para qué lo querés y te digo cuál te conviene.';
+          // Corto, para que se lea entero en el chat: nombre, desde cuánto y qué trae.
+          const detalle = COMBOS.map((c) => `• **${c.nombre}** · desde ${pesos(c.desde)}\n   ${c.incluye.filter((x) => !/diagn/i.test(x)).join(' + ')}`).join('\n');
+          return (t ? 'No me quedó claro para qué. ' : '') + 'Combos (todos con diagnóstico gratis):\n' + detalle + '\nTocá uno para verlo.';
         }
         irA('combos');
         if (combo) mostrar('presupuesto', porTexto('#combos h3', combo.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), `¡Este te conviene!`);

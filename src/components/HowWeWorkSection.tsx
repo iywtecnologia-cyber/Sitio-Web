@@ -97,7 +97,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
   };
 
   return (
-    <section id={id} className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
+    <section id={id} className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/3 right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
@@ -105,15 +105,15 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Cabecera */}
-        <div className="max-w-3xl mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
+        <div className="max-w-3xl mb-4">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-1.5">
             <Workflow className="w-3.5 h-3.5" />
             <span>Nuestra Metodología</span>
           </div>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
             Cómo trabajamos: del problema a la solución en producción
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="mt-1.5 text-sm sm:text-base text-slate-300 leading-snug">
             Seis pasos claros, y vos aprobás cada uno.
           </p>
         </div>

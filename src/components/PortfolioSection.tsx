@@ -194,15 +194,11 @@ export const PortfolioSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Highlight Métrica */}
-            <div className="px-5 py-3.5 rounded-xl bg-slate-950/90 border border-slate-800 shrink-0 md:text-right">
-              <div className="text-base sm:text-lg font-black text-cyan-400 font-mono">
-                {activeProject.highlightNumber}
-              </div>
-              <div className="text-xs text-slate-300">
-                {activeProject.highlightText}
-              </div>
-            </div>
+            {/* Lo que resuelve, en una línea simple (antes era una cajita que se veía mal) */}
+            <p className="flex items-start gap-1.5 text-sm text-slate-300 lg:max-w-sm">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+              <span><b className="text-white">{activeProject.highlightNumber}:</b> {activeProject.highlightText}</span>
+            </p>
           </div>
 
           {/* Video demo con datos ficticios */}

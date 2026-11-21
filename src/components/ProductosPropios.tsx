@@ -371,25 +371,25 @@ export const ProductosPropios: React.FC = () => {
   };
 
   return (
-    <section id="productos" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
+    <section id="productos" className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       <div className="absolute -top-10 left-1/3 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-[500px] h-[400px] bg-cyan-600/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Encabezado de la Sección */}
-        <div className="max-w-3xl mb-8 sm:mb-10">
+        <div className="max-w-3xl mb-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-xs font-mono text-violet-300 mb-3">
             <FlaskConical className="w-3.5 h-3.5" />
             <span>Sistemas Propios & Hardware a Medida</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Nuestros{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               sistemas propios
             </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="mt-1.5 text-sm sm:text-base text-slate-300 leading-snug">
             Software listo para usar y equipos que fabricamos a pedido para tu máquina o tablero.
           </p>
         </div>

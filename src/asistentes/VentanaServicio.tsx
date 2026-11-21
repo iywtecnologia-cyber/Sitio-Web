@@ -1,12 +1,27 @@
 // Ventana con la información de un servicio: se abre al elegirlo (desde el asistente o la lista),
 // así se ve completo en el centro de la pantalla sin importar dónde esté su tarjeta en la página.
 import React, { useEffect, useState } from 'react';
-import { ArrowRight, MessageCircle, X } from 'lucide-react';
+import { ArrowRight, Eye, MessageCircle, X } from 'lucide-react';
+import { irA } from '../rutas';
+import { esperar } from './manos';
 import { SERVICES } from '../components/ServicesSection';
 import { SERVICIOS_SOFTWARE } from '../data/precios';
 import { whatsappLink } from '../data/contact';
 import { ID_PRECIO, pedirA } from './funciones';
-import { EV_VER_SERVICIO } from './eventos';
+import { EV_VER_SERVICIO, mensajeDeAsistente } from './eventos';
+
+/** Lleva a la tarjeta del servicio, la ilumina un rato y el asistente de Servicios ofrece «Volver». */
+const verEnLaWeb = (id: string, nombre: string) => {
+  irA(`servicio-${id}`, false, 'center');
+  void esperar(`#servicio-${id}`).then((el) => {
+    if (!el) return;
+    el.classList.add('asistente-senalado');
+    window.setTimeout(() => el.classList.remove('asistente-senalado'), 4000);
+  });
+  mensajeDeAsistente('servicios', `Te marqué **${nombre}** en la página.`, [
+    { texto: '← Volver a los servicios', alHacer: () => pedirA('servicios', 'ver-servicios', {}, 'Ver todos los servicios') },
+  ]);
+};
 
 
 const pesos = (n: number) => `$${Math.round(n).toLocaleString('es-AR')}`;
@@ -78,6 +93,16 @@ export const VentanaServicio: React.FC = () => {
           >
             <MessageCircle className="w-4 h-4" /> Consultar
           </a>
+          <button
+            type="button"
+            onClick={() => {
+              setId(null);
+              verEnLaWeb(s.id, nombre);
+            }}
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold hover:border-cyan-500/50 cursor-pointer"
+          >
+            <Eye className="w-4 h-4" /> Ver en la web
+          </button>
         </div>
       </div>
     </div>

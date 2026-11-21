@@ -7,7 +7,7 @@ import type { Sugerencia } from '../golondrina';
 import { irA, navegar, useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, SUGERENCIAS_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
-import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
+import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_MENSAJE, EV_ESTADO, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
 import { Marcianito } from '../components/Marcianito';
 
 export { EVENTO_ABRIR_ASISTENTE, abrirAsistente };
@@ -45,13 +45,6 @@ export const AsistentesPorFuncion: React.FC = () => {
   const enlaces = useRef<Enlace[]>([]);
   const entrada = useRef<HTMLInputElement>(null);
   const ultimo = useRef<string | null>(null);
-  // En el celu, mientras el asistente vuela a mostrarte algo, el chat se achica (no se cierra) para que lo veas.
-  const [volando, setVolando] = useState(false);
-  useEffect(() => {
-    const v = (e: Event) => setVolando(!!(e as CustomEvent<boolean>).detail);
-    window.addEventListener('asistente-vuela', v);
-    return () => window.removeEventListener('asistente-vuela', v);
-  }, []);
   // Lo que el asistente le preguntó a la persona y está esperando que responda (por asistente).
   const [esperando, setEsperando] = useState<Record<string, { accion: string; parametro: string }>>({});
   const lista = useRef<HTMLDivElement>(null);
@@ -270,6 +263,19 @@ export const AsistentesPorFuncion: React.FC = () => {
     if (window.matchMedia('(pointer: fine)').matches) window.setTimeout(() => entrada.current?.focus(), 50);
   };
 
+  // Mensajes que llegan de afuera (por ejemplo, «Ver en la web» desde la ventana de un servicio).
+  const agregarRef = useRef<(id: string, ...m: Mensaje[]) => void>(() => {});
+  agregarRef.current = agregar;
+  useEffect(() => {
+    const llega = (e: Event) => {
+      const d = (e as CustomEvent<{ id: string; texto: string; enlaces: Enlace[] }>).detail;
+      setAbierto(d.id);
+      agregarRef.current(d.id, { de: 'asistente', texto: d.texto, enlaces: d.enlaces });
+    };
+    window.addEventListener(EV_MENSAJE, llega);
+    return () => window.removeEventListener(EV_MENSAJE, llega);
+  }, []);
+
   // Un asistente le pasa la posta a otro (ej. Servicios → Presupuesto).
   const ejecutarRef = useRef(ejecutar);
   ejecutarRef.current = ejecutar;
@@ -297,7 +303,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className={`fixed z-[72] inset-x-2 bottom-2 ${volando ? 'h-[26dvh]' : 'h-[62dvh]'} transition-[height] duration-300 sm:inset-x-auto sm:left-5 lg:left-[16rem] sm:bottom-6 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
+          className={`fixed z-[72] inset-x-2 bottom-2 h-[80dvh] sm:inset-x-auto sm:left-5 lg:left-[16rem] sm:bottom-6 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -397,7 +403,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="px-3 pt-2 flex flex-wrap gap-1.5">
+              <div className={`px-3 pt-2 flex flex-wrap gap-1.5 ${asistente.id === 'contacto' ? 'pb-8' : ''}`}>
                 {menu.map((a) => (
                   <button
                     key={a.id}
