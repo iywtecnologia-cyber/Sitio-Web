@@ -389,8 +389,9 @@ export const AsistentesPorFuncion: React.FC = () => {
                   id="asistente-funcion-texto"
                   value={texto}
                   onChange={(e) => setTexto(e.target.value)}
-                  placeholder="Escribile con tus palabras…"
-                  className="flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
+                  // Cuando el asistente te preguntó algo, la caja se ilumina y te dice qué escribir.
+                  placeholder={asistente && esperando[asistente.id] ? (asistente.id === 'contacto' ? 'Escribí tu mensaje para ventas…' : 'Escribí tu respuesta acá…') : 'Escribile con tus palabras…'}
+                  className={`flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-slate-900 border ${asistente && esperando[asistente.id] ? 'border-cyan-400 ring-2 ring-cyan-400/30' : 'border-slate-700'} text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400`}
                 />
                 <button type="submit" aria-label="Enviar" disabled={pensando} className="px-3 rounded-xl bg-cyan-400 text-slate-950 hover:bg-cyan-300 disabled:opacity-50 cursor-pointer">
                   <Send className="w-4 h-4" />
