@@ -4,7 +4,7 @@ import { irA as irASeccion, EVENTO_SOPORTE } from '../rutas';
 import { X, Send, MessageCircle, ArrowRight, Mail, Headphones, MonitorUp } from 'lucide-react';
 import { TecnorosContactIcon } from './TecnorosContactIcon';
 import { Marcianito } from './Marcianito';
-import { EV_CHAT_MARCIO, EV_ESTADO, abrirAsistente, alternarAsistentes } from '../asistentes/eventos';
+import { EV_CHAT_MARCIO, EV_ESTADO } from '../asistentes/eventos';
 import { whatsappLink, gmailLink, ventasMailto, soporteWhatsappLink, mailtoLink, gmailPara, SOPORTE_EMAIL } from '../data/contact';
 import { responder, respuestaDeTema, esModificador, temasDeGrilla, temaPorId, hayProveedorIA, type Respuesta, type Tema, type Turno } from '../asistente';
 
@@ -426,16 +426,16 @@ export const Asistente: React.FC = () => {
       else sessionStorage.removeItem('marcio_oculto');
     } catch { /* sin almacenamiento: vale para esta pantalla */ }
   };
-  // Marcio es la puerta de entrada: tocarlo abre a los asistentes (cada uno sabe de una parte de la web).
-  // Su chat propio queda para preguntas generales: se abre desde el menú de asistentes («Preguntale a Marcio»).
+  // Marcio (el asistente general) abre su propio chat, como siempre. Los asistentes de cada sección
+  // se abren desde la lista de secciones (doble clic) o tocándolos en el inicio.
   const abrirChatPropio = () => {
     setAbierto(true);
     setMarcioOculto(false);
     setMarcioVisible(true);
   };
   const abrirChat = () => {
-    setAbierto(false);
-    abrirAsistente('auto');
+    window.dispatchEvent(new CustomEvent('cerrar-asistentes'));
+    abrirChatPropio();
   };
   const [asistentesAbiertos, setAsistentesAbiertos] = useState(false);
   useEffect(() => {
@@ -1163,19 +1163,19 @@ export const Asistente: React.FC = () => {
 
       <button
         type="button"
-        onClick={() => (abierto ? cerrarChat() : alternarAsistentes())}
-        aria-expanded={abierto || asistentesAbiertos}
-        aria-label={abierto || asistentesAbiertos ? 'Cerrar asistentes' : 'Abrir los asistentes de tecnoros.ar'}
+        onClick={() => (abierto ? cerrarChat() : abrirChat())}
+        aria-expanded={abierto}
+        aria-label={abierto ? 'Cerrar asistente' : 'Abrir asistente de tecnoros.ar'}
         title="Asistente de tecnoros.ar"
         className="fixed bottom-6 right-6 z-[65] p-2.5 sm:p-3 rounded-2xl bg-[#0B1220]/95 hover:bg-[#0E172A] border border-cyan-500/40 shadow-2xl shadow-cyan-500/30 hover:shadow-cyan-400/50 hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center backdrop-blur-md cursor-pointer"
       >
-        {!abierto && !asistentesAbiertos && (
+        {!abierto && (
           <>
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping absolute -top-1 -right-1 motion-reduce:animate-none" />
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 absolute -top-1 -right-1" />
           </>
         )}
-        {abierto || asistentesAbiertos ? (
+        {abierto ? (
           <X className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-300 p-1.5" />
         ) : (
           <TecnorosContactIcon className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-[0_0_12px_rgba(0,210,243,0.45)] group-hover:scale-105 transition-transform" />

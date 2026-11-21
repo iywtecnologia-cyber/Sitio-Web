@@ -46,14 +46,14 @@ const normalizar = (p: string): RutaVista => {
 // En qué página vive cada sección (id del elemento). Lo que no está acá se busca en la página actual o en el inicio.
 const PAGINA_DE: Record<string, Ruta> = {
   inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'contacto-rapido': '/',
-  servicios: '/servicios', 'como-trabajamos': '/servicios',
+  servicios: '/servicios', 'como-trabajamos': '/nosotros',
   proyectos: '/proyectos',
   contacto: '/contacto', 'consulta-directa': '/contacto',
   productos: '/productos', 'golondrina-personal-demo': '/productos', 'mostrador-demo': '/productos', 'hardware-studio-3d': '/productos',
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica', 'robot-creacion': '/robotica',
   facturacion: '/presupuesto', combos: '/presupuesto',
-  'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', asistentes: '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/encuentros',
+  'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', asistentes: '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/nosotros',
   stack: '/tecnologias',
   'sobre-nosotros': '/nosotros',
 };
@@ -62,7 +62,7 @@ const paginaDe = (id: string): Ruta | undefined => {
   if (PAGINA_DE[id]) return PAGINA_DE[id];
   if (id.startsWith('servicio-')) return '/servicios';
   if (id.startsWith('producto-')) return '/productos';
-  if (id.startsWith('paso-')) return '/servicios';
+  if (id.startsWith('paso-')) return '/nosotros';
   return undefined;
 };
 
