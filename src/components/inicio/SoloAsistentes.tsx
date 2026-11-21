@@ -92,7 +92,10 @@ export const PieSimple: React.FC = () => (
         <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
         <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
       </div>
-      <BotonesRedes />
+      {/* Instagram y LinkedIn, a la izquierda */}
+      <div className="self-start">
+        <BotonesRedes />
+      </div>
       <span className="font-mono text-slate-500 text-center">
         © {new Date().getFullYear()} tecnoros<span className="text-cyan-400">.ar</span> · Todos los derechos reservados
       </span>
