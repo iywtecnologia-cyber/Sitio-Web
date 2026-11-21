@@ -53,7 +53,7 @@ const PAGINA_DE: Record<string, Ruta> = {
   'aplicaciones-golondrina': '/productos', 'aviso-seguridad': '/productos', 'tero-proximamente': '/productos', 'tablero-golondrina': '/productos', 'precios-golondrina': '/productos',
   'robotica-3d': '/robotica', 'robot-creacion': '/robotica',
   facturacion: '/presupuesto', combos: '/presupuesto',
-  'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/encuentros',
+  'por-que-elegirnos': '/', 'combos-inicio': '/', 'videos-productos': '/', asistentes: '/', 'mapa-equipo': '/', blog: '/blog', encuentros: '/encuentros',
   stack: '/tecnologias',
   'sobre-nosotros': '/nosotros',
 };
