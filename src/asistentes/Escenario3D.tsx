@@ -244,7 +244,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       };
       const mover = (e: PointerEvent) => {
         if (!arrastre) {
-          canvas.style.cursor = botBajo(e) ? 'pointer' : 'grab';
+          canvas.style.cursor = botBajo(e) ? 'pointer' : 'default';
           return;
         }
         if (!arrastre.movio && Math.hypot(e.clientX - arrastre.x, e.clientY - arrastre.y) < 6) return;
@@ -252,10 +252,8 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
         if (arrastre.bot) {
           const v = puntoPiso(e);
           if (v) arrastre.bot.sostenido = new THREE.Vector3(Math.max(-6, Math.min(6, v.x)), 0.9, Math.max(-4, Math.min(4, v.z)));
-        } else {
-          vel = (e.movementX || 0) * 0.006;
-          giro += vel;
         }
+        // La plataforma queda fija: arrastrar el piso ya no la gira.
       };
       const arriba = () => {
         if (!arrastre) return;
@@ -395,7 +393,8 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
             et.style.transform = `translate(${x}px, ${yy}px) translate(-50%, -100%) scale(${prof})`;
             et.style.zIndex = String(Math.round(100 + enMundo.z * 10));
             // En el celu solo se ven los nombres de los que pasan por adelante, así no tapan el logo.
-            const ver = delante && !tapadoPorLogo && (w >= 500 || enMundo.z > -0.4);
+            // Los que pasan por detrás del logo no muestran su cartelito (así el logo se ve entero).
+            const ver = delante && !tapadoPorLogo && enMundo.z > -0.3;
             et.style.opacity = ver ? '1' : '0';
             const boton = et.firstElementChild as HTMLElement | null;
             if (boton) boton.style.pointerEvents = ver ? '' : 'none';
@@ -469,7 +468,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
 
   return (
     <div>
-      <div ref={caja} className={`relative w-full ${alto} rounded-3xl overflow-hidden bg-gradient-to-b from-slate-900/80 via-[#0a1426] to-[#060b16] border border-cyan-500/20 touch-none select-none`}>
+      <div ref={caja} className={`relative w-full ${alto} rounded-3xl overflow-hidden bg-gradient-to-b from-slate-900/80 via-[#0a1426] to-[#060b16] border border-cyan-500/20 touch-pan-y select-none`}>
         {!sin3D && <canvas ref={lienzo} className="absolute inset-0 w-full h-full" aria-label="Escenario 3D con el logo de tecnoros y los asistentes girando alrededor. Tocá uno para hablarle." />}
         {/* Nombre de cada asistente sobre su cabeza (también sirve para tocarlo con el teclado) */}
         <div className="absolute inset-0 pointer-events-none">
@@ -493,7 +492,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           ))}
         </div>
         <p className="absolute left-1/2 -translate-x-1/2 bottom-3 px-3 py-1 rounded-full bg-black/40 text-[11px] sm:text-xs text-slate-300 whitespace-nowrap pointer-events-none">
-          Tocá un asistente para hablarle · arrastralo · girá el piso
+          Tocá un asistente para hablarle · arrastralo
         </p>
       </div>
       {/* Así funciona Golondrina: lo que hicieron los asistentes y lo que se puede automatizar */}

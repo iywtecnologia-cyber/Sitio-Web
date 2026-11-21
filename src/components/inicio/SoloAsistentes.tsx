@@ -7,7 +7,7 @@ import React, { Suspense, lazy } from 'react';
 import { ArrowLeft, ArrowRight, Headphones, PlayCircle, Unlock } from 'lucide-react';
 import { TecnorosLogo } from '../TecnorosLogo';
 import { BotonesRedes } from '../Redes';
-import { abrirSoporte, navegar, useRuta } from '../../rutas';
+import { abrirSoporte, irA, navegar, useRuta } from '../../rutas';
 import { abrirAsistente } from '../../asistentes/eventos';
 import { HowWeWorkSection } from '../HowWeWorkSection';
 import { Encuentros } from '../extra/Encuentros';
@@ -40,16 +40,14 @@ export const CabeceraSimple: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                // Vuelve al panel de los asistentes (no al título de arriba) y abre el menú.
-                navegar('/', 'asistentes');
-                window.setTimeout(() => {
-                  document.getElementById('asistentes')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  abrirAsistente('hub');
-                }, 250);
+                // «Volver al inicio» lleva a los asistentes (no al título de arriba) y abre el menú.
+                irA('asistentes', false, 'start');
+                abrirAsistente('hub');
               }}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
+              aria-label="Volver al inicio"
+              className="inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
             >
-              <ArrowLeft className="w-4 h-4" /> Volver a los asistentes
+              <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">Volver al inicio</span>
             </button>
           )}
           {/* Sin permanencia, a la izquierda de Soporte técnico */}
@@ -125,13 +123,6 @@ export const VideosProductos: React.FC = () => (
         ))}
       </ul>
       <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
-        <button
-          type="button"
-          onClick={() => abrirAsistente('proyectos')}
-          className="hidden sm:inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-900/90 border border-slate-700 hover:border-cyan-400 text-white font-semibold cursor-pointer"
-        >
-          <img src="/asistentes/proyectos.png" alt="" aria-hidden="true" className="w-6 h-6 object-contain" /> Hacele click al asistente de Proyectos
-        </button>
         <button
           type="button"
           onClick={() => abrirAsistente('contacto')}

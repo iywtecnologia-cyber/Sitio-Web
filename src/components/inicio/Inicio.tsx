@@ -1,4 +1,3 @@
-import { abrirAsistente } from '../../asistentes/eventos';
 import { EscenarioAsistentes } from '../../asistentes/AsistentesPorFuncion';
 import React from 'react';
 import { Carrusel } from './Carrusel';
@@ -62,7 +61,7 @@ export const HeroCorto: React.FC = () => (
         <div className="mt-5 sm:mt-8 flex flex-row gap-2.5 sm:gap-3">
           <button
             type="button"
-            onClick={() => abrirAsistente('presupuesto')}
+            onClick={() => irA('facturacion')}
             className="flex-1 sm:flex-none whitespace-nowrap text-[15px] sm:text-base inline-flex items-center justify-center gap-2 px-3 sm:px-6 py-3.5 font-bold text-slate-950 bg-gradient-to-r from-cyan-400 to-cyan-300 rounded-xl shadow-lg shadow-cyan-500/25 cursor-pointer"
           >
             <span className="sm:hidden">Pedí cotización</span><span className="hidden sm:inline">Pedí presupuesto</span> <ArrowRight className="w-4 h-4" />
