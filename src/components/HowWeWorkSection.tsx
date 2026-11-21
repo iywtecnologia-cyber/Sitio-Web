@@ -110,7 +110,7 @@ export const HowWeWorkSection: React.FC<{ id?: string }> = ({ id = 'como-trabaja
             <Workflow className="w-3.5 h-3.5" />
             <span>Nuestra Metodología</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
             Cómo trabajamos: del problema a la solución en producción
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">

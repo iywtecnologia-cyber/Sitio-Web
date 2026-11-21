@@ -14,7 +14,7 @@ import { FOUNDERS, URL_ORGANIGRAMA } from '../data/equipo';
 import { VENTAS_EMAIL, gmailPara, soporteWhatsappLink, whatsappLink } from '../data/contact';
 import { abrirSoporte, irA } from '../rutas';
 import { escribir, esperar, tocar, volarA } from './manos';
-import { cerrarAsistentes } from './eventos';
+import { cerrarAsistentes, verServicio } from './eventos';
 
 export interface Enlace {
   texto: string;
@@ -110,8 +110,8 @@ export const ASISTENTES: Asistente[] = [
     emoji: '✉️',
     color: 'teal',
     degrade: 'from-teal-400 to-cyan-500',
-    rol: 'Te armo el mensaje para ventas',
-    saludo: 'Contame en una frase qué necesitás y te dejo el mensaje listo para mandarlo por WhatsApp o e-mail.',
+    rol: 'Te paso con el equipo de ventas',
+    saludo: 'Tocá «Escribirle a ventas» y te paso el e-mail del equipo: se abre Gmail para que les escribas.',
     paginas: ['/contacto'],
   },
   {
@@ -137,7 +137,6 @@ export const PREGUNTA_DE: Record<string, { pregunta: string; parametro: string; 
   'explicar-producto': { parametro: 'producto', pregunta: '¿De qué producto querés saber? Elegí uno o escribime cuál.' },
   'probar-producto': { parametro: 'producto', pregunta: '¿Qué producto querés probar? Elegí uno.' },
   'disenar-robot': { parametro: 'uso', pregunta: 'Completá la frase: «Quiero un robot que…»', prefijo: 'Quiero un robot que ' },
-  'escribir-ventas': { parametro: 'mensaje', pregunta: 'Escribí acá abajo tu mensaje para el equipo de ventas y te lo dejo listo para mandar por Gmail.' },
   'pedir-soporte': { parametro: 'problema', pregunta: '¿Qué es lo que no anda? Contame qué pasa y te paso con soporte.' },
 };
 
@@ -226,7 +225,7 @@ export const serviciosDe = (frase: string) => {
 };
 
 // Los ids de precios no siempre coinciden con los de las tarjetas de servicio.
-const ID_PRECIO: Record<string, string> = { 'analisis-qa': 'diagnostico', 'paginas-web': 'paginas-web', 'software-a-medida': 'automatizacion' };
+export const ID_PRECIO: Record<string, string> = { 'analisis-qa': 'diagnostico', 'paginas-web': 'paginas-web', 'software-a-medida': 'automatizacion' };
 
 // Qué servicios (ids de precios) trae cada combo, para recomendarlo cuando piden esas cosas juntas.
 const SERVICIOS_DE_COMBO: Record<string, string[]> = {
@@ -278,11 +277,10 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           ofrecer({ texto: 'Pedir diagnóstico gratis', alHacer: irAlDiagnostico });
           return 'No me quedó claro qué necesitás. Contámelo con otras palabras, o empezá por el diagnóstico inicial gratuito: miramos tu negocio y te decimos qué conviene.';
         }
-        irA(`servicio-${items[0].id}`, false, 'center');
-        mostrar('servicios', `servicio-${items[0].id}`, '¡Este te sirve!');
-        items.slice(1, 3).forEach((s) => ofrecer({ texto: `Ver ${s.title}`, alHacer: () => irA(`servicio-${s.id}`, true, 'center') }));
+        verServicio(items[0].id);
+        items.slice(1, 3).forEach((s) => ofrecer({ texto: `Ver ${s.title.split(':')[0]}`, alHacer: () => verServicio(s.id) }));
         ofrecer({ texto: '¿Cuánto sale?', alHacer: () => pedirA('presupuesto', 'calcular-presupuesto', { pedido: p['necesidad'] ?? '' }, `¿Cuánto sale? (${items.map((s) => s.title.split(':')[0]).join(', ')})`) });
-        return `Para eso te sirve **${items[0].title}**: ${items[0].description}\nTe lo marqué en la página.` + (items.length > 1 ? `\nTambién puede servirte: ${items.slice(1, 3).map((s) => s.title).join(' y ')}.` : '');
+        return `Para eso te sirve **${items[0].title}**: ${items[0].description}\nTe abrí su información.` + (items.length > 1 ? `\nTambién puede servirte: ${items.slice(1, 3).map((s) => s.title).join(' y ')}.` : '');
       },
     }),
     de('servicios', {
@@ -295,10 +293,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         SERVICES.forEach((s) =>
           ofrecer({
             texto: s.title.split(':')[0],
-            alHacer: () => {
-              irA(`servicio-${s.id}`, true, 'center');
-              mostrar('servicios', `servicio-${s.id}`, s.title.split(':')[0]);
-            },
+            // Se abre una ventana con la información de ese servicio (no te manda a buscar la tarjeta).
+            alHacer: () => verServicio(s.id),
           }),
         );
         return 'Estos son todos nuestros servicios. Tocá el que quieras y te llevo a ver de qué se trata.';
@@ -375,9 +371,8 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
               },
             }),
           );
-          return t
-            ? 'No me quedó claro para qué. Te sugiero estos combos: tocá uno para verlo, o contame qué querés lograr.'
-            : 'Te sugiero estos combos: tocá uno para verlo. Si me contás para qué lo querés, te digo cuál te conviene más.';
+          const detalle = COMBOS.map((c) => `• **${c.nombre}** (desde ${pesos(c.desde)}): ${c.para} Incluye ${c.incluye.join(', ')}.`).join('\n');
+          return (t ? 'No me quedó claro para qué. ' : '') + 'Estos son los combos:\n' + detalle + '\nTocá uno para verlo, o contame para qué lo querés y te digo cuál te conviene.';
         }
         irA('combos');
         if (combo) mostrar('presupuesto', porTexto('#combos h3', combo.nombre).then((h) => h?.closest('li, article, div[class*="rounded"]') as HTMLElement | null), `¡Este te conviene!`);
