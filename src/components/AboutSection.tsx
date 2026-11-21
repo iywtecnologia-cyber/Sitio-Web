@@ -41,7 +41,7 @@ export const AboutSection: React.FC = () => {
           </p>
 
           {/* Nuestra historia en fotos: link a Encuentros */}
-          <a href="/encuentros" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200 underline-offset-4 hover:underline">
+          <a href="/nosotros#encuentros" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200 underline-offset-4 hover:underline">
             Mirá nuestra historia en fotos: comienzos, equipo y jornadas <ArrowRight className="w-4 h-4" />
           </a>
 
