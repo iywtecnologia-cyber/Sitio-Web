@@ -48,7 +48,8 @@ const CONTENIDO: Record<Exclude<Ruta, '/'>, React.ReactNode> = {
   '/presupuesto': <><BillingModule /><Combos /></>,
   '/tecnologias': <StackSection />,
   // Quiénes somos incluye Cómo trabajamos.
-  '/nosotros': <><AboutSection /><HowWeWorkSection /></>,
+  // Quiénes somos: qué hacemos, cómo trabajamos y las fotos (Encuentros), una debajo de la otra.
+  '/nosotros': <><AboutSection /><HowWeWorkSection /><Encuentros /></>,
   '/contacto': <ContactSection />,
   '/encuentros': <Encuentros />,
   '/blog': <Blog />,
