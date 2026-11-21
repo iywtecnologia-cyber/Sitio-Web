@@ -86,9 +86,9 @@ export const MundoEquipo: React.FC = () => {
     return () => { vivo = false; };
   }, [visible, tierra]);
 
-  // Gira solo, despacito, hasta que la persona lo agarra o elige un punto.
+  // Gira siempre, despacito. Solo se frena mientras lo arrastrás o tenés el mouse/dedo sobre un nombre.
   useEffect(() => {
-    if (!visible || elegido || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!visible || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let id = 0;
     let antes = performance.now();
     const paso = (t: number) => {
@@ -99,7 +99,7 @@ export const MundoEquipo: React.FC = () => {
     };
     id = requestAnimationFrame(paso);
     return () => cancelAnimationFrame(id);
-  }, [visible, elegido]);
+  }, [visible]);
 
   const proyeccion = useMemo(() => geoOrthographic().scale(TAM / 2 - 6).translate([TAM / 2, TAM / 2]).rotate([rot[0], rot[1]]).clipAngle(90), [rot]);
   const camino = useMemo(() => geoPath(proyeccion), [proyeccion]);
@@ -117,12 +117,10 @@ export const MundoEquipo: React.FC = () => {
     setRot([a.r[0] + (e.clientX - a.x) * k, Math.max(-80, Math.min(80, a.r[1] - (e.clientY - a.y) * k))]);
   };
   const soltar = () => {
-    if (arrastre.current) tocado.current = true;
     arrastre.current = null;
   };
 
   const mirarA = (u: Ubicacion) => {
-    tocado.current = true;
     setRot([-u.lon, -u.lat * 0.6]);
   };
   const elegir = (p: Punto) => {
@@ -166,6 +164,7 @@ export const MundoEquipo: React.FC = () => {
                   transform={`translate(${xy[0]},${xy[1]})`}
                   // Al pasar el mouse o tocar un nombre, el globo se queda quieto para poder hacer clic en su LinkedIn.
                   onPointerEnter={() => (tocado.current = true)}
+                  onPointerLeave={() => (tocado.current = false)}
                   onPointerDown={() => (tocado.current = true)}
                 >
                   <circle r={18} fill="#00D2F3" opacity={0.18} className="motion-safe:animate-ping" style={{ transformOrigin: 'center', transformBox: 'fill-box' }} />
