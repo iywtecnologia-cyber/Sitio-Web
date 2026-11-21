@@ -20,6 +20,8 @@ export interface Hecho {
   repetir?: Repetir;
   /** Número único (para recordar si ya respondió «¿repetir?»). */
   n: number;
+  /** A qué parte de la web te llevó (camino + #sección), si te llevó a algún lado. */
+  destino?: string;
 }
 
 /** Lo que hicieron los asistentes en esta visita (el escenario lo muestra como lista). */
@@ -37,6 +39,16 @@ export const registrarHecho = (id: string, texto: string, repetir?: Repetir) => 
   hechos.unshift({ id, texto, repetir, n: ++numeroHecho, hora: `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}` });
   hechos.splice(12);
   window.dispatchEvent(new CustomEvent(EV_HIZO));
+  // Un ratito después se anota adónde te llevó (si cambió de sección).
+  const hecho = hechos[0];
+  const antes = window.location.pathname + window.location.hash;
+  window.setTimeout(() => {
+    const ahora = window.location.pathname + window.location.hash;
+    if (ahora !== antes || hecho.destino === undefined) {
+      hecho.destino = ahora;
+      window.dispatchEvent(new CustomEvent(EV_HIZO));
+    }
+  }, 1600);
 };
 
 /** Golondrina: repetir una tarea que ya hizo un asistente (la persona aceptó «¿Te gustaría repetir la tarea?»). */

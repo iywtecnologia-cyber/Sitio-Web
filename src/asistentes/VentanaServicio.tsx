@@ -8,21 +8,18 @@ import { SERVICES } from '../components/ServicesSection';
 import { SERVICIOS_SOFTWARE } from '../data/precios';
 import { whatsappLink } from '../data/contact';
 import { ID_PRECIO, pedirA } from './funciones';
-import { EV_VER_SERVICIO, mensajeDeAsistente } from './eventos';
+import { EV_VER_SERVICIO, cerrarAsistentes } from './eventos';
 
-/** Lleva a la tarjeta del servicio, la ilumina un rato y el asistente de Servicios ofrece «Volver». */
-const verEnLaWeb = (id: string, nombre: string) => {
+/** «Ver en la web»: se cierra el asistente y te lleva a la tarjeta del servicio, que se ilumina un rato. */
+const verEnLaWeb = (id: string) => {
+  cerrarAsistentes();
   irA(`servicio-${id}`, false, 'center');
   void esperar(`#servicio-${id}`).then((el) => {
     if (!el) return;
     el.classList.add('asistente-senalado');
     window.setTimeout(() => el.classList.remove('asistente-senalado'), 4000);
   });
-  mensajeDeAsistente('servicios', `Te marqué **${nombre}** en la página.`, [
-    { texto: '← Volver a los servicios', alHacer: () => pedirA('servicios', 'ver-servicios', {}, 'Ver todos los servicios') },
-  ]);
 };
-
 
 const pesos = (n: number) => `$${Math.round(n).toLocaleString('es-AR')}`;
 
@@ -98,7 +95,7 @@ export const VentanaServicio: React.FC = () => {
             type="button"
             onClick={() => {
               setId(null);
-              verEnLaWeb(s.id, nombre);
+              verEnLaWeb(s.id);
             }}
             className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white text-sm font-semibold hover:border-cyan-500/50 cursor-pointer"
           >
