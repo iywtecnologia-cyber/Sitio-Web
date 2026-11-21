@@ -137,6 +137,7 @@ export const PREGUNTA_DE: Record<string, { pregunta: string; parametro: string; 
   'explicar-producto': { parametro: 'producto', pregunta: '¿De qué producto querés saber? Elegí uno o escribime cuál.' },
   'probar-producto': { parametro: 'producto', pregunta: '¿Qué producto querés probar? Elegí uno.' },
   'disenar-robot': { parametro: 'uso', pregunta: 'Completá la frase: «Quiero un robot que…»', prefijo: 'Quiero un robot que ' },
+  'escribir-ventas': { parametro: 'mensaje', pregunta: 'Escribí acá abajo tu mensaje para el equipo de ventas y te lo dejo listo para mandar por Gmail.' },
   'pedir-soporte': { parametro: 'problema', pregunta: '¿Qué es lo que no anda? Contame qué pasa y te paso con soporte.' },
 };
 
@@ -580,7 +581,9 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         const msg = `Hola tecnoros.ar, ${texto && !/^(hablar con alguien|contactar|escribir|escribirle a ventas)$/i.test(texto) ? texto : 'quiero hacer una consulta.'}`;
         // Directo al e-mail de ventas: al tocarlo se abre Gmail con el mensaje para el equipo de ventas.
         ofrecer({ texto: `✉️ ${VENTAS_EMAIL} · abrir Gmail`, href: gmailPara(VENTAS_EMAIL, 'Consulta desde la web - tecnoros.ar', msg), unaVez: true });
-        return `Escribile al equipo de ventas a **${VENTAS_EMAIL}**. Tocá el botón y se abre Gmail para mandarle tu mensaje; te responde una persona del equipo.`;
+        return texto
+          ? `Listo, tu mensaje para ventas: «${msg}». Tocá el botón y se abre Gmail para mandárselo a **${VENTAS_EMAIL}**; te responde una persona del equipo.`
+          : `Escribile al equipo de ventas a **${VENTAS_EMAIL}**. Tocá el botón y se abre Gmail para mandarle tu mensaje; te responde una persona del equipo.`;
       },
     }),
 

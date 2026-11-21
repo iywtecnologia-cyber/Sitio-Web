@@ -77,6 +77,30 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
               )}
               {s.texto}
             </button>
+            {/* Debajo de Quiénes somos: links chiquitos a sus tres partes */}
+            {s.ruta === '/nosotros' && (
+              <div className="ml-12 mt-0.5 mb-1 flex flex-wrap gap-x-2 gap-y-0.5 text-[11px] text-slate-400">
+                {[
+                  ['Quiénes somos', 'sobre-nosotros'],
+                  ['Cómo trabajamos', 'como-trabajamos'],
+                  ['Encuentros', 'encuentros'],
+                ].map(([t, id], k) => (
+                  <React.Fragment key={id}>
+                    {k > 0 && <span aria-hidden="true">·</span>}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        irA(id, true, 'start');
+                        alElegir?.();
+                      }}
+                      className="hover:text-cyan-300 underline-offset-2 hover:underline cursor-pointer"
+                    >
+                      {t}
+                    </button>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
           </li>
         );
       })}

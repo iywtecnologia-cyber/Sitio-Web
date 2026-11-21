@@ -76,7 +76,8 @@ export const RobotStudioSection: React.FC = () => {
     isEmergencyStop: false,
   });
 
-  const [autoRotate, setAutoRotate] = useState(false);
+  const [autoRotate, setAutoRotate] = useState(true);
+  const [verComoFunciona, setVerComoFunciona] = useState(false);
   const [showExplodedInfo, setShowExplodedInfo] = useState(false);
 
   // Switch between miniature robot models
@@ -218,48 +219,53 @@ export const RobotStudioSection: React.FC = () => {
   };
 
   return (
-    <section id="robotica-3d" className="py-14 sm:py-20 bg-transparent border-t border-slate-800/60 relative overflow-hidden">
+    <section id="robotica-3d" className="py-6 sm:py-8 bg-transparent border-t border-slate-800/60 relative overflow-hidden">
       {/* Background radial atmosphere */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[550px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[550px] h-[450px] bg-violet-600/5 rounded-full blur-[130px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* Orden: título chico → robot girando + panel para personalizarlo → modelos y opciones debajo. */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col">
         
-        {/* Encabezado corto: qué hacemos en una frase y los 2 pasos */}
-        <div className="mb-8 space-y-4">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400">
-            <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-            Robótica a medida
-          </span>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight lg:whitespace-nowrap">
-            Desarrollo del cerebro robótico y fabricación física a medida
-          </h1>
-          <p className="text-base sm:text-lg text-slate-300 max-w-3xl">
-            Primero programamos el cerebro del robot y lo probás en 3D. Si funciona, fabricamos el cuerpo.
-          </p>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl">
-            <li className="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/30">
-              <span className="w-9 h-9 rounded-full bg-cyan-400 text-slate-950 font-black flex items-center justify-center shrink-0">1</span>
-              <span><strong className="block text-white text-base">El cerebro</strong><span className="text-sm text-slate-300">Lo programamos y lo probás en 3D</span></span>
-            </li>
-            <li className="flex items-center gap-3 p-4 rounded-2xl bg-slate-900/90 border border-violet-500/30">
-              <span className="w-9 h-9 rounded-full bg-violet-400 text-slate-950 font-black flex items-center justify-center shrink-0">2</span>
-              <span><strong className="block text-white text-base">El cuerpo</strong><span className="text-sm text-slate-300">Lo fabricamos si es viable</span></span>
-            </li>
-          </ol>
-          <a
-            href="https://airclub-udesa.github.io/jar_site/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-violet-500/10 border border-violet-400/40 text-violet-200 hover:bg-violet-500/20 text-sm font-semibold transition-colors"
+        {/* Encabezado chico: así lo primero que se ve es el robot girando y que se puede personalizar */}
+        <div className="order-1 mb-3 flex flex-wrap items-end justify-between gap-2">
+          <div className="min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-cyan-400">
+              <Cpu className="w-3.5 h-3.5" /> Robótica a medida
+            </span>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-tight">
+              Diseñá tu robot: <span className="text-cyan-300">personalizalo en 3D</span>
+            </h1>
+            <p className="text-sm text-slate-400">Elegí un modelo, cambiale colores y piezas, y miralo girar. Después lo cotizás.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setVerComoFunciona((v) => !v)}
+            aria-expanded={verComoFunciona}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 text-sm font-bold hover:bg-cyan-300 cursor-pointer"
           >
-            <span aria-hidden="true">🏁</span>
-            <span>Challenge JAR 2026: participamos con nuestro robot autónomo y terminamos 7°</span>
-          </a>
+            <HelpCircle className="w-4 h-4" /> ¿Cómo funciona?
+          </button>
         </div>
+        {verComoFunciona && (
+          <div className="order-1 mb-4 p-4 rounded-2xl bg-slate-900/95 border border-cyan-500/40 text-sm text-slate-300">
+            <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              <li><strong className="text-white">1. Elegí un modelo base</strong><br />Tocá uno de los robots de la lista (todos son compactos).</li>
+              <li><strong className="text-white">2. Personalizalo</strong><br />En el panel de al lado cambiás colores, ruedas, brazo, sensores y luces.</li>
+              <li><strong className="text-white">3. Miralo en 3D</strong><br />Arrastralo para girarlo, prendé las luces o separá las piezas con la vista explotada.</li>
+              <li><strong className="text-white">4. Cotizalo</strong><br />Tocá «Cotizar mi robot» y nos llega tu diseño por WhatsApp.</li>
+            </ol>
+            <p className="mt-3 text-slate-400">
+              Primero programamos el <strong className="text-white">cerebro</strong> y lo probás en 3D; si funciona, fabricamos el <strong className="text-white">cuerpo</strong>.{' '}
+              <a href="https://airclub-udesa.github.io/jar_site/" target="_blank" rel="noopener noreferrer" className="text-violet-300 underline underline-offset-4">
+                🏁 Challenge JAR 2026: terminamos 7° con nuestro robot autónomo
+              </a>
+            </p>
+          </div>
+        )}
 
         {/* Model Selector Carousel / Bar: al tocar un robot, la vista va directo al robot */}
-        <div id="robot-creacion" className="mb-6 space-y-2 scroll-mt-24" onClickCapture={mostrarRobot}>
+        <div id="robot-creacion" className="order-3 mt-4 space-y-2 scroll-mt-24" onClickCapture={mostrarRobot}>
           <div className="flex items-center justify-between gap-3 text-xs font-mono text-slate-400">
             <span className="flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
@@ -270,14 +276,14 @@ export const RobotStudioSection: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          <div className="flex lg:grid lg:grid-cols-6 gap-2 overflow-x-auto no-scrollbar pb-1">
             {ROBOT_MODELS_CATALOG.map((m) => {
               const isSelected = robotConfig.robotModelId === m.id;
               return (
                 <button
                   key={m.id}
                   onClick={() => handleSelectRobotModel(m.id)}
-                  className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`shrink-0 w-40 lg:w-auto p-2 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
                       ? 'bg-cyan-500/15 border-cyan-400 ring-1 ring-cyan-400/50 shadow-lg shadow-cyan-500/10'
                       : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 text-slate-300'
@@ -304,7 +310,7 @@ export const RobotStudioSection: React.FC = () => {
         </div>
 
         {/* Studio Sub-Header & Controls */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 p-3 rounded-xl bg-slate-900/60 border border-slate-800/80">
+        <div className="order-4 mt-3 flex flex-wrap items-center justify-between gap-2 p-2 rounded-xl bg-slate-900/60 border border-slate-800/80">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('free-custom')}
@@ -349,13 +355,13 @@ export const RobotStudioSection: React.FC = () => {
         </div>
 
         {/* Main 3D Studio Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="order-2 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
           
           {/* Left / Central 3D Canvas Viewport */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
+          <div className="lg:col-span-8 flex flex-col gap-2">
             
             {/* Top Viewport HUD Bar */}
-            <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+            <div className="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
                 <span className="text-white font-semibold">

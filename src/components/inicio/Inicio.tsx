@@ -37,28 +37,31 @@ const VerMas: React.FC<{ onClick: () => void; children: React.ReactNode }> = ({ 
 
 /* ── 1. Hero ───────────────────────────────────────────────────────────── */
 export const HeroCorto: React.FC = () => (
-  <section id="inicio" className="relative pt-24 pb-10 sm:pt-32 sm:pb-16 overflow-hidden">
+  <section id="inicio" className="relative pt-[84px] pb-8 sm:pt-[92px] sm:pb-10 overflow-hidden">
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 flex flex-col gap-6 sm:gap-8">
+    <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 flex flex-col gap-4">
       {/* Debajo del título: los asistentes girando alrededor del logo de tecnoros, a todo el ancho */}
       <div id="asistentes" className="order-2 scroll-mt-24">
-        <EscenarioAsistentes alto="h-[340px] sm:h-[460px] lg:h-[520px]" />
+        <EscenarioAsistentes alto="h-[300px] sm:h-[360px] lg:h-[370px]" />
       </div>
-      <div className="order-1">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-4">
+      {/* Título, texto y botones: en compu los botones van a la derecha para que entre todo en la primera pantalla */}
+      <div className="order-1 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-8">
+        <div className="min-w-0">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-300 mb-2 sm:mb-3">
           De Rosario para todo el mundo <Globe2 className="w-3.5 h-3.5" aria-hidden="true" />
         </span>
-        <h1 className="text-[2rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
+        <h1 className="text-[1.9rem] sm:text-5xl font-extrabold tracking-tight text-white leading-[1.1]">
           Todo para tu negocio que <span className="whitespace-nowrap">crece <span className="animate-text-light-sweep">con vos</span></span>
         </h1>
-        <p className="mt-3 sm:mt-4 text-[15px] sm:text-xl text-slate-300 max-w-xl">
+        <p className="mt-2 sm:mt-3 text-[15px] sm:text-lg text-slate-300 max-w-4xl leading-snug">
           Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
         </p>
-        <p className="hidden sm:block mt-3 text-sm sm:text-base text-cyan-200/90 max-w-xl">
+        <p className="hidden sm:block mt-1.5 text-sm sm:text-base text-cyan-200/90 max-w-4xl">
           Tocá un asistente, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
         </p>
-        <div className="mt-5 sm:mt-8 flex flex-row gap-2.5 sm:gap-3">
+        </div>
+        <div className="mt-4 lg:mt-0 flex flex-row gap-2.5 sm:gap-3">
           <button
             type="button"
             onClick={() => irA('facturacion')}
