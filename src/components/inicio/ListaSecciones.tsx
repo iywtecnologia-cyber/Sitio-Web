@@ -26,7 +26,7 @@ export const SECCIONES: Seccion[] = [
   { texto: 'Proyectos', ruta: '/proyectos', asistente: 'proyectos' },
   { texto: 'Presupuesto', ruta: '/presupuesto', asistente: 'presupuesto' },
   { texto: 'Contacto', ruta: '/contacto', asistente: 'contacto' },
-]
+];
 
 export const EVENTO_SECCIONES = 'abrir-secciones';
 
@@ -49,17 +49,20 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
               type="button"
               // Un clic: vas a la sección. Doble clic: se abre su asistente.
               onClick={() => {
-                // Espera un instante: si llega un segundo toque es doble clic (abre el asistente).
-                window.clearTimeout(espera);
+                // Si llega un segundo toque enseguida es doble clic/toque: abre el asistente
+                // (detectado a mano porque en algunos celus no existe el doble clic).
+                if (espera) {
+                  window.clearTimeout(espera);
+                  espera = 0;
+                  abrirAsistente(s.asistente === 'logo' ? 'hub' : s.asistente);
+                  alElegir?.();
+                  return;
+                }
                 espera = window.setTimeout(() => {
+                  espera = 0;
                   ir(s);
                   alElegir?.();
-                }, 260);
-              }}
-              onDoubleClick={() => {
-                window.clearTimeout(espera);
-                abrirAsistente(s.asistente === 'logo' ? 'hub' : s.asistente);
-                alElegir?.();
+                }, 280);
               }}
               title={s.asistente === 'logo' ? 'Doble clic: ver todos los asistentes' : 'Doble clic: hablale a su asistente'}
               aria-current={activa ? 'page' : undefined}
