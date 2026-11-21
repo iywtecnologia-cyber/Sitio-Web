@@ -71,7 +71,9 @@ export async function volarA(destino: string | HTMLElement, quien: Personaje, te
   window.dispatchEvent(new CustomEvent('asistente-vuela', { detail: true }));
 
   // El elemento señalado se ilumina mientras el asistente está ahí.
-  el.classList.add('asistente-senalado');
+  // Solo se ilumina si es algo chico (un botón, una tarjeta); una sección entera no.
+  const chico = r.height < window.innerHeight * 0.5;
+  if (chico) el.classList.add('asistente-senalado');
 
   if (!sinMovimiento()) {
     nodo.animate(

@@ -25,6 +25,7 @@ import { NoEncontrada } from './components/NoEncontrada';
 import { useRuta, NO_ENCONTRADA, type Ruta } from './rutas';
 import { META_PAGINAS, TITULO_NO_ENCONTRADA, tituloDe, descripcionDe, urlDe } from './data/paginas';
 import { AsistentesPorFuncion } from './asistentes/AsistentesPorFuncion';
+import { VentanaServicio } from './asistentes/VentanaServicio';
 
 // El estudio de robótica arrastra three.js: se descarga sólo al entrar a /robotica
 // para que el inicio cargue rápido en el celular.
@@ -135,6 +136,8 @@ export default function App() {
       <Asistente />
       {/* Un asistente para cada funcionalidad (rama de prueba) */}
       <AsistentesPorFuncion />
+      {/* Ventana con la info de un servicio (se abre al elegirlo) */}
+      <VentanaServicio />
 
       {/* Botón de arrepentimiento / baja (se abre con #arrepentimiento o #baja) */}
       <Arrepentimiento />
