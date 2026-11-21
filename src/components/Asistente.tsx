@@ -1178,7 +1178,10 @@ export const Asistente: React.FC = () => {
         {abierto ? (
           <X className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-300 p-1.5" />
         ) : (
-          <TecnorosContactIcon className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-[0_0_12px_rgba(0,210,243,0.45)] group-hover:scale-105 transition-transform" />
+          // El botón de abajo también se mueve: flota despacito, como Marcio.
+          <span className="block motion-safe:animate-[marcio-flota_3.2s_ease-in-out_infinite]">
+            <TecnorosContactIcon className="w-10 h-10 sm:w-12 sm:h-12 drop-shadow-[0_0_12px_rgba(0,210,243,0.45)] group-hover:scale-105 transition-transform" />
+          </span>
         )}
       </button>
     </>
