@@ -264,7 +264,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className={`fixed z-[72] inset-x-2 bottom-2 ${volando ? 'h-[26dvh]' : 'h-[62dvh]'} transition-[height] duration-300 sm:inset-x-auto sm:right-5 sm:bottom-28 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
+          className={`fixed z-[72] inset-x-2 bottom-2 ${volando ? 'h-[26dvh]' : 'h-[62dvh]'} transition-[height] duration-300 sm:inset-x-auto sm:left-5 lg:left-[16rem] sm:bottom-6 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -282,7 +282,7 @@ export const AsistentesPorFuncion: React.FC = () => {
             ) : (
               <div className="flex-1">
                 <p className="text-sm font-bold text-white">¿Qué querés hacer?</p>
-                <p className="text-xs text-slate-400">Soy Marcio 👋 Elegí con quién hablar: cada asistente sabe de una parte de la web.</p>
+                <p className="text-xs text-slate-400">Elegí con quién hablar: cada asistente sabe de una parte de la web.</p>
               </div>
             )}
             <button type="button" onClick={() => setAbierto(null)} aria-label="Cerrar" className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 cursor-pointer">

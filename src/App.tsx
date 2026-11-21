@@ -40,13 +40,14 @@ const Cargando: React.FC = () => (
 // El inicio es un resumen corto; cada tema largo tiene su propia página.
 // Títulos y descripciones viven en data/paginas.ts (los usa también el build).
 const CONTENIDO: Record<Exclude<Ruta, '/'>, React.ReactNode> = {
-  '/servicios': <><ServicesSection /><HowWeWorkSection /></>,
+  '/servicios': <ServicesSection />,
   '/productos': <ProductosPropios />,
   '/robotica': <RobotStudioSection />,
   '/proyectos': <PortfolioSection />,
   '/presupuesto': <><BillingModule /><Combos /></>,
   '/tecnologias': <StackSection />,
-  '/nosotros': <AboutSection />,
+  // Quiénes somos incluye Cómo trabajamos y Encuentros (las fotos).
+  '/nosotros': <><AboutSection /><HowWeWorkSection /><Encuentros /></>,
   '/contacto': <ContactSection />,
   '/encuentros': <Encuentros />,
   '/blog': <Blog />,
