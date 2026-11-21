@@ -80,8 +80,9 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
             {s.ruta === '/nosotros' && (
               <div className="ml-12 mt-0.5 mb-1 flex flex-col items-start gap-0.5 text-[11px] text-slate-400">
                 {[
-                  ['Quiénes somos', 'sobre-nosotros'],
+                  ['Qué hacemos', 'sobre-nosotros'],
                   ['Cómo trabajamos', 'como-trabajamos'],
+                  ['Encuentros', 'encuentros'],
                 ].map(([t, id], k) => (
                   <React.Fragment key={id}>
                     <button
