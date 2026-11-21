@@ -170,7 +170,7 @@ export const BillingModule: React.FC = () => {
         <div className="max-w-full lg:max-w-6xl mb-4">
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-1.5">
             <Calculator className="w-3.5 h-3.5" />
-            <span>Presupuestador Transparente</span>
+            <span>Presupuesto</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Calculá cuánto{' '}
@@ -195,10 +195,10 @@ export const BillingModule: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono uppercase tracking-wider font-bold">
                     <Cpu className="w-4 h-4" />
-                    <span>Dispositivos Físicos · Fabricación Propia</span>
+                    <span>Equipos</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
-                    1. Productos a demanda: equipo y servicio
+                    1. Productos propios
                   </h3>
                 </div>
                 <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold">
@@ -206,9 +206,7 @@ export const BillingModule: React.FC = () => {
                 </span>
               </div>
 
-              <p className="text-base text-slate-300 mb-5">
-                <strong className="text-white">Golondrina Automatización y CHAJÁ ya están disponibles</strong>, a pedido. TERO Security sale próximamente.
-              </p>
+<div className="mb-5" />
 
               {/* Lista de precios: Golondrina Automatización, TERO Security y CHAJÁ (en ese orden) */}
               <ul className="space-y-3">
@@ -409,10 +407,10 @@ export const BillingModule: React.FC = () => {
             <div className="p-6 rounded-3xl bg-slate-900/40 border border-dashed border-slate-700 shadow-xl">
               <div className="flex items-center gap-2 text-sky-400 text-xs font-mono uppercase tracking-wider font-bold mb-1">
                 <HardDrive className="w-4 h-4" />
-                <span>Servicios de Nube & Monitoreo · Opcional Recurrente</span>
+                <span>Abonos · opcional</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-2">
-                3. Abonos Mensuales de Nube & Soporte
+                3. Abonos mensuales
               </h3>
               
               <div className="p-3.5 mb-5 rounded-xl bg-sky-950/30 border border-sky-500/20 text-xs text-sky-200 flex items-start gap-2.5">
@@ -451,7 +449,7 @@ export const BillingModule: React.FC = () => {
                             <span className="font-bold text-white text-sm sm:text-base">{a.nombre}</span>
                             {a.esServicioParaHardware && (
                               <span className="text-xs sm:text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
-                                Servicio Cloud para Hardware
+                                Servicio del equipo
                               </span>
                             )}
                           </div>
@@ -478,7 +476,7 @@ export const BillingModule: React.FC = () => {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
                 <Sparkles className="w-4 h-4" />
-                <span>Ticket de Presupuesto</span>
+                <span>Tu presupuesto</span>
               </div>
               <span className="text-xs sm:text-[10px] font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800">
                 tecnoros<span className="text-cyan-400">.ar</span>
