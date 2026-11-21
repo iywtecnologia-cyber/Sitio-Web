@@ -22,7 +22,7 @@ export const CabeceraSimple: React.FC = () => {
   const ruta = useRuta();
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-[#070A12]/90 backdrop-blur-md border-b border-slate-800/60">
-      <div className="w-full px-2 min-[400px]:px-3 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-1.5 min-[400px]:gap-3">
+      <div className="w-full max-w-[1300px] mx-auto px-2 min-[400px]:px-3 sm:px-6 lg:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-1.5 min-[400px]:gap-3">
         <div className="flex items-center gap-1 min-[400px]:gap-1.5 sm:gap-2 min-w-0">
         <button
           type="button"
@@ -95,8 +95,8 @@ export const PieSimple: React.FC = () => (
         <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
         <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
       </div>
-      {/* Links y © centrados; Instagram y LinkedIn apenas corridos a la izquierda */}
-      <div className="self-center -translate-x-10 sm:-translate-x-20">
+      {/* Todo el pie centrado sobre el mismo eje: links, Instagram/LinkedIn y © */}
+      <div className="self-center">
         <BotonesRedes />
       </div>
       <span className="font-mono text-slate-500 text-center">

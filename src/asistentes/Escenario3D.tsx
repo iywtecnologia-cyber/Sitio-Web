@@ -5,6 +5,21 @@
 // algo, en el escenario salta y dice lo que hizo en un globito.
 import React, { useEffect, useRef, useState } from 'react';
 import { ASISTENTES, imagenDe } from './funciones';
+import { irA, navegar } from '../rutas';
+
+// Nombre lindo de una parte de la web, para decir adónde te llevó cada tarea.
+const LUGARES: Record<string, string> = {
+  '/': 'Inicio', '/servicios': 'Servicios', '/productos': 'Productos', '/robotica': 'Diseñá tu robot', '/proyectos': 'Proyectos',
+  '/presupuesto': 'Presupuesto', '/nosotros': 'Quiénes somos', '/contacto': 'Contacto', '/encuentros': 'Encuentros', '/tecnologias': 'Tecnologías', '/blog': 'Blog',
+};
+const nombreDeLugar = (d: string) => {
+  const [camino, hash] = d.split('#');
+  const base = LUGARES[camino] ?? camino;
+  if (!hash) return base;
+  const el = document.getElementById(hash);
+  const titulo = el?.querySelector('h1, h2, h3')?.textContent?.trim();
+  return titulo && titulo.length < 60 ? `${base} › ${titulo}` : base;
+};
 import { crearModelo } from './modelos3D';
 import { EV_DICE, EV_GESTO, EV_HIZO, abrirAsistente, hechos, repetirTarea, type Gesto } from './eventos';
 
@@ -542,6 +557,20 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
                       {a && <img src={imagenDe(a.id)} alt="" aria-hidden="true" className="w-5 h-5 object-contain" />}
                       <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
                     </div>
+                    {/* Tocá para ver adónde te llevó (y volver ahí). */}
+                    {h.destino && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const [camino, hash] = h.destino!.split('#');
+                          if (hash) irA(hash, true, 'center');
+                          else navegar(camino as Parameters<typeof navegar>[0]);
+                        }}
+                        className="mt-1 ml-12 inline-flex items-center gap-1 text-xs text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline cursor-pointer"
+                      >
+                        📍 Te llevó a: <b>{nombreDeLugar(h.destino)}</b>
+                      </button>
+                    )}
                     {/* ¿Repetir la tarea? Aceptar la vuelve a hacer; Rechazar oculta la pregunta. */}
                     {h.repetir && respondidas[h.n] === undefined && (
                       <div className="mt-1 ml-12 flex flex-wrap items-center gap-1.5 text-xs">

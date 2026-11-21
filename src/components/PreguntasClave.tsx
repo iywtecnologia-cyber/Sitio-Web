@@ -7,12 +7,18 @@ import { irA } from '../rutas';
 // Se abre una a la vez; cada servicio lleva directo a su tarjeta, resaltada.
 export const PreguntasClave: React.FC = () => {
   const [abierta, setAbierta] = useState<'ofrecemos' | 'diferencia' | null>(null);
-  const toggle = (cual: 'ofrecemos' | 'diferencia') => setAbierta((v) => (v === cual ? null : cual));
+  // Al abrir una, la página baja hasta esa parte para que se vea entera.
+  const toggle = (cual: 'ofrecemos' | 'diferencia') =>
+    setAbierta((v) => {
+      const nueva = v === cual ? null : cual;
+      if (nueva) window.setTimeout(() => document.getElementById(`pregunta-${nueva}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+      return nueva;
+    });
   return (
     <div className="mb-10 sm:mb-12">
       {/* Las dos preguntas como desplegables: se abre una a la vez. */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-        <div className={`rounded-2xl bg-slate-900/60 border transition-colors ${abierta === 'ofrecemos' ? 'border-cyan-500/40' : 'border-slate-800/90'}`}>
+        <div id="pregunta-ofrecemos" className={`scroll-mt-24 rounded-2xl bg-slate-900/60 border transition-colors ${abierta === 'ofrecemos' ? 'border-cyan-500/40' : 'border-slate-800/90'}`}>
           <button type="button" onClick={() => toggle('ofrecemos')} aria-expanded={abierta === 'ofrecemos'} className="w-full text-left cursor-pointer p-5 sm:p-6 flex items-center gap-3">
             <span className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 shrink-0">
               <Layers className="w-5 h-5" />
@@ -42,7 +48,7 @@ export const PreguntasClave: React.FC = () => {
           </div>}
         </div>
 
-        <div className={`rounded-2xl bg-slate-900/60 border transition-colors ${abierta === 'diferencia' ? 'border-violet-500/40' : 'border-slate-800/90'}`}>
+        <div id="pregunta-diferencia" className={`scroll-mt-24 rounded-2xl bg-slate-900/60 border transition-colors ${abierta === 'diferencia' ? 'border-violet-500/40' : 'border-slate-800/90'}`}>
           <button type="button" onClick={() => toggle('diferencia')} aria-expanded={abierta === 'diferencia'} className="w-full text-left cursor-pointer p-5 sm:p-6 flex items-center gap-3">
             <span className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400 shrink-0">
               <ShieldCheck className="w-5 h-5" />

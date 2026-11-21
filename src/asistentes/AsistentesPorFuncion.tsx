@@ -134,9 +134,12 @@ export const AsistentesPorFuncion: React.FC = () => {
   useEffect(() => {
     const el = lista.current;
     if (!el) return;
-    const preguntas = el.querySelectorAll('[data-yo]');
-    const ultima = preguntas[preguntas.length - 1] as HTMLElement | undefined;
-    el.scrollTo({ top: ultima ? ultima.offsetTop - 8 : 0, behavior: 'smooth' });
+    // Se ve desde el principio lo último: tu pregunta (si la escribiste) o la respuesta.
+    const msgs = el.querySelectorAll<HTMLElement>('[data-msg]');
+    const ultimo = msgs[msgs.length - 1];
+    const previo = msgs[msgs.length - 2];
+    const desde = previo && previo.hasAttribute('data-yo') ? previo : ultimo;
+    el.scrollTo({ top: desde ? desde.offsetTop - 8 : 0, behavior: 'smooth' });
   }, [chat.length]);
   // Al abrir (o cambiar de asistente) se ve el final de la charla, no el principio.
   useEffect(() => {
@@ -156,11 +159,11 @@ export const AsistentesPorFuncion: React.FC = () => {
     if (pendiente) setEsperando((e) => ({ ...e, [id]: undefined as never }));
     const tq = q.toLowerCase();
     if (/cotiz/.test(tq) && /robot/.test(tq)) {
-      void ejecutar('cotizar-robot', {}, 'asistente', q, 'robot');
+      void ejecutar('cotizar-robot', {}, 'asistente', q, 'robot', true);
       return;
     }
     if (pendiente) {
-      void ejecutar(pendiente.accion, { [pendiente.parametro]: q }, 'asistente', q, id);
+      void ejecutar(pendiente.accion, { [pendiente.parametro]: q }, 'asistente', q, id, true);
       return;
     }
     agregar(id, { de: 'yo', texto: q });
@@ -189,7 +192,8 @@ export const AsistentesPorFuncion: React.FC = () => {
   };
 
   /** Ejecutar una acción tocándola (menú o sugerencia de Golondrina). */
-  const ejecutar = async (accionId: string, parametros: Record<string, string>, via: 'asistente' | 'golondrina', titulo: string, destino?: string) => {
+  // mostrarYo: solo cuando la persona lo escribió. Lo que elige con un botón (¿Cuánto sale?, un combo…) no se repite en el chat.
+  const ejecutar = async (accionId: string, parametros: Record<string, string>, via: 'asistente' | 'golondrina', titulo: string, destino?: string, mostrarYo = false) => {
     const id = destino ?? asistente?.id;
     if (!id) return;
     if (abierto !== id) setAbierto(id);
@@ -197,7 +201,7 @@ export const AsistentesPorFuncion: React.FC = () => {
     ultimaAccion.current = Date.now();
     // Si te lleva a otra parte y cerrás el chat, al reabrirlo seguís con este asistente.
     ultimo.current = id === 'soporte' ? null : id;
-    agregar(id, { de: 'yo', texto: titulo });
+    if (mostrarYo) agregar(id, { de: 'yo', texto: titulo });
     enlaces.current = [];
     golondrina.contexto(id, { pagina: ruta });
     const respuesta = await golondrina.ejecutar(accionId, parametros, via);
@@ -230,7 +234,7 @@ export const AsistentesPorFuncion: React.FC = () => {
       return;
     }
     const id = asistente.id;
-    agregar(id, { de: 'yo', texto: titulo }, { de: 'asistente', texto: q.pregunta });
+    agregar(id, { de: 'asistente', texto: q.pregunta });
     setEsperando((e) => ({ ...e, [id]: { accion: accionId, parametro: q.parametro } }));
     // Algunas acciones sin dato ya muestran opciones (productos): las ejecuto para que aparezcan los botones.
     if (accionId === 'explicar-producto' || accionId === 'probar-producto' || accionId === 'recomendar-combo') {
@@ -241,8 +245,10 @@ export const AsistentesPorFuncion: React.FC = () => {
         setChats((c) => {
           const lista = [...(c[id] ?? [])];
           const ultimo = lista[lista.length - 1];
-          // En combos, además de preguntar, muestra el detalle de cada uno (qué incluye y desde cuánto).
-          if (ultimo) lista[lista.length - 1] = { ...ultimo, ...(accionId === 'recomendar-combo' && respuesta ? { texto: respuesta } : {}), enlaces: propios };
+          // En combos el chat queda solo con los combos (desde «Combos (todos con diagnóstico gratis)»);
+          // lo anterior se borra y abajo quedan las opciones del asistente.
+          if (accionId === 'recomendar-combo' && respuesta) return { ...c, [id]: [{ de: 'asistente', texto: respuesta, enlaces: propios }] };
+          if (ultimo) lista[lista.length - 1] = { ...ultimo, enlaces: propios };
           return { ...c, [id]: lista };
         });
       });
@@ -377,7 +383,7 @@ export const AsistentesPorFuncion: React.FC = () => {
             <>
               <div ref={lista} className="relative flex-1 overflow-y-auto p-3 space-y-2.5">
                 {chat.map((m, i) => (
-                  <div key={i} data-yo={m.de === 'yo' ? '' : undefined} className={`flex ${m.de === 'yo' ? 'justify-end' : 'justify-start'}`}>
+                  <div key={i} data-msg data-yo={m.de === 'yo' ? '' : undefined} className={`flex ${m.de === 'yo' ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-[88%] rounded-2xl px-3 py-2 text-sm whitespace-pre-line leading-snug ${m.de === 'yo' ? 'bg-cyan-500 text-slate-950 font-semibold rounded-br-md' : 'bg-slate-800/80 text-slate-200 rounded-bl-md'}`}>
                       {m.de === 'asistente' ? conNegritas(m.texto) : m.texto}
                       {m.enlaces && m.enlaces.length > 0 && (

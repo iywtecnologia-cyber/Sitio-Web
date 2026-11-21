@@ -162,7 +162,7 @@ export const BillingModule: React.FC = () => {
   const tieneSeleccion = seleccionHardware.length > 0 || seleccionSoftware.length > 0 || seleccionAbonos.length > 0 || cantidadVoz > 0;
 
   return (
-    <section id="facturacion" className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden scroll-mt-20">
+    <section id="facturacion" className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-x-clip scroll-mt-20">
       <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -474,7 +474,7 @@ export const BillingModule: React.FC = () => {
 
           {/* Columna Derecha: Ticket de Inversión Fijo */}
           {/* data-sin-asistente: Marcio se corre si queda encima del ticket (tapaba el botón de pedir presupuesto) */}
-          <div data-sin-asistente className="lg:sticky lg:top-28 p-6 rounded-3xl bg-gradient-to-br from-[#0B1220] via-slate-900 to-cyan-950/50 border border-cyan-500/40 shadow-2xl">
+          <div id="ticket-presupuesto" data-sin-asistente className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto scroll-mt-24 p-6 rounded-3xl bg-gradient-to-br from-[#0B1220] via-slate-900 to-cyan-950/50 border border-cyan-500/40 shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 text-cyan-400 text-xs font-mono">
                 <Sparkles className="w-4 h-4" />
@@ -611,6 +611,24 @@ export const BillingModule: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Celu y tablet: el total te acompaña abajo mientras sumás cosas; tocalo para ver el ticket. */}
+      {tieneSeleccion && (
+        <button
+          type="button"
+          onClick={() => document.getElementById('ticket-presupuesto')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          className="lg:hidden fixed z-[60] left-3 right-24 bottom-4 flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-[#0B1220]/95 border border-cyan-400/60 shadow-2xl shadow-black/60 backdrop-blur cursor-pointer"
+        >
+          <span className="text-left leading-tight">
+            <span className="block text-[11px] font-mono text-cyan-300">Tu presupuesto</span>
+            <span className="block text-sm font-bold text-white">
+              ${totalPagoUnicoArs.min.toLocaleString('es-AR')}
+              {totalPagoUnicoArs.max > totalPagoUnicoArs.min ? ` a $${totalPagoUnicoArs.max.toLocaleString('es-AR')}` : ''}
+              {mensualTotal > 0 ? ` + $${mensualTotal.toLocaleString('es-AR')}/mes` : ''}
+            </span>
+          </span>
+          <span className="text-xs font-bold text-slate-950 bg-cyan-400 px-2.5 py-1.5 rounded-lg shrink-0">Ver</span>
+        </button>
+      )}
     </section>
   );
 };

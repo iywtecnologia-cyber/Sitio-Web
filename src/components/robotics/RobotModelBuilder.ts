@@ -784,11 +784,14 @@ export function buildSceneModel(
   // "Una caja con sensores arriba y abajo, pero solo tenía eso"
   // =========================================================================
   if (modelType === 'golondrina') {
+    // Carcasa: negro mate técnico, o el color de filamento que eligió la persona (se ve en vivo).
+    const colorCarcasa = (config.colorHex || '#18181b').toLowerCase();
+    const esNegro = colorCarcasa === '#18181b' || colorCarcasa === '#12141a';
     const boxMat = regMat(
       new THREE.MeshStandardMaterial({
-        color: 0x12141a, // Negro mate técnico profundo
-        roughness: 0.38,
-        metalness: 0.85,
+        color: esNegro ? 0x12141a : new THREE.Color(colorCarcasa),
+        roughness: esNegro ? 0.38 : 0.5,
+        metalness: esNegro ? 0.85 : 0.2,
         envMapIntensity: 1.2,
       })
     );
