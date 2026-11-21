@@ -11,7 +11,6 @@ import { BotonesRedes } from '../Redes';
 import { abrirSoporte, irA, navegar, useRuta } from '../../rutas';
 import { abrirAsistente } from '../../asistentes/eventos';
 import { HowWeWorkSection } from '../HowWeWorkSection';
-import { Encuentros } from '../extra/Encuentros';
 import { MundoEquipo } from '../MundoEquipo';
 import { CartelProximamente } from '../ProductosPropios';
 
@@ -51,9 +50,8 @@ export const CabeceraSimple: React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                // «Volver al inicio» lleva a los asistentes (no al título de arriba) y abre el menú.
-                irA('asistentes', false, 'start');
-                abrirAsistente('hub');
+                // «Volver al inicio» lleva al principio: «De Rosario para todo el mundo».
+                navegar('/');
               }}
               aria-label="Volver al inicio"
               className="hidden sm:inline-flex items-center gap-1.5 px-2 sm:px-3 py-2 rounded-xl text-sm font-semibold text-slate-300 hover:text-white cursor-pointer"
@@ -136,7 +134,8 @@ export const VideosProductos: React.FC = () => (
       <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
         <button
           type="button"
-          onClick={() => abrirAsistente('contacto')}
+          // Lleva al formulario de contacto (no al asistente).
+          onClick={() => irA('consulta-directa', false, 'start')}
           className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-300 text-slate-950 font-bold shadow-lg shadow-cyan-500/20 cursor-pointer"
         >
           Contactanos por tu necesidad o software a medida <ArrowRight className="w-4 h-4" />
@@ -162,9 +161,6 @@ export const InicioSoloAsistentes: React.FC = () => (
         </div>
       </div>
     </section>
-    <div className="border-t border-slate-800/50">
-      <Encuentros />
-    </div>
     <section id="mapa-equipo" className="scroll-mt-24 py-14 sm:py-20 border-t border-slate-800/50">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
         <Titulo etiqueta="Desde dónde trabajamos" titulo="Nacimos en Rosario, trabajamos para todo el mundo" />

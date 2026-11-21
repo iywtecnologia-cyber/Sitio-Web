@@ -16,8 +16,8 @@ interface Seccion {
 }
 
 export const SECCIONES: Seccion[] = [
-  { texto: 'Inicio', ruta: '/', hash: 'asistentes', asistente: 'logo' },
-  // Quiénes somos incluye Cómo trabajamos y Encuentros (las fotos).
+  { texto: 'Inicio', ruta: '/', asistente: 'logo' },
+  // Quiénes somos incluye Cómo trabajamos.
   { texto: 'Quiénes somos', ruta: '/nosotros', asistente: 'equipo' },
   { texto: 'Servicios', ruta: '/servicios', asistente: 'servicios' },
   { texto: 'Productos', ruta: '/productos', asistente: 'productos' },
@@ -82,7 +82,6 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
                 {[
                   ['Quiénes somos', 'sobre-nosotros'],
                   ['Cómo trabajamos', 'como-trabajamos'],
-                  ['Encuentros', 'encuentros'],
                 ].map(([t, id], k) => (
                   <React.Fragment key={id}>
                     <button
