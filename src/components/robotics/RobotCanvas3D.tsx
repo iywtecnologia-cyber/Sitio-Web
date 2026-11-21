@@ -657,7 +657,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
   return (
     <div
-      className={`relative w-full h-full min-h-[440px] lg:min-h-[620px] bg-slate-950/80 rounded-2xl overflow-hidden border transition-all duration-300 touch-pan-y ${
+      className={`relative w-full h-full min-h-[360px] lg:min-h-[480px] bg-slate-950/80 rounded-2xl overflow-hidden border transition-all duration-300 touch-pan-y ${
         is3DActive ? 'border-cyan-400/80 ring-2 ring-cyan-500/20' : 'border-slate-800/80'
       }`}
       onPointerDown={() => setIs3DActive(true)}
@@ -680,7 +680,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
 
       {/* Live Operation Telemetry HUD */}
       {modelType === 'robot' && (
-        <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 max-w-[270px] sm:max-w-xs p-3 rounded-xl bg-slate-900/90 border border-slate-800/90 backdrop-blur-md shadow-xl text-xs font-mono">
+        <div className="hidden xl:flex absolute top-3 left-3 z-10 flex-col gap-1 max-w-[230px] p-2 rounded-xl bg-slate-900/90 border border-slate-800/90 backdrop-blur-md shadow-xl text-xs font-mono">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className={`w-2.5 h-2.5 rounded-full ${config.isEmergencyStop ? 'bg-red-500 animate-ping' : config.isSimulatingMotion ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />

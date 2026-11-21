@@ -112,7 +112,7 @@ export const PortfolioSection: React.FC = () => {
 
 
   return (
-    <section id="proyectos" className="py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
+    <section id="proyectos" className="py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/4 -right-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
@@ -120,25 +120,25 @@ export const PortfolioSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Cabecera */}
-        <div className="max-w-full lg:max-w-6xl mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
+        <div className="max-w-full lg:max-w-6xl mb-4">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-1.5">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Proyectos</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             Lo que{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
               ya hicimos
             </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl">
+          <p className="mt-1.5 text-sm sm:text-base text-slate-300 leading-snug max-w-3xl">
             Sistemas reales que reemplazan planillas y tareas a mano. Miralos funcionando.
           </p>
         </div>
 
         {/* Selector de Proyectos (Si hay más de uno) */}
         {PROJECTS_DATA.length > 1 && (
-          <div className="flex flex-wrap items-center gap-2.5 mb-8" role="group" aria-label="Elegí un proyecto">
+          <div className="flex flex-wrap items-center gap-2.5 mb-3" role="group" aria-label="Elegí un proyecto">
             {PROJECTS_DATA.map((p) => {
               const Icon = p.icon;
               const isSelected = p.id === selectedProjectId;
@@ -162,12 +162,12 @@ export const PortfolioSection: React.FC = () => {
         )}
 
         {/* Tarjeta Detallada del Proyecto */}
-        <div className="p-5 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-slate-800 shadow-2xl backdrop-blur-md">
           
           {/* Header del Caso */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pb-8 border-b border-slate-800/80">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+              <div className="hidden sm:flex w-11 h-11 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                 <ActiveIcon className="w-7 h-7" />
               </div>
               <div>
@@ -207,7 +207,7 @@ export const PortfolioSection: React.FC = () => {
 
           {/* Video demo con datos ficticios */}
           {activeProject.video && (
-            <figure className="mt-8">
+            <figure className="mt-3">
               <video
                 key={activeProject.video.src}
                 src={activeProject.video.src}
@@ -215,7 +215,7 @@ export const PortfolioSection: React.FC = () => {
                 controls
                 preload="none"
                 playsInline
-                className="w-full max-w-5xl mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10"
+                className="w-full max-w-[calc(56vh*1.6)] mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10"
               >
                 Tu navegador no puede reproducir el video.
               </video>

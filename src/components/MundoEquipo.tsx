@@ -160,7 +160,14 @@ export const MundoEquipo: React.FC = () => {
               if (!xy) return null;
               const activo = elegido?.lugar === p.lugar;
               return (
-                <g key={p.lugar} data-punto transform={`translate(${xy[0]},${xy[1]})`}>
+                <g
+                  key={p.lugar}
+                  data-punto
+                  transform={`translate(${xy[0]},${xy[1]})`}
+                  // Al pasar el mouse o tocar un nombre, el globo se queda quieto para poder hacer clic en su LinkedIn.
+                  onPointerEnter={() => (tocado.current = true)}
+                  onPointerDown={() => (tocado.current = true)}
+                >
                   <circle r={18} fill="#00D2F3" opacity={0.18} className="motion-safe:animate-ping" style={{ transformOrigin: 'center', transformBox: 'fill-box' }} />
                   <circle r={activo ? 9 : 7} fill="#00D2F3" stroke="#fff" strokeWidth={2} className="cursor-pointer" onClick={() => elegir(p)} />
                   {/* Al lado del punto: cada persona (emoji o foto, nombre y área, con link a LinkedIn) y el lugar. */}
@@ -188,7 +195,7 @@ export const MundoEquipo: React.FC = () => {
               );
             })}
           </svg>
-          <p className="mt-2 text-center text-xs text-slate-500">Arrastralo para girarlo · tocá un nombre para ir a su LinkedIn</p>
+          <p className="mt-2 text-center text-xs text-slate-500">Arrastralo para girarlo · tocá un nombre (en el globo o en la lista) para ir a su LinkedIn</p>
         </div>
 
         <div>

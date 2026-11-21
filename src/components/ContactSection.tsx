@@ -156,7 +156,7 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contacto" className="scroll-mt-12 sm:scroll-mt-16 py-14 sm:py-16 md:py-20 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
+    <section id="contacto" className="scroll-mt-12 sm:scroll-mt-16 py-5 sm:py-6 bg-transparent border-t border-slate-800/50 relative overflow-hidden">
       {/* Luces sutiles de fondo */}
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -164,12 +164,12 @@ export const ContactSection: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Cabecera */}
-        <div className="max-w-full lg:max-w-6xl mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-mono text-cyan-400 mb-3">
+        <div className="max-w-full lg:max-w-6xl mb-4">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-1.5">
             <Mail className="w-3.5 h-3.5" />
             <span>Canales de Contacto Directo</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
             ¿Tenés un problema en tu negocio?{' '}
             <span className="inline-flex items-center gap-2">
               <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent font-extrabold tracking-tight">
@@ -178,15 +178,15 @@ export const ContactSection: React.FC = () => {
               <CornerRightDown className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400 stroke-[2.5] animate-bounce drop-shadow-[0_0_12px_rgba(0,210,243,0.8)] inline-block ml-1 translate-y-1.5 sm:translate-y-2" />
             </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl sm:max-w-3xl">
+          <p className="mt-1.5 text-sm sm:text-base text-slate-300 leading-snug max-w-2xl sm:max-w-3xl">
             Escribinos directamente para contarnos qué situación querés resolver. Te orientamos sin costo en el diseño y arquitectura de la solución adecuada.
           </p>
         </div>
 
         {/* Formulario integrado en pantalla para redactar y enviar */}
-        <div id="consulta-directa" className="p-8 sm:p-10 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 shadow-2xl scroll-mt-24 sm:scroll-mt-28">
-          <div className="max-w-2xl mb-6">
-            <h3 className="text-xl font-bold text-white mb-1">
+        <div id="consulta-directa" className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950 border border-slate-800 shadow-2xl scroll-mt-24 sm:scroll-mt-28">
+          <div className="max-w-2xl mb-3">
+            <h3 className="text-lg font-bold text-white mb-0.5">
               Dejanos tu consulta directa
             </h3>
             <p className="text-xs sm:text-sm text-slate-400">
