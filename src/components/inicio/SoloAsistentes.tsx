@@ -94,8 +94,8 @@ export const PieSimple: React.FC = () => (
         <a href="/contrato-de-servicios.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Contrato de servicios</a>
         <a href="/politica-de-privacidad.pdf" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-cyan-300 underline underline-offset-4 py-1">Política de privacidad</a>
       </div>
-      {/* Instagram y LinkedIn, a la izquierda */}
-      <div className="self-start">
+      {/* Instagram y LinkedIn: en su lugar (al centro), apenas corridos a la izquierda */}
+      <div className="self-center -translate-x-6 sm:-translate-x-12">
         <BotonesRedes />
       </div>
       <span className="font-mono text-slate-500 text-center">
