@@ -116,6 +116,8 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
   const sceneRef = useRef<THREE.Scene | null>(null);
   const controlsRef = useRef<OrbitControls | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  // Piso y plataforma: en la vista «Abajo» se vuelven transparentes para ver el robot desde abajo.
+  const pisoRef = useRef<{ banco: THREE.MeshStandardMaterial; piso: THREE.Object3D } | null>(null);
   const configRef = useRef(config);
   configRef.current = config;
   const modelTypeRef = useRef(modelType);
@@ -309,6 +311,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
     benchPlatform.position.y = 0.02;
     benchPlatform.receiveShadow = true;
     scene.add(benchPlatform);
+    pisoRef.current = { banco: benchMat, piso: ambientFloor };
 
     // Anillo perimetral iluminado LED de seguridad que delimita estrictamente la plataforma
     const ledRingGeo = new THREE.TorusGeometry(0.86, 0.007, 12, 64);
@@ -632,6 +635,16 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
     if (!camera || !controls) return;
 
     onElegirVista?.();
+    // Desde abajo, la plataforma se ve transparente (si no, tapaba al robot y parecía que no mostraba nada).
+    const piso = pisoRef.current;
+    if (piso) {
+      const abajo = view === 'bottom';
+      piso.banco.transparent = abajo;
+      piso.banco.opacity = abajo ? 0.15 : 1;
+      piso.banco.depthWrite = !abajo;
+      piso.banco.needsUpdate = true;
+      piso.piso.visible = !abajo;
+    }
     controls.autoRotate = false;
     autoRotateRef.current = false;
     controls.target.set(0, 0.12, 0);

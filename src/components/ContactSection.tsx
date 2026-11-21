@@ -254,7 +254,8 @@ export const ContactSection: React.FC = () => {
               <div id="contacto-tema" role="group" aria-label="Motivo de la consulta" className="space-y-2">
                 <div className="flex flex-wrap gap-1.5">
                   {Object.keys(grupos).map((g) => {
-                    const activo = grupoAbierto === g || temaPorId(tema)?.grupo === g;
+                    // Solo queda marcado un grupo: el que tenés abierto o, si no hay ninguno abierto, el del tema elegido.
+                    const activo = grupoAbierto ? grupoAbierto === g : temaPorId(tema)?.grupo === g;
                     return (
                       <button
                         key={g}
@@ -288,7 +289,7 @@ export const ContactSection: React.FC = () => {
                 {tema && !grupoAbierto && (
                   <p className="text-xs text-slate-400">
                     Elegiste: <b className="text-cyan-200">{temaPorId(tema)?.etiqueta}</b>{' '}
-                    <button type="button" onClick={() => { setTema(''); setTemaAuto(false); }} className="ml-1 underline underline-offset-2 hover:text-white cursor-pointer">cambiar</button>
+                    <button type="button" onClick={() => setGrupoAbierto(temaPorId(tema)?.grupo ?? null)} className="ml-1 underline underline-offset-2 hover:text-white cursor-pointer">cambiar</button>
                   </p>
                 )}
               </div>

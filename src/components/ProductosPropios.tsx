@@ -730,9 +730,10 @@ export const ProductosPropios: React.FC = () => {
                 {/* Personalización de Color de Carcasa (Filamento PETG) */}
                 <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800 space-y-2.5">
                   <div className="flex items-start gap-2.5">
-                    <div className="w-4 h-4 rounded-full bg-slate-900 border border-slate-700 shrink-0 mt-0.5" />
+                    {/* Muestra del color que se ve en el 3D: negro mate o el que elegiste */}
+                    <div className="w-4 h-4 rounded-full border border-slate-700 shrink-0 mt-0.5" style={{ backgroundColor: customFilament ? filamentColorHex : '#18181b' }} />
                     <div className="text-xs text-slate-300">
-                      <strong className="text-white">Color: negro mate</strong>
+                      <strong className="text-white">Color: {customFilament ? `personalizado (${filamentColorHex})` : 'negro mate'}</strong>
                     </div>
                   </div>
 

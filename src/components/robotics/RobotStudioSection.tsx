@@ -208,9 +208,18 @@ export const RobotStudioSection: React.FC = () => {
   const mostrarRobot = (e: React.MouseEvent) => {
     const boton = (e.target as HTMLElement).closest('button');
     if (!boton || boton.hasAttribute('data-sin-ir')) return;
-    const el = vistaRobot.current;
+    // Si elegiste otro modelo, la vista queda con la lista de modelos arriba (así podés seguir cambiando)
+    // y el robot justo debajo.
+    const desdeModelos = !!(e.target as HTMLElement).closest('#robot-creacion');
+    const el = desdeModelos ? (document.getElementById('robot-creacion') as HTMLElement | null) : vistaRobot.current;
     if (!el) return;
     window.setTimeout(() => {
+      if (desdeModelos) {
+        const header = document.querySelector('header')?.getBoundingClientRect().height ?? 70;
+        const top = el.getBoundingClientRect().top;
+        if (top < header || top > header + 40) window.scrollTo({ top: top + window.scrollY - header - 8, behavior: 'smooth' });
+        return;
+      }
       const r = el.getBoundingClientRect();
       const header = document.querySelector('header')?.getBoundingClientRect().height ?? 70;
       if (r.top >= header && r.bottom <= window.innerHeight) return;
@@ -219,7 +228,7 @@ export const RobotStudioSection: React.FC = () => {
   };
 
   return (
-    <section id="robotica-3d" className="py-6 sm:py-8 bg-transparent border-t border-slate-800/60 relative overflow-hidden">
+    <section id="robotica-3d" className="pt-2 pb-6 sm:pt-3 sm:pb-8 bg-transparent border-t border-slate-800/60 relative overflow-x-clip">
       {/* Background radial atmosphere */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[550px] bg-cyan-500/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[550px] h-[450px] bg-violet-600/5 rounded-full blur-[130px] pointer-events-none" />

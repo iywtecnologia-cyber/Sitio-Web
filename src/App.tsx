@@ -106,7 +106,8 @@ export default function App() {
       <ListaSecciones />
       <SeccionesCelu />
 
-      <main className="flex-1 lg:pl-60">
+      {/* En pantallas de más de 1300 px el contenido mantiene ese ancho, centrado (se ve igual en todos los monitores). */}
+      <main className="flex-1 w-full max-w-[1300px] mx-auto lg:pl-60">
         {ruta === '/' ? (
           <>
             {/* Primero los asistentes (con el chat); después solo: Diseñá tu robot, videos de productos,
@@ -128,7 +129,7 @@ export default function App() {
         )}
       </main>
 
-      <div className="lg:pl-60">
+      <div className="w-full max-w-[1300px] mx-auto lg:pl-60">
         <PieSimple />
       </div>
 
