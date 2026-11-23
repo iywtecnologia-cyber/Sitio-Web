@@ -415,7 +415,8 @@ export const RobotStudioSection: React.FC = () => {
             </div>
 
             {/* 3D Canvas. En el celular, una franja a la derecha deja deslizar la página con el dedo sin girar el robot. */}
-            <div ref={vistaRobot} className="relative scroll-mt-24">
+            {/* En el celu el robot queda con un margen a cada lado: ahí deslizás la página con el dedo sin tocarlo. */}
+            <div ref={vistaRobot} className="relative scroll-mt-24 max-lg:px-9">
             <RobotCanvas3D
               modelType="robot"
               config={robotConfig}
@@ -429,12 +430,20 @@ export const RobotStudioSection: React.FC = () => {
                 }))
               }
             />
+
             <div
-              className="lg:hidden absolute top-0 right-0 bottom-0 w-11 z-10 flex items-center justify-center rounded-r-2xl bg-slate-950/50 border-l border-slate-700/60"
+              className="lg:hidden absolute top-0 left-0 bottom-0 w-8 z-10 flex items-center justify-center rounded-xl bg-slate-900/60 border border-slate-700/50"
               style={{ touchAction: 'pan-y' }}
               aria-hidden="true"
             >
-              <span className="text-xs sm:text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
+              <span className="text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
+            </div>
+            <div
+              className="lg:hidden absolute top-0 right-0 bottom-0 w-8 z-10 flex items-center justify-center rounded-xl bg-slate-900/60 border border-slate-700/50"
+              style={{ touchAction: 'pan-y' }}
+              aria-hidden="true"
+            >
+              <span className="text-[10px] font-mono text-slate-400 [writing-mode:vertical-rl] rotate-180 select-none">deslizá acá ↕</span>
             </div>
             </div>
 

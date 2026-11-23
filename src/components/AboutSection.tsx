@@ -52,13 +52,13 @@ export const AboutSection: React.FC = () => {
         </div>
 
         {/* Al final: ¿Te interesa sumarte? */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
-          <p className="text-sm sm:text-base text-slate-300">¿Te interesa sumarte al equipo?</p>
+        <div id="trabaja-con-nosotros" className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 p-5">
+          <p className="text-base sm:text-lg font-bold text-white">¿Te interesa sumarte al equipo? <span className="block text-sm font-normal text-slate-300">Dejanos tus datos y te contactamos.</span></p>
           <a
             href="https://docs.google.com/forms/d/14fCeZQQUTWNRL49S7M3b43FPkncQ5XzUzvOhABXoVTg/viewform"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-slate-600 hover:bg-slate-800"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-cyan-400/60 bg-cyan-400 px-5 py-3 text-sm font-bold text-slate-950 transition-colors hover:bg-cyan-300"
           >
             Trabajá con nosotros <ExternalLink className="w-4 h-4" />
           </a>

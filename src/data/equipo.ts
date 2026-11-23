@@ -4,7 +4,7 @@
 export const AREAS_EQUIPO = [
   { id: 'cofundadores', nombre: 'Co-founders' },
   { id: 'ciberseguridad', nombre: 'Ciberseguridad' },
-  { id: 'qa', nombre: 'QA y análisis funcional' },
+  { id: 'qa', nombre: 'QA, testing y análisis funcional' },
   { id: 'backend', nombre: 'Backend' },
   { id: 'fullstack', nombre: 'Full Stack' },
   { id: 'devops', nombre: 'DevOps' },
@@ -140,6 +140,25 @@ export const FOUNDERS: Founder[] = [
     specialty: 'Recursos Humanos (RRHH)',
     badge: 'Recursos Humanos',
     linkedin: 'https://www.linkedin.com/in/cindy-ailyn-otto-75a701371',
+  },
+  {
+    name: 'Laima Rodríguez',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    linkedin: 'https://www.linkedin.com/in/laimarodriguez',
+  },
+  {
+    name: 'Safira Yael Abraham',
+    area: 'operaciones',
+    role: 'Se sumó al equipo',
+    specialty: 'Recursos Humanos (RRHH)',
+    badge: 'Recursos Humanos',
+    corto: 'Safira Abraham',
+    linkedin: 'https://www.linkedin.com/in/safira-yael-abraham',
+    // También hace testing (aparece en QA).
+    otrasAreas: [{ area: 'qa', badge: 'Testing' }],
   },
   {
     name: 'Agustín Albónico',

@@ -759,7 +759,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
       )}
 
       {/* Floating HUD Controls: Camera Angles & Dedicated Zoom In / Out Buttons */}
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md text-xs font-mono shadow-xl">
+      <div className="absolute top-2 sm:top-4 left-2 right-2 sm:left-auto sm:right-4 z-10 flex flex-wrap justify-center items-center gap-1 sm:gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800 backdrop-blur-md text-xs font-mono shadow-xl">
         {/* Zoom In & Out */}
         <button
           onClick={() => handleZoom('in')}
