@@ -413,7 +413,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className={`px-3 pt-2 flex flex-wrap gap-1.5 ${asistente.id === 'contacto' ? 'pb-8' : ''}`}>
+              <div className={`px-3 pt-2 flex flex-wrap gap-1.5 ${asistente.id === 'contacto' ? 'pb-8' : 'pb-4 sm:pb-5'}`}>
                 {menu.map((a) => (
                   <button
                     key={a.id}
