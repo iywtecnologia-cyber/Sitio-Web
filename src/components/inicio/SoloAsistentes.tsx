@@ -5,7 +5,7 @@
 // manejan los asistentes: te preguntan y te abren la pantalla justa cuando hace falta.
 import React, { Suspense, lazy } from 'react';
 import { propsVideo } from '../../videos';
-import { ArrowLeft, ArrowRight, Headphones, Menu, PlayCircle, Unlock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BriefcaseBusiness, Headphones, Menu, PlayCircle, Unlock } from 'lucide-react';
 import { EVENTO_SECCIONES } from './ListaSecciones';
 import { TecnorosLogo } from '../TecnorosLogo';
 import { BotonesRedes } from '../Redes';
@@ -14,8 +14,41 @@ import { abrirAsistente } from '../../asistentes/eventos';
 import { HowWeWorkSection } from '../HowWeWorkSection';
 import { MundoEquipo } from '../MundoEquipo';
 import { CartelProximamente } from '../ProductosPropios';
+import { FOTOS_ENCUENTROS } from '../../data/encuentros';
+
+/** Solo en el celu: un pantallazo breve de todo (productos, qué ofrecemos, quiénes somos, qué hacemos y las fotos). */
+const BREVE: { titulo: string; linea: string; ir: () => void }[] = [
+  { titulo: 'Nuestros productos', linea: 'Golondrina Automatización, Golondrina Personal, CHAJÁ y Mostrador.', ir: () => navegar('/productos') },
+  { titulo: 'Qué ofrecemos', linea: 'Automatizaciones, bots de WhatsApp, e-commerce, apps, CRM, ciberseguridad y robots.', ir: () => navegar('/servicios') },
+  { titulo: 'Quiénes somos', linea: 'Una agencia remota nacida en Rosario, con equipo en todo LATAM.', ir: () => irA('nacimos-en-rosario') },
+  { titulo: 'Qué hacemos', linea: 'Automatizamos tareas, cuidamos tu información y creamos software y robots.', ir: () => irA('sobre-nosotros') },
+];
+export const ResumenCelu: React.FC = () => (
+  <section aria-label="Lo nuestro, en breve" className="lg:hidden px-5 sm:px-8 pb-8">
+    <h2 className="text-lg font-extrabold text-white">Lo nuestro, en breve</h2>
+    <div className="mt-3 grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5">
+      {BREVE.map((b) => (
+        <button key={b.titulo} type="button" onClick={b.ir} className="text-left p-3.5 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-cyan-500/50 cursor-pointer">
+          <span className="flex items-center justify-between gap-2 text-sm font-bold text-white">{b.titulo} <ArrowRight className="w-4 h-4 text-cyan-300 shrink-0" /></span>
+          <span className="block mt-1 text-[13px] leading-snug text-slate-400">{b.linea}</span>
+        </button>
+      ))}
+    </div>
+    <button type="button" onClick={() => irA('encuentros')} className="mt-2.5 w-full text-left p-3.5 rounded-2xl border border-slate-800 bg-slate-900/70 hover:border-cyan-500/50 cursor-pointer">
+      <span className="flex items-center justify-between gap-2 text-sm font-bold text-white">Nuestras fotos <ArrowRight className="w-4 h-4 text-cyan-300" /></span>
+      <span className="mt-2 grid grid-cols-3 gap-1.5">
+        {FOTOS_ENCUENTROS.slice(0, 3).map((f) => (
+          <img key={f.src} src={f.src} alt={f.titulo} loading="lazy" decoding="async" className="w-full aspect-square object-cover rounded-lg" />
+        ))}
+      </span>
+    </button>
+  </section>
+);
 
 const RobotStudioSection = lazy(() => import('../robotics/RobotStudioSection').then((m) => ({ default: m.RobotStudioSection })));
+
+/** Formulario para sumarse al equipo. */
+export const FORM_TRABAJA = 'https://docs.google.com/forms/d/14fCeZQQUTWNRL49S7M3b43FPkncQ5XzUzvOhABXoVTg/viewform';
 
 /** Cabecera mínima: el logo y Soporte técnico (para clientes). */
 export const CabeceraSimple: React.FC = () => {
@@ -76,6 +109,17 @@ export const CabeceraSimple: React.FC = () => {
           >
             <Headphones className="w-4 h-4" /> <span className="hidden sm:inline">Soporte técnico</span>
           </button>
+          {/* Trabajá con nosotros: a la vista, igual que Soporte técnico */}
+          <a
+            href={FORM_TRABAJA}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Trabajá con nosotros"
+            title="Trabajá con nosotros"
+            className="inline-flex items-center gap-1.5 px-2 min-[400px]:px-2.5 sm:px-4 py-2 rounded-xl border border-cyan-400/50 bg-cyan-400/10 text-cyan-300 text-sm font-bold hover:bg-cyan-400/20"
+          >
+            <BriefcaseBusiness className="w-4 h-4" /> <span className="hidden md:inline">Trabajá con nosotros</span>
+          </a>
         </div>
       </div>
     </header>
@@ -156,6 +200,7 @@ export const VideosProductos: React.FC = () => (
 /** El inicio: asistentes arriba (HeroCorto) y debajo solo lo que queda a la vista. */
 export const InicioSoloAsistentes: React.FC = () => (
   <>
+    <ResumenCelu />
     <Suspense fallback={<div className="h-[60vh]" />}>
       <RobotStudioSection />
     </Suspense>

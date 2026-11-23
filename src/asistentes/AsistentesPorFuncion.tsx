@@ -327,7 +327,7 @@ export const AsistentesPorFuncion: React.FC = () => {
           role="dialog"
           data-panel-asistente
           aria-label={asistente ? `Asistente de ${asistente.nombre}` : 'Asistentes'}
-          className={`fixed z-[72] inset-x-2 bottom-2 h-[80dvh] sm:inset-x-auto sm:left-5 lg:left-[16rem] sm:bottom-6 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
+          className={`fixed z-[72] inset-x-2 bottom-3 h-[80dvh] sm:inset-x-auto sm:left-5 lg:left-[16rem] sm:bottom-8 sm:top-24 sm:h-auto sm:w-[400px] flex flex-col rounded-3xl bg-[#0B1120]/95 backdrop-blur border border-slate-700 shadow-2xl shadow-black/60 overflow-hidden`}
         >
           {/* Cabecera */}
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800">
@@ -413,7 +413,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className={`px-3 pt-2 flex flex-wrap gap-1.5 ${asistente.id === 'contacto' ? 'pb-8' : 'pb-4 sm:pb-5'}`}>
+              <div className={`px-3 pt-2 flex flex-wrap gap-1.5 ${asistente.id === 'contacto' ? 'pb-9' : 'pb-7'}`}>
                 {menu.map((a) => (
                   <button
                     key={a.id}

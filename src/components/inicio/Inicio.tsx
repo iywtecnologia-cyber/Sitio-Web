@@ -1,4 +1,5 @@
 import { EscenarioAsistentes } from '../../asistentes/AsistentesPorFuncion';
+import { GolondrinaConfigurable } from '../../asistentes/GolondrinaConfigurable';
 import React from 'react';
 import { Carrusel } from './Carrusel';
 import {
@@ -41,6 +42,10 @@ export const HeroCorto: React.FC = () => (
     <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-cyan-600/15 via-violet-600/15 to-transparent blur-3xl pointer-events-none rounded-full" />
     <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
     <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10 flex flex-col gap-4">
+      {/* Lo primero con lo que se encuentra el cliente: Golondrina 100% configurable */}
+      <div className="order-0">
+        <GolondrinaConfigurable />
+      </div>
       {/* Debajo del título: los asistentes girando alrededor del logo de tecnoros, a todo el ancho */}
       <div id="asistentes" className="order-2 scroll-mt-24">
         <EscenarioAsistentes alto="h-[300px] sm:h-[360px] lg:h-[370px]" />
