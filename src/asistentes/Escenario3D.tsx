@@ -12,6 +12,31 @@ const LUGARES: Record<string, string> = {
   '/': 'Inicio', '/servicios': 'Servicios', '/productos': 'Productos', '/robotica': 'Diseñá tu robot', '/proyectos': 'Proyectos',
   '/presupuesto': 'Presupuesto', '/nosotros': 'Quiénes somos', '/contacto': 'Contacto', '/encuentros': 'Encuentros', '/tecnologias': 'Tecnologías', '/blog': 'Blog',
 };
+// Lo que se puede automatizar (se elige al configurar Golondrina).
+const AUTOMATIZABLE: [string, string, string][] = [
+  ['whatsapp', '💬', 'Responder el WhatsApp solo, a cualquier hora.'],
+  ['turnos', '📅', 'Dar turnos y mandar recordatorios.'],
+  ['stock', '📦', 'Avisarte cuando falta stock o algo se rompe.'],
+  ['presupuestos', '🧾', 'Armar presupuestos y facturas sin planillas.'],
+  ['clientes', '👥', 'Seguir a cada cliente: quién compró, a quién llamar.'],
+  ['tablero', '📊', 'Juntar los números del día en un solo tablero.'],
+];
+interface ConfigGolondrina {
+  configurada: boolean;
+  registrar: boolean;
+  repetir: boolean;
+  destino: boolean;
+  automatizar: string[];
+}
+const CONFIG_INICIAL: ConfigGolondrina = { configurada: false, registrar: true, repetir: true, destino: true, automatizar: [] };
+const leerConfig = (): ConfigGolondrina => {
+  try {
+    return { ...CONFIG_INICIAL, ...JSON.parse(localStorage.getItem('golondrina-config') ?? '{}') };
+  } catch {
+    return CONFIG_INICIAL;
+  }
+};
+
 const nombreDeLugar = (d: string) => {
   const [camino, hash] = d.split('#');
   const base = LUGARES[camino] ?? camino;
@@ -56,6 +81,15 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
   const [sin3D, setSin3D] = useState(false);
   const [lista, setLista] = useState(hechos.slice());
   const [respondidas, setRespondidas] = useState<Record<string, boolean>>({});
+  // Golondrina es 100% configurable: antes de empezar elegís qué hace y qué te gustaría automatizar.
+  const [config, setConfig] = useState<ConfigGolondrina>(leerConfig);
+  const [editando, setEditando] = useState(false);
+  const guardarConfig = (c: ConfigGolondrina) => {
+    setConfig(c);
+    try {
+      localStorage.setItem('golondrina-config', JSON.stringify(c));
+    } catch { /* sin almacenamiento: vale para esta visita */ }
+  };
 
   useEffect(() => {
     const act = () => setLista(hechos.slice());
@@ -539,14 +573,65 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div className="rounded-2xl border border-cyan-500/30 bg-slate-900/60 p-4">
           <p className="text-xs font-mono uppercase tracking-wider text-cyan-300">Así funciona Golondrina</p>
-          <h3 className="mt-1 text-base font-bold text-white">Lo que hicieron los asistentes</h3>
+          <div className="mt-1 flex items-center justify-between gap-2">
+            <h3 className="text-base font-bold text-white">Lo que hicieron los asistentes</h3>
+            {config.configurada && !editando && (
+              <button type="button" onClick={() => setEditando(true)} className="shrink-0 text-xs font-semibold text-cyan-300 hover:text-cyan-200 cursor-pointer">⚙️ Configurar</button>
+            )}
+          </div>
           <p className="mt-1 text-sm text-slate-400">Golondrina coordina a los asistentes: entiende lo que pedís, lo hace por vos y aprende de lo que hacés. Acá queda todo, al momento.</p>
           <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">🔒 Tus datos están 100% protegidos</span>
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-200">⚙️ Golondrina es 100% configurable</span>
           </div>
           <p className="mt-1.5 text-xs text-slate-500">No te pregunta por cada cosa que hacés: solo por lo que te gustaría automatizar.</p>
-          {lista.length ? (
+          {!config.configurada || editando ? (
+            // Configuración de Golondrina: se hace antes de empezar (y se puede cambiar cuando quieras).
+            <div className="mt-3 p-3 rounded-xl border border-cyan-500/40 bg-slate-950/60">
+              <p className="text-sm font-bold text-white">⚙️ Configurá Golondrina {config.configurada ? '' : 'antes de empezar'}</p>
+              <div className="mt-2 space-y-1.5 text-sm text-slate-300">
+                {([
+                  ['registrar', 'Anotar lo que hacen los asistentes'],
+                  ['repetir', 'Preguntarme si quiero repetir una tarea'],
+                  ['destino', 'Mostrarme adónde me llevó cada asistente'],
+                ] as const).map(([k, t]) => (
+                  <label key={k} className="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" className="accent-cyan-400" checked={config[k]} onChange={(e) => setConfig((c) => ({ ...c, [k]: e.target.checked }))} />
+                    {t}
+                  </label>
+                ))}
+              </div>
+              <p className="mt-3 text-xs font-semibold text-slate-300">¿Qué te gustaría automatizar en tu negocio?</p>
+              <div className="mt-1.5 flex flex-wrap gap-1.5">
+                {AUTOMATIZABLE.map(([id, e, t]) => {
+                  const on = config.automatizar.includes(id);
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => setConfig((c) => ({ ...c, automatizar: on ? c.automatizar.filter((x) => x !== id) : [...c.automatizar, id] }))}
+                      className={`px-2 py-1 rounded-lg border text-xs cursor-pointer ${on ? 'bg-emerald-400/15 border-emerald-400 text-emerald-200' : 'border-slate-700 text-slate-300 hover:border-cyan-500/60'}`}
+                    >
+                      <span aria-hidden="true">{e}</span> {t.replace(/\.$/, '')}
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  guardarConfig({ ...config, configurada: true });
+                  setEditando(false);
+                }}
+                className="mt-3 px-3.5 py-2 rounded-xl bg-cyan-400 text-slate-950 text-sm font-bold hover:bg-cyan-300 cursor-pointer"
+              >
+                {config.configurada ? 'Guardar' : 'Guardar y empezar'}
+              </button>
+            </div>
+          ) : !config.registrar ? (
+            <p className="mt-3 text-sm text-slate-500 italic">Elegiste no anotar lo que hacen los asistentes. <button type="button" onClick={() => setEditando(true)} className="underline cursor-pointer">Cambiar</button></p>
+          ) : lista.length ? (
             <ol className="mt-3 space-y-1.5">
               {lista.map((h, i) => {
                 const a = ASISTENTES.find((x) => x.id === h.id);
@@ -558,7 +643,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
                       <span><b className="text-white">{a?.nombre}</b> {h.texto}</span>
                     </div>
                     {/* Tocá para ver adónde te llevó (y volver ahí). */}
-                    {h.destino && (
+                    {config.destino && h.destino && (
                       <button
                         type="button"
                         onClick={() => {
@@ -572,7 +657,7 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
                       </button>
                     )}
                     {/* ¿Repetir la tarea? Aceptar la vuelve a hacer; Rechazar oculta la pregunta. */}
-                    {h.repetir && respondidas[h.n] === undefined && (
+                    {config.repetir && h.repetir && respondidas[h.n] === undefined && (
                       <div className="mt-1 ml-12 flex flex-wrap items-center gap-1.5 text-xs">
                         <span className="text-slate-400">¿Te gustaría repetir la tarea?</span>
                         <button
@@ -607,16 +692,14 @@ export const Escenario3D: React.FC<{ alto?: string }> = ({ alto = 'h-[420px] sm:
           <p className="text-xs font-mono uppercase tracking-wider text-emerald-300">Lo mismo, en tu negocio</p>
           <h3 className="mt-1 text-base font-bold text-white">Lo que se puede automatizar</h3>
           <ul className="mt-3 space-y-2 text-sm text-slate-300">
-            {[
-              ['💬', 'Responder el WhatsApp solo, a cualquier hora.'],
-              ['📅', 'Dar turnos y mandar recordatorios.'],
-              ['📦', 'Avisarte cuando falta stock o algo se rompe.'],
-              ['🧾', 'Armar presupuestos y facturas sin planillas.'],
-              ['👥', 'Seguir a cada cliente: quién compró, a quién llamar.'],
-              ['📊', 'Juntar los números del día en un solo tablero.'],
-            ].map(([e, t]) => (
-              <li key={t} className="flex gap-2"><span aria-hidden="true">{e}</span> {t}</li>
-            ))}
+            {AUTOMATIZABLE.map(([id, e, t]) => {
+              const elegido = config.automatizar.includes(id);
+              return (
+                <li key={id} className={`flex gap-2 ${elegido ? 'text-emerald-200 font-semibold' : ''}`}>
+                  <span aria-hidden="true">{e}</span> {t} {elegido && <span className="text-emerald-300">✓ elegido</span>}
+                </li>
+              );
+            })}
           </ul>
           <button type="button" onClick={() => abrirAsistente('servicios')} className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-400 text-slate-950 text-sm font-bold hover:bg-emerald-300 cursor-pointer">
             ¿Qué puedo automatizar yo?

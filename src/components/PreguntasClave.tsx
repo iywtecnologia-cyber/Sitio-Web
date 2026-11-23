@@ -43,7 +43,7 @@ export const PreguntasClave: React.FC = () => {
               ))}
             </ul>
             <p className="mt-4 text-sm text-slate-300">
-              Y productos propios: <a href="/productos" className="text-cyan-300 underline underline-offset-4">Golondrina, CHAJÁ y TERO Security</a>.
+              Y productos propios: <a href="/productos" className="text-cyan-300 underline underline-offset-4">Golondrina Automatización, Golondrina Personal, CHAJÁ, Mostrador y TERO Security (próximamente)</a>.
             </p>
           </div>}
         </div>

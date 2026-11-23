@@ -2,9 +2,9 @@
 // con quién hablar y el chat de cada asistente. Golondrina (sin su propio botón) entiende lo que
 // se escribe, ejecuta la acción del asistente y aprende qué hace cada visitante para sugerírselo.
 import React, { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, ExternalLink, Send, X } from 'lucide-react';
+import { ArrowLeft, ExternalLink, X } from 'lucide-react';
 import type { Sugerencia } from '../golondrina';
-import { irA, navegar, useRuta } from '../rutas';
+import { navegar, useRuta } from '../rutas';
 import { ASISTENTES, EVENTO_PEDIR, PREGUNTA_DE, SUGERENCIAS_DE, accionesDeAsistentes, golondrina, imagenDe, type Asistente, type Enlace } from './funciones';
 
 import { EVENTO_ABRIR_ASISTENTE, EV_ALTERNAR, EV_CERRAR, EV_MENSAJE, EV_ESTADO, EV_REPETIR, type Repetir, abrirAsistente, abrirChatMarcio, dice, gesto, registrarHecho } from './eventos';
@@ -139,7 +139,11 @@ export const AsistentesPorFuncion: React.FC = () => {
     const ultimo = msgs[msgs.length - 1];
     const previo = msgs[msgs.length - 2];
     const desde = previo && previo.hasAttribute('data-yo') ? previo : ultimo;
-    el.scrollTo({ top: desde ? desde.offsetTop - 8 : 0, behavior: 'smooth' });
+    if (!desde) return;
+    // Si lo nuevo entra entero, se baja hasta el final (se ven también sus botones);
+    // si es más largo que el chat, se muestra desde su principio.
+    const entra = el.scrollHeight - desde.offsetTop + 8 <= el.clientHeight;
+    el.scrollTo({ top: entra ? el.scrollHeight : desde.offsetTop - 8, behavior: 'smooth' });
   }, [chat.length]);
   // Al abrir (o cambiar de asistente) se ve el final de la charla, no el principio.
   useEffect(() => {
@@ -263,7 +267,6 @@ export const AsistentesPorFuncion: React.FC = () => {
         return { ...c, [id]: lista };
       });
     }
-    if (accionId === 'disenar-robot') irA('robot-creacion', true);
     setTexto(q.prefijo ?? '');
     // En el celu no se abre el teclado solo: la persona toca la caja cuando quiere escribir.
     if (window.matchMedia('(pointer: fine)').matches) window.setTimeout(() => entrada.current?.focus(), 50);
@@ -422,29 +425,7 @@ export const AsistentesPorFuncion: React.FC = () => {
                   </button>
                 ))}
               </div>
-              {asistente.id !== 'contacto' && (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  void preguntar(texto);
-                }}
-                className="flex gap-2 p-3"
-              >
-                <label htmlFor="asistente-funcion-texto" className="sr-only">Mensaje para el asistente</label>
-                <input
-                  ref={entrada}
-                  id="asistente-funcion-texto"
-                  value={texto}
-                  onChange={(e) => setTexto(e.target.value)}
-                  // Cuando el asistente te preguntó algo, la caja se ilumina y te dice qué escribir.
-                  placeholder={asistente && esperando[asistente.id] ? (asistente.id === 'contacto' ? 'Escribí tu mensaje para ventas…' : 'Escribí tu respuesta acá…') : 'Escribile con tus palabras…'}
-                  className={`flex-1 min-w-0 px-3 py-2.5 rounded-xl bg-slate-900 border ${asistente && esperando[asistente.id] ? 'border-cyan-400 ring-2 ring-cyan-400/30' : 'border-slate-700'} text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400`}
-                />
-                <button type="submit" aria-label="Enviar" disabled={pensando} className="px-3 rounded-xl bg-cyan-400 text-slate-950 hover:bg-cyan-300 disabled:opacity-50 cursor-pointer">
-                  <Send className="w-4 h-4" />
-                </button>
-              </form>
-              )}
+              {/* Sin campo de texto: con los asistentes se elige siempre entre opciones. */}
             </>
           )}
         </div>

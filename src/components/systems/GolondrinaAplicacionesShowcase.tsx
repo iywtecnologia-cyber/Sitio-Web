@@ -71,7 +71,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Si la leche no desciende a 4°C dentro de las 2 horas del ordeñe o si el motor agitador se paró a medianoche.',
     riesgoEvitado: 'Evita la acidificación y decomiso de 5.000 a 25.000 litros de leche cruda por la usina láctea.',
     presetTab: 'lacteos',
-    whatsappConsulta: 'Hola tecnoros.ar, me interesa implementar Golondrina en tambos y tanques de leche.'
+    whatsappConsulta: 'Hola TecnoRosario, me interesa implementar Golondrina en tambos y tanques de leche.'
   },
   {
     id: 'silos-granos',
@@ -84,7 +84,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Gradientes anómalos de temperatura (fermentación o autocombustión) y cálculo exacto de horas antes de quiebre de stock.',
     riesgoEvitado: 'Protege miles de toneladas de cereal y permite solicitar camiones tolva antes del cierre logístico.',
     presetTab: 'silos',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero consultar por Golondrina para silos de granos y tolvas.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero consultar por Golondrina para silos de granos y tolvas.'
   },
   {
     id: 'criaderos-aves-cerdos',
@@ -97,7 +97,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Caída de extractores en días de calor extremo (estrés térmico fatal en menos de 40 min) o corte en líneas de agua.',
     riesgoEvitado: 'Previene mortandades masivas y asfixia en galpones intensivos durante la noche.',
     presetTab: 'avicola',
-    whatsappConsulta: 'Hola tecnoros.ar, me interesa Golondrina para galpones avícolas y criaderos de cerdos.'
+    whatsappConsulta: 'Hola TecnoRosario, me interesa Golondrina para galpones avícolas y criaderos de cerdos.'
   },
   {
     id: 'bombas-riego',
@@ -110,7 +110,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Caída súbita de presión por rotura de mangueras principales o sobrepresión y marcha en seco por pozo deprimido.',
     riesgoEvitado: 'Evita fundir bombas sumergibles de alto costo y derrochar millones de litros de agua y electricidad.',
     presetTab: 'riego',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero implementar Golondrina en estaciones de bombeo y riego.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero implementar Golondrina en estaciones de bombeo y riego.'
   },
   {
     id: 'frigorificos-camaras',
@@ -123,7 +123,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Corte eléctrico nocturno con curva acelerada de calentamiento y puertas de cámara abiertas más de 10 min.',
     riesgoEvitado: 'Protege mercadería de altísimo valor y cumple normativas SENASA sin necesidad de planillas manuales.',
     presetTab: 'frio',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero cotizar Golondrina para cámaras frigoríficas y carnes/helados.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero cotizar Golondrina para cámaras frigoríficas y carnes/helados.'
   },
   {
     id: 'fermentadores-cerveza',
@@ -136,7 +136,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Desvío de 0.5°C durante fermentación primaria o aumento descontrolado de presión antes del alivio.',
     riesgoEvitado: 'Garantiza calidad organoléptica y elimina el riesgo de perder lotes enteros de cerveza o vino.',
     presetTab: 'fermentador',
-    whatsappConsulta: 'Hola tecnoros.ar, me interesa Golondrina para fermentadores de cerveza y bodegas.'
+    whatsappConsulta: 'Hola TecnoRosario, me interesa Golondrina para fermentadores de cerveza y bodegas.'
   },
   {
     id: 'inyectoras-prensas',
@@ -149,7 +149,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Máquina detenida por más de 5 minutos, ritmo de ciclo por debajo del estándar o falta de granza.',
     riesgoEvitado: 'Elimina tiempos muertos ocultos y clasifica el motivo de parada en 1 solo clic del operario.',
     presetTab: 'oee',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero consultar por Golondrina para inyectoras plásticas y prensas.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero consultar por Golondrina para inyectoras plásticas y prensas.'
   },
   {
     id: 'motores-rodamientos',
@@ -162,7 +162,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Vibraciones anómalas por rozamiento o desbalanceo entre 15 y 20 días antes de que el rodamiento se clave.',
     riesgoEvitado: 'Ahorra paradas intempestivas de planta que frenan toda la línea durante días con costos millonarios.',
     presetTab: 'vibracion',
-    whatsappConsulta: 'Hola tecnoros.ar, me interesa Golondrina para mantenimiento predictivo de motores y rodamientos.'
+    whatsappConsulta: 'Hola TecnoRosario, me interesa Golondrina para mantenimiento predictivo de motores y rodamientos.'
   },
   {
     id: 'compresores-aire',
@@ -175,7 +175,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Ciclos de encendido continuos en horarios no productivos (fugas en cañerías del taller) o sobrecalentamiento de tornillo.',
     riesgoEvitado: 'Las fugas neumáticas representan hasta el 35% del costo eléctrico de una fábrica; detectarlas ahorra sumas enormes.',
     presetTab: 'compresor',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero implementar Golondrina en compresores de aire y detección de fugas.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero implementar Golondrina en compresores de aire y detección de fugas.'
   },
   {
     id: 'generadores-diesel',
@@ -188,7 +188,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Batería descargada antes del corte y nivel insuficiente de gasoil para cubrir turnos críticos.',
     riesgoEvitado: 'Garantiza que el generador realmente arranque en la emergencia y avisa en vivo cuánto combustible le queda.',
     presetTab: 'generador',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero consultar por Golondrina para grupos electrógenos y tanques de gasoil.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero consultar por Golondrina para grupos electrógenos y tanques de gasoil.'
   },
   {
     id: 'heladeras-vacunas',
@@ -201,7 +201,7 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Desvíos de temperatura, puertas entreabiertas o corte de energía con proyección de tiempo de seguridad.',
     riesgoEvitado: 'Cumplimiento normativo y cero descarte de vacunas o medicamentos biológicos de alto costo.',
     presetTab: 'vacunas',
-    whatsappConsulta: 'Hola tecnoros.ar, quiero cotizar Golondrina para heladeras de vacunas y farmacias.'
+    whatsappConsulta: 'Hola TecnoRosario, quiero cotizar Golondrina para heladeras de vacunas y farmacias.'
   },
   {
     id: 'cisternas-edificios',
@@ -214,14 +214,16 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
     queDetecta: 'Cisterna perdiendo nivel antes del horario pico de uso o bomba pluvial trabada antes de inundación en subsuelos.',
     riesgoEvitado: 'Protege edificios, hoteles y fábricas contra desabastecimiento hídrico e inundaciones mecánicas.',
     presetTab: 'cisterna',
-    whatsappConsulta: 'Hola tecnoros.ar, me interesa Golondrina para cisternas de agua y salas de máquinas.'
+    whatsappConsulta: 'Hola TecnoRosario, me interesa Golondrina para cisternas de agua y salas de máquinas.'
   }
 ];
 
 export const GolondrinaAplicacionesShowcase: React.FC = () => {
   // Modo activo en el simulador (Cubre los 12 casos reales)
   const [activeTab, setActiveTab] = useState<SimulationMode>('frio');
-  const [companyName, setCompanyName] = useState<string>('Frigorífico San Jorge');
+  const [companyName, setCompanyName] = useState<string>('');
+  // Si quiere mandar el WhatsApp sin escribir la empresa, se lo pedimos.
+  const [faltaEmpresa, setFaltaEmpresa] = useState(false);
   // Tarjeta elegida por la persona con "Probar en Simulador" (al cargar no se marca ninguna)
   const [casoElegido, setCasoElegido] = useState<string | null>(null);
   const [avisoCaso, setAvisoCaso] = useState<string | null>(null);
@@ -279,61 +281,49 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
 
     switch (activeTab) {
       case 'frio':
-        setCompanyName('Frigorífico San Jorge');
         setTempC(-20);
         setCorteElectrico(false);
         break;
       case 'oee':
-        setCompanyName('Inyectora Plástica #3');
         setLineaParada(false);
         setTiempoParadaMin(0);
         break;
       case 'silos':
-        setCompanyName('Silo Pulmón Maíz #1');
         setNivelSiloPct(75);
         break;
       case 'vibracion':
-        setCompanyName('Molino Central');
         setVibracionMmS(1.8);
         setTempMotorC(42);
         break;
       case 'lacteos':
-        setCompanyName('Tambo Don Eduardo');
         setTempLecheC(3.8);
         setAgitadorActivo(true);
         break;
       case 'avicola':
-        setCompanyName('Granja Avícola El Amanecer');
         setTempGalponC(24);
         setExtractoresOk(true);
         break;
       case 'riego':
-        setCompanyName('Estación Riego Pivote #4');
         setPresionBar(4.2);
         setRoturaMatriz(false);
         break;
       case 'fermentador':
-        setCompanyName('Cervecería Artesanal Delta');
         setTempFermentadorC(18.2);
         setGlicolActivo(true);
         break;
       case 'compresor':
-        setCompanyName('Taller Metalúrgico Central');
         setCiclosCompresorHora(4);
         setFugaNeumatica(false);
         break;
       case 'generador':
-        setCompanyName('Centro Logístico Rosario');
         setBateriaVolts(13.2);
         setNivelDieselPct(85);
         break;
       case 'vacunas':
-        setCompanyName('Clínica & Vacunatorio');
         setTempVacunasC(4.5);
         setPuertaVacunasAbierta(false);
         break;
       case 'cisterna':
-        setCompanyName('Edificio Torre & Complejo');
         setNivelCisternaPct(78);
         setBombaCisternaTraba(false);
         break;
@@ -547,13 +537,19 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         <input
           type="text"
           value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          placeholder="Ej: Mi Empresa SRL"
-          className="flex-1 min-w-[200px] px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-emerald-400"
+          id="sim-empresa"
+          onChange={(e) => { setCompanyName(e.target.value.replace(/[^\p{L}\p{N} .,&#'-]/gu, '').slice(0, 60)); setFaltaEmpresa(false); }}
+          placeholder="Escribí el nombre de tu empresa o equipo"
+          aria-invalid={faltaEmpresa}
+          className={`flex-1 min-w-[200px] px-3 py-1.5 rounded-lg bg-slate-950 border ${faltaEmpresa ? 'border-rose-500' : 'border-slate-700'} text-white font-mono text-xs focus:outline-none focus:border-emerald-400`}
         />
-        <span className="text-xs sm:text-[11px] text-slate-400 hidden sm:inline">
-          (Aparece en el mensaje de WhatsApp a la derecha)
-        </span>
+        {faltaEmpresa ? (
+          <span role="alert" className="w-full text-xs text-rose-300">Escribí el nombre de tu empresa o equipo para mandar el WhatsApp.</span>
+        ) : (
+          <span className="text-xs sm:text-[11px] text-slate-400 hidden sm:inline">
+            (Aparece en el mensaje de WhatsApp a la derecha)
+          </span>
+        )}
       </div>
 
       {demoPaso > 0 && cartelDemo && (
@@ -584,7 +580,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-emerald-400" />
-                <span>TABLERO DE PLANTA: {companyName.toUpperCase()}</span>
+                <span>TABLERO DE PLANTA: {(companyName || 'Tu empresa').toUpperCase()}</span>
               </span>
               <button
                 type="button"
@@ -1296,7 +1292,16 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           {/* Botón Directo para el Cliente B2B */}
           <div className="mt-3">
             <a
-              href={whatsappLink(`Hola tecnoros.ar, probé el simulador de Golondrina Automatización en la web para ${companyName || 'mi empresa'} y quiero coordinar una prueba piloto de 7 días.`)}
+              href={whatsappLink(`Hola TecnoRosario, probé el simulador de Golondrina Automatización en la web para ${companyName.trim()} y quiero coordinar una prueba piloto de 7 días.`)}
+              onClick={(e) => {
+                if (!companyName.trim()) {
+                  e.preventDefault();
+                  setFaltaEmpresa(true);
+                  const campo = document.getElementById('sim-empresa');
+                  campo?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  campo?.focus({ preventScroll: true });
+                }
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3 px-4 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
@@ -1305,6 +1310,113 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
               <span>Pedir Prueba Piloto de 7 Días en mi Empresa</span>
             </a>
           </div>
+        </div>
+
+      </div>
+
+      {/* =========================================================================
+          ESPACIO GENEROSO + SECCIÓN DE LOS 12 LUGARES DE IMPLEMENTACIÓN
+          ========================================================================= */}
+      <div className="relative z-10 mt-14 sm:mt-16 pt-10 sm:pt-12 border-t border-slate-800/80">
+        
+        {/* Cabecera del Catálogo de Lugares con Espaciado Generoso */}
+        <div className="mb-8 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs font-mono text-cyan-300 mb-1">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>VERSATILIDAD INDUSTRIAL & COMERCIAL</span>
+          </div>
+
+          <h4 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            ¿Dónde se usa?
+          </h4>
+
+          <p className="text-base text-slate-300 max-w-3xl">
+            Tocá “Probar” y ese caso se carga en el simulador.
+          </p>
+        </div>
+
+        {/* Fila Independiente de Filtros con Desplazamiento Limpio */}
+        <div className="mb-8 flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800/90 w-full">
+          {[
+            { id: 'todos', label: 'Todos (12 Casos)' },
+            { id: 'agro', label: 'Agro & Tambos' },
+            { id: 'alimentos', label: 'Alimentos & Frío' },
+            { id: 'industria', label: 'Industria & Motores' },
+            { id: 'logistica', label: 'Logística & Energía' },
+            { id: 'salud', label: 'Salud & Clínicas' },
+          ].map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setSelectedCategory(f.id as any)}
+              className={`px-3 py-1.5 rounded-xl font-mono text-xs transition-all cursor-pointer ${
+                selectedCategory === f.id
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-md shadow-emerald-500/20'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Grilla de Lugares: TODOS CON PROBAR EN SIMULADOR */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {lugaresFiltrados.map((item) => {
+            const Icon = item.icon;
+            const isCurrentlySelectedInSim = casoElegido === item.id;
+
+            return (
+              <div
+                key={item.id}
+                className={`p-5 rounded-2xl border transition-all flex flex-col justify-between group shadow-xl ${
+                  isCurrentlySelectedInSim
+                    ? 'bg-gradient-to-b from-emerald-950/40 via-slate-900 to-slate-950 border-emerald-400 ring-1 ring-emerald-400/40'
+                    : 'bg-slate-900/90 border-slate-800 hover:border-emerald-500/50'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3.5">
+                    <div className="w-11 h-11 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs sm:text-[10.5px] font-mono px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700 text-slate-300">
+                      {item.categoryLabel}
+                    </span>
+                  </div>
+
+                  <h5 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors leading-snug">
+                    {item.lugar}
+                  </h5>
+                  <p className="text-sm text-slate-400 mt-1 leading-snug">
+                    {item.subtitulo}
+                  </p>
+
+                </div>
+
+                {/* Botones de Acción: Ambos activos en TODAS las tarjetas */}
+                <div className="mt-6 pt-4 border-t border-slate-800 flex items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => irAlSimuladorConPreset(item.presetTab, item.id, item.lugar)}
+                    className="flex-1 py-2.5 px-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 border border-emerald-500/40 text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                  >
+                    <span>Probar</span>
+                    <span className="text-sm font-black">↑</span>
+                  </button>
+                  <a
+                    href={whatsappLink(`${item.whatsappConsulta} Quiero evaluar una prueba piloto de 7 días.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    <span>Consultar</span>
+                    <Send className="w-3 h-3 text-cyan-400" />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
       </div>
@@ -1321,12 +1433,12 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           </div>
         </div>
         <a
-          href={whatsappLink('Hola tecnoros.ar, tengo un proceso específico en mi empresa y quiero saber si lo puedo monitorear con Golondrina.')}
+          href={whatsappLink('Hola TecnoRosario, tengo un proceso específico en mi empresa y quiero saber si lo puedo monitorear con Golondrina.')}
           target="_blank"
           rel="noopener noreferrer"
           className="shrink-0 px-5 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-emerald-500/20"
         >
-          <span>Consultar por mi máquina</span>
+          <span>Consultar por mi Máquina</span>
           <ArrowRight className="w-4 h-4" />
         </a>
       </div>

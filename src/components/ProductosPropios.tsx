@@ -674,7 +674,7 @@ export const ProductosPropios: React.FC = () => {
                     ]).map((control) => (
                       <button key={control.label} type="button" title={control.desc}
                         onClick={() => {setPhysicalDemo({label:control.label,message:control.message});setDemoCount(n=>n+1);}}
-                        className="text-left rounded-lg border border-cyan-700/50 bg-slate-900 hover:bg-cyan-950/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400 p-3 transition-colors">
+                        className={`text-left rounded-lg border bg-slate-900 hover:bg-cyan-950/50 outline-none focus:outline-none focus:ring-0 [-webkit-tap-highlight-color:transparent] p-3 transition-colors ${physicalDemo?.label === control.label ? 'border-cyan-400 bg-cyan-950/40' : 'border-cyan-700/50'}`}>
                         <span className="flex items-center gap-2"><span className="font-bold text-white text-sm">{control.nombre}</span><span className="text-xs sm:text-[10px] font-mono text-cyan-300 border border-cyan-700/60 rounded px-1.5">{control.label}</span></span>
                       </button>
                     ))}
@@ -833,7 +833,7 @@ export const ProductosPropios: React.FC = () => {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 shrink-0"
             >
               <Send className="w-4 h-4" />
-              <span>Contratar Setup en WhatsApp</span>
+              <span>Consultar ambos por WhatsApp</span>
             </a>
           </div>
 
@@ -874,6 +874,15 @@ export const ProductosPropios: React.FC = () => {
                   <span>Configuración completa de números de WhatsApp y guardias</span>
                 </div>
               </div>
+              <a
+                href={whatsappLink('Hola tecnoros.ar, quiero contratar el *Setup y puesta en marcha* de Golondrina Automatización (instalación en planta, pago único de $300.000 a $500.000). ¿Coordinamos el diagnóstico?')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold text-xs sm:text-sm transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Contratar Setup</span>
+              </a>
             </div>
 
             {/* Tarjeta 2: Abono mensual recurrente (SaaS) */}
@@ -912,6 +921,15 @@ export const ProductosPropios: React.FC = () => {
                   <span>Reportes semanales automáticos consolidados en PDF</span>
                 </div>
               </div>
+              <a
+                href={whatsappLink('Hola tecnoros.ar, quiero contratar el *Monitoreo 24/7 y nube* de Golondrina Automatización (abono mensual de $80.000 a $120.000 por máquina o cámara). ¿Cómo lo activamos?')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs sm:text-sm transition-colors"
+              >
+                <Send className="w-4 h-4" />
+                <span>Contratar Monitoreo 24/7</span>
+              </a>
             </div>
           </div>
         </div>

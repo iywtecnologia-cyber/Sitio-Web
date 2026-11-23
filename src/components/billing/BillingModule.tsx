@@ -45,8 +45,20 @@ export const BillingModule: React.FC = () => {
   const precioVoz = planesVoz[planVoz];
   const vozMensual = cantidadVoz * precioVoz.ars;
 
+  // Cada vez que sumás algo, un aviso confirma qué se sumó (y el ticket pide confirmar si está bien).
+  const [aviso, setAviso] = useState<string | null>(null);
+  const [confirmado, setConfirmado] = useState(false);
+  const avisar = (texto: string) => {
+    setAviso(texto);
+    setConfirmado(false);
+    window.clearTimeout((avisar as unknown as { t?: number }).t);
+    (avisar as unknown as { t?: number }).t = window.setTimeout(() => setAviso(null), 2600);
+  };
+
   // Toggle selection
   const alternarHardware = (id: string) => {
+    const nombre = DISPOSITIVOS_HARDWARE.find((h) => h.id === id)?.servicio.replace(/ \(.*\)$/, '') ?? 'el equipo';
+    avisar(hardwareElegidos.includes(id) ? `Quitaste ${nombre}` : `✓ Sumaste ${nombre} al presupuesto`);
     setHardwareElegidos((prev) => {
       const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
       // Si se deselecciona todo el hardware, se resetea la opción de filamento
@@ -57,10 +69,14 @@ export const BillingModule: React.FC = () => {
   };
 
   const alternarSoftware = (id: string) => {
+    const nombre = SERVICIOS_SOFTWARE.find((x) => x.id === id)?.servicio ?? 'el servicio';
+    avisar(softwareElegidos.includes(id) ? `Quitaste ${nombre}` : `✓ Sumaste ${nombre} al presupuesto`);
     setSoftwareElegidos((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const alternarAbono = (id: string) => {
+    const nombre = ABONOS.find((x) => x.id === id)?.nombre.split(' •')[0].split(' (')[0] ?? 'el abono';
+    avisar(abonosElegidos.includes(id) ? `Quitaste el abono de ${nombre}` : `✓ Sumaste el abono de ${nombre}`);
     setAbonosElegidos((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
@@ -102,7 +118,8 @@ export const BillingModule: React.FC = () => {
     } catch { /* sin sessionStorage */ }
   }, []);
 
-  const mensualTotal = seleccionAbonos.reduce((t, a) => t + (a.mensual ?? 0), 0);
+  // Lo mensual: abonos elegidos + planes de voz hablada de CHAJÁ.
+  const mensualTotal = seleccionAbonos.reduce((t, a) => t + (a.mensual ?? 0), 0) + vozMensual;
 
   // Mensaje para WhatsApp y Mail
   const itemsMensaje: string[] = [];
@@ -145,7 +162,7 @@ export const BillingModule: React.FC = () => {
   }
   if (vozMensual > 0) resumenInversion.push(`Voz CHAJÁ: ${pesos(vozMensual)}/mes (${cantidadVoz} equipo/s)`);
   if (mensualTotal > 0) {
-    resumenInversion.push(`Abono recurrente: ${pesos(mensualTotal)}/mes`);
+    resumenInversion.push(`Total mensual: ${pesos(mensualTotal)}/mes`);
   }
 
   const mensaje = [
@@ -233,7 +250,7 @@ export const BillingModule: React.FC = () => {
                     id: 'dispositivo-chaja',
                     nombre: 'CHAJÁ',
                     estado: 'Disponible a demanda',
-                    color: 'cyan',
+                    color: 'emerald',
                     equipo: `${pesos(280_000)} por equipo`,
                     extra: 'Voz hablada opcional: elegí un plan abajo.',
                     servicio: 'Voz hablada desde $35.000 por mes (opcional)',
@@ -305,7 +322,13 @@ export const BillingModule: React.FC = () => {
                                 type="button"
                                 role="radio"
                                 aria-checked={elegido}
-                                onClick={() => { setPlanVoz(pl.id); if (cantidadVoz === 0) setCantidadVoz(1); }}
+                                onClick={() => {
+                                  setPlanVoz(pl.id);
+                                  if (cantidadVoz === 0) setCantidadVoz(1);
+                                  // La voz va con CHAJÁ: si todavía no lo sumaste, se suma solo.
+                                  if (!chajaSeleccionado) setHardwareElegidos((prev) => [...prev, 'dispositivo-chaja']);
+                                  avisar(`✓ Sumaste la voz hablada (${pl.nombre}) a CHAJÁ`);
+                                }}
                                 className={`text-left p-3 rounded-xl border transition-colors cursor-pointer ${elegido && cantidadVoz > 0 ? 'bg-cyan-950/60 border-cyan-400 ring-1 ring-cyan-400' : 'bg-slate-900 border-slate-700 hover:border-slate-500'}`}
                               >
                                 <span className="block text-sm font-bold text-white">{pl.nombre}</span>
@@ -490,6 +513,20 @@ export const BillingModule: React.FC = () => {
               </div>
             ) : (
               <div className="mt-4 space-y-4">
+                {/* ¿Está bien lo que sumaste? Confirmalo antes de pedir el presupuesto. */}
+                <div className={`p-3 rounded-xl border text-xs ${confirmado ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-200' : 'border-amber-500/40 bg-amber-500/10 text-amber-100'}`}>
+                  {confirmado ? (
+                    <span>✓ Confirmaste lo que necesitás. Ya podés pedir el presupuesto.</span>
+                  ) : (
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span>Revisá lo que sumaste: <b>¿está bien?</b></span>
+                      <span className="flex gap-1.5">
+                        <button type="button" onClick={() => setConfirmado(true)} className="px-2.5 py-1 rounded-md bg-emerald-400 text-slate-950 font-bold cursor-pointer">Sí, está bien</button>
+                        <button type="button" onClick={() => document.getElementById('facturacion')?.scrollIntoView({ behavior: 'smooth', block: 'start' })} className="px-2.5 py-1 rounded-md border border-amber-400/50 cursor-pointer">Cambiar algo</button>
+                      </span>
+                    </div>
+                  )}
+                </div>
                 {/* Desglose Hardware */}
                 {seleccionHardware.length > 0 && (
                   <div className="space-y-1.5">
@@ -572,7 +609,7 @@ export const BillingModule: React.FC = () => {
 
                   {mensualTotal > 0 && (
                     <div className="pt-2 border-t border-slate-800">
-                      <div className="text-xs text-slate-400 font-medium">Abono Recurrente de Servicio:</div>
+                      <div className="text-xs text-slate-400 font-medium">Total mensual (abonos y voz):</div>
                       <div className="text-lg font-bold text-sky-300">
                         +{pesos(mensualTotal)} <span className="text-xs font-normal text-slate-400">/ mes</span>
                       </div>
@@ -609,6 +646,11 @@ export const BillingModule: React.FC = () => {
           </div>
         </div>
       </div>
+      {aviso && (
+        <div role="status" className="fixed z-[66] left-1/2 -translate-x-1/2 bottom-24 lg:bottom-8 px-4 py-2.5 rounded-xl bg-[#0B1220]/95 border border-emerald-400/60 text-sm font-semibold text-emerald-200 shadow-2xl">
+          {aviso}
+        </div>
+      )}
       {/* Celu y tablet: el total te acompaña abajo mientras sumás cosas; tocalo para ver el ticket. */}
       {tieneSeleccion && (
         <button

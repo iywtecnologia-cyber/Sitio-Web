@@ -12,9 +12,15 @@ import { COMBOS, ahorro } from '../data/combos';
 import { SERVICIOS_SOFTWARE } from '../data/precios';
 import { FOUNDERS, URL_ORGANIGRAMA } from '../data/equipo';
 import { VENTAS_EMAIL, gmailPara, soporteWhatsappLink, whatsappLink } from '../data/contact';
-import { abrirSoporte, irA, navegar } from '../rutas';
+import { abrirSoporte, irA as irAPagina, navegar } from '../rutas';
 import { escribir, esperar, tocar, volarA } from './manos';
 import { cerrarAsistentes, verServicio } from './eventos';
+
+/** Cuando un asistente te lleva a otra parte de la web, el chat se cierra para que veas esa parte entera. */
+const irA = (...args: Parameters<typeof irAPagina>) => {
+  cerrarAsistentes();
+  irAPagina(...args);
+};
 
 export interface Enlace {
   texto: string;
@@ -136,7 +142,7 @@ export const PREGUNTA_DE: Record<string, { pregunta: string; parametro: string; 
   'recomendar-combo': { parametro: 'pedido', pregunta: '¿Para qué lo querés? Contame qué querés lograr y te digo qué combo te conviene.' },
   'explicar-producto': { parametro: 'producto', pregunta: '¿De qué producto querés saber? Elegí uno o escribime cuál.' },
   'probar-producto': { parametro: 'producto', pregunta: '¿Qué producto querés probar? Elegí uno.' },
-  'disenar-robot': { parametro: 'uso', pregunta: 'Completá la frase: «Quiero un robot que…»', prefijo: 'Quiero un robot que ' },
+  'disenar-robot': { parametro: 'uso', pregunta: '¿Para qué querés el robot? Elegí una opción y te llevo al panel de creación con eso en mente.' },
   'pedir-soporte': { parametro: 'problema', pregunta: '¿Qué es lo que no anda? Contame qué pasa y te paso con soporte.' },
 };
 
@@ -145,6 +151,8 @@ export const SUGERENCIAS_DE: Record<string, string[]> = {
   'servicio-para': ['Vender por internet', 'Que el WhatsApp responda solo', 'Ordenar mis clientes', 'Automatizar tareas a mano', 'Una página web', 'Cuidar mi información', 'Una app para el celular', 'No sé, quiero un diagnóstico'],
   'calcular-presupuesto': ['Una tienda online', 'Un bot de WhatsApp', 'Una página web', 'Automatizar tareas', 'Un CRM para mis clientes'],
   'pedir-soporte': ['No me llegan los avisos', 'No puedo entrar', 'Algo se ve mal', 'Otra cosa'],
+  // Lo que ofrecemos en «Diseñá tu robot» (modelos y módulos del diseñador).
+  'disenar-robot': ['Llevar cajas o cargas', 'Limpiar pisos o mesas', 'Agarrar y mover objetos (brazo)', 'Vigilar con cámara', 'Inspeccionar ductos', 'Ayudar en cultivos (riego)', 'Entregar cosas en un local'],
 };
 
 /** Pedirle algo a otro asistente (por ejemplo, desde Servicios: «¿Cuánto sale?» lo responde Presupuesto). */
@@ -230,7 +238,7 @@ export const ID_PRECIO: Record<string, string> = { 'analisis-qa': 'diagnostico',
 // Qué servicios (ids de precios) trae cada combo, para recomendarlo cuando piden esas cosas juntas.
 const SERVICIOS_DE_COMBO: Record<string, string[]> = {
   'arranque-digital': ['diagnostico', 'ecommerce', 'bots-whatsapp'],
-  'negocio-automatico': ['diagnostico', 'automatizacion', 'bots-whatsapp', 'asistentes'],
+  'negocio-automatico': ['diagnostico', 'automatizacion', 'bots-whatsapp'],
   'sistema-seguro': ['diagnostico', 'crm', 'ciberseguridad'],
 };
 
@@ -277,10 +285,10 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
           ofrecer({ texto: 'Pedir diagnóstico gratis', alHacer: irAlDiagnostico });
           return 'No me quedó claro qué necesitás. Contámelo con otras palabras, o empezá por el diagnóstico inicial gratuito: miramos tu negocio y te decimos qué conviene.';
         }
-        verServicio(items[0].id);
-        items.slice(1, 3).forEach((s) => ofrecer({ texto: `Ver ${s.title.split(':')[0]}`, alHacer: () => verServicio(s.id) }));
+        // No se abre sola: te sugiere la tarjeta y la abrís si querés.
+        items.slice(0, 3).forEach((s) => ofrecer({ texto: `Ver ${s.title.split(':')[0]}`, alHacer: () => verServicio(s.id) }));
         ofrecer({ texto: '¿Cuánto sale?', alHacer: () => pedirA('presupuesto', 'calcular-presupuesto', { pedido: p['necesidad'] ?? '' }, `¿Cuánto sale? (${items.map((s) => s.title.split(':')[0]).join(', ')})`) });
-        return `Para eso te sirve **${items[0].title}**: ${items[0].description}\nTe abrí su información.` + (items.length > 1 ? `\nTambién puede servirte: ${items.slice(1, 3).map((s) => s.title).join(' y ')}.` : '');
+        return `Para eso te sirve **${items[0].title}**: ${items[0].description}\nTocá «Ver» para abrir su tarjeta.` + (items.length > 1 ? `\nTambién puede servirte: ${items.slice(1, 3).map((s) => s.title).join(' y ')}.` : '');
       },
     }),
     de('servicios', {
@@ -467,13 +475,21 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         mostrar('robot', 'robot-creacion', 'Acá lo armás');
         const t = normalizar(p['uso'] ?? '');
         const consejo = contiene(t, 'caja', 'llev', 'carga')
-          ? 'Para llevar cajas, elegí ruedas y una bandeja arriba.'
+          ? 'Para llevar cajas, elegí el Mini-AMR con ruedas y la bandeja arriba.'
           : contiene(t, 'limpi')
           ? 'Para limpiar, conviene un modelo bajo con ruedas.'
           : contiene(t, 'brazo', 'agarr', 'mover')
-          ? 'Para agarrar cosas, sumale un brazo.'
+          ? 'Para agarrar cosas, elegí el Mini-Cobot o sumale el brazo.'
+          : contiene(t, 'vigil', 'camara')
+          ? 'Para vigilar, elegí el Caster-Bot Domo 360° o el mástil con cámara.'
+          : contiene(t, 'ducto', 'inspecc')
+          ? 'Para inspeccionar ductos, elegí el Micro-Rover y protección IP67.'
+          : contiene(t, 'cultivo', 'riego')
+          ? 'Para cultivos, elegí el Micro-AgriBot con orugas.'
+          : contiene(t, 'entreg', 'local')
+          ? 'Para entregar cosas, sumale el Locker seguro.'
           : 'Elegí el modelo, los colores y probalo en 3D.';
-        return `Te llevé al panel de creación del robot. ${consejo}\nPrimero programamos el cerebro y lo probás en 3D; si funciona, fabricamos el cuerpo.`;
+        return `Te llevé al panel de creación del robot. ${consejo}\nPrimero programamos el cerebro y lo probás en 3D; luego, si el análisis de fiabilidad es viable y es posible desarrollar ese robot, fabricamos el cuerpo.`;
       },
     }),
 
@@ -547,6 +563,11 @@ export function accionesDeAsistentes(ofrecer: (e: Enlace) => void): Accion[] {
         // Se cierra el asistente y te lleva a «Nacimos en Rosario» en Quiénes somos.
         cerrarAsistentes();
         irA('nacimos-en-rosario', false, 'center');
+        void esperar('#nacimos-en-rosario').then((el) => {
+          if (!el) return;
+          el.classList.add('asistente-senalado');
+          window.setTimeout(() => el.classList.remove('asistente-senalado'), 4500);
+        });
         const f = FOUNDERS.filter((x) => x.area === 'cofundadores');
         f.forEach((x) => x.linkedin && ofrecer({ texto: `LinkedIn de ${x.name}`, href: x.linkedin }));
         return `Nacimos en Rosario y hoy somos ${FOUNDERS.length} personas trabajando en remoto desde todo LATAM.\nNos fundaron ${f.map((x) => x.name).join(' y ')}.`;

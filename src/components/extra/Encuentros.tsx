@@ -100,8 +100,9 @@ export const Encuentros: React.FC = () => {
                     <span className="block p-4 flex-1 text-center">
                       <span className="block font-semibold text-white min-h-[3rem] flex items-center justify-center">{f.titulo}</span>
                       {(f.fecha || f.lugar) && (
-                        <span className="mt-1 flex items-center justify-center gap-1.5 text-xs text-slate-400">
-                          {f.lugar && <MapPin className="w-3.5 h-3.5 text-cyan-400" />}
+                        <span className="mt-1 block text-center text-balance text-xs text-slate-400">
+                          {/* El ícono va en línea con el texto, así queda centrado aunque ocupe dos renglones */}
+                          {f.lugar && <MapPin className="inline-block align-[-2px] mr-1 w-3.5 h-3.5 text-cyan-400" />}
                           {[f.lugar, fechaLinda(f.fecha)].filter(Boolean).join(' · ')}
                         </span>
                       )}

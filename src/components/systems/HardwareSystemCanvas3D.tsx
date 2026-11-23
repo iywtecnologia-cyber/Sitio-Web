@@ -333,8 +333,8 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     controls.autoRotate = autoRotate;
     controls.autoRotateSpeed = 2.0;
     controls.enableZoom = false; // Gestionado contextualmente por handleCanvasWheel
-    controls.minDistance = 0.20;
-    controls.maxDistance = 2.4;
+    controls.minDistance = 0.25;
+    controls.maxDistance = 2.2;
     controls.minPolarAngle = 0.0001; // Permite mirar directamente desde arriba (cenital)
     controls.maxPolarAngle = Math.PI - 0.0001; // Permite mirar directamente desde abajo (inferior)
     controls.enablePan = true;
@@ -363,17 +363,15 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
       if (shouldZoom) {
         e.preventDefault(); // Zoom 3D sin mover la página web
         const factor = e.deltaY < 0 ? 0.92 : 1.08;
-        const currentDist = camera.position.distanceTo(controls.target);
-        const newDist = currentDist * factor;
+        const offset = camera.position.clone().sub(controls.target);
+        // Siempre dentro de los mismos topes que los botones, para que nunca queden trabados.
+        const newDist = Math.min(2.2, Math.max(0.25, offset.length() * factor));
+        offset.setLength(newDist);
+        camera.position.copy(controls.target).add(offset);
+        controls.update();
 
-        if (newDist >= 0.22 && newDist <= 2.35) {
-          const offset = camera.position.clone().sub(controls.target).multiplyScalar(factor);
-          camera.position.copy(controls.target).add(offset);
-          controls.update();
-
-          const zoomPct = Math.round(((2.35 - newDist) / (2.35 - 0.22)) * 100);
-          setZoomLevel(Math.max(10, Math.min(200, zoomPct + 40)));
-        }
+        const zoomPct = Math.round(((2.35 - newDist) / (2.35 - 0.22)) * 100);
+        setZoomLevel(Math.max(10, Math.min(200, zoomPct + 40)));
       }
       // Si no es Zoom, el evento rueda scrollea naturalmente la página web sin ser bloqueado
     };
@@ -463,16 +461,15 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
     const camera = cameraRef.current;
     if (!controls || !camera) return;
 
-    const zoomDelta = inDirection ? 0.85 : 1.18;
-    const currentDist = camera.position.distanceTo(controls.target);
-    const newDist = currentDist * zoomDelta;
-
-    if (newDist >= 0.25 && newDist <= 2.2) {
-      const offset = camera.position.clone().sub(controls.target).multiplyScalar(zoomDelta);
-      camera.position.copy(controls.target).add(offset);
-      controls.update();
-      setZoomLevel((prev) => (inDirection ? Math.min(200, prev + 25) : Math.max(10, prev - 25)));
-    }
+    // Antes, al llegar al límite el botón dejaba de responder (parecía desactivado).
+    // Ahora se acerca/aleja hasta el tope y siempre se puede volver para el otro lado.
+    const offset = camera.position.clone().sub(controls.target);
+    if (!Number.isFinite(offset.length()) || offset.length() < 1e-4) offset.set(0.65, 0.34, 0.65);
+    const nueva = Math.min(2.2, Math.max(0.25, offset.length() * (inDirection ? 0.85 : 1.18)));
+    offset.setLength(nueva);
+    camera.position.copy(controls.target).add(offset);
+    controls.update();
+    setZoomLevel(Math.max(10, Math.min(200, Math.round(((2.35 - nueva) / (2.35 - 0.22)) * 100) + 40)));
   };
 
   const handleResetCamera = () => {
@@ -482,7 +479,10 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
 
     camera.position.set(0.65, 0.42, 0.65);
     controls.target.set(0, 0.08, 0);
+    // Cortamos la inercia del arrastre anterior para que la vista elegida no se "pierda".
+    controls.enableDamping = false;
     controls.update();
+    controls.enableDamping = true;
     setZoomLevel(100);
   };
 
@@ -493,7 +493,10 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
 
     camera.position.set(0.01, -0.62, 0.22);
     controls.target.set(0, 0.08, 0);
+    // Cortamos la inercia del arrastre anterior para que la vista elegida no se "pierda".
+    controls.enableDamping = false;
     controls.update();
+    controls.enableDamping = true;
   };
 
   const handleViewTop = () => {
@@ -503,7 +506,10 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
 
     camera.position.set(0.01, 0.75, 0.12);
     controls.target.set(0, 0.08, 0);
+    // Cortamos la inercia del arrastre anterior para que la vista elegida no se "pierda".
+    controls.enableDamping = false;
     controls.update();
+    controls.enableDamping = true;
   };
 
   return (
@@ -608,7 +614,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
         </div>
 
         {/* Botonera de control de rueda, zoom y rotación */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800 pointer-events-auto shadow-lg backdrop-blur-md">
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-900/90 border border-slate-800 pointer-events-auto shadow-lg backdrop-blur-md ml-auto">
           {/* Selector de modo de rueda rápido (Zoom 3D vs Scroll Web) */}
           <div className="flex items-center p-0.5 rounded-lg bg-slate-950 border border-slate-800/80 mr-1">
             <button
