@@ -1,7 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Mail, MessageCircle, RotateCcw, X } from 'lucide-react';
 import { SOPORTE_EMAIL, whatsappLink, mailtoLink } from '../data/contact';
-import { emailValido, MENSAJE_EMAIL_INVALIDO } from '../validacion';
+import {
+  emailValido, MENSAJE_EMAIL_INVALIDO, limpiarNombre, nombreValido, MENSAJE_NOMBRE_INVALIDO, limpiarComentario,
+  limpiarTelefono, telefonoValido, MENSAJE_TELEFONO, hoyISO, fechaNoFutura, type TipoTelefono,
+} from '../validacion';
+import { SERVICES } from './ServicesSection';
+
+// Todo lo que ofrecemos, para elegir el servicio contratado de una lista.
+const SERVICIOS_CONTRATABLES = [
+  ...SERVICES.map((s) => s.title.split(':')[0]),
+  'Golondrina Automatización',
+  'Golondrina Personal',
+  'CHAJÁ',
+  'Mostrador (chatbot con IA)',
+  'Abono de soporte mensual',
+  'Combo',
+  'Otro',
+];
 
 const ENFOCABLES = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -23,6 +39,9 @@ export const Arrepentimiento: React.FC = () => {
   const [enviado, setEnviado] = useState(false);
   // El e-mail se marca como inválido recién al salir del campo: mientras escribe, "juan@" es normal.
   const [emailTocado, setEmailTocado] = useState(false);
+  const [tipoTel, setTipoTel] = useState<TipoTelefono>('nacional');
+  const [tocados, setTocados] = useState<Record<string, boolean>>({});
+  const tocar = (k: string) => () => setTocados((t) => ({ ...t, [k]: true }));
   const dialogo = useRef<HTMLDivElement>(null);
   const primerCampo = useRef<HTMLInputElement>(null);
   // Quién abrió el modal, para devolverle el foco al cerrar (si no, quien navega con teclado
@@ -98,7 +117,7 @@ export const Arrepentimiento: React.FC = () => {
     '',
     `Nombre o empresa: ${datos.nombre}`,
     `e-mail: ${datos.email}`,
-    `Teléfono: ${datos.telefono}`,
+    `Teléfono (${tipoTel}): ${datos.telefono}`,
     `Servicio contratado: ${datos.servicio}`,
     `Fecha de contratación: ${datos.fecha}`,
     datos.comentario ? `Comentario: ${datos.comentario}` : '',
@@ -112,17 +131,31 @@ export const Arrepentimiento: React.FC = () => {
   // ahora se dice exactamente qué falta o qué está mal.
   const emailMal = datos.email.trim() !== '' && !emailValido(datos.email);
   const errorEmail = emailTocado && emailMal ? MENSAJE_EMAIL_INVALIDO : '';
+  const nombreMal = datos.nombre.trim() !== '' && !nombreValido(datos.nombre);
+  const telMal = datos.telefono.trim() !== '' && !telefonoValido(datos.telefono, tipoTel);
+  const fechaMal = !fechaNoFutura(datos.fecha);
   const faltan = [!datos.nombre.trim() && 'nombre', !datos.email.trim() && 'e-mail', !datos.servicio.trim() && 'servicio contratado'].filter(Boolean) as string[];
-  const completo = faltan.length === 0 && !emailMal;
+  const completo = faltan.length === 0 && !emailMal && !nombreMal && !telMal && !fechaMal;
   const aviso = faltan.length
     ? `Para enviar, completá: ${faltan.join(', ').replace(/, ([^,]*)$/, ' y $1')}.`
-    : emailMal
-      ? 'Revisá el e-mail para poder enviar.'
-      : '';
+    : nombreMal ? MENSAJE_NOMBRE_INVALIDO
+    : emailMal ? 'Revisá el e-mail para poder enviar.'
+    : telMal ? MENSAJE_TELEFONO(tipoTel)
+    : fechaMal ? 'La fecha de contratación no puede ser posterior a hoy.'
+    : '';
   const mailto = mailtoLink(SOPORTE_EMAIL, asunto, cuerpo);
 
   const campo = 'w-full rounded-lg bg-slate-950 border border-slate-700 focus:border-cyan-400 focus:outline-none px-3 py-2.5 text-sm text-white placeholder:text-slate-500';
-  const set = (k: keyof typeof datos) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setDatos({ ...datos, [k]: e.target.value });
+  // Cada campo deja escribir solo lo que corresponde (sin caracteres raros).
+  const limpiar: Partial<Record<keyof typeof datos, (v: string) => string>> = {
+    nombre: limpiarNombre,
+    telefono: (v) => limpiarTelefono(v, tipoTel),
+    comentario: limpiarComentario,
+    email: (v) => v.replace(/\s/g, ''),
+  };
+  const set = (k: keyof typeof datos) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setDatos({ ...datos, [k]: (limpiar[k] ?? ((v: string) => v))(e.target.value) });
+  const malCampo = (mal: boolean) => (mal ? campo.replace('border-slate-700', 'border-rose-500') : campo);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-sm" onClick={cerrar}>
@@ -169,7 +202,8 @@ export const Arrepentimiento: React.FC = () => {
 
         <form method="post" noValidate className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3" onSubmit={(e) => e.preventDefault()}>
           <label className="sm:col-span-2 text-xs text-slate-400">Nombre o empresa *
-            <input ref={primerCampo} className={`${campo} mt-1`} value={datos.nombre} onChange={set('nombre')} autoComplete="name" required />
+            <input ref={primerCampo} className={`${malCampo(!!tocados.nombre && nombreMal)} mt-1`} value={datos.nombre} onChange={set('nombre')} onBlur={tocar('nombre')} autoComplete="name" required />
+            {tocados.nombre && nombreMal && <span className="block mt-1 text-xs text-rose-300">{MENSAJE_NOMBRE_INVALIDO}</span>}
           </label>
           <label className="text-xs text-slate-400">Email *
             <input
@@ -185,16 +219,51 @@ export const Arrepentimiento: React.FC = () => {
             />
             {errorEmail && <span id="arrep-email-error" className="block mt-1 text-xs text-rose-300">{errorEmail}</span>}
           </label>
-          <label className="text-xs text-slate-400">Teléfono
-            <input className={`${campo} mt-1`} type="tel" value={datos.telefono} onChange={set('telefono')} autoComplete="tel" />
-          </label>
+          <div className="text-xs text-slate-400">
+            <span className="flex items-center justify-between gap-2">
+              <label htmlFor="arrep-tel">Teléfono</label>
+              {/* Nacional o internacional: cambia qué números acepta */}
+              <span className="inline-flex rounded-md border border-slate-700 overflow-hidden" role="group" aria-label="Tipo de teléfono">
+                {(['nacional', 'internacional'] as TipoTelefono[]).map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    aria-pressed={tipoTel === t}
+                    onClick={() => {
+                      setTipoTel(t);
+                      setDatos((d) => ({ ...d, telefono: limpiarTelefono(t === 'internacional' && !d.telefono.startsWith('+') ? `+${d.telefono}` : d.telefono, t) }));
+                    }}
+                    className={`px-1.5 py-0.5 text-[10px] cursor-pointer ${tipoTel === t ? 'bg-cyan-400 text-slate-950 font-bold' : 'text-slate-300'}`}
+                  >
+                    {t === 'nacional' ? 'Nacional' : 'Internacional'}
+                  </button>
+                ))}
+              </span>
+            </span>
+            <input
+              id="arrep-tel"
+              className={`${malCampo(!!tocados.telefono && telMal)} mt-1`}
+              type="tel"
+              inputMode="tel"
+              value={datos.telefono}
+              onChange={set('telefono')}
+              onBlur={tocar('telefono')}
+              placeholder={tipoTel === 'nacional' ? '341 313 0336' : '+34 600 123 456'}
+              autoComplete="tel"
+            />
+            {tocados.telefono && telMal && <span className="block mt-1 text-xs text-rose-300">{MENSAJE_TELEFONO(tipoTel)}</span>}
+          </div>
           <label className="text-xs text-slate-400">Servicio contratado *
-            <input className={`${campo} mt-1`} value={datos.servicio} onChange={set('servicio')} placeholder="Ej: soporte mensual" required />
+            <select className={`${campo} mt-1`} value={datos.servicio} onChange={set('servicio')} required>
+              <option value="">Elegí el servicio</option>
+              {SERVICIOS_CONTRATABLES.map((sv) => <option key={sv} value={sv}>{sv}</option>)}
+            </select>
           </label>
           <label className="text-xs text-slate-400">Fecha de contratación
-            <input className={`${campo} mt-1`} type="date" value={datos.fecha} onChange={set('fecha')} />
+            <input className={`${malCampo(fechaMal)} mt-1`} type="date" max={hoyISO()} value={datos.fecha} onChange={set('fecha')} />
+            {fechaMal && <span className="block mt-1 text-xs text-rose-300">No puede ser posterior a hoy.</span>}
           </label>
-          <label className="sm:col-span-2 text-xs text-slate-400">Comentario (opcional)
+          <label className="sm:col-span-2 text-xs text-slate-400">Comentario (opcional, solo palabras)
             <textarea className={`${campo} mt-1 min-h-[70px]`} value={datos.comentario} onChange={set('comentario')} />
           </label>
 

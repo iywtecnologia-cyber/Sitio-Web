@@ -30,9 +30,10 @@ export const COMBOS: Combo[] = [
     nombre: 'Negocio en automático',
     para: 'Para dejar de hacer a mano lo de todos los días.',
     siTe: 'Si necesitás recuperar horas de tu semana porque cargás turnos, pedidos o planillas a mano, empezá por acá.',
-    incluye: ['Diagnóstico inicial gratuito', 'Automatizaciones', 'Bot de WhatsApp', 'Asistente animado'],
-    separado: 1_600_000,
-    desde: 1_350_000,
+    incluye: ['Diagnóstico inicial gratuito', 'Automatizaciones', 'Bot de WhatsApp'],
+    // Automatizaciones 500.000 + Bot de WhatsApp 600.000 (mínimos de precios.ts)
+    separado: 1_100_000,
+    desde: 935_000,
     destacado: true,
   },
   {
@@ -49,9 +50,11 @@ export const COMBOS: Combo[] = [
     nombre: 'Planta conectada',
     para: 'Golondrina, y si querés, con los sensores de hardware instalados: te enterás por WhatsApp si algo falla en tu planta.',
     siTe: 'Si necesitás enterarte apenas una máquina falla, aunque no estés en la planta, este combo te avisa al toque.',
-    incluye: ['Diagnóstico inicial gratuito', 'Equipo Golondrina (automatización de avisos)', 'Sensores de hardware instalados (opcional, según tu planta)', 'Puesta en marcha'],
-    separado: 1_028_000,
-    desde: 870_000,
+    incluye: ['Diagnóstico inicial gratuito', 'Equipo Golondrina (automatización de avisos)', 'CHAJÁ (cuida tu red y tus equipos)', 'Puesta en marcha e instalación de sensores', 'Automatizaciones', 'Bot de WhatsApp para los avisos'],
+    // Golondrina 228.000 + CHAJÁ 280.000 + puesta en marcha 300.000 + Automatizaciones 500.000 + Bot de WhatsApp 600.000.
+    // Es el combo más completo (y el más caro).
+    separado: 1_908_000,
+    desde: 1_600_000,
     mensual: 'Abono de Golondrina aparte: desde $80.000 por mes',
   },
 ];

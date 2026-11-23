@@ -221,7 +221,9 @@ export const LUGARES_IMPLEMENTACION: GolondrinaLugar[] = [
 export const GolondrinaAplicacionesShowcase: React.FC = () => {
   // Modo activo en el simulador (Cubre los 12 casos reales)
   const [activeTab, setActiveTab] = useState<SimulationMode>('frio');
-  const [companyName, setCompanyName] = useState<string>('Frigorífico San Jorge');
+  const [companyName, setCompanyName] = useState<string>('');
+  // Si quiere mandar el WhatsApp sin escribir la empresa, se lo pedimos.
+  const [faltaEmpresa, setFaltaEmpresa] = useState(false);
   // Tarjeta elegida por la persona con "Probar en Simulador" (al cargar no se marca ninguna)
   const [casoElegido, setCasoElegido] = useState<string | null>(null);
   const [avisoCaso, setAvisoCaso] = useState<string | null>(null);
@@ -279,61 +281,49 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
 
     switch (activeTab) {
       case 'frio':
-        setCompanyName('Frigorífico San Jorge');
         setTempC(-20);
         setCorteElectrico(false);
         break;
       case 'oee':
-        setCompanyName('Inyectora Plástica #3');
         setLineaParada(false);
         setTiempoParadaMin(0);
         break;
       case 'silos':
-        setCompanyName('Silo Pulmón Maíz #1');
         setNivelSiloPct(75);
         break;
       case 'vibracion':
-        setCompanyName('Molino Central');
         setVibracionMmS(1.8);
         setTempMotorC(42);
         break;
       case 'lacteos':
-        setCompanyName('Tambo Don Eduardo');
         setTempLecheC(3.8);
         setAgitadorActivo(true);
         break;
       case 'avicola':
-        setCompanyName('Granja Avícola El Amanecer');
         setTempGalponC(24);
         setExtractoresOk(true);
         break;
       case 'riego':
-        setCompanyName('Estación Riego Pivote #4');
         setPresionBar(4.2);
         setRoturaMatriz(false);
         break;
       case 'fermentador':
-        setCompanyName('Cervecería Artesanal Delta');
         setTempFermentadorC(18.2);
         setGlicolActivo(true);
         break;
       case 'compresor':
-        setCompanyName('Taller Metalúrgico Central');
         setCiclosCompresorHora(4);
         setFugaNeumatica(false);
         break;
       case 'generador':
-        setCompanyName('Centro Logístico Rosario');
         setBateriaVolts(13.2);
         setNivelDieselPct(85);
         break;
       case 'vacunas':
-        setCompanyName('Clínica & Vacunatorio');
         setTempVacunasC(4.5);
         setPuertaVacunasAbierta(false);
         break;
       case 'cisterna':
-        setCompanyName('Edificio Torre & Complejo');
         setNivelCisternaPct(78);
         setBombaCisternaTraba(false);
         break;
@@ -547,13 +537,19 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
         <input
           type="text"
           value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          placeholder="Ej: Mi Empresa SRL"
-          className="flex-1 min-w-[200px] px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-emerald-400"
+          id="sim-empresa"
+          onChange={(e) => { setCompanyName(e.target.value.replace(/[^\p{L}\p{N} .,&#'-]/gu, '').slice(0, 60)); setFaltaEmpresa(false); }}
+          placeholder="Escribí el nombre de tu empresa o equipo"
+          aria-invalid={faltaEmpresa}
+          className={`flex-1 min-w-[200px] px-3 py-1.5 rounded-lg bg-slate-950 border ${faltaEmpresa ? 'border-rose-500' : 'border-slate-700'} text-white font-mono text-xs focus:outline-none focus:border-emerald-400`}
         />
-        <span className="text-xs sm:text-[11px] text-slate-400 hidden sm:inline">
-          (Aparece en el mensaje de WhatsApp a la derecha)
-        </span>
+        {faltaEmpresa ? (
+          <span role="alert" className="w-full text-xs text-rose-300">Escribí el nombre de tu empresa o equipo para mandar el WhatsApp.</span>
+        ) : (
+          <span className="text-xs sm:text-[11px] text-slate-400 hidden sm:inline">
+            (Aparece en el mensaje de WhatsApp a la derecha)
+          </span>
+        )}
       </div>
 
       {demoPaso > 0 && cartelDemo && (
@@ -584,7 +580,7 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-emerald-400" />
-                <span>TABLERO DE PLANTA: {companyName.toUpperCase()}</span>
+                <span>TABLERO DE PLANTA: {(companyName || 'Tu empresa').toUpperCase()}</span>
               </span>
               <button
                 type="button"
@@ -1296,7 +1292,16 @@ export const GolondrinaAplicacionesShowcase: React.FC = () => {
           {/* Botón Directo para el Cliente B2B */}
           <div className="mt-3">
             <a
-              href={whatsappLink(`Hola TecnoRosario, probé el simulador de Golondrina Automatización en la web para ${companyName || 'mi empresa'} y quiero coordinar una prueba piloto de 7 días.`)}
+              href={whatsappLink(`Hola TecnoRosario, probé el simulador de Golondrina Automatización en la web para ${companyName.trim()} y quiero coordinar una prueba piloto de 7 días.`)}
+              onClick={(e) => {
+                if (!companyName.trim()) {
+                  e.preventDefault();
+                  setFaltaEmpresa(true);
+                  const campo = document.getElementById('sim-empresa');
+                  campo?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  campo?.focus({ preventScroll: true });
+                }
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3 px-4 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"

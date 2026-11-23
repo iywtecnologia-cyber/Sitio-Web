@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { CONTACT_EMAIL, VENTAS_EMAIL, gmailPara, mailtoLink } from '../data/contact';
 import { temas, temaPorId, tomarTemaPendiente, EVENTO_TEMA } from '../consulta';
-import { emailValido, enfocarPrimero, MENSAJE_EMAIL_INVALIDO } from '../validacion';
+import { enfocarPrimero, limpiarNombre, nombreValido, MENSAJE_NOMBRE_INVALIDO, contactoValido, MENSAJE_CONTACTO_INVALIDO } from '../validacion';
 
 // Palabras que ayudan a elegir el tema solo, mientras la persona escribe
 const PALABRAS_TEMA: [string, string[]][] = [
@@ -119,7 +119,10 @@ export const ContactSection: React.FC = () => {
     const { nombre, email } = camposLimpios();
     const nuevos: typeof errores = {};
     if (!nombre) nuevos.nombre = 'Escribí tu nombre o el de tu negocio.';
-    if (email && !emailValido(email)) nuevos.email = MENSAJE_EMAIL_INVALIDO;
+    else if (!nombreValido(nombre)) nuevos.nombre = MENSAJE_NOMBRE_INVALIDO;
+    // E-mail o celular: uno de los dos es obligatorio (para poder responderte).
+    if (!email) nuevos.email = 'Dejanos tu e-mail o tu celular para poder responderte.';
+    else if (!contactoValido(email)) nuevos.email = MENSAJE_CONTACTO_INVALIDO;
     if (!formData.mensaje.trim()) nuevos.mensaje = 'Contanos qué necesitás para poder enviar la consulta.';
     setErrores(nuevos);
     enfocarPrimero([nuevos.nombre && 'contacto-nombre', nuevos.email && 'contacto-email', nuevos.mensaje && 'contacto-mensaje'].filter(Boolean) as string[]);
@@ -132,7 +135,7 @@ export const ContactSection: React.FC = () => {
     const targetNumber = getRandomWhatsAppNumber();
     const { nombre, email } = camposLimpios();
     const nameStr = nombre ? `• *Nombre o Negocio:* ${nombre}\n` : '';
-    const emailStr = email ? `• *e-mail de contacto:* ${email}\n` : '';
+    const emailStr = email ? `• *Contacto (e-mail o celular):* ${email}\n` : '';
     const msgStr = formData.mensaje.trim() || DEFAULT_MESSAGE;
     
     const formattedText = `Hola equipo de tecnoros.ar,\n\n${nameStr}${emailStr}• *Consulta:* ${msgStr}`;
@@ -149,7 +152,7 @@ export const ContactSection: React.FC = () => {
     // Solo se incluyen los datos que la persona completó.
     const etiquetaTema = temaPorId(tema)?.etiqueta;
     const subject = `${etiquetaTema ? `Consulta: ${etiquetaTema}` : 'Consulta desde la web'}${nombre ? ` - ${nombre}` : ''} - tecnoros.ar`;
-    const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `e-mail de contacto: ${email}`].filter(Boolean).join('\n');
+    const datos = [nombre && `Nombre / Empresa: ${nombre}`, email && `Contacto (e-mail o celular): ${email}`].filter(Boolean).join('\n');
     const bodyText = `Hola equipo de tecnoros.ar,\n\n${datos ? `${datos}\n\n` : ''}${messageText}`;
 
     window.open(mailtoLink(CONTACT_EMAIL, subject, bodyText), '_blank', 'noopener');
@@ -211,7 +214,7 @@ export const ContactSection: React.FC = () => {
                   placeholder="Ej. Distribuidora Santa Fe / Carlos"
                   value={formData.nombre}
                   onChange={(e) => {
-                    setFormData({ ...formData, nombre: e.target.value });
+                    setFormData({ ...formData, nombre: limpiarNombre(e.target.value) });
                     if (errores.nombre) setErrores((er) => ({ ...er, nombre: undefined }));
                   }}
                   required
@@ -224,14 +227,16 @@ export const ContactSection: React.FC = () => {
 
               <div>
                 <label htmlFor="contacto-email" className="block text-xs font-mono text-slate-300 mb-2">
-                  Tu e-mail de Contacto
+                  Tu e-mail o celular <span className="text-rose-300">*</span>
                 </label>
                 <input
                   id="contacto-email"
                   name="email"
-                  type="email"
+                  type="text"
+                  inputMode="email"
                   autoComplete="email"
-                  placeholder="nombre@negocio.com"
+                  required
+                  placeholder="nombre@negocio.com o 341 313 0336"
                   value={formData.email}
                   onChange={(e) => {
                     setFormData({ ...formData, email: e.target.value });

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { irA as irASeccion, EVENTO_SOPORTE } from '../rutas';
 import { X, Send, MessageCircle, ArrowRight, Mail, Headphones, MonitorUp } from 'lucide-react';
@@ -766,6 +766,20 @@ export const Asistente: React.FC = () => {
   // Panel de soporte técnico que baja desde arriba (menú Contacto, "Ver soporte técnico" del chat,
   // links /soporte y "Soporte técnico" del menú y del pie).
   const [soporteAbierto, setSoporteAbierto] = useState(false);
+  // El panel de soporte aparece justo debajo del botón «Soporte técnico» de la cabecera.
+  const [posSoporte, setPosSoporte] = useState<{ top: number; right: number } | null>(null);
+  useLayoutEffect(() => {
+    if (!soporteAbierto) return;
+    const ubicar = () => {
+      const r = document.getElementById('boton-soporte')?.getBoundingClientRect();
+      if (!r || r.bottom <= 0) { setPosSoporte(null); return; }
+      setPosSoporte({ top: Math.round(r.bottom + 8), right: Math.max(12, Math.round(window.innerWidth - r.right)) });
+    };
+    ubicar();
+    window.addEventListener('resize', ubicar);
+    window.addEventListener('scroll', ubicar, { passive: true });
+    return () => { window.removeEventListener('resize', ubicar); window.removeEventListener('scroll', ubicar); };
+  }, [soporteAbierto]);
   const enlacesSoporte = enlacesDe(temaPorId('soporte-tecnico')!);
   useEffect(() => {
     const abrir = () => {
@@ -1084,6 +1098,7 @@ export const Asistente: React.FC = () => {
       {soporteAbierto && !abierto && (
         <div
           id="panel-soporte"
+          style={posSoporte ?? undefined}
           role="dialog"
           aria-label="Soporte técnico"
           className="fixed z-[71] right-3 sm:right-6 top-20 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 motion-safe:animate-[soporte-asoma_0.45s_ease-out]"
@@ -1108,6 +1123,16 @@ export const Asistente: React.FC = () => {
               <Mail className="w-4 h-4" /> e-mail
             </a>
           </div>
+        </div>
+      )}
+
+      {/* Si Marcio está en otra pantalla, acá queda un aviso con una cruz para traerlo de vuelta. */}
+      {ventana && (
+        <div className="fixed z-[64] right-4 sm:right-6 bottom-24 sm:bottom-28 flex items-center gap-2 pl-3 pr-1.5 py-1.5 rounded-full bg-[#0B1220]/95 border border-cyan-500/40 shadow-xl text-xs text-slate-200">
+          <MonitorUp className="w-3.5 h-3.5 text-cyan-300" /> Marcio está en otra pantalla
+          <button type="button" onClick={() => { volverDeLaVentana(); setMarcioOculto(false); }} aria-label="Traer a Marcio de vuelta" title="Traer a Marcio de vuelta" className="p-1 rounded-full bg-slate-800 hover:bg-slate-700 text-white cursor-pointer">
+            <X className="w-3.5 h-3.5" />
+          </button>
         </div>
       )}
 

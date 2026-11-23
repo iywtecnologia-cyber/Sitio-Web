@@ -13,7 +13,7 @@ export const DESCRIPCION_INICIO = 'Automatización inteligente, ciberseguridad, 
 
 export const META_PAGINAS: Record<Exclude<Ruta, '/'>, { titulo: string; descripcion: string }> = {
   '/servicios': { titulo: 'Servicios', descripcion: 'Automatizaciones, ciberseguridad, e-commerce, apps, CRM, bots de WhatsApp y robótica. Mirá qué hacemos y cómo trabajamos.' },
-  '/productos': { titulo: 'Productos propios', descripcion: 'Golondrina, CHAJÁ y TERO: nuestros sistemas y equipos propios. Probá las demos y miralos en 3D.' },
+  '/productos': { titulo: 'Productos propios', descripcion: 'Golondrina Automatización, Golondrina Personal, CHAJÁ, Mostrador y TERO: nuestros sistemas y equipos propios. Probá las demos y miralos en 3D.' },
   '/robotica': { titulo: 'Diseñá tu robot', descripcion: 'Armá tu robot a medida y probalo en 3D. Primero programamos el cerebro; si funciona, fabricamos el cuerpo.' },
   '/proyectos': { titulo: 'Proyectos', descripcion: 'Sistemas reales que hicimos y que ya están funcionando en negocios.' },
   '/presupuesto': { titulo: 'Presupuesto', descripcion: 'Calculá cuánto cuesta lo que necesitás, con precios de referencia y combos.' },
