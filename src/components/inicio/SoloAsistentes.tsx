@@ -69,6 +69,7 @@ export const CabeceraSimple: React.FC = () => {
           {/* Lo que estaba antes en Contacto → Soporte técnico: abre el panel de soporte para clientes */}
           <button
             type="button"
+            id="boton-soporte"
             onClick={abrirSoporte}
             aria-label="Soporte técnico"
             className="inline-flex items-center gap-1.5 px-2 min-[400px]:px-2.5 sm:px-4 py-2 rounded-xl border border-emerald-400/50 bg-emerald-400/10 text-emerald-300 text-sm font-bold hover:bg-emerald-400/20 cursor-pointer"
