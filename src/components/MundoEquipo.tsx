@@ -20,15 +20,35 @@ const Avatar: React.FC<{ f: Founder; className?: string }> = ({ f, className = '
     <PersonaConCompu emoji={f.emoji ?? '🙂'} className={className} />
   );
 
-// 👨‍💻 / 👩‍💻 traen una pantalla verde atrás: se muestra la persona (👨 / 👩) con una compu 💻 adelante, sin ese fondo.
+// Personita con la compu enfrente (como 👨‍💻 / 👩‍💻), dibujada a mano para que no traiga el fondo verde del emoji.
 const PersonaConCompu: React.FC<{ emoji: string; className?: string }> = ({ emoji, className = '' }) => {
-  const conCompu = emoji.includes('💻');
-  const persona = conCompu ? emoji.split('\u200d')[0] : emoji;
+  if (!emoji.includes('💻')) {
+    return <span aria-hidden="true" className={`flex items-center justify-center ${className}`}>{emoji}</span>;
+  }
+  const mujer = emoji.startsWith('👩');
+  const pelo = mujer ? '#7C4A2D' : '#3B2A1E';
+  const remera = mujer ? '#A78BFA' : '#22D3EE';
   return (
-    <span aria-hidden="true" className={`relative flex items-center justify-center ${className}`}>
-      {persona}
-      {conCompu && <span className="absolute -right-1 -bottom-1 text-[0.55em] leading-none">💻</span>}
-    </span>
+    <svg viewBox="0 0 64 64" aria-hidden="true" className={className}>
+      {/* pelo largo atrás (ella) */}
+      {mujer && <path d="M18 24c0-11 6-17 14-17s14 6 14 17v14H18z" fill={pelo} />}
+      {/* cuerpo */}
+      <path d="M14 52c0-10 8-16 18-16s18 6 18 16z" fill={remera} />
+      {/* cuello y cabeza */}
+      <rect x="28.5" y="30" width="7" height="7" rx="2" fill="#F2C29B" />
+      <circle cx="32" cy="22" r="10" fill="#F6CBA5" />
+      {/* pelo de arriba */}
+      <path d={mujer ? 'M21.5 21c1-8 6-11.5 10.5-11.5S41.5 13 42.5 21c-4-1-8-4-10-7-2 3-6 6-11 7z' : 'M22 20c0-7 4.5-10.5 10-10.5S42 13 42 20c-3-2-6.5-4-10-4s-7 2-10 4z'} fill={pelo} />
+      {/* ojos */}
+      <circle cx="28.3" cy="23" r="1.3" fill="#1E293B" />
+      <circle cx="35.7" cy="23" r="1.3" fill="#1E293B" />
+      <path d="M29.5 27.2c1.6 1.3 3.4 1.3 5 0" stroke="#B45309" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      {/* la compu enfrente: tapa vista de atrás con el logo, y la base */}
+      <path d="M13 37h38l-3 17H16z" fill="#CBD5E1" />
+      <path d="M13 37h38l-.6 3.4H13.6z" fill="#E2E8F0" />
+      <circle cx="32" cy="46" r="2.6" fill="#22D3EE" />
+      <rect x="7" y="54" width="50" height="4" rx="2" fill="#94A3B8" />
+    </svg>
   );
 };
 
