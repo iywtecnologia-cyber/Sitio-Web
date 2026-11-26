@@ -387,7 +387,7 @@ export const RobotStudioSection: React.FC = () => {
                     setAutoRotate(v);
                     setRobotConfig((prev) => ({ ...prev, isSimulatingMotion: v }));
                   }}
-                  className={`px-2.5 py-1 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
+                  className={`px-2.5 py-1 max-sm:py-2 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
                     autoRotate
                       ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
                       : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'
@@ -402,7 +402,7 @@ export const RobotStudioSection: React.FC = () => {
                   onClick={() =>
                     setRobotConfig((prev) => ({ ...prev, lightsOn: !prev.lightsOn }))
                   }
-                  className={`px-2.5 py-1 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
+                  className={`px-2.5 py-1 max-sm:py-2 rounded-md text-xs sm:text-[11px] border transition-colors flex items-center gap-1 cursor-pointer ${
                     robotConfig.lightsOn
                       ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
                       : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white'

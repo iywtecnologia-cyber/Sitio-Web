@@ -52,7 +52,7 @@ export const GolondrinaConfigurable: React.FC = () => {
       </button>
 
       {abierta && (
-        <div id="golondrina-config-opciones" className="px-3 sm:px-4 pb-4 border-t border-slate-800/80 pt-3 grid gap-4 md:grid-cols-2">
+        <div id="golondrina-config-opciones" data-sin-asistente className="px-3 sm:px-4 pb-4 border-t border-slate-800/80 pt-3 grid gap-4 md:grid-cols-2">
           <div>
             <p className="text-sm font-bold text-white">1. ¿De qué rubro es tu negocio?</p>
             <div className="mt-2 flex flex-wrap gap-1.5">

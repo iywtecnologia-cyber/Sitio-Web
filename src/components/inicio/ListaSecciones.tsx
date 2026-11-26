@@ -34,7 +34,10 @@ const ir = (s: Seccion) => {
   else navegar(s.ruta);
 };
 
+// Temporizador del "doble toque" y a qué sección pertenece: si el segundo toque es en OTRA
+// sección, no es doble toque (antes abría el asistente de la sección equivocada).
 let espera = 0;
+let esperaDe = '';
 
 const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
   const ruta = useRuta();
@@ -53,10 +56,13 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
                 if (espera) {
                   window.clearTimeout(espera);
                   espera = 0;
-                  abrirAsistente(s.asistente === 'logo' ? 'hub' : s.asistente);
-                  alElegir?.();
-                  return;
+                  if (esperaDe === s.texto) {
+                    abrirAsistente(s.asistente === 'logo' ? 'hub' : s.asistente);
+                    alElegir?.();
+                    return;
+                  }
                 }
+                esperaDe = s.texto;
                 espera = window.setTimeout(() => {
                   espera = 0;
                   ir(s);
@@ -123,6 +129,12 @@ export const SeccionesCelu: React.FC = () => {
     window.addEventListener(EVENTO_SECCIONES, abrir);
     return () => window.removeEventListener(EVENTO_SECCIONES, abrir);
   }, []);
+  useEffect(() => {
+    if (!abierta) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setAbierta(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [abierta]);
   if (!abierta) return null;
   return (
     <div className="lg:hidden fixed inset-0 z-[80]" role="dialog" aria-label="Secciones">

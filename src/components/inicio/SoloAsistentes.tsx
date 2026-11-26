@@ -74,7 +74,9 @@ export const CabeceraSimple: React.FC = () => {
           className="flex items-center gap-1.5 min-[400px]:gap-2.5 sm:gap-3 min-w-0"
         >
           <TecnorosLogo className="w-7 h-7 min-[400px]:w-9 min-[400px]:h-9 sm:w-11 sm:h-11 shrink-0 drop-shadow-[0_0_14px_rgba(0,210,243,0.4)]" />
-          <span className="text-[15px] min-[400px]:text-lg sm:text-2xl font-black tracking-tight text-white leading-none">
+          {/* En celus de menos de 400 px (iPhone SE/mini, Android chicos) el nombre quedaba debajo de
+              «Sin permanencia»: ahí se muestra solo el escudo. */}
+          <span className="hidden min-[400px]:inline min-[400px]:text-lg sm:text-2xl font-black tracking-tight text-white leading-none">
             tecnoros<span className="text-[#00D2F3]">.ar</span>
           </span>
         </a>
@@ -130,7 +132,8 @@ export const CabeceraSimple: React.FC = () => {
 export const PieSimple: React.FC = () => (
   <footer className="bg-[#05070D]/85 border-t border-slate-800/80 text-slate-400 text-xs pt-10 pb-28 sm:pb-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-6">
-      <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]">
+      {/* data-sin-asistente: Marcio se corre si queda encima de estos links (los tapaba en el celular). */}
+      <div data-sin-asistente className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]">
         <a href="#arrepentimiento" className="inline-flex items-center px-3 py-1.5 rounded-lg border border-cyan-500/50 text-cyan-300 font-semibold hover:bg-cyan-500/10">
           Botón de arrepentimiento
         </a>

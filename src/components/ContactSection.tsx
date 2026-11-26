@@ -18,12 +18,12 @@ const PALABRAS_TEMA: [string, string[]][] = [
   ['servicio-ecommerce', ['tienda', 'vender online', 'e-commerce', 'ecommerce', 'carrito']],
   ['servicio-aplicaciones-moviles', ['app', 'aplicación', 'aplicacion', 'celular']],
   ['servicio-crm', ['crm', 'seguimiento de clientes', 'base de clientes']],
-  ['servicio-bots-whatsapp', ['whatsapp', 'bot']],
+  ['servicio-bots-whatsapp', ['whatsapp', 'bot', 'chatbot']],
   ['servicio-asistentes', ['asistente', 'personaje', 'mascota']],
   ['servicio-campanas-ads', ['campaña', 'campana', 'publicidad', 'anuncio', 'ads', 'instagram', 'facebook', 'google']],
   ['servicio-identidad-marca', ['logo', 'identidad', 'colores de la marca']],
   ['servicio-estrategia-marca', ['marca', 'estrategia', 'posicionamiento']],
-  ['servicio-ciberseguridad', ['segur', 'hacke', 'virus', 'contraseña', 'ataque']],
+  ['servicio-ciberseguridad', ['segur', 'ciberseguridad', 'ciber', 'hacke', 'virus', 'contraseña', 'ataque']],
   ['servicio-robotica-a-medida', ['robot']],
   ['servicio-automatizacion', ['automat', 'turno', 'reserva', 'planilla', 'excel', 'formulario', 'reporte', 'factura', 'carga de datos', 'integr']],
   ['diagnostico', ['diagnóstico', 'diagnostico', 'no sé qué', 'no se que']],
@@ -32,6 +32,11 @@ const PALABRAS_TEMA: [string, string[]][] = [
   ['producto-tero', ['tero']],
   ['presupuesto', ['presupuesto', 'precio', 'cuánto cuesta', 'cuanto cuesta', 'cotiz']],
 ];
+
+// La palabra clave tiene que empezar una palabra del texto: "app" no puede matchear "whatsapp"
+// (elegía "Aplicaciones móviles" cuando alguien pedía un bot de WhatsApp).
+const escaparRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const contienePalabra = (texto: string, palabra: string) => new RegExp(`(^|[^\\p{L}\\p{N}])${escaparRegex(palabra)}`, 'u').test(texto);
 
 const DEFAULT_MESSAGE = "Hola, queremos contarles del problema que tenemos en nuestro negocio para que nos puedan orientar en una solución";
 const WHATSAPP_NUMBERS = [
@@ -62,7 +67,7 @@ export const ContactSection: React.FC = () => {
     setFormData((f) => ({ ...f, mensaje: texto }));
     if (tema && !temaAuto) return; // eligió un tema a mano: no lo tocamos
     const t = texto.toLowerCase();
-    const hallado = PALABRAS_TEMA.find(([, palabras]) => palabras.some((p) => t.includes(p)));
+    const hallado = PALABRAS_TEMA.find(([, palabras]) => palabras.some((p) => contienePalabra(t, p)));
     if (hallado) {
       setTema(hallado[0]);
       setTemaAuto(true);
@@ -96,7 +101,7 @@ export const ContactSection: React.FC = () => {
   const [gmailRespaldo, setGmailRespaldo] = useState<string | null>(null);
 
   const handleCopyEmail = (email: string) => {
-    navigator.clipboard.writeText(email);
+    navigator.clipboard?.writeText(email).catch(() => {});
     setCopiedEmail(email);
     setTimeout(() => setCopiedEmail(null), 2000);
   };
@@ -324,7 +329,8 @@ export const ContactSection: React.FC = () => {
               {errores.mensaje && <p id="contacto-mensaje-error" className="mt-1.5 text-xs text-rose-300">{errores.mensaje}</p>}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2">
+            {/* lg:pr-24: deja lugar al botón flotante del asistente (abajo a la derecha), que tapaba «Enviar por e-mail». */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2 lg:pr-24">
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
                 <button
                   type="button"
@@ -348,7 +354,17 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400">
+            {gmailRespaldo && (
+              <p role="status" className="text-xs text-slate-300 text-right lg:pr-24">
+                Se abrió Gmail en otra pestaña con tu consulta.{' '}
+                <a href={gmailRespaldo} target="_blank" rel="noopener noreferrer" className="text-cyan-300 underline underline-offset-4">
+                  ¿No se abrió? Tocá acá
+                </a>
+                .
+              </p>
+            )}
+
+            <div className="flex flex-wrap items-center justify-end gap-2 text-xs text-slate-400 lg:pr-24">
               <span>O escribile directo a ventas:</span>
               <a
                 href={mailtoLink(VENTAS_EMAIL, 'Consulta para ventas - tecnoros.ar', '')}

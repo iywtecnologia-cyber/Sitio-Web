@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import process from 'node:process';
 import path from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
 import { LIMITES, MODELO, historialSeguro, preguntarAGemini } from './gemini';
@@ -66,8 +67,26 @@ app.get('/api/salud', (_req, res) => res.json({ ok: true, ia: Boolean(process.en
 
 // ── Web compilada (sólo si existe dist/, o sea en producción) ─────────────────
 const dist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
-app.use(express.static(dist, { index: false, maxAge: '1h' }));
-app.get(/^(?!\/api\/).*/, (_req, res, next) => res.sendFile(path.join(dist, 'index.html'), (err) => err && next()));
+// redirect: false: /servicios no debe redirigir a /servicios/ (el canonical es sin barra).
+app.use(express.static(dist, { index: false, redirect: false, maxAge: '1h' }));
+// Cada página tiene su propio HTML (dist/servicios/index.html, generado en el build) con su título,
+// descripción y canonical. Antes todo caía en el index.html del inicio y cualquier dirección
+// inexistente respondía 200 en vez de 404 (Google la indexaba como si existiera).
+app.get(/^(?!\/api\/).*/, (req, res, next) => {
+  let limpio: string;
+  try {
+    limpio = decodeURIComponent(req.path).replace(/\/+$/, '').toLowerCase();
+  } catch {
+    limpio = '/__no-existe__'; // dirección mal escrita (%E0%A4%A…): 404 en vez de error 500
+  }
+  const propio = path.join(dist, limpio, 'index.html');
+  const archivo = propio.startsWith(dist) && existsSync(propio) ? propio : path.join(dist, '404.html');
+  if (archivo.endsWith('404.html')) {
+    if (!existsSync(archivo)) return res.status(404).sendFile(path.join(dist, 'index.html'), (err) => err && next());
+    res.status(404);
+  }
+  res.sendFile(archivo, (err) => err && next());
+});
 
 app.listen(PUERTO, () => {
   console.log(`[asistente] API en http://localhost:${PUERTO} · modelo ${MODELO} · key ${process.env.GEMINI_API_KEY ? 'cargada' : 'FALTA'}`);

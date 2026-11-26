@@ -181,7 +181,7 @@ export const PortfolioSection: React.FC = () => {
                       href={activeProject.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-400 transition-all group"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 max-sm:py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs font-mono text-emerald-300 hover:bg-emerald-500/20 hover:border-emerald-400 transition-all group"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       <span>Probar sistema online</span>
