@@ -405,7 +405,7 @@ const ladoGlobo = (p: { x: number; y: number } | null, porDefecto: string) => {
   if (p.x > window.innerWidth * 0.6) return 'right-0';
   return 'left-1/2 -translate-x-1/2';
 };
-const GLOBO_CHICO = 'w-max max-w-[min(15rem,calc(100vw-1.5rem))] text-center leading-snug';
+const GLOBO_CHICO = 'w-max max-w-[min(13rem,calc(100vw-1.5rem))] text-center leading-snug text-xs sm:text-[13px]';
 
 export const Asistente: React.FC = () => {
   const [abierto, setAbierto] = useState(false);
@@ -633,7 +633,7 @@ export const Asistente: React.FC = () => {
         const alto = window.innerHeight;
         // Mismas medidas que el contenedor de abajo: right-0, bottom-40 (sm: bottom-56), globo de 180 px + Marcio.
         const abajo = alto - (ancho >= 640 ? 224 : 160);
-        const zona = { izq: ancho - 330, der: ancho, arriba: abajo - 160, abajo };
+        const zona = { izq: ancho - 290, der: ancho, arriba: abajo - 140, abajo };
         const tapa = Array.from(document.querySelectorAll('[data-sin-asistente]')).some((el) => {
           observador.observe(el); // observar dos veces el mismo elemento no hace nada
           const r = el.getBoundingClientRect();
@@ -808,7 +808,7 @@ export const Asistente: React.FC = () => {
         <div
           role="dialog"
           aria-label="Asistente de tecnoros.ar"
-          className="fixed z-[70] bottom-24 sm:bottom-28 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
+          className="fixed z-[70] bottom-24 sm:bottom-28 [@media(max-height:520px)]:bottom-3 right-3 left-3 sm:left-auto sm:right-6 sm:w-[380px]"
           style={teclado ? { bottom: teclado.abajo } : undefined}
         >
           {/* Marcio sale del chat dando vueltas y queda afuera, al costado; cada clic hace un truco */}
@@ -853,7 +853,7 @@ export const Asistente: React.FC = () => {
           </button>
           <div
             style={teclado ? { maxHeight: teclado.alto } : undefined}
-            className="assistant-panel-enter relative max-h-[calc(100dvh-18.5rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
+            className="assistant-panel-enter relative max-h-[calc(100dvh-18.5rem)] sm:max-h-[min(600px,calc(100dvh-13rem))] [@media(max-height:520px)]:max-h-[calc(100dvh-4rem)] flex flex-col rounded-2xl bg-[#0B1120] border border-slate-700/80 shadow-2xl shadow-black/60 overflow-hidden">
           <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 bg-slate-900/80">
             <TecnorosContactIcon className="assistant-avatar-breathe w-9 h-9 shrink-0" />
             <div className="flex-1 min-w-0">
@@ -1027,12 +1027,12 @@ export const Asistente: React.FC = () => {
           style={pos ? { left: pos.x, top: pos.y } : undefined}
           aria-hidden={!marcioVisible}
         >
-          <div className={`pointer-events-auto relative mb-16 max-w-[min(180px,calc(100vw-9rem))] transition-opacity ${lateral.agarrado || lateral.retornando || pos ? 'hidden' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3.5 py-2.5 shadow-xl text-sm font-semibold`}>
+          <div className={`pointer-events-auto relative mb-12 sm:mb-14 max-w-[min(150px,calc(100vw-8rem))] transition-opacity ${lateral.agarrado || lateral.retornando || pos ? 'hidden' : ''} rounded-2xl ${globoALaDerecha ? 'rounded-bl-md' : 'rounded-br-md'} bg-white text-slate-900 px-3 py-2 shadow-xl text-xs sm:text-[13px] font-semibold leading-snug`}>
             <button
               type="button"
               onClick={() => setMarcioOculto(true)}
               aria-label="Ocultar asistente"
-              className="absolute -top-2 -left-2 w-6 h-6 rounded-full bg-slate-800 text-slate-200 border border-slate-600 flex items-center justify-center hover:bg-slate-700 cursor-pointer"
+              className="absolute -top-2.5 -left-2.5 w-7 h-7 sm:w-6 sm:h-6 rounded-full bg-slate-800 text-slate-200 border border-slate-600 flex items-center justify-center hover:bg-slate-700 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -1087,7 +1087,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-24 h-28 sm:w-28 sm:h-32 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <Marcianito className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
               </span>
             </span>

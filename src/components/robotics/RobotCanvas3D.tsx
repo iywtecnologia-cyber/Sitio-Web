@@ -763,14 +763,14 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         {/* Zoom In & Out */}
         <button
           onClick={() => handleZoom('in')}
-          className="p-1.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer"
+          className="p-1.5 max-sm:p-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer"
           title="Acercar (Zoom In)"
         >
           <ZoomIn className="w-4 h-4 text-cyan-400" />
         </button>
         <button
           onClick={() => handleZoom('out')}
-          className="p-1.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer"
+          className="p-1.5 max-sm:p-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer"
           title="Alejar (Zoom Out)"
         >
           <ZoomOut className="w-4 h-4 text-cyan-400" />
@@ -781,7 +781,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         {/* Camera Views */}
         <button
           onClick={() => setCameraView('iso')}
-          className="px-2 py-1 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+          className="px-2 py-1 max-sm:py-2 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
           title="Vista Isométrica"
         >
           <Compass className="w-3.5 h-3.5 text-cyan-400" />
@@ -789,7 +789,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         </button>
         <button
           onClick={() => setCameraView('top')}
-          className="px-2 py-1 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+          className="px-2 py-1 max-sm:py-2 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
           title="Vista Cenital (Mirar desde arriba)"
         >
           <Maximize2 className="w-3.5 h-3.5 text-cyan-400" />
@@ -797,7 +797,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         </button>
         <button
           onClick={() => setCameraView('front')}
-          className="px-2 py-1 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+          className="px-2 py-1 max-sm:py-2 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
           title="Vista Frontal"
         >
           <Eye className="w-3.5 h-3.5 text-cyan-400" />
@@ -805,7 +805,7 @@ export const RobotCanvas3D: React.FC<RobotCanvas3DProps> = ({
         </button>
         <button
           onClick={() => setCameraView('bottom')}
-          className="px-2 py-1 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+          className="px-2 py-1 max-sm:py-2 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
           title="Vista Inferior (Mirar chasis y ruedas desde abajo)"
         >
           <span>Abajo</span>
