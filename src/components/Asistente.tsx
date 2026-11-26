@@ -846,7 +846,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-[4.5rem] h-[5.25rem] sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <Marcianito className="w-16 h-[4.75rem] sm:w-20 sm:h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
               </span>
             </span>
@@ -1087,7 +1087,7 @@ export const Asistente: React.FC = () => {
                 className="block motion-reduce:!animate-none"
                 style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
               >
-                <Marcianito className="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                <Marcianito className="w-16 h-[4.75rem] sm:w-20 sm:h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
               </span>
               </span>
             </span>
@@ -1156,7 +1156,7 @@ export const Asistente: React.FC = () => {
                   className="block"
                   style={truco.nombre ? { animation: `${truco.nombre} 0.9s ease-in-out` } : undefined}
                 >
-                  <Marcianito className="w-28 h-32 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
+                  <Marcianito className="w-20 h-24 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]" />
                 </span>
               </span>
             </button>
