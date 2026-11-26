@@ -52,8 +52,8 @@ export const Marcianito: React.FC<{ className?: string; saludando?: boolean }> =
       <circle cx="60" cy="50" r="33" fill="rgba(103,232,249,0.16)" stroke="#E2E8F0" strokeWidth="5" />
       <path d="M38 34 Q46 22 60 21" stroke="#FFFFFF" strokeWidth="4" strokeLinecap="round" fill="none" opacity="0.8" />
       <rect x="40" y="78" width="40" height="7" rx="3.5" fill="#22D3EE" />
-      {/* escudo de tecnoros.ar en el pecho, bien grande para que se reconozca la marca, con los nodos que se prenden */}
-      <g transform="translate(42 75) scale(0.36)">
+      {/* escudo de tecnoros.ar en el pecho (chico, centrado en el traje), con los nodos que se prenden */}
+      <g transform="translate(48.5 87) scale(0.23)">
         <path d="M 50 6 L 89 19 C 89 62 80 92 50 110 C 20 92 11 62 11 19 Z" fill="#0B1220" stroke="#00D2F3" strokeWidth="7" strokeLinejoin="round" />
         <g stroke="#FFFFFF" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round">
           <line x1="31" y1="38" x2="69" y2="38" />
