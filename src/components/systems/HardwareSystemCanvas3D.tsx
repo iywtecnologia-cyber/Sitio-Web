@@ -624,7 +624,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                 setIs3DActive(true);
               }}
               title="Fijar la ruedita en modo Zoom 3D"
-              className={`px-2 py-1 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-2 py-1 max-sm:py-2 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
                 wheelMode === 'zoom' || (wheelMode === 'contextual' && is3DActive)
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
                   : 'text-slate-400 hover:text-white'
@@ -641,7 +641,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
                 setIs3DActive(false);
               }}
               title="Fijar la ruedita para scrollear libremente la página"
-              className={`px-2 py-1 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
+              className={`px-2 py-1 max-sm:py-2 rounded-md text-xs sm:text-[11px] font-mono flex items-center gap-1 transition-all cursor-pointer ${
                 wheelMode === 'scroll'
                   ? 'bg-slate-800 text-white font-bold'
                   : 'text-slate-400 hover:text-white'
@@ -677,7 +677,7 @@ export const HardwareSystemCanvas3D: React.FC<HardwareSystemCanvas3DProps> = ({
             onClick={handleViewUnderneath}
             title="Inspeccionar directamente desde abajo (Vista inferior 360°)"
             aria-label="Ver desde abajo"
-            className="px-2 py-1.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-1 text-xs font-mono"
+            className="px-2 py-1.5 max-sm:px-3 max-sm:py-2.5 rounded-lg text-slate-300 hover:text-cyan-300 hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-1 text-xs font-mono"
           >
             <ArrowDown className="w-3.5 h-3.5 text-cyan-400" />
             <span className="hidden sm:inline">Ver Abajo</span>

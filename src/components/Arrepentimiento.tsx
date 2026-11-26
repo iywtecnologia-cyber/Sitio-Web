@@ -165,7 +165,7 @@ export const Arrepentimiento: React.FC = () => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="arrep-titulo"
-        className="w-full max-w-lg max-h-[92vh] overflow-y-auto rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-5 sm:p-7 text-slate-200"
+        className="w-full max-w-lg max-h-[92dvh] overflow-y-auto rounded-2xl bg-slate-900 border border-slate-700 shadow-2xl p-5 sm:p-7 text-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between gap-4">

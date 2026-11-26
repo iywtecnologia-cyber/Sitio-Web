@@ -30,6 +30,25 @@
   }
 }
 
+/* ── Celular ───────────────────────────────────────────────────────────────── */
+/* Fuera de @layer a propósito: así le gana a las clases text-sm / text-xs de Tailwind. */
+@media (pointer: coarse) and (max-width: 1023px) {
+  /* iOS Safari hace zoom a toda la página al tocar un campo con letra menor a 16 px
+     (pasaba en Contacto, Presupuesto, el simulador de Productos y el nombre del robot). */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+  /* El pie y los links chicos tienen que poder tocarse con el dedo (mínimo ~36 px de alto). */
+  footer a,
+  footer button {
+    min-height: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
