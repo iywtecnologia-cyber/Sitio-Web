@@ -154,7 +154,14 @@ export const PieSimple: React.FC = () => (
   </footer>
 );
 
-const VIDEOS = [
+const VIDEOS: { src: string; poster: string; titulo: string; linea: string; destacado?: boolean }[] = [
+  {
+    src: '/proyectos/demo-catalogo-golondrina.mp4',
+    poster: '/proyectos/demo-catalogo-golondrina.jpg',
+    titulo: 'Golondrina en un catálogo de aberturas',
+    linea: 'Se configura a medida, busca y navega con tus palabras, y aprende las costumbres de cada cliente.',
+    destacado: true,
+  },
   { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg', titulo: 'Mostrador', linea: 'Chatbot con IA que atiende a tus clientes 24/7.' },
   { src: '/proyectos/demo-agenda-consultorio-1min.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg', titulo: 'Agenda de consultorio', linea: 'Fichas, obra social y contacto directo con cada paciente.' },
 ];
@@ -174,7 +181,7 @@ export const VideosProductos: React.FC = () => (
       <Titulo etiqueta="Videos" titulo="Nuestros productos funcionando" texto="Recorridos reales con datos ficticios." />
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {VIDEOS.map((v) => (
-          <li key={v.src} className="rounded-2xl overflow-hidden bg-slate-900/80 border border-slate-800">
+          <li key={v.src} className={`rounded-2xl overflow-hidden bg-slate-900/80 border ${v.destacado ? 'md:col-span-2 border-cyan-500/40' : 'border-slate-800'}`}>
             <video src={v.src} poster={v.poster} {...propsVideo} className="w-full aspect-[16/10] bg-slate-950 block">
               Tu navegador no puede reproducir el video.
             </video>
