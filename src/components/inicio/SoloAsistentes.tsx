@@ -156,7 +156,7 @@ export const PieSimple: React.FC = () => (
 
 const VIDEOS: { src: string; poster: string; titulo: string; linea: string; destacado?: boolean }[] = [
   {
-    src: '/proyectos/demo-catalogo-golondrina.mp4',
+    src: '/proyectos/demo-catalogo-golondrina.mp4?v=2',
     poster: '/proyectos/demo-catalogo-golondrina.jpg',
     titulo: 'Golondrina en un catálogo de aberturas',
     linea: 'Se configura a medida, busca y navega con tus palabras, y aprende las costumbres de cada cliente.',
