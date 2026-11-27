@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 // Cada ruta tiene su propio HTML generado al compilar (scripts/generar-paginas.ts) para que el
 // servidor responda 200; cualquier otra dirección cae en 404.html y acá se muestra "no encontrada".
 
-export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto' | '/blog' | '/encuentros';
+export type Ruta = '/' | '/servicios' | '/productos' | '/robotica' | '/proyectos' | '/presupuesto' | '/tecnologias' | '/nosotros' | '/contacto' | '/blog' | '/encuentros' | '/crear';
 
-export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto', '/blog', '/encuentros'];
+export const RUTAS: Ruta[] = ['/', '/servicios', '/productos', '/robotica', '/proyectos', '/presupuesto', '/tecnologias', '/nosotros', '/contacto', '/blog', '/encuentros', '/crear'];
 
 // Una dirección que no existe. Antes se mostraba la portada y la URL pasaba a "/",
 // así que un link roto parecía andar y nadie se enteraba.
@@ -31,6 +31,8 @@ export const ATAJOS: Record<string, [Ruta, string]> = {
   '/precios': ['/presupuesto', ''],
   '/fotos': ['/encuentros', ''],
   '/equipo': ['/nosotros', ''],
+  '/fabrica': ['/crear', ''],
+  '/crea-tu-sistema': ['/crear', ''],
 };
 
 if (typeof window !== 'undefined') {
