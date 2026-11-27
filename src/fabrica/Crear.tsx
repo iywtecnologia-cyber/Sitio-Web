@@ -1,11 +1,10 @@
 // /crear · Fábrica de sistemas: la persona cuenta su proceso, se arma la primera versión de su
 // sistema y la prueba y la ajusta en vivo, hablando. (Etapa 1: entrevista + generación + vista previa.)
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Bot, Check, GitBranch, ImagePlus, Loader2, RotateCcw, Send, Sparkles, Wand2 } from 'lucide-react';
+import { ArrowRight, Bot, Check, ImagePlus, Loader2, RotateCcw, Send, Sparkles, Wand2 } from 'lucide-react';
 import { CON_IA, cambiar, entrevistar, generar, type Mensaje, type Turno } from './api';
 import { validar, type Spec } from './spec';
 import { whatsappLink } from '../data/contact';
-import GuiaTunel from './GuiaTunel';
 
 interface Sesion {
   historial: Mensaje[];
@@ -32,7 +31,6 @@ export const Crear: React.FC = () => {
   const [ocupado, setOcupado] = useState(false);
   const [pedido, setPedido] = useState('');
   const [nota, setNota] = useState<{ ok: boolean; texto: string } | null>(null);
-  const [modo, setModo] = useState<'nuevo' | 'repo'>('nuevo');
   const iframe = useRef<HTMLIFrameElement>(null);
   const chat = useRef<HTMLDivElement>(null);
 
@@ -139,23 +137,9 @@ export const Crear: React.FC = () => {
         <h1 className="mt-3 text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Contanos tu negocio y <span className="text-cyan-300">probá tu sistema hoy</span></h1>
         <p className="mt-3 text-slate-300 max-w-3xl">No hace falta saber de software: te preguntamos como un analista, armamos la primera versión y la ajustás hablando. Sale con Golondrina adentro para usarlo por chat.</p>
 
-        <div className="mt-6 inline-flex rounded-xl border border-slate-700 overflow-hidden" role="tablist">
-          <button type="button" role="tab" aria-selected={modo === 'nuevo'} onClick={() => setModo('nuevo')} className={`px-4 py-2 text-sm font-bold cursor-pointer ${modo === 'nuevo' ? 'bg-cyan-400 text-slate-950' : 'text-slate-300'}`}>Quiero un sistema nuevo</button>
-          <button type="button" role="tab" aria-selected={modo === 'repo'} onClick={() => setModo('repo')} className={`px-4 py-2 text-sm font-bold cursor-pointer ${modo === 'repo' ? 'bg-cyan-400 text-slate-950' : 'text-slate-300'}`}>Ya tengo un sistema</button>
-        </div>
         {!CON_IA && <p className="mt-3 text-xs text-amber-300">Vista previa sin IA conectada: la entrevista es guiada y los cambios entienden pedidos simples.</p>}
 
-        {modo === 'repo' ? (
-          <>
-          <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-6 max-w-3xl">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2"><GitBranch className="w-5 h-5 text-cyan-300" /> Análisis de tu sistema actual</h2>
-            <p className="mt-2 text-slate-300">Pegás la dirección del repositorio, lo levantamos en un entorno aislado, te mostramos cómo funciona y te entregamos qué hace hoy, qué le falta para tu rubro y qué conviene agregar primero.</p>
-            <p className="mt-3 text-sm text-amber-300">El análisis automático sale en la próxima etapa. Mientras tanto, escribinos con el repositorio o con el link de tu túnel (abajo te explicamos cómo sacarlo) y lo analizamos con vos.</p>
-            <a href={whatsappLink('Hola tecnoros.ar, quiero que analicen mi sistema actual. El repositorio es: ')} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400 text-slate-950 font-bold">Pedir el análisis <ArrowRight className="w-4 h-4" /></a>
-          </div>
-          <GuiaTunel />
-          </>
-        ) : !spec ? (
+        {!spec ? (
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_340px]">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 flex flex-col min-h-[460px]">
               <div ref={chat} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 max-h-[60vh]">
