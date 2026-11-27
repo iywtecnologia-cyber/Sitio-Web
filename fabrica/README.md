@@ -10,16 +10,16 @@ La web funciona igual sin este Worker (modo guiado sin IA); con el Worker, la en
 - `src/prompts.ts` — instrucciones del analista, del generador y del editor.
 - `../src/fabrica/spec.ts` — la spec del sistema: tipos, validación y parches (la comparte con la web).
 - `schema.sql` — tablas de D1.
-- `prueba.ts` — pruebas sin red (Claude y D1 simulados): `npm test`.
+- `prueba.ts` — pruebas sin red (Claude y D1 simulados): `npx tsx prueba.ts`.
 
 ## Puesta en marcha (una sola vez)
 
 1. Cuenta de Cloudflare con el plan **Workers Paid** (US$5/mes) y la zona `tecnoros.ar` en Cloudflare.
-2. En esta carpeta: `npm install --legacy-peer-deps` y `npx wrangler login`.
+2. En esta carpeta: `npx wrangler login`.
 3. Crear la base: `npx wrangler d1 create tecnoros-fabrica` y pegar el `database_id` en `wrangler.toml`.
-4. Crear las tablas: `npm run db:crear`.
+4. Crear las tablas: `npx wrangler d1 execute tecnoros-fabrica --remote --file=schema.sql`.
 5. Cargar la clave de Claude: `npx wrangler secret put ANTHROPIC_API_KEY` (de console.anthropic.com; poné un límite de gasto mensual ahí).
-6. Publicar: `npm run deploy`. Queda en `https://fabrica.tecnoros.ar`.
+6. Publicar: `npx wrangler deploy`. Queda en `https://fabrica.tecnoros.ar`.
 7. En Render (sitio web) agregar la variable `VITE_FABRICA_API=https://fabrica.tecnoros.ar` y hacer **Deploy latest commit**.
 
 ## Variables
@@ -31,3 +31,6 @@ La web funciona igual sin este Worker (modo guiado sin IA); con el Worker, la en
 | `LIMITE_DIARIO` | Llamadas por IP y por día (protege el gasto de IA) |
 | `ANTHROPIC_API_KEY` | Secreto: clave de la API de Claude |
 | `TURNSTILE_SECRET` | Secreto opcional para el antibots (etapa 2) |
+
+
+> Esta carpeta no lleva `package.json` a propósito: el comando de build de Render busca el primer `package.json` del repo y, si encuentra uno acá, pisa el de la web y el deploy falla. Todo se corre con `npx`.
