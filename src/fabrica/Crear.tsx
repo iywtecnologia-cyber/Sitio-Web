@@ -5,6 +5,7 @@ import { ArrowRight, Bot, Check, GitBranch, ImagePlus, Loader2, RotateCcw, Send,
 import { CON_IA, cambiar, entrevistar, generar, type Mensaje, type Turno } from './api';
 import { validar, type Spec } from './spec';
 import { whatsappLink } from '../data/contact';
+import GuiaTunel from './GuiaTunel';
 
 interface Sesion {
   historial: Mensaje[];
@@ -145,12 +146,15 @@ export const Crear: React.FC = () => {
         {!CON_IA && <p className="mt-3 text-xs text-amber-300">Vista previa sin IA conectada: la entrevista es guiada y los cambios entienden pedidos simples.</p>}
 
         {modo === 'repo' ? (
+          <>
           <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-6 max-w-3xl">
             <h2 className="text-xl font-bold text-white flex items-center gap-2"><GitBranch className="w-5 h-5 text-cyan-300" /> Análisis de tu sistema actual</h2>
             <p className="mt-2 text-slate-300">Pegás la dirección del repositorio, lo levantamos en un entorno aislado, te mostramos cómo funciona y te entregamos qué hace hoy, qué le falta para tu rubro y qué conviene agregar primero.</p>
-            <p className="mt-3 text-sm text-amber-300">Esta parte sale en la próxima etapa. Mientras tanto, escribinos y lo analizamos con vos.</p>
+            <p className="mt-3 text-sm text-amber-300">El análisis automático sale en la próxima etapa. Mientras tanto, escribinos con el repositorio o con el link de tu túnel (abajo te explicamos cómo sacarlo) y lo analizamos con vos.</p>
             <a href={whatsappLink('Hola tecnoros.ar, quiero que analicen mi sistema actual. El repositorio es: ')} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-400 text-slate-950 font-bold">Pedir el análisis <ArrowRight className="w-4 h-4" /></a>
           </div>
+          <GuiaTunel />
+          </>
         ) : !spec ? (
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_340px]">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 flex flex-col min-h-[460px]">
