@@ -1,0 +1,22 @@
+# Worker de la fábrica de sistemas (Cloudflare). API que usa la página /crear de tecnoros.ar.
+name = "tecnoros-fabrica"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+# Dominio de la API (la web la llama con VITE_FABRICA_API=https://fabrica.tecnoros.ar)
+routes = [{ pattern = "fabrica.tecnoros.ar", custom_domain = true }]
+
+[vars]
+MODELO = "claude-sonnet-5-5"
+ORIGENES = "https://tecnoros.ar,https://www.tecnoros.ar,http://localhost:5173"
+LIMITE_DIARIO = "80"
+
+# Base de datos: proyectos, versiones y uso por IP (ver schema.sql)
+[[d1_databases]]
+binding = "DB"
+database_name = "tecnoros-fabrica"
+database_id = "REEMPLAZAR_CON_EL_ID_DE_D1"
+
+# Secretos (no van en este archivo):
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put TURNSTILE_SECRET   (opcional, antibots)
