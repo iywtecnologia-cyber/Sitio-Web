@@ -161,7 +161,7 @@ const VIDEOS: { src: string; poster: string; titulo: string; linea: string; dest
   { src: '/proyectos/demo-retailpos-golondrina.mp4', poster: '/proyectos/demo-retailpos-golondrina.jpg', titulo: 'Punto de venta con Golondrina', linea: 'Caja, ventas y reportes de cada sucursal; le pedís las cosas con tus palabras.' },
   { src: '/proyectos/demo-nexopos-golondrina.mp4', poster: '/proyectos/demo-nexopos-golondrina.jpg', titulo: 'Gestión comercial con Golondrina', linea: 'Caja, stock, cuentas corrientes y reportes, con un asistente que aprende de vos.' },
   { src: '/proyectos/demo-andro-golondrina.mp4', poster: '/proyectos/demo-andro-golondrina.jpg', titulo: 'Reservas de canchas con Golondrina', linea: 'Tus clientes buscan, eligen horario y reservan solos, a cualquier hora.' },
-  { src: '/proyectos/demo-catalogo-golondrina.mp4?v=3', poster: '/proyectos/demo-catalogo-golondrina.jpg?v=3', titulo: 'Catálogo de aberturas con Golondrina', linea: 'Busca y navega con tus palabras y aprende las costumbres de cada cliente.' },
+  { src: '/proyectos/demo-catalogo.mp4', poster: '/proyectos/demo-catalogo.jpg', titulo: 'Catálogo de aberturas', linea: 'Puertas y ventanas online con fotos, medidas, stock y consultas por WhatsApp.' },
 ];
 
 const Titulo: React.FC<{ etiqueta: string; titulo: string; texto?: string }> = ({ etiqueta, titulo, texto }) => (
