@@ -766,6 +766,16 @@ export const Asistente: React.FC = () => {
   // Panel de soporte técnico que baja desde arriba (menú Contacto, "Ver soporte técnico" del chat,
   // links /soporte y "Soporte técnico" del menú y del pie).
   const [soporteAbierto, setSoporteAbierto] = useState(false);
+  // La entrada animada del panel corre una sola vez por apertura: después queda fijo (si no, al resaltarlo
+  // el asistente la animación volvía a empezar y el cartel se iba y volvía).
+  const [soporteAsomo, setSoporteAsomo] = useState(false);
+  useEffect(() => {
+    if (!soporteAbierto) { setSoporteAsomo(false); return; }
+    // Con reloj y no con «animationend»: si el asistente lo señala antes de que termine de entrar,
+    // esa otra animación corta la de entrada y el aviso de fin nunca llega.
+    const id = window.setTimeout(() => setSoporteAsomo(true), 500);
+    return () => window.clearTimeout(id);
+  }, [soporteAbierto]);
   // El panel de soporte aparece justo debajo del botón «Soporte técnico» de la cabecera.
   const [posSoporte, setPosSoporte] = useState<{ top: number; right: number } | null>(null);
   useLayoutEffect(() => {
@@ -1101,7 +1111,7 @@ export const Asistente: React.FC = () => {
           style={posSoporte ?? undefined}
           role="dialog"
           aria-label="Soporte técnico"
-          className="fixed z-[71] right-3 sm:right-6 top-20 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 motion-safe:animate-[soporte-asoma_0.45s_ease-out]"
+          className={`fixed z-[71] right-3 sm:right-6 top-20 w-[min(20rem,calc(100vw-1.5rem))] rounded-2xl bg-[#0B1120] border border-emerald-500/50 shadow-2xl shadow-black/60 p-4 ${soporteAsomo ? '' : 'motion-safe:animate-[soporte-asoma_0.45s_ease-out]'}`}
         >
           <div className="flex items-start gap-3">
             <span className="w-9 h-9 rounded-xl bg-emerald-400/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shrink-0">
