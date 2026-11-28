@@ -26,3 +26,20 @@ CREATE TABLE IF NOT EXISTS usos (
   llamadas INTEGER NOT NULL DEFAULT 0,
   PRIMARY KEY (ip, dia)
 );
+
+-- Etapa 2: claves de acceso, cambios con aprobación y pagos.
+-- (En una base ya creada con la etapa 1, correr estas líneas una sola vez.)
+ALTER TABLE proyectos ADD COLUMN clave TEXT;       -- del dueño: puede guardar, aprobar y pagar
+ALTER TABLE proyectos ADD COLUMN clave_dev TEXT;   -- del programador invitado: solo lectura con detalle técnico
+ALTER TABLE proyectos ADD COLUMN cambios TEXT;     -- historial de cambios pedidos (JSON)
+ALTER TABLE proyectos ADD COLUMN email TEXT;
+ALTER TABLE proyectos ADD COLUMN abono TEXT;       -- pendiente | activo | pausado | cancelado
+CREATE TABLE IF NOT EXISTS pagos (
+  mp_id TEXT PRIMARY KEY,
+  proyecto TEXT NOT NULL REFERENCES proyectos(id),
+  tipo TEXT NOT NULL,                              -- alta | abono
+  estado TEXT NOT NULL,
+  monto REAL NOT NULL,
+  creado TEXT NOT NULL DEFAULT (datetime('now')),
+  actualizado TEXT NOT NULL DEFAULT (datetime('now'))
+);
