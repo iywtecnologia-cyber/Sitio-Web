@@ -31,6 +31,7 @@ import { whatsappLink } from '../data/contact';
 import { GolondrinaLogo } from './LogosProductos';
 import { GolondrinaPersonalDemo } from './systems/GolondrinaPersonalDemo';
 import { PlegableMovil } from './PlegableMovil';
+import { CalendarCheck as IconoCanchas, DoorOpen as IconoCatalogo, ShoppingCart as IconoPos, Store as IconoGestion } from 'lucide-react';
 import { CLAVE_SUMAR_PRESUPUESTO, dolares, pesos } from '../data/precios';
 import { SelectorColor } from './SelectorColor';
 
@@ -275,6 +276,14 @@ export const CartelProximamente: React.FC = () => {
     </button>
   );
 };
+
+// Sistemas a medida que se muestran funcionando, con el mismo formato que Mostrador.
+const SISTEMAS_EN_VIDEO: { id: string; plegable: string; resumen: string; titulo: string; texto: string; video: string; poster: string; pie: string; icono: React.ReactNode; consulta: string }[] = [
+  { id: 'punto-de-venta-demo', plegable: 'Punto de venta', resumen: 'Miralo funcionando', titulo: 'Punto de venta para comercios', texto: 'Caja, ventas, stock y reportes de cada sucursal en un solo sistema, para comercios con uno o varios locales.', video: '/proyectos/demo-retailpos.mp4', poster: '/proyectos/demo-retailpos.jpg', pie: 'Recorrido del punto de venta con datos ficticios.', icono: <IconoPos className="w-6 h-6" />, consulta: 'el punto de venta para mi comercio' },
+  { id: 'gestion-comercial-demo', plegable: 'Gestión comercial', resumen: 'Miralo funcionando', titulo: 'Gestión comercial, de la venta a la factura', texto: 'Caja, ventas, productos, cuentas corrientes, gastos y reportes en un solo lugar.', video: '/proyectos/demo-nexopos.mp4', poster: '/proyectos/demo-nexopos.jpg', pie: 'Recorrido de la gestión comercial con datos ficticios.', icono: <IconoGestion className="w-6 h-6" />, consulta: 'el sistema de gestión comercial' },
+  { id: 'reservas-canchas-demo', plegable: 'Reservas de canchas', resumen: 'Miralo funcionando', titulo: 'Reservas online para complejos deportivos', texto: 'Tus clientes ven las canchas, eligen día y horario y reservan solos, a cualquier hora.', video: '/proyectos/demo-andro.mp4', poster: '/proyectos/demo-andro.jpg', pie: 'Recorrido de las reservas de canchas con datos ficticios.', icono: <IconoCanchas className="w-6 h-6" />, consulta: 'el sistema de reservas de canchas' },
+  { id: 'catalogo-aberturas-demo', plegable: 'Catálogo de aberturas', resumen: 'Miralo funcionando', titulo: 'Catálogo online de puertas y ventanas', texto: 'Fotos, medidas, stock y consultas por WhatsApp con el mensaje ya escrito.', video: '/proyectos/demo-catalogo.mp4', poster: '/proyectos/demo-catalogo.jpg', pie: 'Recorrido del catálogo con datos ficticios.', icono: <IconoCatalogo className="w-6 h-6" />, consulta: 'el catálogo digital para mi negocio' },
+];
 
 export const ProductosPropios: React.FC = () => {
   // Dispositivo de hardware seleccionado en el laboratorio 3D (Chajá o Golondrina)
@@ -559,6 +568,39 @@ export const ProductosPropios: React.FC = () => {
             </figure>
           </div>
         </PlegableMovil>
+
+        {/* Sistemas a medida en video, con el mismo formato que Mostrador */}
+        {SISTEMAS_EN_VIDEO.map((x) => (
+          <PlegableMovil key={x.id} titulo={x.plegable} resumen={x.resumen}>
+            <div id={x.id} className="scroll-mt-28 mb-12 p-5 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900/90 via-slate-900/70 to-slate-950 border border-cyan-500/30">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shrink-0">{x.icono}</div>
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">{x.titulo}</h2>
+                    <p className="mt-1 text-sm text-slate-300 max-w-2xl">{x.texto}</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  <a
+                    href={whatsappLink(`Hola tecnoros.ar, quiero consultar por ${x.consulta}. Les cuento: `)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cyan-400/10 border border-cyan-400/40 text-sm font-bold text-cyan-300 hover:bg-cyan-400/20"
+                  >
+                    Consultar
+                  </a>
+                </div>
+              </div>
+              <figure>
+                <video src={x.video} poster={x.poster} {...propsVideo} className="w-full max-w-5xl mx-auto block aspect-[16/10] rounded-2xl border border-slate-700/80 bg-slate-950 shadow-2xl shadow-cyan-500/10">
+                  Tu navegador no puede reproducir el video.
+                </video>
+                <figcaption className="mt-2 text-center text-xs sm:text-[11px] text-slate-500">{x.pie}</figcaption>
+              </figure>
+            </div>
+          </PlegableMovil>
+        ))}
 
 
         {/* Probá Golondrina */}

@@ -157,10 +157,6 @@ export const PieSimple: React.FC = () => (
 const VIDEOS: { src: string; poster: string; titulo: string; linea: string; destacado?: boolean }[] = [
   { src: '/proyectos/demo-mostrador.mp4', poster: '/proyectos/demo-mostrador.jpg', titulo: 'Mostrador', linea: 'Chatbot con IA que atiende a tus clientes 24/7.' },
   { src: '/proyectos/demo-agenda-consultorio-1min.mp4', poster: '/proyectos/demo-agenda-consultorio.jpg', titulo: 'Agenda de consultorio', linea: 'Fichas, obra social y contacto directo con cada paciente.' },
-  { src: '/proyectos/demo-retailpos.mp4', poster: '/proyectos/demo-retailpos.jpg', titulo: 'Punto de venta', linea: 'Caja, ventas, stock y reportes de cada sucursal.' },
-  { src: '/proyectos/demo-nexopos.mp4', poster: '/proyectos/demo-nexopos.jpg', titulo: 'Gestión comercial', linea: 'Caja, ventas, productos, cuentas corrientes y reportes en un solo lugar.' },
-  { src: '/proyectos/demo-andro.mp4', poster: '/proyectos/demo-andro.jpg', titulo: 'Reservas de canchas', linea: 'Tus clientes buscan, eligen horario y reservan solos, a cualquier hora.' },
-  { src: '/proyectos/demo-catalogo.mp4', poster: '/proyectos/demo-catalogo.jpg', titulo: 'Catálogo de aberturas', linea: 'Puertas y ventanas online con fotos, medidas, stock y consultas por WhatsApp.' },
 ];
 
 const Titulo: React.FC<{ etiqueta: string; titulo: string; texto?: string }> = ({ etiqueta, titulo, texto }) => (
