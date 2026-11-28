@@ -2,7 +2,7 @@
 // asistente que te ayuda ahí, pero hablarle es opcional: tocando la sección vas directo.
 // En compu queda fija a la izquierda; en el celu se abre desde el botón «Secciones» de arriba.
 import React, { useEffect, useState } from 'react';
-import { Home, Sparkles, X } from 'lucide-react';
+import { Home, X } from 'lucide-react';
 import { irA, navegar, useRuta, type Ruta } from '../../rutas';
 import { imagenDe } from '../../asistentes/funciones';
 import { abrirAsistente } from '../../asistentes/eventos';
@@ -23,7 +23,6 @@ export const SECCIONES: Seccion[] = [
   { texto: 'Productos', ruta: '/productos', asistente: 'productos' },
   { texto: 'Diseñá tu robot', ruta: '/robotica', asistente: 'robot' },
   { texto: 'Proyectos', ruta: '/proyectos', asistente: 'proyectos' },
-  { texto: 'Creá tu sistema', ruta: '/crear', asistente: 'logo' },
   { texto: 'Presupuesto', ruta: '/presupuesto', asistente: 'presupuesto' },
   { texto: 'Contacto', ruta: '/contacto', asistente: 'contacto' },
 ];
@@ -76,9 +75,7 @@ const Items: React.FC<{ alElegir?: () => void }> = ({ alElegir }) => {
                 activa ? 'bg-cyan-400/10 text-cyan-300 border border-cyan-400/40' : 'text-slate-300 border border-transparent hover:bg-slate-800/70 hover:text-white'
               }`}
             >
-              {s.ruta === '/crear' ? (
-                <Sparkles className="w-7 h-7 p-0.5 text-emerald-300 shrink-0" aria-hidden="true" />
-              ) : s.asistente === 'logo' ? (
+              {s.asistente === 'logo' ? (
                 <Home className="w-7 h-7 p-0.5 text-cyan-300 shrink-0" aria-hidden="true" />
               ) : (
                 <img src={imagenDe(s.asistente)} alt="" aria-hidden="true" className="w-7 h-7 object-contain shrink-0" />

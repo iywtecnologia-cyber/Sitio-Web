@@ -6,15 +6,10 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
-    // Dos páginas: la web y la vista previa de la fábrica de sistemas (se abre en un iframe en /crear).
-    build: {
-      rollupOptions: {
-        input: {
-          main: path.resolve(import.meta.dirname, 'index.html'),
-          vista: path.resolve(import.meta.dirname, 'vista-sistema.html'),
-        },
-      },
-    },
+    // La fábrica de sistemas está guardada para más adelante. Para volver a publicarla, además de la ruta
+    // /crear hay que sumar su vista previa como segunda página del build:
+    //   build: { rollupOptions: { input: { main: path.resolve(import.meta.dirname, 'index.html'),
+    //                                       vista: path.resolve(import.meta.dirname, 'vista-sistema.html') } } },
     resolve: {
       alias: {
         // import.meta.dirname y no __dirname: Vite avisa que __dirname deja de andar con su cargador nativo.
