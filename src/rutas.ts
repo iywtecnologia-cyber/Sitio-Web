@@ -45,7 +45,7 @@ const normalizar = (p: string): RutaVista => {
 
 // En qué página vive cada sección (id del elemento). Lo que no está acá se busca en la página actual o en el inicio.
 const PAGINA_DE: Record<string, Ruta> = {
-  inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'saber-mas': '/', 'contacto-rapido': '/',
+  inicio: '/', 'jar-2026': '/', 'que-hacemos': '/', 'productos-inicio': '/', equipo: '/', 'contacto-rapido': '/',
   servicios: '/servicios', 'como-trabajamos': '/nosotros',
   proyectos: '/proyectos',
   contacto: '/contacto', 'consulta-directa': '/contacto',

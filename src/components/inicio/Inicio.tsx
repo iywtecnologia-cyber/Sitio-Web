@@ -60,7 +60,7 @@ export const HeroCorto: React.FC = () => (
           Todo para tu negocio que crece <span className="animate-text-light-sweep">con vos</span>
         </h1>
         <p className="mt-2 sm:mt-3 text-[15px] sm:text-lg text-slate-300 max-w-4xl leading-snug">
-          Somos una agencia remota nacida en Rosario, con equipo en todo LATAM. Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
+          Automatizamos tareas, cuidamos tu información y creamos el software y los robots que tu negocio necesita.
         </p>
         <p className="hidden sm:block mt-1.5 text-sm sm:text-base text-cyan-200/90 max-w-4xl">
           Tocá un asistente, contale con tus palabras qué necesitás y te lo muestra o lo hace por vos.
