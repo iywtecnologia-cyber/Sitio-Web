@@ -3,9 +3,13 @@
 //   POST /api/fabrica/generar     { historial }        → { spec } (primera versión)
 //   POST /api/fabrica/cambiar     { spec, pedido }     → { parche, explicacion }
 //   POST /api/fabrica/proyectos   { nombre, spec, nota, historial?, contacto? } → { id, numero }
-//   GET  /api/fabrica/proyectos/:id                    → { proyecto, versiones }
+//   POST /api/fabrica/proyectos/ver { id, clave }      → { proyecto, versiones, cambios, rol }
+//   POST /api/fabrica/pagos       { id, clave, email } → { url } (alta, Mercado Pago)
+//   POST /api/fabrica/abono       { id, clave, email } → { url } (abono mensual)
+//   POST /api/fabrica/pagos/aviso                      ← aviso (webhook) de Mercado Pago
 import { usarHerramienta, type MensajeClaude } from './claude';
 import { ANALISTA, EDITOR, GENERADOR } from './prompts';
+import { crearAbono, crearPagoAlta, precios, recibirAviso } from './pagos';
 import { ESQUEMA_SPEC, aplicarParche, validar, type OpParche, type Spec } from '../../src/fabrica/spec';
 
 export interface Env {
@@ -15,6 +19,13 @@ export interface Env {
   MODELO: string;
   ORIGENES: string;
   LIMITE_DIARIO: string;
+  MP_ACCESS_TOKEN?: string;
+  MP_WEBHOOK_SECRET?: string;
+  MP_MODO?: string; // 'produccion' para cobrar de verdad; cualquier otra cosa = pruebas
+  PRECIO_ALTA?: string;
+  PRECIO_ABONO?: string;
+  SITIO?: string;
+  API?: string;
 }
 
 interface Mensaje {
@@ -38,9 +49,13 @@ export default {
 
     const url = new URL(req.url);
     try {
-      if (req.method === 'GET' && url.pathname.startsWith('/api/fabrica/proyectos/')) {
-        return json(await leerProyecto(env, url.pathname.split('/').at(-1)!));
+      // Aviso de Mercado Pago: no viene del navegador (sin Origin) y no cuenta para el tope de uso.
+      if (url.pathname === '/api/fabrica/pagos/aviso') {
+        if (origen) return json({ error: 'No encontrado' }, 404);
+        const r = await recibirAviso(env, req);
+        return json(r, r.ok ? 200 : 400);
       }
+      if (req.method === 'GET' && url.pathname === '/api/fabrica/precios') return json({ ...precios(env), activo: Boolean(env.MP_ACCESS_TOKEN), prueba: env.MP_MODO !== 'produccion' });
       if (req.method !== 'POST') return json({ error: 'No encontrado' }, 404);
       const cuerpo = (await req.json().catch(() => null)) as Record<string, unknown> | null;
       if (!cuerpo) return json({ error: 'Pedido inválido' }, 400);
@@ -58,6 +73,12 @@ export default {
           return json(await proponerCambio(env, cuerpo.spec as Spec, String(cuerpo.pedido ?? '').slice(0, MAX_TEXTO)));
         case '/api/fabrica/proyectos':
           return json(await guardarProyecto(env, cuerpo));
+        case '/api/fabrica/proyectos/ver':
+          return json(await leerProyecto(env, String(cuerpo.id ?? ''), String(cuerpo.clave ?? '')));
+        case '/api/fabrica/pagos':
+          return json(await crearPagoAlta(env, await proyectoDelDueno(env, cuerpo), cuerpo.email));
+        case '/api/fabrica/abono':
+          return json(await crearAbono(env, await proyectoDelDueno(env, cuerpo), cuerpo.email));
         default:
           return json({ error: 'No encontrado' }, 404);
       }
@@ -166,27 +187,84 @@ async function proponerCambio(env: Env, spec: Spec, pedido: string) {
 }
 
 // ── Proyectos ──
+const ID = /^[a-z0-9]{12}$/;
+const nuevaClave = () => crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '').slice(0, 8);
+const mismaClave = (a: unknown, b: unknown) => {
+  if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length || !a) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+};
+
+interface FilaProyecto { id: string; nombre: string; rubro: string | null; estado: string; abono: string | null; creado: string; actualizado: string; clave: string; clave_dev: string; cambios: string | null }
+const buscar = (env: Env, id: string) => env.DB.prepare('SELECT id, nombre, rubro, estado, abono, creado, actualizado, clave, clave_dev, cambios FROM proyectos WHERE id = ?1').bind(id).first<FilaProyecto>();
+
+/** El proyecto, solo si quien llama tiene la clave del dueño. */
+async function proyectoDelDueno(env: Env, c: Record<string, unknown>) {
+  const p = typeof c.id === 'string' && ID.test(c.id) ? await buscar(env, c.id) : null;
+  if (!p || !mismaClave(p.clave, c.clave)) throw new Error('No encontramos ese sistema o la clave no coincide.');
+  return p;
+}
+
+/** Los cambios se guardan tal cual los muestra la web, acotados en cantidad y tamaño. */
+function cambiosValidos(c: unknown): string | null {
+  if (!Array.isArray(c)) return null;
+  const limpio = c.slice(-200).map((x) => {
+    const v = x as Record<string, unknown>;
+    return {
+      id: String(v.id ?? '').slice(0, 40),
+      pedido: String(v.pedido ?? '').slice(0, MAX_TEXTO),
+      explicacion: String(v.explicacion ?? '').slice(0, MAX_TEXTO),
+      estado: ['aprobado', 'descartado', 'deshecho'].includes(String(v.estado)) ? String(v.estado) : 'descartado',
+      de: v.de === 'golondrina' ? 'golondrina' : 'dueno',
+      fecha: String(v.fecha ?? '').slice(0, 30),
+      version: typeof v.version === 'number' ? v.version : null,
+      parche: Array.isArray(v.parche) ? v.parche.slice(0, 60) : [],
+    };
+  });
+  const texto = JSON.stringify(limpio);
+  if (texto.length > 400_000) throw new Error('El historial de cambios es demasiado grande.');
+  return texto;
+}
+
 async function guardarProyecto(env: Env, c: Record<string, unknown>) {
   const spec = c.spec as Spec;
   const problemas = validar(spec);
   if (problemas.length) throw new Error(problemas.join(' '));
-  const id = typeof c.id === 'string' && /^[a-z0-9]{12}$/.test(c.id) ? c.id : crypto.randomUUID().replace(/-/g, '').slice(0, 12);
-  await env.DB.prepare(
-    "INSERT INTO proyectos (id, nombre, rubro, contacto) VALUES (?1, ?2, ?3, ?4) ON CONFLICT(id) DO UPDATE SET nombre = ?2, rubro = ?3, actualizado = datetime('now')",
-  ).bind(id, spec.negocio.nombre, spec.negocio.rubro, typeof c.contacto === 'string' ? c.contacto.slice(0, 120) : null).run();
+  let id: string;
+  let clave: string;
+  let claveDev: string;
+  if (typeof c.id === 'string') {
+    const p = await proyectoDelDueno(env, c);
+    ({ id, clave, clave_dev: claveDev } = p);
+    await env.DB.prepare("UPDATE proyectos SET nombre = ?2, rubro = ?3, cambios = COALESCE(?4, cambios), actualizado = datetime('now') WHERE id = ?1")
+      .bind(id, spec.negocio.nombre, spec.negocio.rubro, cambiosValidos(c.cambios)).run();
+  } else {
+    id = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+    clave = nuevaClave();
+    claveDev = nuevaClave();
+    await env.DB.prepare('INSERT INTO proyectos (id, nombre, rubro, contacto, clave, clave_dev, cambios) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)')
+      .bind(id, spec.negocio.nombre, spec.negocio.rubro, typeof c.contacto === 'string' ? c.contacto.slice(0, 120) : null, clave, claveDev, cambiosValidos(c.cambios)).run();
+  }
   const ultima = await env.DB.prepare('SELECT COALESCE(MAX(numero), 0) AS n FROM versiones WHERE proyecto = ?1').bind(id).first<{ n: number }>();
   const numero = (ultima?.n ?? 0) + 1;
   await env.DB.prepare('INSERT INTO versiones (proyecto, numero, nota, spec) VALUES (?1, ?2, ?3, ?4)').bind(id, numero, String(c.nota ?? '').slice(0, 200), JSON.stringify(spec)).run();
   if (Array.isArray(c.historial)) {
     await env.DB.prepare('INSERT INTO entrevistas (proyecto, historial) VALUES (?1, ?2) ON CONFLICT(proyecto) DO UPDATE SET historial = ?2').bind(id, JSON.stringify(historialValido(c.historial))).run();
   }
-  return { id, numero };
+  return { id, numero, clave, claveDev };
 }
 
-async function leerProyecto(env: Env, id: string) {
-  if (!/^[a-z0-9]{12}$/.test(id)) throw new Error('Id inválido');
-  const proyecto = await env.DB.prepare('SELECT id, nombre, rubro, estado, creado, actualizado FROM proyectos WHERE id = ?1').bind(id).first();
-  if (!proyecto) throw new Error('No existe ese proyecto');
-  const { results } = await env.DB.prepare('SELECT numero, nota, creada, spec FROM versiones WHERE proyecto = ?1 ORDER BY numero').bind(id).all<{ spec: string }>();
-  return { proyecto, versiones: results.map((v) => ({ ...v, spec: JSON.parse(v.spec) })) };
+/** Lectura con clave: la del dueño o la del programador invitado (solo lectura, con detalle técnico). */
+async function leerProyecto(env: Env, id: string, clave: string) {
+  const p = ID.test(id) ? await buscar(env, id) : null;
+  const rol = p && mismaClave(p.clave, clave) ? 'dueno' : p && mismaClave(p.clave_dev, clave) ? 'dev' : null;
+  if (!p || !rol) throw new Error('No encontramos ese sistema o la clave no coincide.');
+  const { results } = await env.DB.prepare('SELECT numero, nota, creada, spec FROM versiones WHERE proyecto = ?1 ORDER BY numero DESC LIMIT 30').bind(id).all<{ spec: string }>();
+  return {
+    rol,
+    proyecto: { id: p.id, nombre: p.nombre, rubro: p.rubro, estado: p.estado, abono: p.abono, creado: p.creado, actualizado: p.actualizado },
+    versiones: results.reverse().map((v) => ({ ...v, spec: JSON.parse(v.spec) })),
+    cambios: JSON.parse(p.cambios ?? '[]'),
+  };
 }

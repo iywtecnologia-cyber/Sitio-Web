@@ -1,25 +1,47 @@
 // /crear · Fábrica de sistemas: la persona cuenta su proceso, se arma la primera versión de su
 // sistema y la prueba y la ajusta en vivo, hablando. (Etapa 1: entrevista + generación + vista previa.)
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Bot, Check, ImagePlus, Loader2, RotateCcw, Send, Sparkles, Wand2 } from 'lucide-react';
-import { CON_IA, cambiar, entrevistar, generar, type Mensaje, type Turno } from './api';
-import { validar, type Spec } from './spec';
-import { whatsappLink } from '../data/contact';
+import { Bot, Check, Code2, Copy, ImagePlus, Loader2, RotateCcw, Send, Sparkles, User, Wand2 } from 'lucide-react';
+import { CON_IA, cambiar, entrevistar, generar, guardar, ver, type Cambio, type Mensaje, type Proyecto, type ProyectoVisto, type Turno } from './api';
+import { validar, type OpParche, type Spec } from './spec';
+import { Cambios, Parche } from './Cambios';
+import Comprar from './Comprar';
 
 interface Sesion {
   historial: Mensaje[];
   versiones: { spec: Spec; nota: string }[];
+  cambios: Cambio[];
+  proyecto?: Proyecto;
 }
+
+interface Pendiente {
+  pedido: string;
+  explicacion: string;
+  parche: OpParche[];
+  spec: Spec;
+  de: Cambio['de'];
+}
+
+const hoy = () => new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+const nuevoId = () => Math.random().toString(36).slice(2, 10);
+
+/** Link de invitado: #p=<id>&dev=<clave>. Va en el fragmento para que no viaje a ningún servidor al abrirlo. */
+const invitado = () => {
+  const h = new URLSearchParams(window.location.hash.slice(1));
+  const id = h.get('p') ?? '';
+  const clave = h.get('dev') ?? '';
+  return /^[a-z0-9]{12}$/.test(id) && /^[a-f0-9]{40}$/.test(clave) ? { id, clave } : null;
+};
 
 const CLAVE = 'fabrica-sesion';
 const leer = (): Sesion => {
   try {
     const s = JSON.parse(localStorage.getItem(CLAVE) ?? 'null') as Sesion | null;
-    if (s && Array.isArray(s.historial) && Array.isArray(s.versiones) && s.versiones.every((v) => !validar(v.spec).length)) return s;
+    if (s && Array.isArray(s.historial) && Array.isArray(s.versiones) && s.versiones.every((v) => !validar(v.spec).length)) return { ...s, cambios: Array.isArray(s.cambios) ? s.cambios : [] };
   } catch {
     /* sesión rota: empieza de cero */
   }
-  return { historial: [], versiones: [] };
+  return { historial: [], versiones: [], cambios: [] };
 };
 
 const EJEMPLOS = ['Cambiá el color a verde', 'Agregá el campo CUIT a los clientes', 'Sacá el campo notas', 'Que se llame Taller Rivas'];
@@ -34,7 +56,39 @@ export const Crear: React.FC = () => {
   const iframe = useRef<HTMLIFrameElement>(null);
   const chat = useRef<HTMLDivElement>(null);
 
-  const spec = sesion.versiones.at(-1)?.spec ?? null;
+  const [pendiente, setPendiente] = useState<Pendiente | null>(null);
+  const [tecnico, setTecnico] = useState(false);
+  const [lector, setLector] = useState<ProyectoVisto | null>(null);
+  const [errorLector, setErrorLector] = useState('');
+  const [compra, setCompra] = useState<{ estado: string; abono: string | null }>({ estado: 'borrador', abono: null });
+  const [avisoPago, setAvisoPago] = useState('');
+  const [copiado, setCopiado] = useState(false);
+  const esInvitado = useRef(invitado());
+
+  // El programador invitado ve la última versión guardada, solo lectura.
+  const spec = lector ? lector.versiones.at(-1)?.spec ?? null : sesion.versiones.at(-1)?.spec ?? null;
+  // Mientras hay un cambio sin aprobar, la vista previa muestra cómo quedaría.
+  const specVista = !lector && pendiente ? pendiente.spec : spec;
+  const cambios = lector ? lector.cambios : sesion.cambios;
+  const soloLectura = Boolean(lector);
+
+  useEffect(() => {
+    const inv = esInvitado.current;
+    if (!inv) return;
+    setTecnico(true);
+    ver(inv.id, inv.clave).then(setLector).catch(() => setErrorLector('No pudimos abrir ese sistema: el link no es válido o venció.'));
+  }, []);
+
+  // Vuelta de Mercado Pago: lo que vale es lo que confirma el servidor, no la dirección.
+  useEffect(() => {
+    const pago = new URLSearchParams(window.location.search).get('pago');
+    const pr = sesion.proyecto;
+    if (!pr) return;
+    ver(pr.id, pr.clave).then((v) => {
+      setCompra({ estado: v.proyecto.estado, abono: v.proyecto.abono });
+      if (pago) setAvisoPago(v.proyecto.estado !== 'borrador' ? '¡Pago confirmado! Ya estamos publicando tu sistema.' : pago === 'error' ? 'El pago no se completó. Podés intentarlo de nuevo.' : 'Mercado Pago todavía está procesando el pago. Apenas se confirme lo vas a ver acá.');
+    }).catch(() => { if (pago) setAvisoPago('No pudimos confirmar el pago todavía. Recargá la página en unos minutos.'); });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     try { localStorage.setItem(CLAVE, JSON.stringify(sesion)); } catch { /* sin almacenamiento */ }
@@ -42,7 +96,7 @@ export const Crear: React.FC = () => {
 
   // Primera pregunta (o la que corresponda si vuelve a una sesión empezada).
   useEffect(() => {
-    if (!spec && !turno) void entrevistar(sesion.historial).then(setTurno);
+    if (!spec && !turno && !esInvitado.current) void entrevistar(sesion.historial).then(setTurno);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -53,14 +107,26 @@ export const Crear: React.FC = () => {
   const mandar = (s: Spec) => iframe.current?.contentWindow?.postMessage({ tipo: 'fabrica:spec', spec: s }, window.location.origin);
   useEffect(() => {
     const oir = (e: MessageEvent) => {
-      if (e.origin === window.location.origin && e.data?.tipo === 'fabrica:lista' && spec) mandar(spec);
+      if (e.origin !== window.location.origin || e.source !== iframe.current?.contentWindow) return;
+      if (e.data?.tipo === 'fabrica:lista' && specVista) mandar(specVista);
+      // Cambio pedido a Golondrina desde adentro del sistema: queda propuesto, a la espera de aprobación.
+      if (e.data?.tipo === 'fabrica:pedido' && typeof e.data.texto === 'string') void pedirCambio(e.data.texto, 'golondrina');
     };
     window.addEventListener('message', oir);
     return () => window.removeEventListener('message', oir);
-  }, [spec]);
+  }); // sin dependencias: siempre usa el estado actual
   useEffect(() => {
-    if (spec) mandar(spec);
-  }, [spec]);
+    if (specVista) mandar(specVista);
+  }, [specVista]);
+
+  /** Guarda en el servidor (si hay) y recuerda las claves del proyecto. */
+  const sincronizar = async (x: Sesion, nota: string): Promise<Proyecto | null> => {
+    const s = x.versiones.at(-1)?.spec;
+    if (!s) return null;
+    const pr = await guardar(x.proyecto, s, nota, x.historial, x.cambios);
+    if (pr) setSesion((y) => ({ ...y, proyecto: pr }));
+    return pr;
+  };
 
   const responder = async (respuesta: string) => {
     const r = respuesta.trim();
@@ -76,13 +142,20 @@ export const Crear: React.FC = () => {
   const armar = async () => {
     setOcupado(true);
     const s = await generar(sesion.historial);
-    setSesion((x) => ({ ...x, versiones: [{ spec: s, nota: 'Primera versión' }] }));
+    const nueva: Sesion = { ...sesion, versiones: [{ spec: s, nota: 'Primera versión' }], cambios: [], proyecto: undefined };
+    setSesion(nueva);
+    void sincronizar(nueva, 'Primera versión');
     setOcupado(false);
     setNota({ ok: true, texto: '¡Listo! Probalo: cargá datos, avanzá estados o pedile cosas a Golondrina (abajo a la derecha).' });
   };
 
-  const pedirCambio = async (t: string) => {
-    if (!spec || !t.trim() || ocupado) return;
+  // Un pedido no cambia el sistema: arma una propuesta que se ve al instante y espera aprobación.
+  const pedirCambio = async (t: string, de: Cambio['de'] = 'dueno') => {
+    if (!spec || !t.trim() || ocupado || soloLectura) return;
+    if (pendiente) {
+      setNota({ ok: false, texto: 'Primero aprobá o descartá el cambio que está en la vista previa.' });
+      return;
+    }
     setOcupado(true);
     const r = await cambiar(spec, t.trim());
     setOcupado(false);
@@ -90,14 +163,31 @@ export const Crear: React.FC = () => {
       setNota({ ok: false, texto: r.error });
       return;
     }
-    setSesion((x) => ({ ...x, versiones: [...x.versiones, { spec: r.spec, nota: r.explicacion }] }));
-    setNota({ ok: true, texto: r.explicacion });
+    setPendiente({ pedido: t.trim(), explicacion: r.explicacion, parche: r.parche, spec: r.spec, de });
+    setNota(null);
     setPedido('');
   };
 
-  const deshacer = () => setSesion((x) => (x.versiones.length > 1 ? { ...x, versiones: x.versiones.slice(0, -1) } : x));
+  const resolver = (aprobar: boolean) => {
+    if (!pendiente) return;
+    const cambio: Cambio = { id: nuevoId(), pedido: pendiente.pedido, explicacion: pendiente.explicacion, parche: pendiente.parche, de: pendiente.de, fecha: hoy(), estado: aprobar ? 'aprobado' : 'descartado', version: aprobar ? sesion.versiones.length + 1 : null };
+    const nueva: Sesion = { ...sesion, versiones: aprobar ? [...sesion.versiones, { spec: pendiente.spec, nota: pendiente.explicacion }] : sesion.versiones, cambios: [...sesion.cambios, cambio] };
+    setSesion(nueva);
+    setPendiente(null);
+    setNota({ ok: aprobar, texto: aprobar ? `Aplicado: ${pendiente.explicacion}` : 'Cambio descartado: el sistema quedó como estaba.' });
+    if (aprobar) void sincronizar(nueva, pendiente.explicacion);
+  };
+
+  const deshacer = () => {
+    if (sesion.versiones.length < 2 || pendiente) return;
+    const n = sesion.versiones.length;
+    const nueva: Sesion = { ...sesion, versiones: sesion.versiones.slice(0, -1), cambios: sesion.cambios.map((c) => (c.version === n && c.estado === 'aprobado' ? { ...c, estado: 'deshecho' as const } : c)) };
+    setSesion(nueva);
+    void sincronizar(nueva, `Se deshizo la versión ${n}`);
+  };
   const empezarDeNuevo = () => {
-    setSesion({ historial: [], versiones: [] });
+    setSesion({ historial: [], versiones: [], cambios: [] });
+    setPendiente(null);
     setTurno(null);
     setNota(null);
     void entrevistar([]).then(setTurno);
@@ -116,16 +206,18 @@ export const Crear: React.FC = () => {
         setNota({ ok: false, texto: 'Ese archivo no es una imagen PNG, JPG, SVG o WEBP.' });
         return;
       }
-      setSesion((x) => ({ ...x, versiones: [...x.versiones, { spec: nueva, nota: 'Subiste el logo' }] }));
+      const con: Sesion = { ...sesion, versiones: [...sesion.versiones, { spec: nueva, nota: 'Subiste el logo' }], cambios: [...sesion.cambios, { id: nuevoId(), pedido: 'Subir mi logo', explicacion: 'Se cargó el logo del negocio.', parche: [], de: 'dueno', fecha: hoy(), estado: 'aprobado', version: sesion.versiones.length + 1 }] };
+      setSesion(con);
+      void sincronizar(con, 'Subiste el logo');
       setNota({ ok: true, texto: 'Logo puesto.' });
     };
     lector.readAsDataURL(f);
   };
 
-  const quiero = () => {
-    if (!spec) return;
-    const resumen = `${spec.negocio.nombre} (${spec.negocio.rubro}): ${spec.entidades.map((e) => e.plural).join(', ')}; ${spec.roles.length} roles; ${sesion.versiones.length} versiones.`;
-    window.open(whatsappLink(`Hola tecnoros.ar, armé mi sistema en la fábrica y lo quiero: ${resumen}`), '_blank', 'noopener');
+  const resumen = spec ? `${spec.negocio.nombre} (${spec.negocio.rubro}): ${spec.entidades.map((e) => e.plural).join(', ')}; ${spec.roles.length} roles; versión ${sesion.versiones.length}.` : '';
+  const linkDev = sesion.proyecto ? `${window.location.origin}/crear#p=${sesion.proyecto.id}&dev=${sesion.proyecto.claveDev}` : '';
+  const copiarLink = () => {
+    navigator.clipboard?.writeText(linkDev).then(() => { setCopiado(true); setTimeout(() => setCopiado(false), 1600); }).catch(() => {});
   };
 
   return (
@@ -139,7 +231,10 @@ export const Crear: React.FC = () => {
 
         {!CON_IA && <p className="mt-3 text-xs text-amber-300">Vista previa sin IA conectada: la entrevista es guiada y los cambios entienden pedidos simples.</p>}
 
-        {!spec ? (
+        {avisoPago && <p role="status" className="mt-4 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{avisoPago}</p>}
+        {esInvitado.current && !lector ? (
+          <p role="status" className="mt-6 text-slate-300">{errorLector || 'Abriendo el sistema…'}</p>
+        ) : !spec ? (
           <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_340px]">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 flex flex-col min-h-[460px]">
               <div ref={chat} className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 max-h-[60vh]">
@@ -193,18 +288,31 @@ export const Crear: React.FC = () => {
           <div className="mt-6 space-y-5">
             <div className="rounded-2xl border border-slate-700 overflow-hidden bg-white">
               <div className="flex items-center justify-between gap-2 px-3 py-2 bg-slate-100 text-slate-600 text-xs">
-                <span>Vista previa · versión {sesion.versiones.length} · {spec.negocio.nombre}</span>
-                <span>Datos de ejemplo</span>
+                <span>Vista previa · versión {lector ? lector.versiones.at(-1)?.numero : sesion.versiones.length} · {spec.negocio.nombre}</span>
+                <span>{soloLectura ? 'Vista del programador · solo lectura' : 'Datos de ejemplo'}</span>
               </div>
+              {pendiente && !soloLectura && (
+                <div role="alert" className="border-b border-amber-300 bg-amber-50 px-3 py-3 text-slate-900">
+                  <p className="text-sm font-bold">Cambio propuesto: así quedaría. ¿Lo aprobás?</p>
+                  <p className="text-sm">«{pendiente.pedido}» — {pendiente.explicacion} <span className="text-slate-500">({pendiente.de === 'golondrina' ? 'pedido a Golondrina' : 'pedido desde la página'})</span></p>
+                  {tecnico && <div className="mt-1 [&_ul]:mt-1"><Parche parche={pendiente.parche} /></div>}
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button type="button" onClick={() => resolver(true)} className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-bold text-white cursor-pointer"><Check className="w-4 h-4" /> Aprobar y aplicar</button>
+                    <button type="button" onClick={() => resolver(false)} className="rounded-lg border border-slate-400 px-3 py-1.5 text-sm font-semibold text-slate-700 cursor-pointer">Descartar</button>
+                  </div>
+                </div>
+              )}
               <iframe ref={iframe} title={`Vista previa de ${spec.negocio.nombre}`} src="/vista-sistema.html" className="w-full h-[68vh] min-h-[520px] block" />
             </div>
             <aside className="grid gap-4 lg:grid-cols-3">
+              {!soloLectura && (
               <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
                 <h2 className="text-sm font-bold text-white">Pedí un cambio</h2>
+                <p className="mt-1 text-xs text-slate-400">Escribilo acá o pedíselo a Golondrina adentro del sistema («pedir cambio…»). Lo ves al instante y se aplica cuando lo aprobás.</p>
                 <form onSubmit={(e) => { e.preventDefault(); void pedirCambio(pedido); }} className="mt-2">
                   <textarea value={pedido} onChange={(e) => setPedido(e.target.value.slice(0, 400))} placeholder="Ej.: agregá el campo patente a las órdenes de trabajo" className="w-full min-h-[84px] px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm" />
-                  <button type="submit" disabled={ocupado || !pedido.trim()} className="mt-2 w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cyan-400 text-slate-950 font-bold disabled:opacity-50 cursor-pointer">
-                    {ocupado ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />} Aplicar
+                  <button type="submit" disabled={ocupado || !pedido.trim() || Boolean(pendiente)} className="mt-2 w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cyan-400 text-slate-950 font-bold disabled:opacity-50 cursor-pointer">
+                    {ocupado ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />} Ver cómo queda
                   </button>
                 </form>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -216,21 +324,46 @@ export const Crear: React.FC = () => {
                   <input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="sr-only" onChange={(e) => subirLogo(e.target.files?.[0])} />
                 </label>
               </div>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
-                <h2 className="text-sm font-bold text-white">Versiones</h2>
-                <ol className="mt-2 space-y-1 text-sm text-slate-300 max-h-40 overflow-y-auto">
-                  {sesion.versiones.map((v, i) => <li key={i}><span className="text-slate-500">{i + 1}.</span> {v.nota}</li>)}
-                </ol>
-                <div className="mt-3 flex gap-2">
-                  <button type="button" onClick={deshacer} disabled={sesion.versiones.length < 2} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 text-sm text-slate-200 disabled:opacity-40 cursor-pointer"><RotateCcw className="w-4 h-4" /> Deshacer</button>
-                  <button type="button" onClick={empezarDeNuevo} className="px-3 py-1.5 rounded-lg border border-slate-700 text-sm text-slate-400 cursor-pointer">Empezar de nuevo</button>
+              )}
+              <div className={`rounded-2xl border border-slate-800 bg-slate-900/70 p-4 ${soloLectura ? 'lg:col-span-3' : ''}`}>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="text-sm font-bold text-white">Cambios</h2>
+                  {!soloLectura && (
+                    <div className="inline-flex rounded-lg border border-slate-700 overflow-hidden text-xs" role="group" aria-label="Cómo ver los cambios">
+                      <button type="button" aria-pressed={!tecnico} onClick={() => setTecnico(false)} className={`inline-flex items-center gap-1 px-2.5 py-1 font-semibold cursor-pointer ${!tecnico ? 'bg-cyan-400 text-slate-950' : 'text-slate-300'}`}><User className="w-3.5 h-3.5" /> Quien lo pide</button>
+                      <button type="button" aria-pressed={tecnico} onClick={() => setTecnico(true)} className={`inline-flex items-center gap-1 px-2.5 py-1 font-semibold cursor-pointer ${tecnico ? 'bg-cyan-400 text-slate-950' : 'text-slate-300'}`}><Code2 className="w-3.5 h-3.5" /> Programador</button>
+                    </div>
+                  )}
                 </div>
+                <Cambios cambios={cambios} tecnico={tecnico} />
+                {tecnico && !soloLectura && (
+                  <div className="mt-3 rounded-xl border border-slate-700 bg-slate-950/60 p-3 text-xs text-slate-300">
+                    <p className="font-bold text-white">Invitá a tu programador</p>
+                    {linkDev ? (
+                      <>
+                        <p className="mt-1">Con este link ve el sistema, cada cambio y su implementación. No puede modificar, aprobar ni pagar.</p>
+                        <div className="mt-2 flex gap-2">
+                          <input readOnly value={linkDev} onFocus={(e) => e.currentTarget.select()} aria-label="Link para el programador" className="min-w-0 flex-1 px-2 py-1.5 rounded-lg bg-slate-900 border border-slate-700 font-mono text-[11px] text-cyan-100" />
+                          <button type="button" onClick={copiarLink} className="inline-flex items-center gap-1 rounded-lg bg-slate-800 px-2.5 font-semibold text-slate-100 cursor-pointer">{copiado ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />} {copiado ? 'Copiado' : 'Copiar'}</button>
+                        </div>
+                      </>
+                    ) : (
+                      <p className="mt-1">El link para compartir se genera cuando el sistema queda guardado en nuestro servidor, que en esta vista previa todavía no está conectado. Mientras tanto, acá mismo ves lo que va a ver tu programador.</p>
+                    )}
+                  </div>
+                )}
+                {!soloLectura && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="text-xs text-slate-500 mr-auto">Versión {sesion.versiones.length}</span>
+                    <button type="button" onClick={deshacer} disabled={sesion.versiones.length < 2 || Boolean(pendiente)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 text-sm text-slate-200 disabled:opacity-40 cursor-pointer"><RotateCcw className="w-4 h-4" /> Deshacer</button>
+                    <button type="button" onClick={empezarDeNuevo} className="px-3 py-1.5 rounded-lg border border-slate-700 text-sm text-slate-400 cursor-pointer">Empezar de nuevo</button>
+                  </div>
+                )}
+                {soloLectura && <p className="mt-3 text-xs text-slate-400">Estás viendo este sistema como programador invitado. Los cambios los pide y los aprueba su dueño; Golondrina está disponible adentro de la vista previa para recorrerlo.</p>}
               </div>
-              <div className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4">
-                <h2 className="text-sm font-bold text-white">¿Te sirve así?</h2>
-                <p className="mt-1 text-sm text-slate-300">Lo publicamos con tu dominio, alojamiento y mantenimiento. El pago online sale en la próxima etapa; por ahora lo coordinamos por WhatsApp.</p>
-                <button type="button" onClick={quiero} className="mt-3 w-full py-2.5 rounded-xl bg-emerald-400 text-slate-950 font-extrabold cursor-pointer">Quiero este sistema</button>
-              </div>
+              {!soloLectura && (
+                <Comprar nombre={spec.negocio.nombre} resumen={resumen} estado={compra.estado} abono={compra.abono} asegurarProyecto={() => (sesion.proyecto ? Promise.resolve(sesion.proyecto) : sincronizar(sesion, 'Antes de comprar'))} />
+              )}
             </aside>
           </div>
         )}
