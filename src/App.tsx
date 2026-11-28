@@ -29,7 +29,6 @@ import { VentanaServicio } from './asistentes/VentanaServicio';
 
 // El estudio de robótica arrastra three.js: se descarga sólo al entrar a /robotica
 // para que el inicio cargue rápido en el celular.
-// La fábrica de sistemas (src/fabrica, página /crear) está guardada para más adelante: no se publica.
 const RobotStudioSection = lazy(() => import('./components/robotics/RobotStudioSection').then((m) => ({ default: m.RobotStudioSection })));
 
 const Cargando: React.FC = () => (
