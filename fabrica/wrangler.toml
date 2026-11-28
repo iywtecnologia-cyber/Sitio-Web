@@ -10,6 +10,12 @@ routes = [{ pattern = "fabrica.tecnoros.ar", custom_domain = true }]
 MODELO = "claude-sonnet-5-5"
 ORIGENES = "https://tecnoros.ar,https://www.tecnoros.ar,http://localhost:5173"
 LIMITE_DIARIO = "80"
+# Pagos (Mercado Pago). MP_MODO = "prueba" usa el entorno de pruebas: no se cobra nada real.
+MP_MODO = "prueba"
+PRECIO_ALTA = "500000"
+PRECIO_ABONO = "150000"
+SITIO = "https://www.tecnoros.ar"
+API = "https://fabrica.tecnoros.ar"
 
 # Base de datos: proyectos, versiones y uso por IP (ver schema.sql)
 [[d1_databases]]
@@ -20,3 +26,5 @@ database_id = "REEMPLAZAR_CON_EL_ID_DE_D1"
 # Secretos (no van en este archivo):
 #   npx wrangler secret put ANTHROPIC_API_KEY
 #   npx wrangler secret put TURNSTILE_SECRET   (opcional, antibots)
+#   npx wrangler secret put MP_ACCESS_TOKEN    (credencial de PRUEBA de Mercado Pago hasta salir a producción)
+#   npx wrangler secret put MP_WEBHOOK_SECRET  (clave secreta del webhook, en Tus integraciones > Webhooks)

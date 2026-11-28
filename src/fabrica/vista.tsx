@@ -25,6 +25,16 @@ function accionesDe(spec: Spec): Accion[] {
       ejecutar: ({ consulta }) => { ordenar({ tipo: 'buscar', entidad: en.id, texto: consulta }); return `Busqué «${consulta}» en ${en.plural.toLowerCase()}.`; },
     });
   }
+  // Cambios al sistema, pedidos desde el mismo asistente: van a la página, que los muestra para aprobar.
+  a.push({
+    id: 'pedir-cambio', titulo: 'Pedir un cambio: «{pedido}»', descripcion: 'pedir un cambio al sistema (queda para aprobar)',
+    frases: ['pedir cambio {pedido}', 'pedir un cambio {pedido}', 'quiero un cambio {pedido}', 'necesito un cambio {pedido}', 'cambio {pedido}'],
+    parametros: [{ nombre: 'pedido', libre: true, requerido: true, pregunta: '¿Qué querés cambiar? Por ejemplo: «agregá el campo CUIT a los clientes».' }],
+    ejecutar: ({ pedido }) => {
+      window.parent?.postMessage({ tipo: 'fabrica:pedido', texto: String(pedido).slice(0, 400) }, window.location.origin);
+      return 'Listo, armé el cambio. Miralo acá mismo y aprobalo o descartalo arriba de la vista previa.';
+    },
+  });
   return a;
 }
 
